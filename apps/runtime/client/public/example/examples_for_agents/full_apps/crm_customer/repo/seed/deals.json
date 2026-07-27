@@ -1,0 +1,130 @@
+[
+  {
+    "name": "Acme Corp Enterprise License",
+    "company": "Acme Corp",
+    "value": 120000,
+    "stage": "closed_won",
+    "close_date": "2026-01-15",
+    "contact_id": 1
+  },
+  {
+    "name": "Acme Corp Add-on Modules",
+    "company": "Acme Corp",
+    "value": 35000,
+    "stage": "negotiation",
+    "close_date": "2026-04-01",
+    "contact_id": 9
+  },
+  {
+    "name": "Globex Manufacturing Suite",
+    "company": "Globex Industries",
+    "value": 250000,
+    "stage": "closed_won",
+    "close_date": "2025-12-20",
+    "contact_id": 2
+  },
+  {
+    "name": "Globex Analytics Upgrade",
+    "company": "Globex Industries",
+    "value": 75000,
+    "stage": "proposal",
+    "close_date": "2026-04-15",
+    "contact_id": 10
+  },
+  {
+    "name": "Initech Platform Pilot",
+    "company": "Initech Solutions",
+    "value": 18000,
+    "stage": "proposal",
+    "close_date": "2026-04-30",
+    "contact_id": 3
+  },
+  {
+    "name": "Initech Full Rollout",
+    "company": "Initech Solutions",
+    "value": 65000,
+    "stage": "qualification",
+    "close_date": "2026-06-15",
+    "contact_id": 12
+  },
+  {
+    "name": "Umbrella Health Integration",
+    "company": "Umbrella Health",
+    "value": 95000,
+    "stage": "qualification",
+    "close_date": "2026-05-30",
+    "contact_id": 4
+  },
+  {
+    "name": "Stark Ventures Starter Pack",
+    "company": "Stark Ventures",
+    "value": 12000,
+    "stage": "negotiation",
+    "close_date": "2026-03-30",
+    "contact_id": 5
+  },
+  {
+    "name": "Wayne Logistics Enterprise",
+    "company": "Wayne Logistics",
+    "value": 320000,
+    "stage": "closed_won",
+    "close_date": "2025-10-01",
+    "contact_id": 6
+  },
+  {
+    "name": "Wayne Logistics Expansion",
+    "company": "Wayne Logistics",
+    "value": 150000,
+    "stage": "proposal",
+    "close_date": "2026-05-01",
+    "contact_id": 6
+  },
+  {
+    "name": "Pied Piper Startup Plan",
+    "company": "Pied Piper Media",
+    "value": 5000,
+    "stage": "qualification",
+    "close_date": "2026-04-20",
+    "contact_id": 7
+  },
+  {
+    "name": "Hooli Analytics Pro",
+    "company": "Hooli Analytics",
+    "value": 48000,
+    "stage": "negotiation",
+    "close_date": "2026-04-10",
+    "contact_id": 8
+  },
+  {
+    "name": "Umbrella Health Renewal",
+    "company": "Umbrella Health",
+    "value": 0,
+    "stage": "closed_lost",
+    "close_date": "2025-12-31",
+    "contact_id": 11
+  },
+  {
+    "name": "Acme Corp Support Contract",
+    "company": "Acme Corp",
+    "value": 24000,
+    "stage": "closed_won",
+    "close_date": "2026-02-01",
+    "contact_id": 1
+  },
+  {
+    "name": "Hooli Data Migration",
+    "company": "Hooli Analytics",
+    "value": 30000,
+    "stage": "qualification",
+    "close_date": "2026-06-01",
+    "contact_id": 8
+  },
+  {
+    "name": "Stark Ventures Premium Upgrade",
+    "company": "Stark Ventures",
+    "value": 28000,
+    "stage": "closed_lost",
+    "close_date": "2026-02-28",
+    "contact_id": 5
+  }
+]

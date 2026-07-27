@@ -1,0 +1,9 @@
+/*
+ * Missing every required structural block.
+ * Flags expected:
+ *   style.required.layer_exepad_app
+ *   style.required.tailwind_import
+ *   style.required.root_block
+ */
+
+body { background: #fff; }

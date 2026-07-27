@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-danger-zone",
+  "alias": "codecomponent-danger-zone",
+  "name": "Danger Zone Settings with Code Component",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Settings danger zone CodeComponent with cascading AlertDialog confirmations for destructive actions. Includes simple reset confirmation, multi-step export-then-delete flow, and delete account requiring typed confirmation. Each section uses Alert components with appropriate severity variants. Uses useHandler for simulated actions and toast for completion feedback.",
+  "shortSummary": "Danger zone settings with cascading AlertDialog confirmations and typed delete confirmation",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DangerZone": {
+        "source": "frontend/components/DangerZone.tsx",
+        "compiled": "frontend/components/DangerZone.js",
+        "summary": "Danger zone settings panel with AlertDialog confirmations for reset, multi-step export-delete, and typed account deletion"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#dc2626",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fef2f2",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f8f8f8",
+        "muted-foreground": "#6b7280",
+        "accent": "#fef2f2",
+        "accent-foreground": "#0f172a",
+        "destructive": "#dc2626",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e7eb",
+        "input": "#e5e7eb",
+        "ring": "#dc2626"
+      },
+      "dark": {
+        "background": "#110a0a",
+        "foreground": "#f8fafc",
+        "primary": "#f87171",
+        "primary-foreground": "#110a0a",
+        "secondary": "#2d1515",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1f1515",
+        "muted-foreground": "#94a3b8",
+        "accent": "#2d1515",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#991b1b",
+        "destructive-foreground": "#f8fafc",
+        "border": "#2d1515",
+        "input": "#2d1515",
+        "ring": "#f87171"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-danger",
+        "title": "Danger Zone",
+        "slug": "/",
+        "summary": "Settings page with dangerous account actions and cascading confirmations.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "danger-zone-1",
+            "component": "DangerZone",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Danger zone with cascading destructive action confirmations",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

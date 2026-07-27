@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-chess-game",
+  "alias": "codecomponent-chess-game",
+  "name": "Chess Game",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Interactive chess game CodeComponent powered by the chess.js extension. Features a custom 8x8 chessboard rendered with styled divs and Unicode chess piece characters. Click-to-select piece highlighting with legal move indicators (green rings and dots). Move validation via chess.move(). Check, checkmate, and draw detection with status Badge. Move history panel in ScrollArea showing move number, white move, black move. Controls: New Game and Undo Move buttons. Board uses amber-toned light/dark squares with useTheme awareness. useAppState persists game FEN and move history. toast on checkmate, draw, and check events.",
+  "shortSummary": "Chess game with click-to-move board, move validation, history panel, undo, and game status detection",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ChessGame": {
+        "source": "frontend/components/ChessGame.tsx",
+        "compiled": "frontend/components/ChessGame.js",
+        "summary": "Interactive chess game with custom board, piece selection, legal move highlighting, move history, undo, and game state detection"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1c1917",
+        "primary": "#92400e",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fef3c7",
+        "secondary-foreground": "#1c1917",
+        "muted": "#fef3c7",
+        "muted-foreground": "#78716c",
+        "accent": "#fde68a",
+        "accent-foreground": "#1c1917",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#fcd34d",
+        "input": "#fcd34d",
+        "ring": "#92400e"
+      },
+      "dark": {
+        "background": "#1c1917",
+        "foreground": "#fefce8",
+        "primary": "#d97706",
+        "primary-foreground": "#1c1917",
+        "secondary": "#451a03",
+        "secondary-foreground": "#fefce8",
+        "muted": "#451a03",
+        "muted-foreground": "#fcd34d",
+        "accent": "#451a03",
+        "accent-foreground": "#fefce8",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fefce8",
+        "border": "#78350f",
+        "input": "#78350f",
+        "ring": "#f59e0b"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-chess",
+        "title": "Chess",
+        "slug": "/",
+        "summary": "Interactive chess game with custom board and move history.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "chess-game-1",
+            "component": "ChessGame",
+            "extensions": [
+              "chess"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Chess game with chess.js extension",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

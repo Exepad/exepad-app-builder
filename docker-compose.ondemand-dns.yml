@@ -1,0 +1,85 @@
+# docker-compose.ondemand-dns.yml — self-serve custom-domain HTTPS issued via ACME
+# DNS-01 (behind NAT, when :80 is blocked, and for *wildcards*). Like
+# docker-compose.ondemand.yml, but the Caddy sidecar is compiled with caddy-dns
+# provider plugins (Dockerfile.caddy-dns) and validates domains over DNS instead
+# of HTTP-01/TLS-ALPN-01.
+#
+#   1. cp caddy.env.example caddy.env   and set EXEPAD_DNS_PROVIDER + EXEPAD_DNS_TOKEN.
+#   2. docker compose -f docker-compose.yml -f docker-compose.ondemand-dns.yml up --build
+#      (the first build runs xcaddy — a few minutes, once.)
+#   3. Register your domain (or *.apps wildcard) in Studio -> Settings -> Custom
+#      domains with mode DNS-01.
+#
+# The default `docker compose up` does HTTPS via the image's in-image Caddy
+# (HTTP-01 + internal CA). DNS-01 needs a plugin-compiled Caddy, so this file adds
+# one as a sidecar and sets EXEPAD_HTTPS_DISABLE=1 on the app so the in-image Caddy
+# stands down.
+services:
+  exepad:
+    # The base runs exepad host-networked, so it shares the host namespace and the
+    # DNS-01 sidecar Caddy (also host-networked, below) reaches it on 127.0.0.1:8080.
+    environment:
+      # The DNS-01 sidecar Caddy terminates TLS — turn OFF the runtime's in-image
+      # Caddy so it doesn't run redundantly.
+      EXEPAD_HTTPS_DISABLE: "1"
+      # Keep :8080 on loopback anyway: HTTPS is off only because the SIDECAR fronts
+      # TLS, and it proxies to 127.0.0.1:8080. Without this the runtime would bind
+      # 0.0.0.0:8080 on the host's interfaces, in cleartext beside the TLS front.
+      EXEPAD_HTTP_BIND: "127.0.0.1"
+      # The sidecar owns the public port — mark the runtime proxy-fronted (NOT
+      # managed): Secure cookies off X-Forwarded-Proto, and the port shows read-only
+      # in Settings -> Server & network (the sidecar Caddyfile owns it).
+      EXEPAD_TLS_FRONTED: "1"
+      # All public ingress is HTTPS via the sidecar Caddy -> always issue Secure cookies.
+      EXEPAD_COOKIE_SECURE: "1"
+      EXEPAD_ACME_EMAIL: ${EXEPAD_ACME_EMAIL:-}
+      # The public A/AAAA (or CNAME) target shown to operators in the panel.
+      EXEPAD_PUBLIC_IP: ${EXEPAD_PUBLIC_IP:-}
+      EXEPAD_PUBLIC_HOST: ${EXEPAD_PUBLIC_HOST:-}
+      EXEPAD_ONDEMAND_TLS_ASK_KEY: ${EXEPAD_ONDEMAND_TLS_ASK_KEY:-}
+      # NOTE: EXEPAD_DNS_TOKEN is intentionally NOT here — it lives in caddy.env,
+      # mounted into the Caddy sidecar ONLY, so the domain-controlling credential
+      # never reaches the app container.
+    # Bound container logs (Docker's default driver never rotates on its own).
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy-dns
+    restart: unless-stopped
+    # Host networking: bind the host's 80/443 directly and reach the runtime on
+    # 127.0.0.1:8080 (the base runs exepad host-networked, so "exepad" service DNS
+    # isn't available; the Caddyfile upstream is 127.0.0.1:8080).
+    network_mode: host
+    depends_on:
+      - exepad
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      EXEPAD_ACME_EMAIL: ${EXEPAD_ACME_EMAIL:-}
+      EXEPAD_ONDEMAND_TLS_ASK_KEY: ${EXEPAD_ONDEMAND_TLS_ASK_KEY:-}
+    env_file:
+      # Caddy-only: holds EXEPAD_DNS_PROVIDER + EXEPAD_DNS_TOKEN. `required: false`
+      # so compose doesn't hard-fail if you haven't created it yet (issuance then
+      # fails with a clear provider error instead). cp caddy.env.example caddy.env.
+      - path: ./caddy.env
+        required: false
+    volumes:
+      - ./Caddyfile.ondemand-dns:/etc/caddy/Caddyfile:ro
+      # Persist the ACME account key + issued/renewed certs across restarts so a
+      # restart doesn't re-issue and burn Let's Encrypt rate limits.
+      - caddy-data:/data
+      - caddy-config:/config
+
+# Merges with the base top-level volumes; exepad-data is preserved.
+volumes:
+  caddy-data:
+  caddy-config:

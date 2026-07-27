@@ -1,0 +1,233 @@
+{
+  "appType": "WebAppProps",
+  "version": "1.0.0",
+  "uuid": "app-multipage-001",
+  "appSecondaryType": "website",
+  "name": "Multi-Page App",
+  "alias": "multi-page-app",
+  "summary": "A multi-page test application for E2E testing",
+  "shortSummary": "Multi-page test app",
+  "lastUpdatedEpoch": 1730764800,
+  "frontend": {
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#047857",
+        "primary-foreground": "#ffffff",
+        "secondary": "#475569",
+        "secondary-foreground": "#ffffff",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#dc2626",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#047857"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#10b981",
+        "primary-foreground": "#0f172a",
+        "secondary": "#64748b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#10b981"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "layout": "boxed",
+    "menuPosition": "HeaderMenuTop",
+    "sidebar": [],
+    "header": [
+      {
+        "uuid": "navbar-001",
+        "componentType": "NavbarProps",
+        "logo": {
+          "uuid": "logo-001",
+          "componentType": "NavbarLogoProps",
+          "text": "Multi-Page"
+        },
+        "content": [
+          {
+            "uuid": "nav-home-001",
+            "componentType": "MenuLinkItemProps",
+            "label": "Home",
+            "href": {
+              "uuid": "link-home-001",
+              "componentType": "LinkProps",
+              "href": "/",
+              "text": "Home"
+            }
+          },
+          {
+            "uuid": "nav-about-001",
+            "componentType": "MenuLinkItemProps",
+            "label": "About",
+            "href": {
+              "uuid": "link-about-001",
+              "componentType": "LinkProps",
+              "href": "/about",
+              "text": "About"
+            }
+          },
+          {
+            "uuid": "nav-services-001",
+            "componentType": "MenuLinkItemProps",
+            "label": "Services",
+            "href": {
+              "uuid": "link-services-001",
+              "componentType": "LinkProps",
+              "href": "/services",
+              "text": "Services"
+            }
+          },
+          {
+            "uuid": "nav-contact-001",
+            "componentType": "MenuLinkItemProps",
+            "label": "Contact",
+            "href": {
+              "uuid": "link-contact-001",
+              "componentType": "LinkProps",
+              "href": "/contact",
+              "text": "Contact"
+            }
+          }
+        ]
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-home-001",
+        "slug": "/",
+        "title": "Home",
+        "pageType": "WebPageProps",
+        "content": [
+          {
+            "uuid": "section-hero-001",
+            "componentType": "SectionProps",
+            "sectionSlug": "hero",
+            "content": [
+              {
+                "uuid": "heading-001",
+                "componentType": "HeadingProps",
+                "text": "Welcome Home",
+                "level": "h1"
+              }
+            ]
+          }
+        ],
+        "summary": "Home page of the multi-page application",
+        "shortSummary": "Home page",
+        "lastUpdatedEpoch": 1730764800
+      },
+      {
+        "uuid": "page-about-001",
+        "slug": "/about",
+        "title": "About Us",
+        "pageType": "WebPageProps",
+        "content": [
+          {
+            "uuid": "section-about-001",
+            "componentType": "SectionProps",
+            "sectionSlug": "about",
+            "content": [
+              {
+                "uuid": "heading-about-001",
+                "componentType": "HeadingProps",
+                "text": "About Our Company",
+                "level": "h1"
+              },
+              {
+                "uuid": "text-about-001",
+                "componentType": "TextProps",
+                "text": "We are a company dedicated to excellence."
+              }
+            ]
+          }
+        ],
+        "summary": "About page with company information",
+        "shortSummary": "About page",
+        "lastUpdatedEpoch": 1730764800
+      },
+      {
+        "uuid": "page-services-001",
+        "slug": "/services",
+        "title": "Services",
+        "pageType": "WebPageProps",
+        "content": [
+          {
+            "uuid": "section-services-001",
+            "componentType": "SectionProps",
+            "sectionSlug": "services",
+            "content": [
+              {
+                "uuid": "heading-services-001",
+                "componentType": "HeadingProps",
+                "text": "Our Services",
+                "level": "h1"
+              }
+            ]
+          }
+        ],
+        "summary": "Services page with service offerings",
+        "shortSummary": "Services page",
+        "lastUpdatedEpoch": 1730764800
+      },
+      {
+        "uuid": "page-contact-001",
+        "slug": "/contact",
+        "title": "Contact",
+        "pageType": "WebPageProps",
+        "content": [
+          {
+            "uuid": "section-contact-001",
+            "componentType": "SectionProps",
+            "sectionSlug": "contact",
+            "content": [
+              {
+                "uuid": "heading-contact-001",
+                "componentType": "HeadingProps",
+                "text": "Contact Us",
+                "level": "h1"
+              }
+            ]
+          }
+        ],
+        "summary": "Contact page with contact form",
+        "shortSummary": "Contact page",
+        "lastUpdatedEpoch": 1730764800
+      }
+    ],
+    "footer": [
+      {
+        "uuid": "footer-section-001",
+        "componentType": "SectionProps",
+        "content": [
+          {
+            "uuid": "footer-text-001",
+            "componentType": "TextProps",
+            "text": "© 2024 Multi-Page App"
+          }
+        ]
+      }
+    ]
+  }
+}

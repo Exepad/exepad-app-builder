@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-qr-code-generator",
+  "alias": "codecomponent-qr-code-generator",
+  "name": "QR Code Generator",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "QR code generator CodeComponent powered by qrcode extension. Features configurable QR code generation with URL/text input, vCard contact format, WiFi network format via Tabs. Size selector (128, 256, 512 px). Error correction level select (L, M, Q, H). Foreground and background color pickers. Live canvas preview of generated QR code. Download as PNG button with toast confirmation. useAppState persists all settings. useTheme for dark/light preview container styling. Demo pre-loaded with sample URL.",
+  "shortSummary": "QR code generator with URL, vCard, WiFi tabs, color pickers, size and error correction options",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "QrCodeGenerator": {
+        "source": "frontend/components/QrCodeGenerator.tsx",
+        "compiled": "frontend/components/QrCodeGenerator.js",
+        "summary": "QR code generator with multiple format tabs, customizable colors, size, error correction, and PNG download"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "boxed",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1c1917",
+        "primary": "#c94b0a",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fff7ed",
+        "secondary-foreground": "#1c1917",
+        "muted": "#fff7ed",
+        "muted-foreground": "#78716c",
+        "accent": "#fed7aa",
+        "accent-foreground": "#1c1917",
+        "destructive": "#dc2626",
+        "destructive-foreground": "#ffffff",
+        "border": "#fdba74",
+        "input": "#fdba74",
+        "ring": "#ea580c"
+      },
+      "dark": {
+        "background": "#0c0a09",
+        "foreground": "#fafaf9",
+        "primary": "#fb923c",
+        "primary-foreground": "#0c0a09",
+        "secondary": "#431407",
+        "secondary-foreground": "#fafaf9",
+        "muted": "#431407",
+        "muted-foreground": "#fdba74",
+        "accent": "#431407",
+        "accent-foreground": "#fafaf9",
+        "destructive": "#991b1b",
+        "destructive-foreground": "#fafaf9",
+        "border": "#7c2d12",
+        "input": "#7c2d12",
+        "ring": "#f97316"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-qr",
+        "title": "QR Generator",
+        "slug": "/",
+        "summary": "QR code generator with multiple formats, color options, and download.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "qr-code-generator-1",
+            "component": "QrCodeGenerator",
+            "extensions": [
+              "qrcode"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "QR code generator with format tabs and download",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

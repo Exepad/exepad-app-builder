@@ -1,0 +1,212 @@
+[
+  {
+    "quiz_id": 1,
+    "question_text": "What is the chemical symbol for water?",
+    "options": "[\"H2O\",\"CO2\",\"NaCl\",\"O2\"]",
+    "correct_answer": 0,
+    "explanation": "Water is composed of two hydrogen atoms and one oxygen atom, giving it the formula H2O."
+  },
+  {
+    "quiz_id": 1,
+    "question_text": "What planet is known as the Red Planet?",
+    "options": "[\"Venus\",\"Mars\",\"Jupiter\",\"Saturn\"]",
+    "correct_answer": 1,
+    "explanation": "Mars appears red due to iron oxide (rust) on its surface, earning it the nickname 'The Red Planet'."
+  },
+  {
+    "quiz_id": 1,
+    "question_text": "What is the powerhouse of the cell?",
+    "options": "[\"Nucleus\",\"Ribosome\",\"Mitochondria\",\"Golgi apparatus\"]",
+    "correct_answer": 2,
+    "explanation": "Mitochondria generate most of the cell's supply of ATP, the energy currency of cells."
+  },
+  {
+    "quiz_id": 1,
+    "question_text": "What gas do plants absorb from the atmosphere?",
+    "options": "[\"Oxygen\",\"Nitrogen\",\"Carbon dioxide\",\"Hydrogen\"]",
+    "correct_answer": 2,
+    "explanation": "Plants absorb CO2 during photosynthesis and convert it into glucose and oxygen."
+  },
+  {
+    "quiz_id": 1,
+    "question_text": "What is the speed of light approximately?",
+    "options": "[\"300,000 km/s\",\"150,000 km/s\",\"500,000 km/s\",\"100,000 km/s\"]",
+    "correct_answer": 0,
+    "explanation": "Light travels at approximately 299,792 km/s in a vacuum, commonly rounded to 300,000 km/s."
+  },
+  {
+    "quiz_id": 2,
+    "question_text": "In which year did World War II end?",
+    "options": "[\"1943\",\"1944\",\"1945\",\"1946\"]",
+    "correct_answer": 2,
+    "explanation": "World War II ended in 1945 with the surrender of Germany in May and Japan in September."
+  },
+  {
+    "quiz_id": 2,
+    "question_text": "Who was the first President of the United States?",
+    "options": "[\"Thomas Jefferson\",\"John Adams\",\"George Washington\",\"Benjamin Franklin\"]",
+    "correct_answer": 2,
+    "explanation": "George Washington was inaugurated as the first U.S. President on April 30, 1789."
+  },
+  {
+    "quiz_id": 2,
+    "question_text": "The Great Wall of China was primarily built to protect against which group?",
+    "options": "[\"Romans\",\"Mongols\",\"Japanese\",\"Persians\"]",
+    "correct_answer": 1,
+    "explanation": "The Great Wall was built over centuries primarily to defend against invasions from Mongol and other nomadic groups."
+  },
+  {
+    "quiz_id": 2,
+    "question_text": "Which ancient civilization built the pyramids at Giza?",
+    "options": "[\"Roman\",\"Greek\",\"Egyptian\",\"Mesopotamian\"]",
+    "correct_answer": 2,
+    "explanation": "The pyramids at Giza were built by the ancient Egyptians around 2560 BCE as royal tombs."
+  },
+  {
+    "quiz_id": 2,
+    "question_text": "The Renaissance period began in which country?",
+    "options": "[\"France\",\"England\",\"Spain\",\"Italy\"]",
+    "correct_answer": 3,
+    "explanation": "The Renaissance began in Italy in the 14th century, particularly in Florence, before spreading across Europe."
+  },
+  {
+    "quiz_id": 3,
+    "question_text": "What is the largest continent by area?",
+    "options": "[\"Africa\",\"North America\",\"Asia\",\"Europe\"]",
+    "correct_answer": 2,
+    "explanation": "Asia is the largest continent, covering about 44.58 million square kilometers."
+  },
+  {
+    "quiz_id": 3,
+    "question_text": "Which country has the most natural lakes?",
+    "options": "[\"United States\",\"Canada\",\"Russia\",\"Brazil\"]",
+    "correct_answer": 1,
+    "explanation": "Canada has more lakes than all other countries combined, with over 60% of the world's lakes."
+  },
+  {
+    "quiz_id": 3,
+    "question_text": "What is the capital of Australia?",
+    "options": "[\"Sydney\",\"Melbourne\",\"Canberra\",\"Perth\"]",
+    "correct_answer": 2,
+    "explanation": "Canberra is the capital of Australia, chosen as a compromise between Sydney and Melbourne."
+  },
+  {
+    "quiz_id": 3,
+    "question_text": "Which river is the longest in the world?",
+    "options": "[\"Amazon\",\"Nile\",\"Mississippi\",\"Yangtze\"]",
+    "correct_answer": 1,
+    "explanation": "The Nile River is traditionally considered the longest at approximately 6,650 km."
+  },
+  {
+    "quiz_id": 3,
+    "question_text": "Mount Everest is located on the border of which two countries?",
+    "options": "[\"India and China\",\"Nepal and China\",\"Nepal and India\",\"China and Pakistan\"]",
+    "correct_answer": 1,
+    "explanation": "Mount Everest sits on the border between Nepal and Tibet (China) in the Himalayas."
+  },
+  {
+    "quiz_id": 4,
+    "question_text": "What does HTML stand for?",
+    "options": "[\"Hyper Text Markup Language\",\"High Tech Modern Language\",\"Hyper Transfer Markup Language\",\"Home Tool Markup Language\"]",
+    "correct_answer": 0,
+    "explanation": "HTML stands for HyperText Markup Language, the standard language for creating web pages."
+  },
+  {
+    "quiz_id": 4,
+    "question_text": "Who is considered the father of computer science?",
+    "options": "[\"Bill Gates\",\"Steve Jobs\",\"Alan Turing\",\"Tim Berners-Lee\"]",
+    "correct_answer": 2,
+    "explanation": "Alan Turing is widely considered the father of computer science for his foundational work on computation theory."
+  },
+  {
+    "quiz_id": 4,
+    "question_text": "What year was the first iPhone released?",
+    "options": "[\"2005\",\"2006\",\"2007\",\"2008\"]",
+    "correct_answer": 2,
+    "explanation": "The original iPhone was announced by Steve Jobs in January 2007 and released on June 29, 2007."
+  },
+  {
+    "quiz_id": 4,
+    "question_text": "What programming language was created by Brendan Eich in 10 days?",
+    "options": "[\"Python\",\"Java\",\"JavaScript\",\"Ruby\"]",
+    "correct_answer": 2,
+    "explanation": "Brendan Eich created JavaScript (originally called Mocha) in just 10 days in May 1995."
+  },
+  {
+    "quiz_id": 4,
+    "question_text": "What does CPU stand for?",
+    "options": "[\"Central Processing Unit\",\"Computer Personal Unit\",\"Central Program Utility\",\"Core Processing Unit\"]",
+    "correct_answer": 0,
+    "explanation": "CPU stands for Central Processing Unit, the primary component that executes instructions in a computer."
+  },
+  {
+    "quiz_id": 5,
+    "question_text": "Which film won the first Academy Award for Best Picture?",
+    "options": "[\"Sunrise\",\"Wings\",\"The Jazz Singer\",\"Metropolis\"]",
+    "correct_answer": 1,
+    "explanation": "Wings (1927) won the first Best Picture award at the 1st Academy Awards ceremony in 1929."
+  },
+  {
+    "quiz_id": 5,
+    "question_text": "Who painted the Mona Lisa?",
+    "options": "[\"Michelangelo\",\"Raphael\",\"Leonardo da Vinci\",\"Donatello\"]",
+    "correct_answer": 2,
+    "explanation": "Leonardo da Vinci painted the Mona Lisa between 1503 and 1519. It hangs in the Louvre Museum."
+  },
+  {
+    "quiz_id": 5,
+    "question_text": "What is the best-selling video game of all time?",
+    "options": "[\"Tetris\",\"Minecraft\",\"GTA V\",\"Wii Sports\"]",
+    "correct_answer": 1,
+    "explanation": "Minecraft has sold over 300 million copies, making it the best-selling video game of all time."
+  },
+  {
+    "quiz_id": 5,
+    "question_text": "Which band released the album 'Abbey Road'?",
+    "options": "[\"The Rolling Stones\",\"Led Zeppelin\",\"The Beatles\",\"Pink Floyd\"]",
+    "correct_answer": 2,
+    "explanation": "The Beatles released Abbey Road in 1969, named after the studio where it was recorded."
+  },
+  {
+    "quiz_id": 5,
+    "question_text": "In the Harry Potter series, what is the name of Harry's owl?",
+    "options": "[\"Errol\",\"Hedwig\",\"Pigwidgeon\",\"Scabbers\"]",
+    "correct_answer": 1,
+    "explanation": "Hedwig is Harry Potter's snowy owl, given to him by Hagrid as a birthday present."
+  },
+  {
+    "quiz_id": 6,
+    "question_text": "In which sport would you perform a 'slam dunk'?",
+    "options": "[\"Volleyball\",\"Basketball\",\"Tennis\",\"Football\"]",
+    "correct_answer": 1,
+    "explanation": "A slam dunk is a basketball move where a player jumps and pushes the ball directly through the hoop."
+  },
+  {
+    "quiz_id": 6,
+    "question_text": "How many players are on a standard soccer team on the field?",
+    "options": "[\"9\",\"10\",\"11\",\"12\"]",
+    "correct_answer": 2,
+    "explanation": "A standard soccer team has 11 players on the field, including the goalkeeper."
+  },
+  {
+    "quiz_id": 6,
+    "question_text": "Which country has won the most FIFA World Cup titles?",
+    "options": "[\"Germany\",\"Argentina\",\"Italy\",\"Brazil\"]",
+    "correct_answer": 3,
+    "explanation": "Brazil has won the FIFA World Cup five times (1958, 1962, 1970, 1994, 2002), the most of any country."
+  },
+  {
+    "quiz_id": 6,
+    "question_text": "What is the maximum score in a single frame of bowling?",
+    "options": "[\"10\",\"20\",\"30\",\"50\"]",
+    "correct_answer": 2,
+    "explanation": "The maximum score in a single frame is 30, achieved with a strike followed by two more strikes."
+  },
+  {
+    "quiz_id": 6,
+    "question_text": "Which Olympic sport involves the disciplines of poomsae and kyorugi?",
+    "options": "[\"Judo\",\"Karate\",\"Taekwondo\",\"Wrestling\"]",
+    "correct_answer": 2,
+    "explanation": "Taekwondo features poomsae (forms/patterns) and kyorugi (sparring) as its two main disciplines."
+  }
+]

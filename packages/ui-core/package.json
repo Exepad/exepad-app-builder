@@ -1,0 +1,14 @@
+{
+  "name": "@exepad/ui-core",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tailwind.css": "./src/tailwind.css",
+    "./globals.css": "./src/globals.css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
+  },
+  "license": "AGPL-3.0-only"
+}

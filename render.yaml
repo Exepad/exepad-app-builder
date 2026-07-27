@@ -1,0 +1,36 @@
+# Render Blueprint — one-click deploy of the self-hosted Exepad studio.
+# Button: https://render.com/deploy?repo=https://github.com/Exepad/exepad-app-builder
+#
+# Constraints (see deploy/README.md):
+#   • Persistent disk (SQLite at /data) requires a PAID plan — free web services
+#     have ephemeral disks and lose all data on restart.
+#   • Needs >=2 GB RAM (builds peak at 2-3 GB) — Standard plan or larger.
+#   • SQLite is single-writer: one instance only (numReplicas/scaling = 1).
+#   • Pin the image to a released version for production (replace :latest).
+services:
+  - type: web
+    name: exepad
+    runtime: image
+    plan: standard
+    image:
+      url: ghcr.io/exepad/exepad-app-builder:latest
+    healthCheckPath: /auth/status
+    # Render injects PORT; the studio binds it automatically.
+    envVars:
+      # Render terminates TLS at its edge and routes plain HTTP to $PORT, so the
+      # in-image Caddy has nothing to front — turn it off (the runtime still marks
+      # session cookies Secure, off Render's X-Forwarded-Proto).
+      - key: EXEPAD_HTTPS_DISABLE
+        value: "1"
+      - key: EXEPAD_LLM_API_KEY      # required — prompted, never committed
+        sync: false
+      - key: EXEPAD_LLM_PROVIDER
+        value: gemini
+      - key: EXEPAD_ADMIN_EMAIL      # optional: seed the operator account
+        sync: false
+      - key: EXEPAD_ADMIN_PASSWORD
+        sync: false
+    disk:
+      name: exepad-data
+      mountPath: /data
+      sizeGB: 10

@@ -1,0 +1,48 @@
+[flake8]
+# Line length to match Black
+max-line-length = 100
+
+# Complexity threshold
+max-complexity = 12
+
+# Directories to exclude
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    env,
+    build,
+    dist,
+    *.egg-info,
+    .eggs,
+    .mypy_cache,
+    .pytest_cache,
+    htmlcov
+
+# Ignore rules that conflict with Black
+ignore =
+    # line break before binary operator (Black uses this style)
+    W503,
+    # whitespace before ':' (Black uses this in slices)
+    E203,
+    # too many leading '#' for block comment
+    E266,
+    # line too long (Black handles this, allow some flexibility)
+    E501
+
+# Per-file ignores
+per-file-ignores =
+    # Tests can have unused imports for fixtures
+    tests/*:F401,F811
+    # __init__.py files often have unused imports for re-export
+    */__init__.py:F401
+
+# Show the source code for each error
+show-source = True
+
+# Count errors by type
+count = True
+
+# Show statistics at the end
+statistics = True

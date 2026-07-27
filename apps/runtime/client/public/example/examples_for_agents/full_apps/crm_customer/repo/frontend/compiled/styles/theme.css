@@ -1,0 +1,21 @@
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.pipeline-column {
+  min-height: 400px;
+}
+
+.deal-card {
+  transition: transform 0.15s ease;
+}
+
+.deal-card:hover {
+  transform: translateY(-1px);
+}
+
+.activity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}

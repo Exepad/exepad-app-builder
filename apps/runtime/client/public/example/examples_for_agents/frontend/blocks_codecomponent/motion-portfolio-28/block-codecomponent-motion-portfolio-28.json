@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-motion-portfolio",
+  "alias": "codecomponent-motion-portfolio",
+  "name": "Animated Portfolio Gallery",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "summary": "Portfolio gallery CodeComponent with advanced Framer Motion animations. Features a grid of project cards with staggered entrance (initial/animate), category filtering via ToggleGroup with AnimatePresence for smooth transitions, whileHover/whileTap effects, layout animation for smooth reflow, layoutId for shared element dialog transitions, and useMotionValue-style parallax mouse tracking on the hero section. Nine portfolio items across web, mobile, and design categories. Uses Motion.div, motion.div, Card, ToggleGroup, Badge, Dialog, and Icons from the SDK.",
+  "shortSummary": "Portfolio gallery with Framer Motion staggered entrance, filtering, and shared element transitions",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "AnimatedPortfolio": {
+        "source": "frontend/components/AnimatedPortfolio.tsx",
+        "compiled": "frontend/components/AnimatedPortfolio.js",
+        "summary": "Animated portfolio grid with category filtering, staggered entrance, hover/tap effects, layout animations, parallax hero, and detail dialog with shared element transition"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1a0a2e",
+        "primary": "#c026d3",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fdf4ff",
+        "secondary-foreground": "#1a0a2e",
+        "muted": "#faf5ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#fdf4ff",
+        "accent-foreground": "#1a0a2e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e9d5ff",
+        "input": "#e9d5ff",
+        "ring": "#c026d3"
+      },
+      "dark": {
+        "background": "#0f0520",
+        "foreground": "#faf5ff",
+        "primary": "#e879f9",
+        "primary-foreground": "#0f0520",
+        "secondary": "#1e0a3a",
+        "secondary-foreground": "#faf5ff",
+        "muted": "#1e0a3a",
+        "muted-foreground": "#a78bfa",
+        "accent": "#1e0a3a",
+        "accent-foreground": "#faf5ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#faf5ff",
+        "border": "#2e1065",
+        "input": "#2e1065",
+        "ring": "#d946ef"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-portfolio",
+        "title": "Portfolio",
+        "slug": "/",
+        "summary": "Animated portfolio gallery with category filtering and project detail dialogs.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "animated-portfolio-1",
+            "component": "AnimatedPortfolio",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Animated portfolio gallery with filtering and detail dialogs",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

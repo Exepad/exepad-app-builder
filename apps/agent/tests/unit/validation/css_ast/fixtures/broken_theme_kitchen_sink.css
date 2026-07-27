@@ -1,0 +1,29 @@
+/*
+ * Kitchen-sink broken theme — every forbidden/required pattern should fire.
+ * Flags expected:
+ *   style.forbidden.host_selector
+ *   style.forbidden.v3_tailwind_directive  (``@tailwind base``)
+ *   style.forbidden.global_reset
+ *   style.forbidden.material_symbols
+ *   style.forbidden.font_face
+ *   style.forbidden.bootstrap_inside_layer (``@import "tailwindcss"`` inside @layer)
+ *   style.required.sdk_variables           (most SDK vars missing)
+ */
+
+:host { color: red; }
+
+@font-face { font-family: 'Custom'; src: url(x.woff); }
+
+.material-symbols-outlined { font-family: 'MS'; }
+
+*, *::before, *::after { margin: 0; padding: 0; }
+
+@tailwind base;
+
+@layer exepad-app {
+  @import "tailwindcss";
+  @source "./components";
+  :root {
+    --background: 0 0% 100%;
+  }
+}

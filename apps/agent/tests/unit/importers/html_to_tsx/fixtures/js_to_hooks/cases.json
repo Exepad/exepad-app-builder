@@ -1,0 +1,106 @@
+{
+  "cases": [
+    {
+      "id": "empty_script_no_useeffect",
+      "input_path": "examples/empty_script.html",
+      "expected_tsx_absent": ["React.useEffect"]
+    },
+    {
+      "id": "getelementbyid_in_useeffect",
+      "input_path": "examples/getelementbyid_in_useeffect.html",
+      "expected_tsx_contains": [
+        "React.useEffect(() => {",
+        "document.getElementById('cta')",
+        "el.classList.add('ready')",
+        "}, []);"
+      ]
+    },
+    {
+      "id": "window_addeventlistener_scroll_with_cleanup",
+      "input_path": "examples/window_addeventlistener_scroll.html",
+      "expected_tsx_contains": [
+        "React.useEffect(() => {",
+        "window.addEventListener('scroll', onScroll",
+        "return () => {",
+        "window.removeEventListener('scroll', onScroll);"
+      ]
+    },
+    {
+      "id": "window_addeventlistener_resize_with_cleanup",
+      "input_path": "examples/window_addeventlistener_resize.html",
+      "expected_tsx_contains": [
+        "window.addEventListener('resize', onResize)",
+        "window.removeEventListener('resize', onResize);"
+      ]
+    },
+    {
+      "id": "document_addeventlistener_with_cleanup",
+      "input_path": "examples/document_addeventlistener.html",
+      "expected_tsx_contains": [
+        "document.addEventListener('keydown', handler)",
+        "document.removeEventListener('keydown', handler);"
+      ]
+    },
+    {
+      "id": "requestanimationframe_cleanup",
+      "input_path": "examples/requestanimationframe_loop.html",
+      "expected_tsx_contains": [
+        "requestAnimationFrame(frame)",
+        "cancelAnimationFrame(raf);"
+      ]
+    },
+    {
+      "id": "intersection_observer_cleanup",
+      "input_path": "examples/intersection_observer.html",
+      "expected_tsx_contains": [
+        "new IntersectionObserver",
+        "io.disconnect();"
+      ]
+    },
+    {
+      "id": "setinterval_cleanup",
+      "input_path": "examples/setinterval_loop.html",
+      "expected_tsx_contains": [
+        "setInterval",
+        "clearInterval(tick);"
+      ]
+    },
+    {
+      "id": "top_level_iife_preserved",
+      "input_path": "examples/top_level_iife.html",
+      "expected_tsx_contains": [
+        "React.useEffect(() => {",
+        "(function() {",
+        "matchMedia('(prefers-reduced-motion: reduce)')",
+        "})();"
+      ]
+    },
+    {
+      "id": "smooth_anchor_scroll_preserved",
+      "input_path": "examples/smooth_anchor_scroll.html",
+      "expected_tsx_contains": [
+        "document.querySelectorAll('a[href^=\"#\"]').forEach",
+        "scrollIntoView"
+      ]
+    },
+    {
+      "id": "multiple_addeventlistener_dedupe",
+      "input_path": "examples/multiple_addeventlistener_dedupe.html",
+      "expected_tsx_contains": [
+        "window.removeEventListener('scroll', handler);"
+      ],
+      "context": {"component_name": "Dedupe"}
+    },
+    {
+      "id": "onix_full_iife_e2e",
+      "input_path": "examples/onix_full_iife.html",
+      "expected_tsx_contains": [
+        "React.useEffect(() => {",
+        "document.getElementById('nav')",
+        "document.getElementById('magnetCta')",
+        "window.addEventListener('scroll', onScroll",
+        "window.removeEventListener('scroll', onScroll);"
+      ]
+    }
+  ]
+}

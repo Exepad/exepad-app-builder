@@ -1,0 +1,37 @@
+{
+  "cases": [
+    {
+      "id": "only_lightdom",
+      "input_path": "examples/only_lightdom.html",
+      "expected_tsx_contains": [
+        "import { React, LightDOMContainer } from \"@exepad/sdk\";"
+      ],
+      "expected_tsx_absent": ["ExepadImage", "Link, ", "toast"]
+    },
+    {
+      "id": "with_exepad_image",
+      "input_path": "examples/with_exepad_image.html",
+      "expected_tsx_contains": [
+        "import { React, LightDOMContainer, ExepadImage } from \"@exepad/sdk\";"
+      ]
+    },
+    {
+      "id": "with_link",
+      "input_path": "examples/with_link.html",
+      "context": {"page_slugs": ["/", "/about"]},
+      "expected_tsx_contains": [
+        "import { React, LightDOMContainer, Link } from \"@exepad/sdk\";",
+        "<Link to=\"/about\">"
+      ]
+    },
+    {
+      "id": "full_set",
+      "input_path": "examples/full_set.html",
+      "context": {"page_slugs": ["/", "/home"]},
+      "expected_tsx_contains": [
+        "import { React, LightDOMContainer, ExepadImage, Link } from \"@exepad/sdk\";"
+      ],
+      "expected_tsx_absent": ["toast"]
+    }
+  ]
+}

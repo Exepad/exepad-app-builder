@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "rubric_based_final_response_quality_v1": {
+      "threshold": 0.8,
+      "judge_model_options": {
+        "judge_model": "gemini-2.0-flash",
+        "num_samples": 3
+      },
+      "rubrics": [
+        {
+          "rubric_id": "correct_branch",
+          "rubric_content": {
+            "text_property": "The branch_label field correctly matches the user's intent: 'edit' for app/page modifications and content changes, 'blogging' for blog-related operations like creating posts or enabling/disabling blog, 'help_desk' for questions, greetings, or help requests"
+          }
+        },
+        {
+          "rubric_id": "correct_sub_action",
+          "rubric_content": {
+            "text_property": "The sub_action field is appropriate for the request complexity: 'quick_modify' for simple text/field changes on selected components, 'quick_remove' for deletion requests, 'add_blog_post' for creating new blog posts, 'set_blogging_status' for enabling/disabling blog, 'generic_request' for complex operations requiring a planner"
+          }
+        },
+        {
+          "rubric_id": "valid_config_scope",
+          "rubric_content": {
+            "text_property": "The needs_full_app_config field is set correctly: true when the operation affects multiple pages, navigation, or site-wide settings like theme; false when the operation only affects the current page or a single component"
+          }
+        },
+        {
+          "rubric_id": "language_match",
+          "rubric_content": {
+            "text_property": "The help_desk_response is written in the same language as the user's request (e.g., English response for English request, French for French, etc.)"
+          }
+        },
+        {
+          "rubric_id": "reasoning_quality",
+          "rubric_content": {
+            "text_property": "The reasoning field provides a clear, logical explanation that covers: language detection, intent analysis, scope determination (component vs app vs blog), branch selection rationale, and config scope decision"
+          }
+        }
+      ]
+    }
+  }
+}

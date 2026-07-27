@@ -1,0 +1,110 @@
+[
+  {
+    "name": "John Mitchell",
+    "email": "john.mitchell@acmecorp.com",
+    "company": "Acme Corp",
+    "phone": "+1-555-0101",
+    "status": "customer",
+    "notes": "Key decision maker. Prefers email communication.",
+    "created_at": "2025-11-15"
+  },
+  {
+    "name": "Sarah Connor",
+    "email": "sarah.connor@globex.com",
+    "company": "Globex Industries",
+    "phone": "+1-555-0102",
+    "status": "customer",
+    "notes": "Renewed contract in January. Interested in premium tier.",
+    "created_at": "2025-10-01"
+  },
+  {
+    "name": "Mike Thompson",
+    "email": "mike.t@initech.io",
+    "company": "Initech Solutions",
+    "phone": "+1-555-0103",
+    "status": "prospect",
+    "notes": "Attended our webinar. Requested a product demo.",
+    "created_at": "2026-01-20"
+  },
+  {
+    "name": "Lisa Nguyen",
+    "email": "lisa.nguyen@umbrellahealth.com",
+    "company": "Umbrella Health",
+    "phone": "+1-555-0104",
+    "status": "lead",
+    "notes": "Inbound lead from healthcare conference booth.",
+    "created_at": "2026-03-01"
+  },
+  {
+    "name": "James Carter",
+    "email": "jcarter@starkventures.com",
+    "company": "Stark Ventures",
+    "phone": "+1-555-0105",
+    "status": "prospect",
+    "notes": "Referred by John Mitchell. Evaluating competitors.",
+    "created_at": "2026-02-10"
+  },
+  {
+    "name": "Emily Rodriguez",
+    "email": "emily.r@waynelogistics.com",
+    "company": "Wayne Logistics",
+    "phone": "+1-555-0106",
+    "status": "customer",
+    "notes": "Enterprise account. Quarterly business reviews scheduled.",
+    "created_at": "2025-08-15"
+  },
+  {
+    "name": "Tom Henderson",
+    "email": "tom@piedpiper.media",
+    "company": "Pied Piper Media",
+    "phone": "+1-555-0107",
+    "status": "lead",
+    "notes": "Downloaded whitepaper on data compression.",
+    "created_at": "2026-03-10"
+  },
+  {
+    "name": "Rachel Park",
+    "email": "rachel.park@hooli.ai",
+    "company": "Hooli Analytics",
+    "phone": "+1-555-0108",
+    "status": "prospect",
+    "notes": "Requested pricing comparison. Technical evaluation underway.",
+    "created_at": "2026-02-25"
+  },
+  {
+    "name": "David Brooks",
+    "email": "dbrooks@acmecorp.com",
+    "company": "Acme Corp",
+    "phone": "+1-555-0109",
+    "status": "customer",
+    "notes": "Technical contact for Acme Corp. Handles integrations.",
+    "created_at": "2025-12-01"
+  },
+  {
+    "name": "Anna Kowalski",
+    "email": "anna.k@globex.com",
+    "company": "Globex Industries",
+    "phone": "+1-555-0110",
+    "status": "customer",
+    "notes": "Procurement lead. Manages vendor relationships.",
+    "created_at": "2025-09-20"
+  },
+  {
+    "name": "Chris Walker",
+    "email": "chris.walker@umbrellahealth.com",
+    "company": "Umbrella Health",
+    "phone": "+1-555-0111",
+    "status": "churned",
+    "notes": "Contract expired. Cited budget constraints. Follow up Q3.",
+    "created_at": "2025-06-15"
+  },
+  {
+    "name": "Nina Patel",
+    "email": "nina.patel@initech.io",
+    "company": "Initech Solutions",
+    "phone": "+1-555-0112",
+    "status": "lead",
+    "notes": "CTO. Met at SaaStr conference. Interested in API features.",
+    "created_at": "2026-03-15"
+  }
+]

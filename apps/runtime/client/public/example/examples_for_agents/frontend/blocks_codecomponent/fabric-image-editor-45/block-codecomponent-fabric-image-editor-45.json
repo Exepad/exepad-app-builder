@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-fabric-image-editor",
+  "alias": "codecomponent-fabric-image-editor",
+  "name": "Fabric Image Editor",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Image editor CodeComponent powered by Fabric.js. Features a Fabric.Canvas for image manipulation, left toolbar with Toggle buttons for draw, select, and text modes, right panel with Slider controls for brightness, contrast, and saturation filters using Fabric.Image.filters, Upload image button using useFileUpload, useFileUrl for displaying uploaded image on canvas, Save button triggering useHandler('saveEdited') with toast notifications, and drawing mode with freehand brush. Starts with placeholder shapes and instructional text. Uses Fabric extension for canvas rendering.",
+  "shortSummary": "Image editor with Fabric.js canvas, drawing tools, filters, upload, and save",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "FabricImageEditor": {
+        "source": "frontend/components/FabricImageEditor.tsx",
+        "compiled": "frontend/components/FabricImageEditor.js",
+        "summary": "Image editor with Fabric.Canvas, drawing/text tools, brightness/contrast/saturation filters, file upload, and save handler"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#2e0a1a",
+        "primary": "#db2777",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fdf2f8",
+        "secondary-foreground": "#2e0a1a",
+        "muted": "#fdf2f8",
+        "muted-foreground": "#6b7280",
+        "accent": "#fce7f3",
+        "accent-foreground": "#2e0a1a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#fbcfe8",
+        "input": "#fbcfe8",
+        "ring": "#db2777"
+      },
+      "dark": {
+        "background": "#200510",
+        "foreground": "#fdf2f8",
+        "primary": "#f472b6",
+        "primary-foreground": "#200510",
+        "secondary": "#3a0a1e",
+        "secondary-foreground": "#fdf2f8",
+        "muted": "#3a0a1e",
+        "muted-foreground": "#f9a8d4",
+        "accent": "#3a0a1e",
+        "accent-foreground": "#fdf2f8",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fdf2f8",
+        "border": "#831843",
+        "input": "#831843",
+        "ring": "#ec4899"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-editor",
+        "title": "Image Editor",
+        "slug": "/",
+        "summary": "Fabric.js image editor with drawing tools, filters, and file upload.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "fabric-image-editor-1",
+            "component": "FabricImageEditor",
+            "extensions": [
+              "fabric"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Fabric.js image editor with tools and filters",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

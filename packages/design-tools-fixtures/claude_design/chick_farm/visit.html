@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visit · HappyDoods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Interactive map */
+  .map-section { padding: 64px 0; }
+  .map-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .map-grid { grid-template-columns: 1fr; } }
+
+  .map-canvas {
+    position: relative;
+    aspect-ratio: 4/3;
+    background:
+      radial-gradient(ellipse at 30% 30%, #c9b88a 0%, #a08a5c 60%, #7a6840 100%);
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    cursor: grab;
+  }
+
+  /* Layered terrain */
+  .map-canvas .field {
+    position: absolute;
+    border-radius: 50%;
+    transform-origin: center;
+    transition: filter .25s, transform .25s;
+  }
+  .field-pasture-1 { left: 8%; top: 20%; width: 38%; height: 30%; background: #8d9c6e; }
+  .field-pasture-2 { left: 38%; top: 12%; width: 32%; height: 26%; background: #9aa978; }
+  .field-pasture-3 { left: 60%; top: 38%; width: 30%; height: 28%; background: #7e8d5f; }
+  .field-orchard   { left: 14%; top: 56%; width: 28%; height: 24%; background: #6c7d50; }
+  .field-pond      { left: 48%; top: 60%; width: 14%; height: 11%; background: #6c8a98; box-shadow: inset 0 0 12px rgba(0,0,0,0.2); }
+  .field-woods     { left: 70%; top: 70%; width: 28%; height: 26%; background: #4f6342; }
+
+  .road {
+    position: absolute;
+    background: #c9b88a;
+    border-top: 1px dashed rgba(42,31,23,0.4);
+    border-bottom: 1px dashed rgba(42,31,23,0.4);
+  }
+  .road.h { left: 0; right: 0; top: 84%; height: 14px; }
+  .road.driveway {
+    left: 30%; top: 55%; width: 12px; height: 38%;
+    border: none; border-left: 1px dashed rgba(42,31,23,0.4); border-right: 1px dashed rgba(42,31,23,0.4);
+    background: #c9b88a;
+  }
+  .road-label {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(42,31,23,0.6);
+  }
+
+  .pin {
+    position: absolute;
+    width: 36px; height: 36px;
+    margin-left: -18px; margin-top: -36px;
+    cursor: pointer;
+    transition: transform .2s;
+    z-index: 5;
+  }
+  .pin:hover { transform: translateY(-3px) scale(1.05); z-index: 10; }
+  .pin.active { z-index: 15; }
+  .pin-circle {
+    position: absolute; inset: 0 0 12px 0;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  .pin-tail {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 14px solid var(--ink);
+  }
+  .pin.active .pin-circle { background: var(--barn); color: var(--paper); border-color: var(--barn-dark); }
+  .pin.active .pin-tail { border-top-color: var(--barn-dark); }
+
+  .map-zone-label {
+    position: absolute;
+    font-family: var(--serif);
+    font-style: italic;
+    color: rgba(42,31,23,0.55);
+    font-size: 13px;
+    pointer-events: none;
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+  }
+
+  .compass {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 48px; height: 48px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .compass::before {
+    content: "N";
+    position: absolute;
+    top: 4px;
+    font-weight: 700;
+    color: var(--barn);
+  }
+
+  .map-legend {
+    position: absolute;
+    bottom: 16px; left: 16px;
+    background: var(--paper);
+    padding: 8px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* Sidebar */
+  .map-info {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px;
+    position: sticky;
+    top: 96px;
+  }
+  .map-info .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--barn);
+    margin-bottom: 8px;
+  }
+  .map-info h3 {
+    font-style: italic;
+    font-size: 28px;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 72, "SOFT" 80;
+  }
+  .map-info p { color: var(--ink-soft); font-size: 14px; margin-bottom: 16px; }
+  .info-meta {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .pin-list {
+    list-style: none;
+    margin-top: 16px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .pin-list li {
+    display: flex;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    align-items: center;
+    transition: background .15s;
+    font-size: 13px;
+    margin-left: -8px; margin-right: -8px;
+  }
+  .pin-list li:hover { background: var(--cream-deep); }
+  .pin-list li.active { background: var(--cream-deep); color: var(--ink); font-weight: 600; }
+  .pin-list .l-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 11px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .pin-list li.active .l-num { background: var(--barn); }
+
+  /* Visit info */
+  .visit-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+  }
+  @media (max-width: 800px) { .visit-info-grid { grid-template-columns: 1fr; } }
+  .info-card {
+    padding: 32px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .info-card .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--barn);
+    margin-bottom: 16px;
+  }
+  .info-card h3 { font-style: italic; margin-bottom: 12px; font-variation-settings: "opsz" 72, "SOFT" 80; }
+  .info-card p { color: var(--ink-soft); font-size: 14px; }
+  .info-card .big {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-variation-settings: "opsz" 96, "SOFT" 80;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .hours-list { list-style: none; margin-top: 16px; }
+  .hours-list li {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 14px;
+  }
+  .hours-list li:last-child { border-bottom: none; }
+  .hours-list .closed { color: var(--ink-soft); opacity: 0.5; }
+  .hours-list .open { color: var(--moss-dark); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <ellipse cx="22" cy="24" rx="13" ry="10" fill="#A8472A"/>
+        <circle cx="11" cy="17" r="6" fill="#A8472A"/>
+        <path d="M7 12 L9 7 L11 11 L13 7 L14 12 Z" fill="#A8472A"/>
+        <circle cx="9.5" cy="16.5" r="1" fill="#F5EFE2"/>
+        <path d="M5 18 L7.5 17.5 L7 19 Z" fill="#E8B850"/>
+        <path d="M16 33 L18 36 M22 33 L24 36" stroke="#A8472A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Happy<span class="brand-em">Doods</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="flock.html">The Flock</a></li>
+      <li><a href="practices.html">Practices</a></li>
+      <li><a href="visit.html" class="active">Visit</a></li>
+      <li><a href="stockists.html">Stockists</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="visit.html">Plan a Visit →</a>
+  </div>
+</nav>
+
+<header class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">Visit · Open Saturdays 9–2</div>
+    <h1>Come walk the pasture. Bring boots.</h1>
+    <p class="lede">Tap a pin on the map to see what's there. We've laid out a 30-minute self-guided loop, but you're welcome to wander off it.</p>
+  </div>
+</header>
+
+<section class="map-section">
+  <div class="wrap">
+    <div class="map-grid">
+      <div class="map-canvas" id="map">
+        <!-- Terrain -->
+        <div class="field field-pasture-1"></div>
+        <div class="field field-pasture-2"></div>
+        <div class="field field-pasture-3"></div>
+        <div class="field field-orchard"></div>
+        <div class="field field-pond"></div>
+        <div class="field field-woods"></div>
+
+        <!-- Roads -->
+        <div class="road h"></div>
+        <div class="road driveway"></div>
+        <div class="road-label" style="left: 16px; top: calc(84% + 18px);">Willow Creek Rd ↗</div>
+
+        <!-- Zone labels -->
+        <div class="map-zone-label" style="left: 16%; top: 30%;">North paddock</div>
+        <div class="map-zone-label" style="left: 44%; top: 20%;">Middle paddock</div>
+        <div class="map-zone-label" style="left: 66%; top: 46%;">South paddock</div>
+        <div class="map-zone-label" style="left: 18%; top: 64%;">orchard</div>
+        <div class="map-zone-label" style="left: 49%; top: 64%; font-size:11px;">pond</div>
+        <div class="map-zone-label" style="left: 76%; top: 80%;">woods</div>
+
+        <!-- Pins (data-id matches sidebar) -->
+        <div class="pin active" data-id="1" style="left: 36%; top: 72%;"><div class="pin-circle">1</div><div class="pin-tail"></div></div>
+        <div class="pin" data-id="2" style="left: 40%; top: 60%;"><div class="pin-circle">2</div><div class="pin-tail"></div></div>
+        <div class="pin" data-id="3" style="left: 26%; top: 32%;"><div class="pin-circle">3</div><div class="pin-tail"></div></div>
+        <div class="pin" data-id="4" style="left: 50%; top: 22%;"><div class="pin-circle">4</div><div class="pin-tail"></div></div>
+        <div class="pin" data-id="5" style="left: 72%; top: 48%;"><div class="pin-circle">5</div><div class="pin-tail"></div></div>
+        <div class="pin" data-id="6" style="left: 28%; top: 66%;"><div class="pin-circle">6</div><div class="pin-tail"></div></div>
+        <div class="pin" data-id="7" style="left: 54%; top: 64%;"><div class="pin-circle">7</div><div class="pin-tail"></div></div>
+
+        <div class="compass"></div>
+        <div class="map-legend">7 acres · approx. to scale</div>
+      </div>
+
+      <aside class="map-info" id="map-info">
+        <div class="num">Stop 01 of 07</div>
+        <h3 id="info-title">Welcome Barn &amp; Farm Stand</h3>
+        <p id="info-desc">Start here. Grab a basket, a map, and (probably) a sample. The farm stand is open self-serve all week — Venmo on the wall.</p>
+        <div class="info-meta">
+          <span class="tag"><span class="tag-dot"></span><span id="info-time">~5 min</span></span>
+          <span class="tag" id="info-access">Wheelchair-accessible</span>
+        </div>
+
+        <ul class="pin-list" id="pin-list">
+          <li class="active" data-id="1"><span class="l-num">1</span><span>Welcome Barn &amp; Farm Stand</span></li>
+          <li data-id="2"><span class="l-num">2</span><span>The Main Coop</span></li>
+          <li data-id="3"><span class="l-num">3</span><span>North Paddock (mobile coop)</span></li>
+          <li data-id="4"><span class="l-num">4</span><span>Middle Paddock (broody barn)</span></li>
+          <li data-id="5"><span class="l-num">5</span><span>South Paddock (pullets)</span></li>
+          <li data-id="6"><span class="l-num">6</span><span>Apple Orchard &amp; Compost</span></li>
+          <li data-id="7"><span class="l-num">7</span><span>Pond &amp; Picnic Spot</span></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:16px;">Plan ahead</div>
+    <h2 style="font-style:italic; max-width:18ch;">A few practical things.</h2>
+
+    <div class="visit-info-grid">
+      <div class="info-card">
+        <div class="num">01 / Hours</div>
+        <h3>When we're open.</h3>
+        <p>No appointment needed during open hours. For weekday tours, email us — we'll meet you at the gate.</p>
+        <ul class="hours-list">
+          <li><span>Monday</span><span class="closed">Closed</span></li>
+          <li><span>Tuesday</span><span class="closed">Closed</span></li>
+          <li><span>Wednesday</span><span class="muted">Market only · Putney</span></li>
+          <li><span>Thursday</span><span class="muted">Tours by appt.</span></li>
+          <li><span>Friday</span><span class="muted">Tours by appt.</span></li>
+          <li><span>Saturday</span><span class="open">9 am – 2 pm</span></li>
+          <li><span>Sunday</span><span class="closed">Closed (we rest too)</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="num">02 / Getting here</div>
+        <h3>438 Willow Creek Rd.</h3>
+        <p>About 12 min from Brattleboro, 90 from Burlington. The driveway is a hand-painted sign on the left after the covered bridge — easy to miss the first time.</p>
+        <div style="margin-top: 24px;">
+          <div class="big">12 min</div>
+          <div class="muted tiny" style="text-transform:uppercase; letter-spacing:0.12em;">From downtown Brattleboro</div>
+        </div>
+        <div style="margin-top: 16px;">
+          <div class="big">Free</div>
+          <div class="muted tiny" style="text-transform:uppercase; letter-spacing:0.12em;">Parking · grass lot, please go slow</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="num">03 / What to bring</div>
+        <h3>Boots, ideally.</h3>
+        <p>The pasture is real pasture, which is to say: muddy after rain, dewy in the morning, and, in spots, exactly as chickens left it. We have a few pairs of loaner boots in mismatched sizes by the gate.</p>
+        <ul style="margin-top:16px; list-style:none;">
+          <li style="padding:6px 0; border-bottom:1px solid var(--line-soft); font-size:14px;">✓ Closed-toe shoes (boots best)</li>
+          <li style="padding:6px 0; border-bottom:1px solid var(--line-soft); font-size:14px;">✓ Cash or Venmo for the stand</li>
+          <li style="padding:6px 0; border-bottom:1px solid var(--line-soft); font-size:14px;">✓ Curiosity</li>
+          <li style="padding:6px 0; font-size:14px;">✗ Dogs · sorry, the hens get nervous</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner" style="padding:96px 0;">
+  <div class="wrap-narrow" style="text-align:center;">
+    <div class="hand" style="font-size:32px; margin-bottom: 16px;">we'll save you a basket ↓</div>
+    <h2>Book a private tour for groups, classes, or curious kids.</h2>
+    <p>Weekday mornings, 60 minutes, $8 a head (under-12 free). Includes egg collection. Probably a hen on someone's lap.</p>
+    <a href="contact.html" class="btn btn-primary">Email us about a tour</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-tag">Eggs from hens<br>who know their names.</div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; opacity:0.6; text-transform:uppercase;">438 Willow Creek Rd · Putney, VT 05346</div>
+      </div>
+      <div><h4>Visit</h4><ul><li><a href="visit.html">Open Saturdays</a></li><li><a href="visit.html">Farm tours</a></li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="shop.html">Eggs</a></li><li><a href="shop.html">Pantry</a></li><li><a href="stockists.html">Stockists</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="story.html">Our story</a></li><li><a href="practices.html">Practices</a></li><li><a href="flock.html">Meet the flock</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 HappyDoods Farm · A small operation, on purpose.</div>
+      <div>Hand-built in Vermont. Mostly held together with good intentions.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const stops = {
+    "1": { title: "Welcome Barn & Farm Stand", desc: "Start here. Grab a basket, a map, and (probably) a sample. The farm stand is open self-serve all week — Venmo on the wall.", time: "~5 min", access: "Wheelchair-accessible" },
+    "2": { title: "The Main Coop", desc: "Home to about 200 layers, including most of the brown-egg girls. Roosting bars, dust baths, and a mural Wren painted when she was nine.", time: "~7 min", access: "Step-up access" },
+    "3": { title: "North Paddock — mobile coop", desc: "Our youngest mobile coop. We move it every 7 days. Walk the perimeter and you'll see why the grass under last week's spot is taller than the rest.", time: "~10 min", access: "Uneven ground" },
+    "4": { title: "Middle Paddock — broody barn", desc: "Where moms-to-be sit on clutches. Quiet, please. Eggs hatch on a 21-day cycle; if you're lucky, you'll see a pip.", time: "~6 min", access: "Quiet zone" },
+    "5": { title: "South Paddock — pullets", desc: "This year's new flock. Smaller, faster, more curious. They will absolutely come investigate your shoelaces.", time: "~10 min", access: "Uneven ground" },
+    "6": { title: "Apple Orchard & Compost", desc: "Old MacIntosh trees and our composting setup. Free composted bedding here for the taking — bring your own bucket.", time: "~5 min", access: "Wheelchair-accessible (firm path)" },
+    "7": { title: "Pond & Picnic Spot", desc: "End of the loop. A few picnic tables under the willow. Pack lunch and stay a while — most people do.", time: "~as long as you like", access: "Grass terrain" }
+  };
+
+  const pins = document.querySelectorAll(".pin");
+  const listItems = document.querySelectorAll("#pin-list li");
+  const titleEl = document.getElementById("info-title");
+  const descEl = document.getElementById("info-desc");
+  const timeEl = document.getElementById("info-time");
+  const accessEl = document.getElementById("info-access");
+  const numEl = document.querySelector("#map-info .num");
+
+  function selectStop(id) {
+    pins.forEach(p => p.classList.toggle("active", p.dataset.id === id));
+    listItems.forEach(l => l.classList.toggle("active", l.dataset.id === id));
+    const s = stops[id];
+    titleEl.textContent = s.title;
+    descEl.textContent = s.desc;
+    timeEl.textContent = s.time;
+    accessEl.textContent = s.access;
+    numEl.textContent = "Stop " + id.padStart(2, "0") + " of 07";
+  }
+
+  pins.forEach(p => p.addEventListener("click", () => selectStop(p.dataset.id)));
+  listItems.forEach(l => l.addEventListener("click", () => selectStop(l.dataset.id)));
+</script>
+
+
+
+<script>
+(function() {
+  const PH = {"pasture_wide":"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80","hens_grass":"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80","hen_closeup":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=1000&q=80","eggs_brown":"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&q=80","eggs_basket":"https://images.unsplash.com/photo-1569127959161-2b1297b2d9a8?auto=format&fit=crop&w=1200&q=80","eggs_pastel":"https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?auto=format&fit=crop&w=1200&q=80","eggs_flat":"https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1200&q=80","eggs_carton":"https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&w=1200&q=80","eggs_blue":"https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&q=80","barn":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80","farmer":"https://images.unsplash.com/photo-1592982499091-5b71f7be930e?auto=format&fit=crop&w=1100&q=80","couple":"https://images.unsplash.com/photo-1578307556311-d97c5c1e22e1?auto=format&fit=crop&w=1100&q=80","pasta":"https://images.unsplash.com/photo-1551892589-865f69869476?auto=format&fit=crop&w=1100&q=80","pickled":"https://images.unsplash.com/photo-1599909533730-89d0e3aef91d?auto=format&fit=crop&w=1100&q=80","butter":"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=1100&q=80","market":"https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1100&q=80","compost":"https://images.unsplash.com/photo-1416664806563-bb6be3be8074?auto=format&fit=crop&w=1100&q=80","old_coop":"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1100&q=80","kid_chicken":"https://images.unsplash.com/photo-1559588981-6c5ec47bf4a3?auto=format&fit=crop&w=1100&q=80","hen_feet":"https://images.unsplash.com/photo-1608755728617-4cb3a6b87c91?auto=format&fit=crop&w=1100&q=80","truck":"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1100&q=80","aerial":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80","plymouth":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=900&q=80","buff":"https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80","welsummer":"https://images.unsplash.com/photo-1573593928259-37bf012015b1?auto=format&fit=crop&w=900&q=80","marans":"https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=900&q=80","ameraucana":"https://images.unsplash.com/photo-1583845112203-29329902332e?auto=format&fit=crop&w=900&q=80","easter":"https://images.unsplash.com/photo-1556909114-44e3e9399a2b?auto=format&fit=crop&w=900&q=80"};
+  const MAP = [
+    ["Marta + Joel", "couple"],
+    ["Marta · collecting", "farmer"],
+    ["Marta · golden", "farmer"],
+    ["Original coop", "old_coop"],
+    ["Wren w/ goslings", "kid_chicken"],
+    ["Joel · fixing fence", "farmer"],
+    ["hen feet on grass", "hen_feet"],
+    ["loaded for market", "truck"],
+    ["truck", "truck"],
+    ["Brown dozen", "eggs_brown"],
+    ["Brown eggs", "eggs_brown"],
+    ["brown eggs", "eggs_brown"],
+    ["Pastel mix", "eggs_pastel"],
+    ["pastel", "eggs_pastel"],
+    ["Half-flat", "eggs_carton"],
+    ["Half flat", "eggs_carton"],
+    ["18ct", "eggs_carton"],
+    ["Two dozens", "eggs_basket"],
+    ["Tiny eggs", "eggs_flat"],
+    ["pickled eggs", "pickled"],
+    ["Pickled", "pickled"],
+    ["Pasta noodles", "pasta"],
+    ["pasta", "pasta"],
+    ["golden ghee", "butter"],
+    ["butter", "butter"],
+    ["gift bundle", "market"],
+    ["wooden box", "market"],
+    ["Compost bucket", "compost"],
+    ["compost", "compost"],
+    ["Aerial", "aerial"],
+    ["aerial", "aerial"],
+    ["paddocks marked", "aerial"],
+    ["Plymouth Rock", "plymouth"],
+    ["Buff Orpington", "buff"],
+    ["Welsummer", "welsummer"],
+    ["Marans", "marans"],
+    ["Ameraucana", "ameraucana"],
+    ["Easter Egger", "easter"],
+  ];
+  document.querySelectorAll(".ph").forEach(ph => {
+    const labelEl = ph.querySelector(".ph-label");
+    if (!labelEl) return;
+    const txt = (labelEl.textContent || "").toLowerCase();
+    let url = null;
+    for (const [needle, key] of MAP) {
+      if (txt.includes(needle.toLowerCase()) && PH[key]) { url = PH[key]; break; }
+    }
+    if (!url) return;
+    // Preload — only commit on success
+    const img = new Image();
+    img.onload = () => {
+      ph.style.backgroundImage = "url('" + url + "')";
+      ph.classList.add("has-photo");
+    };
+    img.onerror = () => { /* leave placeholder visible */ };
+    img.src = url;
+  });
+})();
+</script>
+
+</body>
+</html>

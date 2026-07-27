@@ -1,0 +1,764 @@
+{
+  "uuid": "event-booking",
+  "alias": "event-booking",
+  "name": "EventSpark",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "version": "1.0.0",
+  "summary": "Event discovery and booking platform with event browsing, calendar view, ticket purchasing, and ticket management",
+  "shortSummary": "Event booking with calendar and tickets",
+  "lastUpdatedEpoch": 1742515200,
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "repo": {
+    "frontend": {
+      "components": {
+        "EventHeader": {
+          "source": "frontend/code/components/EventHeader.tsx",
+          "compiled": "frontend/compiled/components/EventHeader.js",
+          "summary": "Fixed top header with EventSpark logo (Sparkles icon), nav links (Home, Events, Calendar, My Tickets), Create Event CTA button, user menu, backdrop-blur glass effect, pink accent"
+        },
+        "EventFooter": {
+          "source": "frontend/code/components/EventFooter.tsx",
+          "compiled": "frontend/compiled/components/EventFooter.js",
+          "summary": "4-column footer with About, Categories, Support, Connect sections, newsletter signup input, social icons row, copyright"
+        },
+        "EventHome": {
+          "source": "frontend/code/components/EventHome.tsx",
+          "compiled": "frontend/compiled/components/EventHome.js",
+          "summary": "Home page: hero with search and category dropdown, featured events carousel (3 large cards), category icons grid (6 categories), upcoming events section (4 cards), stats bar"
+        },
+        "EventsList": {
+          "source": "frontend/code/components/EventsList.tsx",
+          "compiled": "frontend/compiled/components/EventsList.js",
+          "summary": "Events listing: filter bar with category select, date range inputs, search, sort options, event cards grid with image placeholder, date badge, title, venue, price range, category badge, Get Tickets button, 15+ demo events, pagination"
+        },
+        "EventDetail": {
+          "source": "frontend/code/components/EventDetail.tsx",
+          "compiled": "frontend/compiled/components/EventDetail.js",
+          "summary": "Single event detail: banner with gradient, title, date/time, venue, address, organizer, description, schedule section, speakers grid (3 speakers), ticket tiers table (3 tiers) with Buy button, venue info"
+        },
+        "EventCalendar": {
+          "source": "frontend/code/components/EventCalendar.tsx",
+          "compiled": "frontend/compiled/components/EventCalendar.js",
+          "summary": "Monthly calendar grid (7x5/6), colored dots for events, click day to see events in side panel, month navigation, today highlight, mini event list for selected day"
+        },
+        "MyTickets": {
+          "source": "frontend/code/components/MyTickets.tsx",
+          "compiled": "frontend/compiled/components/MyTickets.js",
+          "summary": "Ticket management: upcoming vs past tabs, ticket cards with event title, date, venue, tier, ticket code (EVT-2024-XXXX format), status badge, QR code placeholder, Download PDF button"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with avatar, event attendance stats, booking highlights, and recent activity feed"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font, event card hover transitions, date badge styling, ticket code monospace, calendar day grid styling"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "event_categories": {
+        "source": "repo/seed/event_categories.json",
+        "format": "json",
+        "model": "event_categories",
+        "source_hash": "sha256:381aacc73588b30904b9c34d601aa87e59ce8e68cfb20b4e9d5ab536a005d287"
+      },
+      "events": {
+        "source": "repo/seed/events.json",
+        "format": "json",
+        "model": "events",
+        "source_hash": "sha256:7f1a06b3a1843a160fccd1bdb9cf3febc03126a2212d2e77436226a8dbeff08e"
+      },
+      "speakers": {
+        "source": "repo/seed/speakers.json",
+        "format": "json",
+        "model": "speakers",
+        "source_hash": "sha256:d4ac0e5c6f6d4f5b31416fce57c2bf7d3a01c57229f23858f8646111337c0008"
+      },
+      "ticket_tiers": {
+        "source": "repo/seed/ticket_tiers.json",
+        "format": "json",
+        "model": "ticket_tiers",
+        "source_hash": "sha256:e52bae0d7ad67d78546c8600b4466234f8ef3b16effdf3e8303e3397161ece9b"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-events",
+        "name": "events",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Event title"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Full event description"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Event category: music, tech, food, sports, arts, business"
+          },
+          {
+            "name": "start_date",
+            "type": "text",
+            "summary": "Event start date in ISO 8601 format"
+          },
+          {
+            "name": "end_date",
+            "type": "text",
+            "summary": "Event end date in ISO 8601 format"
+          },
+          {
+            "name": "venue",
+            "type": "text",
+            "summary": "Venue name"
+          },
+          {
+            "name": "address",
+            "type": "text",
+            "summary": "Full venue address"
+          },
+          {
+            "name": "image_url",
+            "type": "text",
+            "summary": "Event banner image URL",
+            "isNullable": true
+          },
+          {
+            "name": "organizer",
+            "type": "text",
+            "summary": "Organizer name"
+          },
+          {
+            "name": "max_capacity",
+            "type": "integer",
+            "summary": "Maximum event capacity"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Event status: draft, published, cancelled, completed",
+            "defaultValue": "published"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_events_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_events_start_date",
+            "columns": [
+              "start_date"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_events_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-ticket-tiers",
+        "name": "ticket_tiers",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "integer",
+            "summary": "FK to events",
+            "references": {
+              "model": "events",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Tier name (e.g. General, VIP, Premium)"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Ticket price in USD"
+          },
+          {
+            "name": "quantity",
+            "type": "integer",
+            "summary": "Total tickets available for this tier"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Tier description",
+            "isNullable": true
+          },
+          {
+            "name": "sort_order",
+            "type": "integer",
+            "summary": "Display sort order"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_tiers_event",
+            "columns": [
+              "event_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-tickets",
+        "name": "tickets",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "integer",
+            "summary": "FK to events",
+            "references": {
+              "model": "events",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "tier_id",
+            "type": "integer",
+            "summary": "FK to ticket_tiers",
+            "references": {
+              "model": "ticket_tiers",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "ticket_code",
+            "type": "text",
+            "summary": "Unique ticket code like EVT-2024-XXXX"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Ticket status: active, used, cancelled, refunded",
+            "defaultValue": "active"
+          },
+          {
+            "name": "purchased_at",
+            "type": "text",
+            "summary": "ISO 8601 purchase timestamp"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_tickets_event",
+            "columns": [
+              "event_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tickets_code",
+            "columns": [
+              "ticket_code"
+            ],
+            "unique": true
+          },
+          {
+            "name": "idx_tickets_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-speakers",
+        "name": "speakers",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "integer",
+            "summary": "FK to events",
+            "references": {
+              "model": "events",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Speaker full name"
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Speaker professional title"
+          },
+          {
+            "name": "bio",
+            "type": "text",
+            "summary": "Speaker biography",
+            "isNullable": true
+          },
+          {
+            "name": "photo_url",
+            "type": "text",
+            "summary": "Speaker photo URL",
+            "isNullable": true
+          },
+          {
+            "name": "sort_order",
+            "type": "integer",
+            "summary": "Display sort order"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_speakers_event",
+            "columns": [
+              "event_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-event-categories",
+        "name": "event_categories",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Category display name"
+          },
+          {
+            "name": "slug",
+            "type": "text",
+            "summary": "URL-friendly slug"
+          },
+          {
+            "name": "icon",
+            "type": "text",
+            "summary": "Icon name for the category",
+            "isNullable": true
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Category description",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_event_categories_slug",
+            "columns": [
+              "slug"
+            ],
+            "unique": true
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-searchEvents",
+        "name": "searchEvents",
+        "method": "searchEvents",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "category",
+            "type": "string",
+            "required": false,
+            "summary": "Filter by event category"
+          },
+          {
+            "name": "date_from",
+            "type": "string",
+            "required": false,
+            "summary": "Start date filter (ISO 8601)"
+          },
+          {
+            "name": "date_to",
+            "type": "string",
+            "required": false,
+            "summary": "End date filter (ISO 8601)"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "required": false,
+            "summary": "Search query for title/description"
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "summary": "Max events to return"
+          },
+          {
+            "name": "offset",
+            "type": "number",
+            "required": false,
+            "summary": "Pagination offset"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "events",
+            "type": "array",
+            "summary": "Matching events list"
+          },
+          {
+            "name": "total",
+            "type": "number",
+            "summary": "Total matching count"
+          }
+        ]
+      },
+      {
+        "uuid": "h-purchaseTicket",
+        "name": "purchaseTicket",
+        "method": "purchaseTicket",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "event_id",
+            "type": "number",
+            "required": true,
+            "summary": "Event ID to purchase for"
+          },
+          {
+            "name": "tier_id",
+            "type": "number",
+            "required": true,
+            "summary": "Ticket tier ID"
+          },
+          {
+            "name": "quantity",
+            "type": "number",
+            "required": true,
+            "summary": "Number of tickets"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "tickets",
+            "type": "array",
+            "summary": "Array of purchased ticket objects"
+          },
+          {
+            "name": "total_price",
+            "type": "number",
+            "summary": "Total purchase price"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getEventSchedule",
+        "name": "getEventSchedule",
+        "method": "getEventSchedule",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "event_id",
+            "type": "number",
+            "required": true,
+            "summary": "Event ID"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "event",
+            "type": "json",
+            "summary": "Full event details"
+          },
+          {
+            "name": "tiers",
+            "type": "array",
+            "summary": "Available ticket tiers"
+          },
+          {
+            "name": "speakers",
+            "type": "array",
+            "summary": "Event speakers list"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "headerScrollBehavior": "fixed",
+    "transitions": {
+      "enabled": true,
+      "type": "fade",
+      "timing": "normal"
+    },
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e1b4b",
+        "primary": "#db2777",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fdf2f8",
+        "secondary-foreground": "#1e1b4b",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#fce7f3",
+        "accent-foreground": "#1e1b4b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#db2777",
+        "card": "#ffffff",
+        "card-foreground": "#1e1b4b",
+        "popover": "#ffffff",
+        "popover-foreground": "#1e1b4b"
+      },
+      "dark": {
+        "background": "#1e1b4b",
+        "foreground": "#fdf2f8",
+        "primary": "#f472b6",
+        "primary-foreground": "#1e1b4b",
+        "secondary": "#831843",
+        "secondary-foreground": "#fdf2f8",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#831843",
+        "accent-foreground": "#fdf2f8",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#9d174d",
+        "input": "#9d174d",
+        "ring": "#f472b6",
+        "card": "#1e1b4b",
+        "card-foreground": "#fdf2f8",
+        "popover": "#1e1b4b",
+        "popover-foreground": "#fdf2f8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "selectedCategory": "all",
+        "calendarDate": null,
+        "cartTickets": {
+          "$persist": true,
+          "initial": []
+        }
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-1",
+        "componentType": "CodeComponentProps",
+        "component": "EventHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [
+      {
+        "uuid": "ftr-1",
+        "componentType": "CodeComponentProps",
+        "component": "EventFooter"
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Landing page with hero, search, featured events, category grid, upcoming events, stats",
+        "content": [
+          {
+            "uuid": "c-home",
+            "componentType": "CodeComponentProps",
+            "component": "EventHome"
+          }
+        ]
+      },
+      {
+        "uuid": "p-events",
+        "pageType": "WebPageProps",
+        "title": "Events",
+        "slug": "/events",
+        "summary": "Events listing with filters, search, sort, grid cards, pagination",
+        "content": [
+          {
+            "uuid": "c-events",
+            "componentType": "CodeComponentProps",
+            "component": "EventsList"
+          }
+        ]
+      },
+      {
+        "uuid": "p-event-detail",
+        "pageType": "WebPageProps",
+        "title": "Event Detail",
+        "slug": "/event/:id",
+        "summary": "Single event with banner, details, schedule, speakers, ticket tiers",
+        "content": [
+          {
+            "uuid": "c-event-detail",
+            "componentType": "CodeComponentProps",
+            "component": "EventDetail"
+          }
+        ]
+      },
+      {
+        "uuid": "p-calendar",
+        "pageType": "WebPageProps",
+        "title": "Calendar",
+        "slug": "/calendar",
+        "summary": "Monthly calendar grid with event dots and day detail panel",
+        "content": [
+          {
+            "uuid": "c-calendar",
+            "componentType": "CodeComponentProps",
+            "component": "EventCalendar"
+          }
+        ]
+      },
+      {
+        "uuid": "p-tickets",
+        "pageType": "WebPageProps",
+        "title": "My Tickets",
+        "slug": "/tickets",
+        "summary": "Ticket management with upcoming/past tabs, ticket cards, QR placeholders",
+        "content": [
+          {
+            "uuid": "c-tickets",
+            "componentType": "CodeComponentProps",
+            "component": "MyTickets"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with event attendance stats and recent activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  }
+}

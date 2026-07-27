@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-rich-text-notes",
+  "alias": "codecomponent-rich-text-notes",
+  "name": "Rich Text Notes Editor",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Rich text notes CodeComponent powered by TipTap editor. Uses TipTap.useEditor with TipTap.StarterKit, TipTap.Placeholder, and TipTap.Link extensions. TipTap.EditorContent renders the WYSIWYG editor. Formatting toolbar with ButtonGroup for bold, italic, heading (H1-H3), bullet list, ordered list, blockquote, and code block. Link insertion via Dialog with URL input. Word count and character count displayed in footer. Save button triggers useHandler('saveNote') with toast. Author shown from useCurrentUser. useAppState persists editor HTML content. Uses TipTap.useEditor, TipTap.EditorContent, Card, Button, ButtonGroup, Dialog, Input, Label, Separator, Badge, and Icons from the SDK.",
+  "shortSummary": "TipTap rich text editor with formatting toolbar, link dialog, word count, and save handler",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "RichTextNotes": {
+        "source": "frontend/components/RichTextNotes.tsx",
+        "compiled": "frontend/components/RichTextNotes.js",
+        "summary": "TipTap-based rich text editor with formatting toolbar, link insertion dialog, word/character count, and save handler"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#451a03",
+        "primary": "#af6004",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fffbeb",
+        "secondary-foreground": "#451a03",
+        "muted": "#fef3c7",
+        "muted-foreground": "#6b7280",
+        "accent": "#fde68a",
+        "accent-foreground": "#451a03",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#fcd34d",
+        "input": "#fcd34d",
+        "ring": "#d97706"
+      },
+      "dark": {
+        "background": "#451a03",
+        "foreground": "#fffbeb",
+        "primary": "#fbbf24",
+        "primary-foreground": "#451a03",
+        "secondary": "#78350f",
+        "secondary-foreground": "#fffbeb",
+        "muted": "#78350f",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#78350f",
+        "accent-foreground": "#fffbeb",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fffbeb",
+        "border": "#92400e",
+        "input": "#92400e",
+        "ring": "#f59e0b"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-notes",
+        "title": "Notes",
+        "slug": "/",
+        "summary": "Rich text notes editor with TipTap, formatting toolbar, and save functionality.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "rich-text-notes-1",
+            "component": "RichTextNotes",
+            "classes": "w-full",
+            "extensions": [
+              "tiptap"
+            ]
+          }
+        ],
+        "shortSummary": "TipTap rich text notes editor with formatting toolbar",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

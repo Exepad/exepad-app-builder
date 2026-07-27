@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-page-navigator",
+  "alias": "codecomponent-page-navigator",
+  "name": "Page Navigator with Advanced Hooks",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Multi-page app navigator demonstrating platform hooks (useNavigation, useAppState, toast) alongside Menubar with nested menus, shortcuts, checkbox items, and radio groups. Shows current page info with navigation controls, action triggers, and a grid of clickable page cards. No backend required — uses embedded demo data and platform hooks.",
+  "shortSummary": "Page navigator with Menubar and advanced platform hooks for navigation and actions",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "PageNavigator": {
+        "source": "frontend/components/PageNavigator.tsx",
+        "compiled": "frontend/components/PageNavigator.js",
+        "summary": "Multi-page navigator with Menubar, useNavigation, useAppState, toast, and clickable page cards"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e1b4b",
+        "primary": "#4f46e5",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eef2ff",
+        "secondary-foreground": "#1e1b4b",
+        "muted": "#eef2ff",
+        "muted-foreground": "#6366f1",
+        "accent": "#eef2ff",
+        "accent-foreground": "#1e1b4b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e0e7ff",
+        "input": "#e0e7ff",
+        "ring": "#4f46e5"
+      },
+      "dark": {
+        "background": "#0f0d1a",
+        "foreground": "#f5f3ff",
+        "primary": "#818cf8",
+        "primary-foreground": "#0f0d1a",
+        "secondary": "#1e1b3a",
+        "secondary-foreground": "#f5f3ff",
+        "muted": "#1e1b3a",
+        "muted-foreground": "#a5b4fc",
+        "accent": "#1e1b3a",
+        "accent-foreground": "#f5f3ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f5f3ff",
+        "border": "#1e1b3a",
+        "input": "#1e1b3a",
+        "ring": "#818cf8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-navigator",
+        "title": "Navigator",
+        "slug": "/",
+        "summary": "Multi-page navigator with menubar and advanced platform hooks.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "page-navigator-1",
+            "component": "PageNavigator",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Page navigator with menubar and platform hooks",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

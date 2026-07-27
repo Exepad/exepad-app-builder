@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-audio-synth-keyboard",
+  "alias": "codecomponent-audio-synth-keyboard",
+  "name": "Audio Synth Keyboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Synthesizer keyboard CodeComponent using Tone.js extension for audio synthesis. Features Tone.PolySynth with configurable oscillator type (sine, square, sawtooth, triangle) via Select. ADSR envelope controls with 4 Sliders for attack, decay, sustain, release. Switch toggles for Tone.Reverb and Tone.FeedbackDelay effects. DropdownMenu with 5 presets (Piano, Organ, Strings, Bass, Lead). Interactive piano keyboard spanning 2 octaves (C4-B5) with white and black keys, pointer events for triggerAttack/triggerRelease. Visual feedback on active notes with theme-aware highlight colors. Uses useAppState for synth patch state, useTheme for key colors.",
+  "shortSummary": "Tone.js synthesizer keyboard with ADSR sliders, oscillator select, effects, and presets",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "SynthKeyboard": {
+        "source": "frontend/components/SynthKeyboard.tsx",
+        "compiled": "frontend/components/SynthKeyboard.js",
+        "summary": "Tone.js powered synthesizer keyboard with ADSR envelope sliders, oscillator select, reverb/delay effects, preset dropdown, and interactive 2-octave piano"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1c1917",
+        "primary": "#af6004",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fffbeb",
+        "secondary-foreground": "#1c1917",
+        "muted": "#fef3c7",
+        "muted-foreground": "#78716c",
+        "accent": "#fffbeb",
+        "accent-foreground": "#1c1917",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#fde68a",
+        "input": "#fde68a",
+        "ring": "#d97706"
+      },
+      "dark": {
+        "background": "#1c1917",
+        "foreground": "#fafaf9",
+        "primary": "#fbbf24",
+        "primary-foreground": "#1c1917",
+        "secondary": "#292524",
+        "secondary-foreground": "#fafaf9",
+        "muted": "#292524",
+        "muted-foreground": "#a8a29e",
+        "accent": "#292524",
+        "accent-foreground": "#fafaf9",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fafaf9",
+        "border": "#44403c",
+        "input": "#44403c",
+        "ring": "#f59e0b"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-synth",
+        "title": "Synth Keyboard",
+        "slug": "/",
+        "summary": "Interactive synthesizer keyboard with oscillator controls, effects, and ADSR envelope.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "audio-synth-keyboard-1",
+            "component": "SynthKeyboard",
+            "classes": "w-full",
+            "extensions": [
+              "tone"
+            ]
+          }
+        ],
+        "shortSummary": "Tone.js synthesizer keyboard with ADSR and presets",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

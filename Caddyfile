@@ -1,0 +1,63 @@
+# Caddyfile — reference config for a STANDALONE Caddy in front of the studio.
+#
+# The default `docker compose up` needs NOTHING here: the image bakes its own copy
+# at docker/Caddyfile (COPYed to /etc/caddy/Caddyfile, proxying 127.0.0.1:8080) and
+# the entrypoint runs it in-process. Use this file as the starting point when you
+# run Caddy yourself in a container next to the studio — it proxies the `exepad`
+# service name, so it expects a bridge network rather than host networking.
+#
+# Caddy fronts the studio and terminates TLS for EVERY Host, picking the cert
+# automatically so HTTPS works with no per-domain configuration:
+#
+#   - this box's own public hostname (its auto-registered <dashed-ip>.sslip.io)
+#     and any operator-verified custom domain  → a browser-TRUSTED Let's Encrypt
+#     certificate (ACME), issued on the first HTTPS request, no restart;
+#   - localhost / a LAN or private IP literal   → Caddy's INTERNAL CA — encrypted,
+#     but browsers show a one-time trust warning (no public CA can sign a bare IP
+#     or localhost, so self-signed is the only zero-config option there).
+#
+# Issuance is gated by the worker's /internal/tls/authorize endpoint (on_demand
+# `ask`): Caddy only obtains a certificate for a Host the worker authorizes —
+# this box's own loopback/LAN/public addresses + sslip host + verified custom
+# domains — so a stranger's bogus SNI can never drive public-CA issuance. That
+# allowlist is the Let's Encrypt rate-limit abuse guard.
+#
+# For an explicit public SIDECAR Caddy see Caddyfile.ondemand (HTTP-01) and
+# Caddyfile.ondemand-dns (DNS-01 wildcards behind NAT), mounted by their
+# docker-compose.ondemand[-dns].yml. (There is no docker-compose.override.yml.)
+{
+	on_demand_tls {
+		ask http://exepad:8080/internal/tls/authorize?key={$EXEPAD_ONDEMAND_TLS_ASK_KEY}
+	}
+	# No `email` directive: it is OPTIONAL (expiry notices only) and Caddy issues
+	# fine with an anonymous ACME account. Templating an empty {$EXEPAD_ACME_EMAIL}
+	# in would emit a bare `email` token and FAIL config parsing whenever the var
+	# is unset (the default) — so we omit it. Operators who want expiry notices can
+	# add `email you@example.com` here.
+}
+
+# Plain HTTP -> HTTPS. Caddy answers ACME HTTP-01 challenges on :80 BEFORE this
+# redirect. Deliberately NO Strict-Transport-Security: a self-signed/internal
+# cert + HSTS would hard-pin browsers to a cert they distrust and brick later
+# plain-HTTP / cert-loss access, and HSTS is ignored on bare IPs anyway.
+:80 {
+	redir https://{host}{uri} permanent
+}
+
+# Catch-all HTTPS. on_demand obtains the cert per Host; the issuer chain tries
+# public ACME first (browser-trusted, for the box's public DNS names) and falls
+# back to Caddy's internal CA (localhost / IP literals, which ACME can't sign).
+# Caddy PRESERVES the inbound Host and sets X-Forwarded-For/Proto/Host by default
+# — the worker reads X-Forwarded-Proto for Secure cookies and the preserved Host
+# for host->app routing + canonical URLs. Do not strip these or rewrite Host.
+:443 {
+	tls {
+		on_demand
+		issuer acme
+		issuer internal
+	}
+	reverse_proxy exepad:8080
+
+	# Do NOT add `encode` here: the app already gzips via hono compress() and sets
+	# Content-Encoding + Vary; Caddy must pass the pre-encoded body through.
+}

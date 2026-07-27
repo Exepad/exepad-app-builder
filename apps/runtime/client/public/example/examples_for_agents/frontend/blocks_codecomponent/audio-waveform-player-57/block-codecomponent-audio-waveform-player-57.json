@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-audio-waveform-player",
+  "alias": "codecomponent-audio-waveform-player",
+  "name": "Audio Waveform Player",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Audio waveform player CodeComponent using WaveSurfer extension library. WaveSurfer instance created with useRef + useEffect for waveform visualization with configurable colors from useTheme. Transport controls via ButtonGroup with play/pause/stop Icons. Volume Slider and Zoom Slider for audio control. Time display showing current position / total duration as Badge. Three demo region markers rendered as colored overlays. Uses useFileUrl for loading audio file (generates silent waveform visualization for demo), useAppState for playback position, volume, and zoom, and useTheme for waveform colors.",
+  "shortSummary": "WaveSurfer audio player with waveform visualization, transport controls, volume/zoom sliders, and region markers",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "AudioWaveformPlayer": {
+        "source": "frontend/components/AudioWaveformPlayer.tsx",
+        "compiled": "frontend/components/AudioWaveformPlayer.js",
+        "summary": "WaveSurfer-based audio player with waveform visualization, transport controls, volume/zoom sliders, and region overlays"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e1033",
+        "primary": "#9333ea",
+        "primary-foreground": "#ffffff",
+        "secondary": "#faf5ff",
+        "secondary-foreground": "#1e1033",
+        "muted": "#faf5ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#f3e8ff",
+        "accent-foreground": "#1e1033",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e9d5ff",
+        "input": "#e9d5ff",
+        "ring": "#9333ea"
+      },
+      "dark": {
+        "background": "#1e1033",
+        "foreground": "#faf5ff",
+        "primary": "#c084fc",
+        "primary-foreground": "#1e1033",
+        "secondary": "#2e1065",
+        "secondary-foreground": "#faf5ff",
+        "muted": "#2e1065",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#2e1065",
+        "accent-foreground": "#faf5ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#faf5ff",
+        "border": "#581c87",
+        "input": "#581c87",
+        "ring": "#c084fc"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-audio-player",
+        "title": "Audio Player",
+        "slug": "/",
+        "summary": "Audio waveform player with visualization, transport controls, and region markers.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "audio-waveform-player-1",
+            "component": "AudioWaveformPlayer",
+            "extensions": [
+              "wavesurfer"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Audio waveform player with visualization and controls",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

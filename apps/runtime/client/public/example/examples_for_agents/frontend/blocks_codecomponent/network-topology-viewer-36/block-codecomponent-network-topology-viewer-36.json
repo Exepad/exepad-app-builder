@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-network-topology-viewer",
+  "alias": "codecomponent-network-topology-viewer",
+  "name": "Network Topology Viewer",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Network topology visualization CodeComponent using the Cytoscape extension library. Features a Cytoscape graph with 20 nodes (servers, routers, switches, firewalls) and 30 edges representing network connections. ToggleGroup for layout algorithms (breadthfirst, circle, cose, grid). Select dropdown for highlight mode (none, neighbors by selection, by device type). Nodes styled by device type with distinct shapes (rectangle, diamond, ellipse, hexagon) and colored by status. Click a node to view details including IP address, load percentage, status, and connected links in a side panel Card. Uses useModel pattern for loading network data, useAppState for layout selection and highlighted path, useTheme for node and edge colors.",
+  "shortSummary": "Cytoscape network topology with layout algorithms, device type shapes, and highlight modes",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "NetworkTopologyViewer": {
+        "source": "frontend/components/NetworkTopologyViewer.tsx",
+        "compiled": "frontend/components/NetworkTopologyViewer.js",
+        "summary": "Cytoscape network topology with layout toggles, highlight modes, device shapes, and node detail panel"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#111827",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f3f4f6",
+        "secondary-foreground": "#111827",
+        "muted": "#f9fafb",
+        "muted-foreground": "#6b7280",
+        "accent": "#f3f4f6",
+        "accent-foreground": "#111827",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e7eb",
+        "input": "#e5e7eb",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#111827",
+        "foreground": "#f9fafb",
+        "primary": "#60a5fa",
+        "primary-foreground": "#111827",
+        "secondary": "#1f2937",
+        "secondary-foreground": "#f9fafb",
+        "muted": "#1f2937",
+        "muted-foreground": "#9ca3af",
+        "accent": "#1f2937",
+        "accent-foreground": "#f9fafb",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f9fafb",
+        "border": "#374151",
+        "input": "#374151",
+        "ring": "#60a5fa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-topology",
+        "title": "Topology",
+        "slug": "/",
+        "summary": "Interactive network topology viewer with layout options and device detail panel.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-topology-1",
+            "component": "NetworkTopologyViewer",
+            "extensions": [
+              "cytoscape"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Cytoscape network topology with layout and highlight controls",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

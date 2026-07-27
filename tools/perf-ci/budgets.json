@@ -1,0 +1,62 @@
+{
+  "$comment": "Performance budgets for the Exepad runtime. Edited deliberately; every change is a perf policy decision. Baselines captured 2026-06-15 from a real `pnpm build:sdk` (SDK = apps/runtime/client/public/runtime_assets/dist/index-*.js, 1.67MB raw / 443KB gzip) and the deployed landing fixture (apps a1kguu163). See README.md for the rationale behind each number and `runner.mjs` for how they are enforced.",
+
+  "bytes": {
+    "$comment": "PRIMARY HARD GATE. Deterministic, parse-bound proxy for mobile TBT/LCP. A Lighthouse *score* is download-shaped and noisy; bytes are reproducible build-to-build. These ceilings are set AT the current baseline so they can only ratchet DOWN — the Phase-2 SDK split should drop sdkBytesGzip from 443KB toward ~200KB on core-only pages. The small `tolerance` absorbs minifier non-determinism, not real regressions. Breaching any ceiling FAILS the build.",
+
+    "sdkBytesRawCeiling": 1700000,
+    "sdkBytesGzipCeiling": 460000,
+    "firstFoldJsBytesRawCeiling": 1720000,
+    "firstFoldJsBytesGzipCeiling": 465000,
+    "tolerancePct": 1.5,
+
+    "$baseline": {
+      "sdkBytesRaw": 1666404,
+      "sdkBytesGzip": 443472,
+      "worstFirstFoldRaw": 1687232,
+      "worstFirstFoldGzip": 448756,
+      "worstPage": "/contact (ContactContent) / /about (AboutContent)"
+    }
+  },
+
+  "lighthouse": {
+    "$comment": "SECONDARY / SOFT GATE. Measured, archived, and trend-tracked. Mobile Lighthouse weights TBT 30% / LCP 25% / CLS 25% / FCP 10% / SI 10%. CPU is pinned to 4x slowdown (the real parse cliff). The Perf FLOOR is generous and only fails the build when the score drops BELOW (floor - tolerancePts) — i.e. a structural regression, not +/-3 noise. The metric ceilings are advisory unless `enforceMetricCeilings` is true (default false): they print warnings and land in the report for trend tracking, but do not fail CI on their own.",
+
+    "enforceScoreFloor": true,
+    "enforceMetricCeilings": false,
+    "tolerancePts": 5,
+
+    "mobile": {
+      "performanceFloor": 50,
+      "metrics": {
+        "totalBlockingTimeMs": 600,
+        "largestContentfulPaintMs": 8000,
+        "cumulativeLayoutShift": 0.35,
+        "firstContentfulPaintMs": 3500,
+        "speedIndexMs": 5000
+      },
+      "$baseline": {
+        "performance": 55,
+        "totalBlockingTimeMs": 318,
+        "largestContentfulPaintMs": 6320,
+        "cumulativeLayoutShift": 0.25,
+        "firstContentfulPaintMs": 2311,
+        "speedIndexMs": 2311
+      }
+    },
+
+    "desktop": {
+      "performanceFloor": 80,
+      "metrics": {
+        "totalBlockingTimeMs": 300,
+        "largestContentfulPaintMs": 2500,
+        "cumulativeLayoutShift": 0.2,
+        "firstContentfulPaintMs": 1500,
+        "speedIndexMs": 3000
+      },
+      "$baseline": {
+        "performance": 90
+      }
+    }
+  }
+}

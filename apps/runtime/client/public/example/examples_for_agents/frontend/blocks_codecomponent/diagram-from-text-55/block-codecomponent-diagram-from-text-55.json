@@ -1,0 +1,95 @@
+{
+  "uuid": "cc-example-diagram-from-text",
+  "alias": "codecomponent-diagram-from-text",
+  "name": "Technical Diagram Viewer",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Split-pane technical diagram CodeComponent using Mermaid and KaTeX extension libraries. Features a left editor panel with a Textarea for Mermaid diagram syntax input and an Input field for LaTeX formulas. Right preview panel renders Mermaid diagrams via Mermaid.default.initialize and Mermaid.default.render with theme sync (dark/default). KaTeX.renderToString for live LaTeX math rendering with displayMode. Preset diagram templates via Select dropdown (flowchart, sequence, class diagram, ER diagram). Math formula presets as clickable Badge chips (Quadratic, Euler, Bayes, Taylor, Fourier). Tabs to switch between diagram and math preview. Copy SVG button using XMLSerializer. Uses useAppState for diagram code, math formula, active preset, and active tab. Uses useTheme for Mermaid theme selection.",
+  "shortSummary": "Mermaid diagram editor with KaTeX math preview, presets, and SVG export",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "TechnicalDiagramViewer": {
+        "source": "frontend/components/TechnicalDiagramViewer.tsx",
+        "compiled": "frontend/components/TechnicalDiagramViewer.js",
+        "summary": "Split-pane Mermaid diagram editor with KaTeX math preview, preset templates, and SVG copy"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1a1a2e",
+        "primary": "#0b8379",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdfa",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f0fdfa",
+        "muted-foreground": "#64748b",
+        "accent": "#f0fdfa",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0d9488"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#2dd4bf",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#2dd4bf"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-diagram",
+        "title": "Diagram Editor",
+        "slug": "/",
+        "summary": "Technical diagram editor with Mermaid diagrams and KaTeX math formula rendering.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-diagram-1",
+            "component": "TechnicalDiagramViewer",
+            "extensions": [
+              "mermaid",
+              "katex"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Mermaid and KaTeX diagram editor with live preview",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

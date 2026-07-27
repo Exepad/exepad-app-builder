@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-admin-dashboard",
+  "alias": "codecomponent-admin-dashboard",
+  "name": "Admin Dashboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Full admin dashboard combining SidebarProvider with Sidebar navigation (Dashboard, Users, Orders, Analytics, Settings) and SidebarInset for main content. Features a KPI row with 4 Cards showing metric values, trends with TrendingUp/TrendingDown icons, and descriptive Icons. Charts row includes a LineChart showing revenue vs expenses over 12 months and a PieChart displaying user distribution by plan (Free, Starter, Pro, Enterprise). Users table built with Table components showing Avatar, name, email, role Badge, status Badge, and an actions DropdownMenu with View/Edit/Remove options. Quick actions Sheet slides from right showing recent platform activity with typed icons. Uses Tooltip on action buttons, useModel for users data, useCurrentUser for logged-in admin info, useNavigation for sidebar page switching, useTheme for chart color awareness, and toast on user actions.",
+  "shortSummary": "Admin dashboard with sidebar navigation, KPI cards, revenue/pie charts, users table, and activity sheet",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "AdminDashboard": {
+        "source": "frontend/components/AdminDashboard.tsx",
+        "compiled": "frontend/components/AdminDashboard.js",
+        "summary": "Full admin dashboard with sidebar, KPIs, line/pie charts, users table with dropdown actions, and activity sheet"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#334155",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#334155"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#94a3b8",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#94a3b8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-admin-main",
+        "title": "Admin Dashboard",
+        "slug": "/",
+        "summary": "Main admin dashboard with sidebar navigation, KPIs, charts, and user management.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "admin-dashboard-1",
+            "component": "AdminDashboard",
+            "classes": "w-full min-h-[700px]"
+          }
+        ],
+        "shortSummary": "Admin dashboard with sidebar, KPIs, charts, and users table",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

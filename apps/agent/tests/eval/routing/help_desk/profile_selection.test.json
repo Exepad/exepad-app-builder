@@ -1,0 +1,337 @@
+{
+  "eval_set_id": "help_desk_profile_selection_tests",
+  "name": "Help Desk Diagnostic Profile Selection Evaluation",
+  "description": "Validates that AppHelpDeskAgent selects the correct diagnostic_profile (bug-root-cause / integration-context / referent-and-current-state / cascade-enumeration / none) for the Surveyor pre-pass, based on user-language patterns.",
+  "eval_cases": [
+    {
+      "eval_id": "profile_bug_root_cause_chart_no_data",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Occupancy Rate Trend (30 Days) Chart displays no data fix it\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"User reports a chart is showing no data — broken behavior, fix-class intent. Branch: edit, sub_action: generic_request. diagnostic_profile: bug-root-cause — the user-language pattern 'displays no data' + 'fix it' is a textbook bug report; the Surveyor should run a field-mismatch sweep + prior-turn diff before the Editor plans.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Investigating why the chart isn't showing data...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"bug-root-cause\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_bug_root_cause_values_zero",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"why all occupancy values are zero?\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"User reports values are zero — fix-class intent on data behavior. Branch: edit, sub_action: generic_request. diagnostic_profile: bug-root-cause — 'values are zero' is a bug report on rendered output; the Surveyor needs to investigate the producer/consumer contract.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Looking into why occupancy values show as zero...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"bug-root-cause\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_bug_root_cause_still_broken_after_fix",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"the chart is still empty after the last fix\", \"chat_history\": [\"[user]: fix the chart\", \"[assistant]: I updated the data handler.\"], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"User is back after a prior fix attempt that didn't resolve the issue — exactly the case where prior-turn diff matters most. Branch: edit, sub_action: generic_request. diagnostic_profile: bug-root-cause — 'still empty after the last fix' is the canonical signal for a partial cascade (one side of a rename was updated, the other wasn't).\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Investigating why the previous fix didn't resolve this...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"bug-root-cause\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_integration_context_add_button",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Add a CSV export button to the reservations page\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Feature add — new functionality to be plugged in. Branch: edit, sub_action: generic_request. diagnostic_profile: integration-context — 'add a CSV export button' is a feature add; the Surveyor's job is to surface existing patterns the new feature should mirror, not find a bug.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Adding a CSV export button to reservations...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"integration-context\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_integration_context_create_new_section",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Create a new analytics dashboard with revenue charts\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"User wants to create new content — feature integration. Branch: edit, sub_action: generic_request. diagnostic_profile: integration-context — 'create a new analytics dashboard' is a structural addition; Surveyor surveys existing dashboard patterns + available data producers.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Building the analytics dashboard...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"integration-context\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_referent_make_it_prettier",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Make this dashboard prettier\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"{\\\"uuid\\\": \\\"dashboard-001\\\", \\\"componentType\\\": \\\"CodeComponentProps\\\"}\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Cosmetic ask on selected component. Branch: edit, sub_action: quick_modify. diagnostic_profile: referent-and-current-state — 'make this prettier' has a clear referent (selected component) but the requested delta is ambiguous; Surveyor captures current state so the Editor's restyle is grounded.\", \"branch_label\": \"edit\", \"sub_action\": \"quick_modify\", \"help_desk_response\": \"Making the dashboard prettier...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"referent-and-current-state\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_referent_tighten_spacing",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-007",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Tighten the spacing on this section\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"{\\\"uuid\\\": \\\"sec-001\\\", \\\"componentType\\\": \\\"SectionProps\\\"}\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Cosmetic spacing tweak on selected section. Branch: edit, sub_action: quick_modify. diagnostic_profile: referent-and-current-state — 'tighten the spacing' is a relative cosmetic change; Surveyor captures current padding/margin tokens so the Editor knows the baseline.\", \"branch_label\": \"edit\", \"sub_action\": \"quick_modify\", \"help_desk_response\": \"Tightening the spacing...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"referent-and-current-state\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_cascade_rename_handler",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-008",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Rename getOccupancyTrend to getRoomOccupancyByDay everywhere it's used\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Structural rename touching every consumer. Branch: edit, sub_action: generic_request. diagnostic_profile: cascade-enumeration — 'rename ... everywhere it's used' is the canonical signal for a structural change with cascade; Surveyor enumerates every call site so the Editor's plan covers them all.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Renaming the handler everywhere it's used...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"cascade-enumeration\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_cascade_remove_column",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-009",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Remove the deprecated 'legacy_status' column from the rooms model\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Schema change with potential cascade — column removal. Branch: edit, sub_action: generic_request. diagnostic_profile: cascade-enumeration — 'remove ... column' from a model is a structural change; Surveyor enumerates every consumer (handlers reading the column, components reading via useModel) so the Editor's plan covers the cleanup.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Removing the legacy_status column...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"cascade-enumeration\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "profile_none_page_title_rename",
+      "conversation": [
+        {
+          "invocation_id": "inv-profile-010",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Rename the About page title to 'About Us'\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Trivial deterministic op — title-only page rename. Branch: edit, sub_action: generic_request (the rename_page_title action covers it). diagnostic_profile: none — page-title rename is one of the very small set of changes a deterministic post-processor can make alone with no Surveyor investigation needed.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Renaming the About page...\", \"is_refusal\": false, \"decline_category\": \"none\", \"diagnostic_profile\": \"none\"}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    }
+  ]
+}

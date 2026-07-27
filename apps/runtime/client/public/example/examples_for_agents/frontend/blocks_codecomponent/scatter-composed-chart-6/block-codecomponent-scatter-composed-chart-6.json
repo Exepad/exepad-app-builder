@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-scatter-composed-chart",
+  "alias": "codecomponent-scatter-composed-chart",
+  "name": "Market Research Dashboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Market research tool featuring a ScatterChart for price vs. customer rating correlation across 20 products and a ComposedChart with bar (revenue) and line (growth %) overlay by quarter. Includes Checkbox group to filter product categories and RadioGroup to select time range. Uses useAppState and useArrayState for interactive filtering.",
+  "shortSummary": "Scatter and composed charts with category filters and time range selection",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "MarketResearch": {
+        "source": "frontend/components/MarketResearch.tsx",
+        "compiled": "frontend/components/MarketResearch.js",
+        "summary": "Market research dashboard with ScatterChart (price vs rating, bubble = reviews) and ComposedChart (revenue bars + growth line), filterable by category checkboxes and time range radio buttons"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#af6004",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fef3c7",
+        "secondary-foreground": "#0f172a",
+        "muted": "#fef9ee",
+        "muted-foreground": "#64748b",
+        "accent": "#fef3c7",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#d97706"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#fbbf24",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#f59e0b"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-main",
+        "title": "Market Research",
+        "slug": "/",
+        "summary": "Market research dashboard with scatter plot analysis and quarterly revenue trends.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "component-1",
+            "component": "MarketResearch",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Scatter and composed chart market research dashboard",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

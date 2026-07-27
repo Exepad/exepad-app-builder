@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop · HappyDoods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .shop-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 64px;
+    margin-top: 48px;
+  }
+  @media (max-width: 900px) { .shop-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .filters h4 {
+    font-family: var(--sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .filter-list { list-style: none; margin-bottom: 32px; }
+  .filter-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: color .15s;
+  }
+  .filter-list li:hover { color: var(--barn); }
+  .filter-list li.active { color: var(--ink); font-weight: 600; }
+  .filter-list li .count { font-family: var(--mono); font-size: 11px; opacity: 0.5; }
+
+  .shop-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 700px) { .shop-results { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -24px rgba(42,31,23,0.18); }
+  .card-img { aspect-ratio: 5/4; position: relative; }
+  .card-img .ph-label { position: absolute; top: 14px; left: 14px; }
+  .card-img .badge {
+    position: absolute; top: 14px; right: 14px;
+    background: var(--ink); color: var(--paper);
+    padding: 6px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .card-info { padding: 24px 24px 28px; }
+  .card-name {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-variation-settings: "opsz" 72, "SOFT" 80;
+    margin-bottom: 6px;
+  }
+  .card-desc { color: var(--ink-soft); font-size: 14px; margin-bottom: 16px; }
+  .card-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 16px; border-top: 1px solid var(--line);
+  }
+  .card-price { font-family: var(--serif); font-size: 24px; color: var(--barn); font-variation-settings: "opsz" 48, "SOFT" 80; }
+  .card-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom: 16px; }
+
+  .pricing-strip {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 24px 32px;
+    border-radius: 6px;
+    margin-top: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .pricing-strip h3 { color: var(--paper); font-style: italic; }
+  .pricing-strip .hand { color: var(--butter); }
+
+  .availability {
+    margin-top: 80px;
+    padding: 48px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .avail-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (max-width: 800px) { .avail-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .day {
+    aspect-ratio: 1/1;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--ink-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .day .d-name { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; opacity:0.6; }
+  .day .d-num { font-family: var(--serif); font-size: 22px; font-variation-settings: "opsz" 48; line-height: 1; margin-top: 2px; }
+  .day.harvest { background: var(--moss); color: var(--cream); border-color: var(--moss-dark); }
+  .day.harvest .d-name { opacity: 0.85; }
+  .day.market { background: var(--barn); color: var(--paper); border-color: var(--barn-dark); }
+  .day.market .d-name { opacity: 0.85; }
+  .day.today { box-shadow: 0 0 0 2px var(--ink); }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; font-size: 12px; }
+  .legend .sw {
+    display: inline-block; width: 12px; height: 12px; border-radius: 3px;
+    margin-right: 6px; vertical-align: middle;
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .toolbar .count { color: var(--ink-soft); font-size: 14px; }
+  .toolbar select {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <ellipse cx="22" cy="24" rx="13" ry="10" fill="#A8472A"/>
+        <circle cx="11" cy="17" r="6" fill="#A8472A"/>
+        <path d="M7 12 L9 7 L11 11 L13 7 L14 12 Z" fill="#A8472A"/>
+        <circle cx="9.5" cy="16.5" r="1" fill="#F5EFE2"/>
+        <path d="M5 18 L7.5 17.5 L7 19 Z" fill="#E8B850"/>
+        <path d="M16 33 L18 36 M22 33 L24 36" stroke="#A8472A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Happy<span class="brand-em">Doods</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="flock.html">The Flock</a></li>
+      <li><a href="practices.html">Practices</a></li>
+      <li><a href="visit.html">Visit</a></li>
+      <li><a href="stockists.html">Stockists</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="visit.html">Plan a Visit →</a>
+  </div>
+</nav>
+
+<header class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">Shop · Updated weekly</div>
+    <h1>Everything we sell, in one short list.</h1>
+    <p class="lede">No checkout, no shipping. Pick up at the farm Saturdays, find us at the Putney market Wednesdays, or grab us at any of <a href="stockists.html" style="color:var(--barn); text-decoration:underline;">our stockists</a> in the valley.</p>
+  </div>
+</header>
+
+<section style="padding-top:48px;">
+  <div class="wrap">
+    <div class="shop-grid">
+      <aside class="filters">
+        <h4>Category</h4>
+        <ul class="filter-list">
+          <li class="active">Everything <span class="count">12</span></li>
+          <li>Eggs <span class="count">5</span></li>
+          <li>Pantry <span class="count">4</span></li>
+          <li>Bundles <span class="count">3</span></li>
+        </ul>
+        <h4>Availability</h4>
+        <ul class="filter-list">
+          <li>In stock now <span class="count">9</span></li>
+          <li>By preorder <span class="count">3</span></li>
+        </ul>
+        <h4>Where</h4>
+        <ul class="filter-list">
+          <li>Farm pickup <span class="count">12</span></li>
+          <li>Putney Market <span class="count">8</span></li>
+          <li>Stockists <span class="count">6</span></li>
+        </ul>
+
+        <div style="margin-top:32px; padding:20px; background: var(--paper); border:1px solid var(--line); border-radius: 6px;">
+          <div class="hand" style="font-size:22px; margin-bottom:6px;">a note —</div>
+          <p style="font-size:13px; color:var(--ink-soft);">Quantities are real. When the week's eggs are gone, they're gone. Saturday morning is your best bet.</p>
+        </div>
+      </aside>
+
+      <div class="shop-list">
+        <div class="toolbar">
+          <div class="count">Showing <strong>12 items</strong> · this week</div>
+          <select>
+            <option>Sort: Most popular</option>
+            <option>Price: Low to high</option>
+            <option>Price: High to low</option>
+            <option>Newest first</option>
+          </select>
+        </div>
+
+        <div class="shop-results">
+          <div class="card">
+            <div class="card-img ph">
+              <span class="ph-label">Brown dozen · open carton, top-down</span>
+              <span class="badge">Bestseller</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot"></span>In stock</span>
+                <span class="tag">Pasture-raised</span>
+              </div>
+              <div class="card-name">The Standard Dozen</div>
+              <p class="card-desc">A working dozen of mixed brown eggs — what most of our hens lay. Best for everyday breakfast and baking.</p>
+              <div class="card-meta">
+                <span class="card-price">$8</span>
+                <span class="muted tiny">per dozen</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph ph-moss">
+              <span class="ph-label">Pastel mix · 12 eggs, side light</span>
+              <span class="badge" style="background:var(--moss);">Limited</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot"></span>In stock</span>
+                <span class="tag">Mixed colors</span>
+              </div>
+              <div class="card-name">The Rainbow Dozen</div>
+              <p class="card-desc">Sky-blue Ameraucanas, olive Welsummers, chocolate Marans, and the occasional pink Easter Egger.</p>
+              <div class="card-meta">
+                <span class="card-price">$11</span>
+                <span class="muted tiny">per dozen</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph ph-barn">
+              <span class="ph-label">Half-flat 18ct · gray paper carton</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot" style="background:var(--butter)"></span>2 left</span>
+                <span class="tag">Family-size</span>
+              </div>
+              <div class="card-name">The Big Flat (18ct)</div>
+              <p class="card-desc">For households where 12 eggs vanish in a weekend. Comes in a reusable pulp tray.</p>
+              <div class="card-meta">
+                <span class="card-price">$13</span>
+                <span class="muted tiny">per 18</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph">
+              <span class="ph-label">Two dozens stacked · brown kraft band</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot"></span>In stock</span>
+                <span class="tag">Save $2</span>
+              </div>
+              <div class="card-name">Two-Dozen Bundle</div>
+              <p class="card-desc">Two standard dozens, banded together. The deal we'd give our neighbors. (And do.)</p>
+              <div class="card-meta">
+                <span class="card-price">$14</span>
+                <span class="muted tiny">two dozen</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph ph-moss">
+              <span class="ph-label">Tiny eggs · single hand for scale</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot" style="background:var(--moss)"></span>Seasonal</span>
+                <span class="tag">Pullet</span>
+              </div>
+              <div class="card-name">The Pullet Half-Dozen</div>
+              <p class="card-desc">Small first eggs from the new flock. Richer yolk-to-white ratio. Available a few weeks each year.</p>
+              <div class="card-meta">
+                <span class="card-price">$5</span>
+                <span class="muted tiny">half dozen</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph ph-barn">
+              <span class="ph-label">Glass jar · pickled eggs in vinegar</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot"></span>Pantry</span>
+                <span class="tag">Marta's recipe</span>
+              </div>
+              <div class="card-name">Pickled Eggs (12oz)</div>
+              <p class="card-desc">Beet-pickled, dill-bright. Marta's grandmother's recipe, made on rainy weeks.</p>
+              <div class="card-meta">
+                <span class="card-price">$9</span>
+                <span class="muted tiny">12oz jar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph">
+              <span class="ph-label">Pasta noodles · drying on wood rack</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot"></span>Pantry</span>
+                <span class="tag">From our eggs</span>
+              </div>
+              <div class="card-name">Egg Pasta (12oz)</div>
+              <p class="card-desc">Dried tagliatelle made by our friends at Bramble Pasta — using HappyDoods yolks. Yellow as you'd expect.</p>
+              <div class="card-meta">
+                <span class="card-price">$10</span>
+                <span class="muted tiny">12oz</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph ph-moss">
+              <span class="ph-label">Mason jar · golden ghee</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot"></span>Pantry</span>
+                <span class="tag">Local dairy</span>
+              </div>
+              <div class="card-name">Cultured Butter (8oz)</div>
+              <p class="card-desc">From Hilltop Dairy down the road. We don't make this — we just love it and stock it for you.</p>
+              <div class="card-meta">
+                <span class="card-price">$7</span>
+                <span class="muted tiny">8oz</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph ph-barn">
+              <span class="ph-label">Wooden box · gift bundle, twine tied</span>
+              <span class="badge" style="background:var(--butter); color:var(--ink);">Gift</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot"></span>In stock</span>
+                <span class="tag">Bundle</span>
+              </div>
+              <div class="card-name">The Welcome Box</div>
+              <p class="card-desc">A rainbow dozen, a jar of pickled eggs, butter, and pasta. Wrapped in a wooden tray with twine.</p>
+              <div class="card-meta">
+                <span class="card-price">$38</span>
+                <span class="muted tiny">save $4</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-img ph">
+              <span class="ph-label">Compost bucket · feathered + leaves</span>
+            </div>
+            <div class="card-info">
+              <div class="card-tags">
+                <span class="tag"><span class="tag-dot" style="background:var(--moss)"></span>Free</span>
+                <span class="tag">Garden</span>
+              </div>
+              <div class="card-name">Coop Compost (5gal)</div>
+              <p class="card-desc">Year-old, fully composted bedding. Free for the taking — bring your own bucket. Your tomatoes will love you.</p>
+              <div class="card-meta">
+                <span class="card-price">Free</span>
+                <span class="muted tiny">BYO bucket</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Availability calendar -->
+    <div class="availability">
+      <div class="avail-grid">
+        <div>
+          <div class="eyebrow" style="margin-bottom:12px;">This week</div>
+          <h3 style="font-style:italic; font-size:32px;">When you can grab eggs.</h3>
+          <p class="muted" style="margin-top:12px; font-size:14px; max-width:30ch;">
+            We collect twice a day. Saturday is your best chance for the full lineup. Wednesday market sells out by 10am.
+          </p>
+        </div>
+        <div>
+          <div class="week">
+            <div class="day"><span class="d-name">Mon</span><span class="d-num">21</span></div>
+            <div class="day"><span class="d-name">Tue</span><span class="d-num">22</span></div>
+            <div class="day market"><span class="d-name">Wed</span><span class="d-num">23</span></div>
+            <div class="day"><span class="d-name">Thu</span><span class="d-num">24</span></div>
+            <div class="day today"><span class="d-name">Fri</span><span class="d-num">25</span></div>
+            <div class="day harvest"><span class="d-name">Sat</span><span class="d-num">26</span></div>
+            <div class="day"><span class="d-name">Sun</span><span class="d-num">27</span></div>
+          </div>
+          <div class="legend">
+            <span><span class="sw" style="background:var(--moss);"></span> Open coop · 9–2pm</span>
+            <span><span class="sw" style="background:var(--barn);"></span> Putney Farmers Market · 8–11am</span>
+            <span><span class="sw" style="background:var(--cream); border:1px solid var(--line);"></span> Stockist deliveries</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-strip">
+      <div>
+        <div class="hand" style="font-size:24px;">just so you know —</div>
+        <h3 style="margin-top:4px;">Prices haven't moved since 2023.</h3>
+      </div>
+      <a href="practices.html" class="btn btn-barn" style="background:var(--butter); color:var(--ink);">How we price →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-tag">Eggs from hens<br>who know their names.</div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; opacity:0.6; text-transform:uppercase;">438 Willow Creek Rd · Putney, VT 05346</div>
+      </div>
+      <div><h4>Visit</h4><ul><li><a href="visit.html">Open Saturdays</a></li><li><a href="visit.html">Farm tours</a></li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="shop.html">Eggs</a></li><li><a href="shop.html">Pantry</a></li><li><a href="stockists.html">Stockists</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="story.html">Our story</a></li><li><a href="practices.html">Practices</a></li><li><a href="flock.html">Meet the flock</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 HappyDoods Farm · A small operation, on purpose.</div>
+      <div>Hand-built in Vermont. Mostly held together with good intentions.</div>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+(function() {
+  const PH = {"pasture_wide":"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80","hens_grass":"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80","hen_closeup":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=1000&q=80","eggs_brown":"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&q=80","eggs_basket":"https://images.unsplash.com/photo-1569127959161-2b1297b2d9a8?auto=format&fit=crop&w=1200&q=80","eggs_pastel":"https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?auto=format&fit=crop&w=1200&q=80","eggs_flat":"https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1200&q=80","eggs_carton":"https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&w=1200&q=80","eggs_blue":"https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&q=80","barn":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80","farmer":"https://images.unsplash.com/photo-1592982499091-5b71f7be930e?auto=format&fit=crop&w=1100&q=80","couple":"https://images.unsplash.com/photo-1578307556311-d97c5c1e22e1?auto=format&fit=crop&w=1100&q=80","pasta":"https://images.unsplash.com/photo-1551892589-865f69869476?auto=format&fit=crop&w=1100&q=80","pickled":"https://images.unsplash.com/photo-1599909533730-89d0e3aef91d?auto=format&fit=crop&w=1100&q=80","butter":"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=1100&q=80","market":"https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1100&q=80","compost":"https://images.unsplash.com/photo-1416664806563-bb6be3be8074?auto=format&fit=crop&w=1100&q=80","old_coop":"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1100&q=80","kid_chicken":"https://images.unsplash.com/photo-1559588981-6c5ec47bf4a3?auto=format&fit=crop&w=1100&q=80","hen_feet":"https://images.unsplash.com/photo-1608755728617-4cb3a6b87c91?auto=format&fit=crop&w=1100&q=80","truck":"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1100&q=80","aerial":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80","plymouth":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=900&q=80","buff":"https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80","welsummer":"https://images.unsplash.com/photo-1573593928259-37bf012015b1?auto=format&fit=crop&w=900&q=80","marans":"https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=900&q=80","ameraucana":"https://images.unsplash.com/photo-1583845112203-29329902332e?auto=format&fit=crop&w=900&q=80","easter":"https://images.unsplash.com/photo-1556909114-44e3e9399a2b?auto=format&fit=crop&w=900&q=80"};
+  const MAP = [
+    ["Marta + Joel", "couple"],
+    ["Marta · collecting", "farmer"],
+    ["Marta · golden", "farmer"],
+    ["Original coop", "old_coop"],
+    ["Wren w/ goslings", "kid_chicken"],
+    ["Joel · fixing fence", "farmer"],
+    ["hen feet on grass", "hen_feet"],
+    ["loaded for market", "truck"],
+    ["truck", "truck"],
+    ["Brown dozen", "eggs_brown"],
+    ["Brown eggs", "eggs_brown"],
+    ["brown eggs", "eggs_brown"],
+    ["Pastel mix", "eggs_pastel"],
+    ["pastel", "eggs_pastel"],
+    ["Half-flat", "eggs_carton"],
+    ["Half flat", "eggs_carton"],
+    ["18ct", "eggs_carton"],
+    ["Two dozens", "eggs_basket"],
+    ["Tiny eggs", "eggs_flat"],
+    ["pickled eggs", "pickled"],
+    ["Pickled", "pickled"],
+    ["Pasta noodles", "pasta"],
+    ["pasta", "pasta"],
+    ["golden ghee", "butter"],
+    ["butter", "butter"],
+    ["gift bundle", "market"],
+    ["wooden box", "market"],
+    ["Compost bucket", "compost"],
+    ["compost", "compost"],
+    ["Aerial", "aerial"],
+    ["aerial", "aerial"],
+    ["paddocks marked", "aerial"],
+    ["Plymouth Rock", "plymouth"],
+    ["Buff Orpington", "buff"],
+    ["Welsummer", "welsummer"],
+    ["Marans", "marans"],
+    ["Ameraucana", "ameraucana"],
+    ["Easter Egger", "easter"],
+  ];
+  document.querySelectorAll(".ph").forEach(ph => {
+    const labelEl = ph.querySelector(".ph-label");
+    if (!labelEl) return;
+    const txt = (labelEl.textContent || "").toLowerCase();
+    let url = null;
+    for (const [needle, key] of MAP) {
+      if (txt.includes(needle.toLowerCase()) && PH[key]) { url = PH[key]; break; }
+    }
+    if (!url) return;
+    // Preload — only commit on success
+    const img = new Image();
+    img.onload = () => {
+      ph.style.backgroundImage = "url('" + url + "')";
+      ph.classList.add("has-photo");
+    };
+    img.onerror = () => { /* leave placeholder visible */ };
+    img.src = url;
+  });
+})();
+</script>
+
+</body>
+</html>

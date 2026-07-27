@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Customer Satisfaction Survey",
+    "description": "Help us understand how satisfied you are with our products and services. Your feedback drives our improvements.",
+    "status": "active",
+    "question_count": 5,
+    "starts_at": "2026-03-01",
+    "ends_at": "2026-04-30",
+    "category": "customer"
+  },
+  {
+    "title": "Employee Engagement Survey",
+    "description": "Share your thoughts on workplace culture, management, and growth opportunities. All responses are anonymous.",
+    "status": "active",
+    "question_count": 5,
+    "starts_at": "2026-03-15",
+    "ends_at": "2026-04-15",
+    "category": "internal"
+  },
+  {
+    "title": "Product Feedback Survey",
+    "description": "Tell us what you think about our latest product updates and what features you'd like to see next.",
+    "status": "closed",
+    "question_count": 5,
+    "starts_at": "2026-01-10",
+    "ends_at": "2026-02-28",
+    "category": "product"
+  }
+]

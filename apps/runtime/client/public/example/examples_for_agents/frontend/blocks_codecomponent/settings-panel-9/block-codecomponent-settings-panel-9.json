@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-settings-panel",
+  "alias": "codecomponent-settings-panel",
+  "name": "Application Settings Panel",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Settings panel CodeComponent organized with Accordion sections: Profile (Input display name, Textarea bio, Select language using Field/FieldLabel/FieldDescription), Notifications (Switch toggles for email/push/SMS using FieldSet/FieldGroup), Display (Slider font size 12-24, RadioGroup layout density), and Keyboard Shortcuts (Kbd/KbdGroup showing common shortcuts). All settings persist with useAppState, toast on save. No backend required.",
+  "shortSummary": "Settings panel with Accordion sections, Switch toggles, Slider, Kbd shortcuts, and useAppState",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "SettingsPanel": {
+        "source": "frontend/components/SettingsPanel.tsx",
+        "compiled": "frontend/components/SettingsPanel.js",
+        "summary": "Accordion-based settings panel with Profile, Notifications (Switch), Display (Slider, RadioGroup), and Keyboard Shortcuts (Kbd) sections using Field components and useAppState"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#475569",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#475569"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#94a3b8",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#94a3b8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-settings",
+        "title": "Settings",
+        "slug": "/",
+        "summary": "Application settings page with accordion-organized preference sections.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "settings-panel-1",
+            "component": "SettingsPanel",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Settings page with accordion-organized preferences",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

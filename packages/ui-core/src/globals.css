@@ -1,0 +1,160 @@
+/* Shared CSS Variables for Light and Dark Mode */
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+
+  /* Sidebar defaults */
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+
+  /* Sidebar --color-* mappings for inline var() references in generated components */
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+
+  /* Sidebar dark mode */
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+
+  /* Sidebar --color-* mappings for inline var() references in generated components */
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
+
+/* Base layer styles */
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-color: rgba(128, 128, 128, 0.4) transparent;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  /* `overflow-x: clip` (not `hidden`) prevents horizontal overflow WITHOUT
+     coercing `overflow-y` to `auto`. With `hidden`, the CSS spec coerces the
+     unset `overflow-y: visible` to `auto`, making <body> a second scroll
+     container alongside `html { overflow-y: auto }` — any element overflowing
+     the body box (e.g. a footer watermark with a negative offset) then shows
+     a second scrollbar. `clip` is exempt from that coercion, so the page keeps
+     a single scrollbar on <html>. (3h9jgqt5 double-scrollbar, 2026-05-22) */
+  overflow-x: clip;
+}
+
+/* react-remove-scroll (used by Radix Dialog/DropdownMenu/Sheet) locks body
+   scroll by injecting a runtime <style> tag that sets
+   `body[data-scroll-locked] { margin-right: 15px !important; }`. We already
+   reserve the scrollbar gutter via `scrollbar-gutter: stable`, so that extra
+   15px compensation causes a visible content shift on any platform with
+   real-width scrollbars (Windows, Linux).
+   Both rules use !important and the same base specificity, so the runtime-
+   injected <style> wins by document order. Bumping our selector with
+   `html` prefix raises specificity above theirs, winning regardless of
+   insertion order. */
+html body[data-scroll-locked] {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* Apply custom heading font to all heading elements.
+ *
+ * Wrapped in `@layer base` so Tailwind utility classes (`.font-headline`,
+ * `.font-serif`, etc.) — which Tailwind v4 emits inside `@layer utilities`
+ * — win on cascade order. Without the layer wrapper this rule was
+ * unlayered and beat ALL layered utilities regardless of selector
+ * specificity, silently overriding Code Focus apps' heading typography
+ * back to the inherited sans-serif because `--font-heading` is not
+ * defined in Code Focus theme.css (which uses `--font-headline` instead).
+ *
+ * Legacy JSON-config apps still work: their `--font-heading` is set by
+ * `apps/runtime/client/src/utils/fontUtils.ts:27`, and bare `<h1>` (no
+ * Tailwind class) still picks up this base-layer rule. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+}

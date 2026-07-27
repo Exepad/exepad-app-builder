@@ -1,0 +1,258 @@
+{
+  "uuid": "backend-helpdesk",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "Helpdesk",
+  "alias": "backend-helpdesk",
+  "summary": "Helpdesk backend with support tickets and comments models. Read handler for filtering tickets by status and write handler for assigning tickets to agents.",
+  "shortSummary": "Helpdesk backend with support tickets and comment",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-tickets",
+        "name": "tickets",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Short title summarizing the support issue"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Detailed description of the issue or request"
+          },
+          {
+            "name": "priority",
+            "type": "text",
+            "summary": "Ticket priority level: low, medium, high, critical",
+            "defaultValue": "medium"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Ticket lifecycle status: open, in_progress, waiting, resolved, closed",
+            "defaultValue": "open"
+          },
+          {
+            "name": "assignee",
+            "type": "text",
+            "summary": "Name or email of the support agent assigned to the ticket",
+            "isNullable": true
+          },
+          {
+            "name": "reporter",
+            "type": "text",
+            "summary": "Name or email of the person who reported the issue"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Ticket category: bug, feature_request, question, account, billing",
+            "defaultValue": "question"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_tickets_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tickets_priority",
+            "columns": [
+              "priority"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tickets_assignee",
+            "columns": [
+              "assignee"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tickets_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-comments",
+        "name": "comments",
+        "columns": [
+          {
+            "name": "ticket_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the parent ticket",
+            "references": {
+              "model": "tickets",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "author",
+            "type": "text",
+            "summary": "Name or email of the comment author"
+          },
+          {
+            "name": "content",
+            "type": "text",
+            "summary": "Body text of the comment"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_comments_ticket_id",
+            "columns": [
+              "ticket_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getTicketsByStatus",
+        "name": "getTicketsByStatus",
+        "method": "getTicketsByStatus",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "status",
+            "type": "string",
+            "required": true,
+            "summary": "Ticket status to filter by: open, in_progress, waiting, resolved, closed"
+          },
+          {
+            "name": "priority",
+            "type": "string",
+            "required": false,
+            "summary": "Optionally filter by priority level"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "required": false,
+            "summary": "Optionally filter by ticket category"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "tickets",
+            "type": "array",
+            "summary": "List of tickets matching the status filter"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of tickets matching the filter"
+          }
+        ]
+      },
+      {
+        "uuid": "h-assignTicket",
+        "name": "assignTicket",
+        "method": "assignTicket",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "ticket_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the ticket to assign"
+          },
+          {
+            "name": "assignee",
+            "type": "string",
+            "required": true,
+            "summary": "Name or email of the agent to assign the ticket to"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "success",
+            "type": "boolean",
+            "summary": "Whether the assignment was successful"
+          },
+          {
+            "name": "ticket",
+            "type": "json",
+            "summary": "Updated ticket object with new assignee"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

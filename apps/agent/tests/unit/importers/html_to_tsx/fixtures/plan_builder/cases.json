@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "id": "behavioral_residual_replacewith_emits_plan",
+      "input_path": "examples/behavioral_residual_replacewith.html",
+      "context": {
+        "component_name": "Contact",
+        "form_ids": ["brief"]
+      },
+      "expected_plan_contains": [
+        "BEHAVIORAL",
+        "design_import_scripts:Contact.js",
+        "replaceWith",
+        "innerHTML"
+      ]
+    },
+    {
+      "id": "behavioral_no_residual_no_plan",
+      "input_path": "examples/behavioral_no_residual_clean_useeffect.html",
+      "expected_plan_count": 0
+    },
+    {
+      "id": "wiring_repeating_with_models_emits_plan",
+      "input_path": "examples/wiring_repeating_with_models.html",
+      "context": {
+        "backend_surface": {
+          "models": [
+            {"name": "users", "fields": [{"name": "name"}, {"name": "email"}]}
+          ]
+        }
+      },
+      "expected_plan_contains": [
+        "WIRING",
+        "useModel",
+        "users",
+        "user-row",
+        "?? 'original-text'"
+      ]
+    },
+    {
+      "id": "wiring_repeating_no_backend_no_plan",
+      "input_path": "examples/wiring_repeating_no_backend.html",
+      "expected_plan_count": 0
+    },
+    {
+      "id": "wiring_chart_with_handler_emits_plan",
+      "input_path": "examples/wiring_chart_with_handler.html",
+      "context": {
+        "backend_surface": {
+          "handlers": [
+            {"name": "monthly_revenue"}
+          ]
+        }
+      },
+      "expected_plan_contains": [
+        "Charts.BarChart",
+        "monthly_revenue"
+      ]
+    },
+    {
+      "id": "wiring_chart_no_handler_no_plan",
+      "input_path": "examples/wiring_chart_no_handler.html",
+      "context": {
+        "backend_surface": {"models": [], "handlers": []}
+      },
+      "expected_plan_absent": ["Charts."]
+    },
+    {
+      "id": "wiring_chart_decorative_svg_no_plan",
+      "input_path": "examples/wiring_chart_decorative_svg.html",
+      "context": {
+        "backend_surface": {"handlers": [{"name": "anything"}]}
+      },
+      "expected_plan_absent": ["Charts."]
+    },
+    {
+      "id": "wiring_map_with_plan_emits_plan",
+      "input_path": "examples/wiring_map_with_plan.html",
+      "context": {
+        "building_plan": ["Render the contact map showing studio locations"]
+      },
+      "expected_plan_contains": [
+        "MapEmbed",
+        "leaflet"
+      ]
+    },
+    {
+      "id": "wiring_map_without_plan_hint_no_plan",
+      "input_path": "examples/wiring_map_without_plan_hint.html",
+      "context": {
+        "building_plan": ["Show studio name and address"]
+      },
+      "expected_plan_count": 0
+    },
+    {
+      "id": "path_b_marketing_no_plan_items",
+      "input_path": "examples/path_b_marketing_no_plan.html",
+      "expected_plan_count": 0
+    }
+  ]
+}

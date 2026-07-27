@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-terminal-emulator",
+  "alias": "codecomponent-terminal-emulator",
+  "name": "Terminal Emulator",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Terminal emulator CodeComponent powered by xterm.js extension. Features command execution simulation with help, clear, echo, date, whoami, ls, cat, pwd, uname, history, uptime commands. Dark/light theme sync via useTheme. Command history with up/down arrow navigation stored in useAppState. Prompt displays user@app $. Font size control via Select dropdown. Fullscreen toggle. Terminal container with Card wrapper and macOS-style window controls. Demo pre-prints welcome banner on mount.",
+  "shortSummary": "Terminal emulator with command history, theme sync, simulated filesystem, and font size control",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "TerminalEmulator": {
+        "source": "frontend/components/TerminalEmulator.tsx",
+        "compiled": "frontend/components/TerminalEmulator.js",
+        "summary": "Terminal emulator with command history, simulated filesystem, theme sync, font size control, and fullscreen mode"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#fafafa",
+        "foreground": "#18181b",
+        "primary": "#12873d",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdf4",
+        "secondary-foreground": "#18181b",
+        "muted": "#f0fdf4",
+        "muted-foreground": "#71717a",
+        "accent": "#dcfce7",
+        "accent-foreground": "#18181b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#bbf7d0",
+        "input": "#bbf7d0",
+        "ring": "#16a34a"
+      },
+      "dark": {
+        "background": "#09090b",
+        "foreground": "#f0fdf4",
+        "primary": "#4ade80",
+        "primary-foreground": "#09090b",
+        "secondary": "#14532d",
+        "secondary-foreground": "#f0fdf4",
+        "muted": "#14532d",
+        "muted-foreground": "#86efac",
+        "accent": "#14532d",
+        "accent-foreground": "#f0fdf4",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f0fdf4",
+        "border": "#166534",
+        "input": "#166534",
+        "ring": "#22c55e"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-terminal",
+        "title": "Terminal",
+        "slug": "/",
+        "summary": "Terminal emulator with command simulation, history, and theme sync.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "terminal-emulator-1",
+            "component": "TerminalEmulator",
+            "extensions": [
+              "xterm"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Terminal emulator with simulated commands",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

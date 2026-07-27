@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-wiki-editor",
+  "alias": "codecomponent-wiki-editor",
+  "name": "Wiki Editor",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Wiki editor CodeComponent powered by ProseMirror with a custom schema supporting paragraph, heading, callout, and table nodes. Menu bar with DropdownMenu for block types (paragraph, heading 1-3, callout). Two-column layout: page list sidebar with ScrollArea and page items with title, status badge, and last modified date, plus editor main area. AlertDialog for publish confirmation. Badge for draft/published status. useModel for wiki page listing with 5 demo pages. useHandler for publishPage action. useAppState for current page selection. Toast notifications on save/publish. Uses ProseMirror.Schema, ProseMirror.EditorState, ProseMirror.EditorView, ProseMirror.history, ProseMirror.keymap, ProseMirror.undo, ProseMirror.redo, ProseMirror.baseKeymap, ScrollArea, AlertDialog, DropdownMenu, Card, Button, Badge, Separator, and Icons from the SDK.",
+  "shortSummary": "ProseMirror wiki editor with page list sidebar, block type menu, publish dialog, and draft/published status",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "WikiEditor": {
+        "source": "frontend/components/WikiEditor.tsx",
+        "compiled": "frontend/components/WikiEditor.js",
+        "summary": "ProseMirror wiki editor with custom schema, page list sidebar, block type dropdown, publish confirmation dialog, and status badges"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#042f2e",
+        "primary": "#0b8379",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdfa",
+        "secondary-foreground": "#042f2e",
+        "muted": "#ccfbf1",
+        "muted-foreground": "#6b7280",
+        "accent": "#99f6e4",
+        "accent-foreground": "#042f2e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#5eead4",
+        "input": "#5eead4",
+        "ring": "#0d9488"
+      },
+      "dark": {
+        "background": "#042f2e",
+        "foreground": "#f0fdfa",
+        "primary": "#2dd4bf",
+        "primary-foreground": "#042f2e",
+        "secondary": "#115e59",
+        "secondary-foreground": "#f0fdfa",
+        "muted": "#115e59",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#115e59",
+        "accent-foreground": "#f0fdfa",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f0fdfa",
+        "border": "#134e4a",
+        "input": "#134e4a",
+        "ring": "#14b8a6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-wiki",
+        "title": "Wiki",
+        "slug": "/",
+        "summary": "Wiki editor with ProseMirror, page list sidebar, and publish workflow.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "wiki-editor-1",
+            "component": "WikiEditor",
+            "classes": "w-full",
+            "extensions": [
+              "prosemirror"
+            ]
+          }
+        ],
+        "shortSummary": "ProseMirror wiki editor with page management",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-image-crop-upload",
+  "alias": "codecomponent-image-crop-upload",
+  "name": "Image Crop Upload",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Image cropping CodeComponent powered by Cropper extension. Features a Cropper canvas with aspect ratio presets (free, 1:1, 16:9, 4:3) via RadioGroup, zoom Slider control, rotate left/right Buttons, before/after preview comparison using side-by-side cards, upload Button integrated with useFileUpload hook, useAppState for persisting crop settings and preview data URL, useHandler for triggering backend save, and toast notifications for user feedback. Uses a placeholder colored div as the demo image source with Cropper overlay controls.",
+  "shortSummary": "Image cropper with aspect ratio presets, zoom/rotate controls, before/after preview, and file upload",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ImageCropUpload": {
+        "source": "frontend/components/ImageCropUpload.tsx",
+        "compiled": "frontend/components/ImageCropUpload.js",
+        "summary": "Image cropper with aspect ratio presets, zoom slider, rotate buttons, before/after preview, and upload"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "boxed",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#18181b",
+        "primary": "#8457e9",
+        "primary-foreground": "#ffffff",
+        "secondary": "#faf5ff",
+        "secondary-foreground": "#18181b",
+        "muted": "#f3e8ff",
+        "muted-foreground": "#71717a",
+        "accent": "#f5f3ff",
+        "accent-foreground": "#18181b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e4e4e7",
+        "input": "#e4e4e7",
+        "ring": "#8b5cf6"
+      },
+      "dark": {
+        "background": "#18181b",
+        "foreground": "#fafafa",
+        "primary": "#a78bfa",
+        "primary-foreground": "#18181b",
+        "secondary": "#27272a",
+        "secondary-foreground": "#fafafa",
+        "muted": "#27272a",
+        "muted-foreground": "#a1a1aa",
+        "accent": "#27272a",
+        "accent-foreground": "#fafafa",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fafafa",
+        "border": "#3f3f46",
+        "input": "#3f3f46",
+        "ring": "#a78bfa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-image-crop",
+        "title": "Image Crop",
+        "slug": "/",
+        "summary": "Image crop and upload tool with aspect ratio presets and preview.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "image-crop-upload-1",
+            "component": "ImageCropUpload",
+            "extensions": [
+              "cropper"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Image crop and upload tool",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-delivery-tracker",
+  "alias": "codecomponent-delivery-tracker",
+  "name": "Delivery Tracker with Leaflet",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Real-time delivery tracking CodeComponent using Leaflet extension for map rendering. Features Leaflet.MapContainer with OpenStreetMap TileLayer, Marker for 3 active delivery vehicles with driver popups, Polyline routes between origin and destination, overlay Card showing selected delivery details with Progress bar and ETA, bottom Sheet listing all deliveries. Uses useModel for delivery data, useHandler for position updates, useAppState for selection, useTheme for route line colors and dark tile support.",
+  "shortSummary": "Delivery tracker with Leaflet map, route polylines, driver markers, and detail overlay",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DeliveryTracker": {
+        "source": "frontend/components/DeliveryTracker.tsx",
+        "compiled": "frontend/components/DeliveryTracker.js",
+        "summary": "Leaflet-powered delivery tracker with route polylines, driver markers, detail overlay card, and bottom sheet delivery list"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eff6ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#eff6ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#60a5fa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-tracker",
+        "title": "Delivery Tracker",
+        "slug": "/",
+        "summary": "Real-time delivery tracking with map visualization and delivery details.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "delivery-tracker-1",
+            "component": "DeliveryTracker",
+            "extensions": [
+              "leaflet"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Delivery tracker with Leaflet map and delivery list",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

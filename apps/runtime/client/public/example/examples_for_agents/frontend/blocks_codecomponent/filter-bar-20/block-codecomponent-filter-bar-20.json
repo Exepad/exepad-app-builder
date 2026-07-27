@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-filter-bar",
+  "alias": "codecomponent-filter-bar",
+  "name": "Advanced Data Filter Bar with Code Component",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Advanced data filtering toolbar CodeComponent using Popover for date range picker with Calendar, DropdownMenu with CheckboxItems for column visibility, RadioGroup for sort direction, Sub-menus for category and status filtering. ContextMenu on data rows provides quick actions. Active filters shown as removable Badges. Uses useAppState for filter state and useArrayState for selected items.",
+  "shortSummary": "Data filter toolbar with Popover calendar, DropdownMenu sub-menus, and ContextMenu actions",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DataFilterBar": {
+        "source": "frontend/components/DataFilterBar.tsx",
+        "compiled": "frontend/components/DataFilterBar.js",
+        "summary": "Data filtering toolbar with Popover date picker, DropdownMenu column/sort controls, nested category sub-menus, ContextMenu row actions, and filtered data table"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#04855d",
+        "primary-foreground": "#ffffff",
+        "secondary": "#ecfdf5",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#6b7280",
+        "accent": "#ecfdf5",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#059669"
+      },
+      "dark": {
+        "background": "#0a1410",
+        "foreground": "#f8fafc",
+        "primary": "#34d399",
+        "primary-foreground": "#0a1410",
+        "secondary": "#132e22",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1a2e24",
+        "muted-foreground": "#94a3b8",
+        "accent": "#132e22",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1a2e24",
+        "input": "#1a2e24",
+        "ring": "#34d399"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-filter",
+        "title": "Data Explorer",
+        "slug": "/",
+        "summary": "Advanced data filtering and exploration interface.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "data-filter-bar-1",
+            "component": "DataFilterBar",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Data explorer with advanced filtering toolbar",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

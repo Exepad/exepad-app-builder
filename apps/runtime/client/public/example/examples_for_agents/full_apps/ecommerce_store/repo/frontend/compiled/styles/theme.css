@@ -1,0 +1,21 @@
+:host {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.price-tag {
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-badge {
+  min-width: 1.25rem;
+  height: 1.25rem;
+}

@@ -1,0 +1,244 @@
+{
+  "cases": [
+    {
+      "id": "handler_ref_typo_close_match_corrected",
+      "kind": "broken",
+      "tsx_path": "examples/broken_handler_ref_typo.tsx",
+      "expected_fix_substrings": [
+        "Typo: onClick={saveAllAllDirty} → onClick={saveAllDirty}"
+      ],
+      "expected_output_contains": ["onClick={saveAllDirty}"],
+      "expected_output_absent": ["saveAllAllDirty"]
+    },
+    {
+      "id": "handler_ref_below_cutoff_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_handler_ref_below_cutoff.tsx"
+    },
+
+    {
+      "id": "use_model_typo_corrected",
+      "kind": "broken",
+      "tsx_path": "examples/broken_use_model_typo.tsx",
+      "context": {
+        "models": [{"name": "orders"}, {"name": "products"}]
+      },
+      "expected_fix_substrings": ["Typo: useModel('oders') → useModel('orders')"],
+      "expected_output_contains": ["useModel(\"orders\")"]
+    },
+    {
+      "id": "use_model_exact_match_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_use_model_exact_match.tsx",
+      "context": {
+        "models": [{"name": "orders"}]
+      }
+    },
+    {
+      "id": "use_model_no_models_context_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_use_model_no_models_context.tsx"
+    },
+
+    {
+      "id": "use_handler_typo_corrected",
+      "kind": "broken",
+      "tsx_path": "examples/broken_use_handler_typo.tsx",
+      "context": {
+        "handlers": [{"name": "createOrder"}, {"name": "deleteOrder"}]
+      },
+      "expected_fix_substrings": [
+        "Typo: useHandler('creatOrder') → useHandler('createOrder')"
+      ],
+      "expected_output_contains": ["useHandler(\"createOrder\")"]
+    },
+    {
+      "id": "use_handler_exact_match_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_use_handler_exact_match.tsx",
+      "context": {
+        "handlers": [{"name": "createOrder"}]
+      }
+    },
+
+    {
+      "id": "set_state_typo_corrected",
+      "kind": "broken",
+      "tsx_path": "examples/broken_set_state_typo.tsx",
+      "context": {
+        "state_keys": {"selectedItem": null, "filters": {}}
+      },
+      "expected_fix_substrings": [
+        "Typo: setState('selctedItem') → setState('selectedItem')"
+      ],
+      "expected_output_contains": ["setState(\"selectedItem\""]
+    },
+    {
+      "id": "set_state_exact_match_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_set_state_exact_match.tsx",
+      "context": {
+        "state_keys": {"selectedItem": null}
+      }
+    },
+
+    {
+      "id": "navigate_close_match_corrected",
+      "kind": "broken",
+      "tsx_path": "examples/broken_navigate_close_match.tsx",
+      "context": {
+        "page_slugs": ["/", "/products", "/about"]
+      },
+      "expected_fix_substrings": [
+        "Fixed navigate path typo: '/produkts' → '/products'"
+      ],
+      "expected_output_contains": ["navigate(\"/products\")"]
+    },
+    {
+      "id": "navigate_no_match_fallback_to_first_page",
+      "kind": "broken",
+      "tsx_path": "examples/broken_navigate_no_match_fallback.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      },
+      "expected_fix_substrings": [
+        "Rewrote unresolved navigate path '/sprints'",
+        "redirecting to first page"
+      ],
+      "expected_output_absent": ["/sprints"]
+    },
+    {
+      "id": "navigate_exact_match_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_navigate_exact_match.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      }
+    },
+    {
+      "id": "navigate_external_url_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_navigate_external_url.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      }
+    },
+    {
+      "id": "navigate_system_route_logout_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_navigate_system_route.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      }
+    },
+
+    {
+      "id": "navigate_underscore_auth_logout_normalised",
+      "kind": "broken",
+      "tsx_path": "examples/broken_navigate_underscore_auth_logout.tsx",
+      "context": {
+        "page_slugs": ["/", "/catalog", "/watchlist", "/settings", "/movie"]
+      },
+      "expected_fix_substrings": [
+        "Normalised auth-shaped path '/_auth/logout' → '/logout'"
+      ],
+      "expected_output_contains": ["navigate(\"/logout\")"],
+      "expected_output_absent": ["/_auth/logout", "navigate(\"/\")"]
+    },
+    {
+      "id": "navigate_auth_sign_out_normalised",
+      "kind": "broken",
+      "tsx_path": "examples/broken_navigate_auth_sign_out.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      },
+      "expected_fix_substrings": [
+        "Normalised auth-shaped path '/auth/sign-out' → '/logout'"
+      ],
+      "expected_output_contains": ["navigate(\"/logout\")"],
+      "expected_output_absent": ["/auth/sign-out"]
+    },
+    {
+      "id": "navigate_auth_sign_in_normalised",
+      "kind": "broken",
+      "tsx_path": "examples/broken_navigate_auth_login.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      },
+      "expected_fix_substrings": [
+        "Normalised auth-shaped path '/_auth/sign-in' → '/login'"
+      ],
+      "expected_output_contains": ["navigate(\"/login\")"],
+      "expected_output_absent": ["/_auth/sign-in"]
+    },
+    {
+      "id": "href_underscore_auth_logout_normalised",
+      "kind": "broken",
+      "tsx_path": "examples/broken_href_underscore_auth_logout.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      },
+      "expected_fix_substrings": [
+        "Normalised auth-shaped path '/_auth/logout' → '/logout'"
+      ],
+      "expected_output_contains": ["href=\"/logout\""],
+      "expected_output_absent": ["/_auth/logout"]
+    },
+    {
+      "id": "navigate_logon_negative_control_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_navigate_logon_unchanged.tsx",
+      "context": {
+        "page_slugs": ["/", "/products"]
+      }
+    },
+
+    {
+      "id": "href_attr_close_match_corrected",
+      "kind": "broken",
+      "tsx_path": "examples/broken_href_attr_close_match.tsx",
+      "context": {
+        "page_slugs": ["/", "/products", "/about"]
+      },
+      "expected_fix_substrings": [
+        "Fixed navigate path typo: '/produkts' → '/products'"
+      ],
+      "expected_output_contains": ["href=\"/products\""]
+    },
+
+    {
+      "id": "kitchen_sink_typos_all_branches_fire",
+      "kind": "broken",
+      "tsx_path": "examples/broken_kitchen_sink_typos.tsx",
+      "context": {
+        "models": [{"name": "orders"}],
+        "handlers": [{"name": "createOrder"}],
+        "state_keys": {"selectedItem": null},
+        "page_slugs": ["/", "/products"]
+      },
+      "expected_fix_substrings": [
+        "Typo: useModel('oders') → useModel('orders')",
+        "Typo: useHandler('creatOrder') → useHandler('createOrder')",
+        "Typo: setState('selctedItem') → setState('selectedItem')",
+        "Fixed navigate path typo: '/produkts' → '/products'"
+      ],
+      "expected_output_contains": [
+        "useModel(\"orders\")",
+        "useHandler(\"createOrder\")",
+        "setState(\"selectedItem\"",
+        "navigate(\"/products\")"
+      ]
+    },
+    {
+      "id": "no_typos_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_no_typos.tsx",
+      "context": {
+        "models": [{"name": "orders"}],
+        "handlers": [{"name": "createOrder"}],
+        "state_keys": {"selectedItem": null},
+        "page_slugs": ["/", "/products"]
+      }
+    }
+  ]
+}

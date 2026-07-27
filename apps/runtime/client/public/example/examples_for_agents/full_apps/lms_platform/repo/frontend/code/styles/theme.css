@@ -1,0 +1,6 @@
+:host { font-family: 'Inter', system-ui, sans-serif; }
+.course-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.course-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+.progress-bar { height: 6px; border-radius: 3px; transition: width 0.5s ease; }
+.lesson-active { background: hsl(var(--accent)); border-left: 3px solid hsl(var(--primary)); }
+.quiz-option { transition: border-color 0.15s ease, background 0.15s ease; }

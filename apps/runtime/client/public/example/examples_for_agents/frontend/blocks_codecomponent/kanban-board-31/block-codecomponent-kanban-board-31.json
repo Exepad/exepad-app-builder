@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-kanban-board",
+  "alias": "codecomponent-kanban-board",
+  "name": "Kanban Board with Click-to-Move",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Interactive kanban board with 4 columns (To Do, In Progress, Review, Done) featuring click-to-move task management. Each column renders as a Card with ScrollArea for overflow handling. Task cards display title, description, priority Badge (Low/Medium/High/Urgent), and assignee Avatar. Clicking a task opens a Dialog with full details and a Select to move between columns. Each column has an Add Task button that opens a Dialog with Input, Textarea, and Select for priority. Uses useArrayState for each column's task array (4 separate arrays), React.useMemo for live task counts per column, setState for moveTask/addTask operations, and Motion animation on card entrance. Includes toast notifications on add, move, and delete operations. Ships with 12 demo tasks distributed across all columns.",
+  "shortSummary": "Kanban board with 4 columns, click-to-move tasks, add/delete dialogs, priority badges, and animated cards",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "KanbanBoard": {
+        "source": "frontend/components/KanbanBoard.tsx",
+        "compiled": "frontend/components/KanbanBoard.js",
+        "summary": "Full kanban board with 4 columns, task cards with priority/assignee, click-to-move dialogs, add task forms, and animated entrance"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#4f46e5",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#4f46e5"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#818cf8",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#818cf8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-kanban-main",
+        "title": "Kanban Board",
+        "slug": "/",
+        "summary": "Main kanban board page with 4 task columns and interactive management.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "kanban-board-1",
+            "component": "KanbanBoard",
+            "classes": "w-full min-h-[600px]"
+          }
+        ],
+        "shortSummary": "Interactive kanban board with drag-free task management",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

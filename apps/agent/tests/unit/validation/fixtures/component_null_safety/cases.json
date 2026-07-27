@@ -1,0 +1,229 @@
+{
+  "cases": [
+    {
+      "id": "useapp_selector_nullable_access",
+      "kind": "broken",
+      "tsx_path": "examples/broken_useapp_selector_nullable_access.tsx",
+      "context": {
+        "state_keys": {"profile": null}
+      },
+      "expected_fix_substrings": [
+        "Added optional chaining to 'profile' (from state.profile)"
+      ],
+      "expected_output_contains": ["profile?.name", "profile?.email"],
+      "expected_output_absent": ["profile.name", "profile.email"]
+    },
+    {
+      "id": "useapp_selector_chained_access_first_level_only",
+      "kind": "broken",
+      "tsx_path": "examples/broken_useapp_selector_chained_access.tsx",
+      "context": {
+        "state_keys": {"profile": null}
+      },
+      "expected_fix_substrings": [
+        "Added optional chaining to 'profile' (from state.profile)"
+      ],
+      "expected_output_contains": [
+        "profile?.address.city",
+        "profile?.address.street"
+      ]
+    },
+    {
+      "id": "useapp_selector_already_safe_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_useapp_selector_already_safe.tsx",
+      "context": {
+        "state_keys": {"profile": null}
+      }
+    },
+    {
+      "id": "useapp_selector_non_nullable_key_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_useapp_selector_non_nullable_key.tsx",
+      "context": {
+        "state_keys": {"userName": "Guest"}
+      }
+    },
+
+    {
+      "id": "useapp_destructure_nullable_access",
+      "kind": "broken",
+      "tsx_path": "examples/broken_useapp_destructure_nullable_access.tsx",
+      "context": {
+        "state_keys": {"profile": null}
+      },
+      "expected_fix_substrings": [
+        "Added optional chaining to destructured 'profile'"
+      ],
+      "expected_output_contains": ["profile?.name", "profile?.email"]
+    },
+    {
+      "id": "useapp_destructure_multiple_nullables_all_rewrite",
+      "kind": "broken",
+      "tsx_path": "examples/broken_useapp_destructure_multiple_nullables.tsx",
+      "context": {
+        "state_keys": {
+          "profile": null,
+          "filters": {},
+          "tags": []
+        }
+      },
+      "expected_fix_substrings": [
+        "Added optional chaining to destructured 'profile'",
+        "Added optional chaining to destructured 'filters'",
+        "Added optional chaining to destructured 'tags'"
+      ],
+      "expected_output_contains": [
+        "profile?.name",
+        "filters?.region",
+        "tags?.join("
+      ]
+    },
+    {
+      "id": "useapp_destructure_only_non_nullables_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_useapp_destructure_only_non_nullables.tsx",
+      "context": {
+        "state_keys": {"userName": "Guest"}
+      }
+    },
+
+    {
+      "id": "usemodel_data_map_wrapped_with_null_guard",
+      "kind": "broken",
+      "tsx_path": "examples/broken_usemodel_data_map.tsx",
+      "expected_fix_substrings": [
+        "Added null guard: data.map → (data ?? []).map"
+      ],
+      "expected_output_contains": ["(data ?? []).map("],
+      "expected_output_absent": ["{data.map("]
+    },
+    {
+      "id": "usemodel_data_filter_wrapped_with_null_guard",
+      "kind": "broken",
+      "tsx_path": "examples/broken_usemodel_data_filter.tsx",
+      "expected_fix_substrings": [
+        "Added null guard: data.filter → (data ?? []).filter"
+      ],
+      "expected_output_contains": ["(data ?? []).filter("]
+    },
+    {
+      "id": "usemodel_aliased_data_uses_alias_name_in_guard",
+      "kind": "broken",
+      "tsx_path": "examples/broken_usemodel_aliased_data.tsx",
+      "expected_fix_substrings": [
+        "Added null guard: items.forEach → (items ?? []).forEach",
+        "Added null guard: items.map → (items ?? []).map"
+      ],
+      "expected_output_contains": [
+        "(items ?? []).forEach(",
+        "(items ?? []).map("
+      ]
+    },
+    {
+      "id": "usemodel_already_guarded_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_usemodel_already_guarded.tsx"
+    },
+    {
+      "id": "usemodel_optional_chain_safe_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_usemodel_optional_chain_safe.tsx"
+    },
+
+    {
+      "id": "use_current_user_destructured_email_optional_chained",
+      "kind": "broken",
+      "tsx_path": "examples/broken_use_current_user_destructured.tsx",
+      "expected_fix_substrings": [
+        "Added optional chaining to 'email' (from useCurrentUser())"
+      ],
+      "expected_output_contains": ["email?.toLowerCase()"]
+    },
+    {
+      "id": "use_current_user_destructured_multiple_fields_all_rewrite",
+      "kind": "broken",
+      "tsx_path": "examples/broken_use_current_user_destructured_multiple_fields.tsx",
+      "expected_fix_substrings": [
+        "Added optional chaining to 'id' (from useCurrentUser())",
+        "Added optional chaining to 'email' (from useCurrentUser())",
+        "Added optional chaining to 'name' (from useCurrentUser())"
+      ],
+      "expected_output_contains": [
+        "name?.split(",
+        "email?.toLowerCase()",
+        "id?.slice("
+      ]
+    },
+    {
+      "id": "use_current_user_destructured_already_safe_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_use_current_user_destructured_already_safe.tsx"
+    },
+
+    {
+      "id": "use_current_user_var_bound_email_chain_optional",
+      "kind": "broken",
+      "tsx_path": "examples/broken_use_current_user_var_bound.tsx",
+      "expected_fix_substrings": [
+        "Added optional chaining to 'user.email' (from useCurrentUser())"
+      ],
+      "expected_output_contains": ["user.email?.split("]
+    },
+    {
+      "id": "use_current_user_var_bound_no_chain_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_use_current_user_var_bound_no_chain.tsx"
+    },
+
+    {
+      "id": "broken_optional_chain_method_call_repaired",
+      "kind": "broken",
+      "tsx_path": "examples/broken_optional_chain_method_call.tsx",
+      "expected_fix_substrings": [
+        "Fixed broken optional chain"
+      ],
+      "expected_output_contains": ["names?.[0]?.toUpperCase()"]
+    },
+    {
+      "id": "broken_optional_chain_nested_brackets_repaired",
+      "kind": "broken",
+      "tsx_path": "examples/broken_optional_chain_nested_brackets.tsx",
+      "expected_fix_substrings": [
+        "Fixed broken optional chain"
+      ],
+      "expected_output_contains": ["rows?.[0]?.[1]?.toFixed("]
+    },
+    {
+      "id": "optional_chain_already_safe_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_optional_chain_already_safe.tsx"
+    },
+
+    {
+      "id": "kitchen_sink_multi_pattern_all_fire",
+      "kind": "broken",
+      "tsx_path": "examples/broken_kitchen_sink_multi_pattern.tsx",
+      "context": {
+        "state_keys": {"profile": null}
+      },
+      "expected_fix_substrings": [
+        "Added optional chaining to destructured 'profile'",
+        "Added null guard: data.map → (data ?? []).map",
+        "Added optional chaining to 'email' (from useCurrentUser())",
+        "Fixed broken optional chain"
+      ],
+      "expected_output_contains": [
+        "profile?.name",
+        "(data ?? []).map(",
+        "email?.toLowerCase()",
+        "tags?.[0]?.toUpperCase()"
+      ]
+    },
+    {
+      "id": "no_state_keys_no_op",
+      "kind": "correct",
+      "tsx_path": "examples/correct_no_state_keys_no_op.tsx"
+    }
+  ]
+}

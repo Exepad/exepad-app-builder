@@ -1,0 +1,308 @@
+{
+  "uuid": "backend-dashboard-analytics",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "Dashboard Analytics",
+  "alias": "backend-dashboard-analytics",
+  "summary": "Dashboard analytics backend with sales and products models. Read handlers for fetching sales data, products, and aggregated dashboard statistics.",
+  "shortSummary": "Dashboard analytics backend with sales and produc",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-sales",
+        "name": "sales",
+        "columns": [
+          {
+            "name": "customer_name",
+            "type": "text",
+            "summary": "Name of the customer who made the purchase"
+          },
+          {
+            "name": "amount",
+            "type": "real",
+            "summary": "Transaction amount in default currency"
+          },
+          {
+            "name": "product",
+            "type": "text",
+            "summary": "Name of the product sold"
+          },
+          {
+            "name": "transaction_date",
+            "type": "text",
+            "summary": "Date of the transaction in YYYY-MM-DD format"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Transaction status: completed, pending, refunded",
+            "defaultValue": "completed"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Product category for grouping and filtering"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_sales_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_sales_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_sales_transaction_date",
+            "columns": [
+              "transaction_date"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-products",
+        "name": "products",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Display name of the product"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Product category for grouping"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Current retail price of the product"
+          },
+          {
+            "name": "stock_quantity",
+            "type": "integer",
+            "summary": "Number of units currently in stock"
+          },
+          {
+            "name": "is_active",
+            "type": "integer",
+            "summary": "Whether the product is currently listed (1 = active, 0 = inactive)",
+            "defaultValue": "1"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_products_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_products_is_active",
+            "columns": [
+              "is_active"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "public",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getSales",
+        "name": "getSales",
+        "method": "getSales",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "startDate",
+            "type": "string",
+            "required": false,
+            "summary": "Start date for filtering sales in YYYY-MM-DD format"
+          },
+          {
+            "name": "endDate",
+            "type": "string",
+            "required": false,
+            "summary": "End date for filtering sales in YYYY-MM-DD format"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "required": false,
+            "summary": "Filter sales by product category"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": false,
+            "summary": "Filter sales by transaction status"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "sales",
+            "type": "array",
+            "summary": "List of sales transactions matching the filter criteria"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of matching sales records"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getProducts",
+        "name": "getProducts",
+        "method": "getProducts",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "category",
+            "type": "string",
+            "required": false,
+            "summary": "Filter products by category"
+          },
+          {
+            "name": "activeOnly",
+            "type": "boolean",
+            "required": false,
+            "summary": "If true, return only active products"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "products",
+            "type": "array",
+            "summary": "List of products matching the filter criteria"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of matching products"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getDashboardStats",
+        "name": "getDashboardStats",
+        "method": "getDashboardStats",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "period",
+            "type": "string",
+            "required": false,
+            "summary": "Time period for stats aggregation: today, week, month, year"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "totalRevenue",
+            "type": "number",
+            "summary": "Total revenue across all completed sales in the period"
+          },
+          {
+            "name": "orderCount",
+            "type": "number",
+            "summary": "Total number of sales transactions in the period"
+          },
+          {
+            "name": "averageOrderValue",
+            "type": "number",
+            "summary": "Average transaction amount in the period"
+          },
+          {
+            "name": "topProducts",
+            "type": "array",
+            "summary": "List of top-selling products by revenue"
+          },
+          {
+            "name": "salesByCategory",
+            "type": "json",
+            "summary": "Revenue breakdown grouped by product category"
+          },
+          {
+            "name": "revenueOverTime",
+            "type": "array",
+            "summary": "Time-series data of revenue for charting"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

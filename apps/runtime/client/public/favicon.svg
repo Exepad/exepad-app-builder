@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="exepad favicon — auto light/dark">
+  <defs>
+    <style>
+      .wordmark{font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:64px;font-weight:600;letter-spacing:-.4px}
+      :root{
+        --bg:#ffffff;   /* card */
+        --fg:#1f2937;   /* tiles */
+        --exe:#1f2937;  /* (unused here) */
+        --pad:#6b7280;  /* (unused here) */
+        --stroke:#e5e7eb; 
+        --strokeOpacity:1;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#0b0d0e;
+          --fg:#e6e8eb;
+          --exe:#e6e8eb;
+          --pad:#9aa0a6;
+          --stroke:#0b0d0e;     /* hide keyline on dark by default */
+          --strokeOpacity:0;
+        }
+      }
+    </style>
+  </defs>
+
+  <!-- Full-canvas rounded card (inset a touch so stroke never crops) -->
+  <rect x="0.75" y="0.75" width="118.5" height="118.5" rx="24"
+        fill="var(--bg)" stroke="var(--stroke)" stroke-width="1.5"
+        vector-effect="non-scaling-stroke"
+        style="stroke-opacity:var(--strokeOpacity)"/>
+
+  <!-- Centered 2×2 grid: tile=22, gap=14; grid size=58; centered at (60,60) -->
+  <rect x="31" y="31" width="22" height="22" fill="var(--fg)"/>
+  <rect x="67" y="31" width="22" height="22" fill="var(--fg)" opacity="0.85"/>
+  <rect x="31" y="67" width="22" height="22" fill="var(--fg)"/>
+  <rect x="67" y="67" width="22" height="22" fill="var(--fg)"/>
+</svg>
+

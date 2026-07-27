@@ -1,0 +1,698 @@
+{
+  "uuid": "fitness-tracker",
+  "alias": "fitness-tracker",
+  "name": "FitPulse",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Fitness and health tracker app with workout logging, nutrition tracking, progress charts, and goal management",
+  "shortSummary": "Fitness tracker with workouts, nutrition, progress, and goals",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "FitnessSidebar": {
+          "source": "frontend/code/components/FitnessSidebar.tsx",
+          "compiled": "frontend/compiled/components/FitnessSidebar.js",
+          "summary": "Fixed left sidebar with FitPulse branding, heart-pulse icon, streak badge, navigation links (Dashboard, Workouts, Nutrition, Progress, Goals), daily steps counter at bottom"
+        },
+        "FitnessHeader": {
+          "source": "frontend/code/components/FitnessHeader.tsx",
+          "compiled": "frontend/compiled/components/FitnessHeader.js",
+          "summary": "Top header bar with today's date, streak fire icon, quick-log buttons for workout and meal, user avatar"
+        },
+        "FitnessDashboard": {
+          "source": "frontend/code/components/FitnessDashboard.tsx",
+          "compiled": "frontend/compiled/components/FitnessDashboard.js",
+          "summary": "Dashboard with 4 KPI cards (calories, workouts, water, sleep), weekly activity bar chart, today's meals summary, upcoming workouts"
+        },
+        "WorkoutLog": {
+          "source": "frontend/code/components/WorkoutLog.tsx",
+          "compiled": "frontend/compiled/components/WorkoutLog.js",
+          "summary": "Workout list with type badges, name, duration, calories, date. Filter tabs, add workout dialog with dynamic exercise rows"
+        },
+        "NutritionTracker": {
+          "source": "frontend/code/components/NutritionTracker.tsx",
+          "compiled": "frontend/compiled/components/NutritionTracker.js",
+          "summary": "Daily nutrition summary with calorie tracking, macro progress bars, meal sections, macros pie chart, add meal dialog"
+        },
+        "ProgressCharts": {
+          "source": "frontend/code/components/ProgressCharts.tsx",
+          "compiled": "frontend/compiled/components/ProgressCharts.js",
+          "summary": "Weight trend line chart, body measurements comparison, workout frequency bar chart, personal records, period selector"
+        },
+        "GoalsManager": {
+          "source": "frontend/code/components/GoalsManager.tsx",
+          "compiled": "frontend/compiled/components/GoalsManager.js",
+          "summary": "Goal cards with circular progress rings, add goal dialog, milestone timeline, 6 demo goals"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with avatar, fitness stats, training performance metrics, and recent activity feed"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font family, progress ring animations, workout card transitions, macro bar styles, streak badge gradient"
+        }
+      }
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "goals": {
+        "source": "repo/seed/goals.json",
+        "format": "json",
+        "model": "goals",
+        "source_hash": "sha256:63244dc530ab4a542009f2148e64c3c502e92b9186a53d6360fddab23c19b540"
+      },
+      "meals": {
+        "source": "repo/seed/meals.json",
+        "format": "json",
+        "model": "meals",
+        "source_hash": "sha256:1c300369fd8943c528b2531bc0454cd23a2882962de321ad5f65ab94e698cabc"
+      },
+      "measurements": {
+        "source": "repo/seed/measurements.json",
+        "format": "json",
+        "model": "measurements",
+        "source_hash": "sha256:6b0d48688bd240b733263681e20f8f532fe8ecb71efd61e607430129e022df0c"
+      },
+      "workouts": {
+        "source": "repo/seed/workouts.json",
+        "format": "json",
+        "model": "workouts",
+        "source_hash": "sha256:d402aebd12c058b30c517b3a6e52ccbb41c70492cb7dcbcb23f1cd7eaa8dfa1b"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-workouts",
+        "name": "workouts",
+        "columns": [
+          {
+            "name": "type",
+            "type": "text",
+            "summary": "Workout type: cardio, strength, flexibility, or sports"
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Name of the workout, e.g. Morning Run, Bench Press Day"
+          },
+          {
+            "name": "duration_min",
+            "type": "integer",
+            "summary": "Duration of workout in minutes"
+          },
+          {
+            "name": "calories_burned",
+            "type": "integer",
+            "summary": "Estimated calories burned during workout"
+          },
+          {
+            "name": "date",
+            "type": "text",
+            "summary": "ISO 8601 date of the workout"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Optional notes about the workout",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_workouts_type",
+            "columns": [
+              "type"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_workouts_date",
+            "columns": [
+              "date"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      },
+      {
+        "uuid": "model-exercises",
+        "name": "exercises",
+        "columns": [
+          {
+            "name": "workout_id",
+            "type": "text",
+            "summary": "Foreign key reference to workouts model ID"
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Exercise name, e.g. Barbell Squat, Treadmill"
+          },
+          {
+            "name": "sets",
+            "type": "integer",
+            "summary": "Number of sets performed"
+          },
+          {
+            "name": "reps",
+            "type": "integer",
+            "summary": "Number of reps per set"
+          },
+          {
+            "name": "weight",
+            "type": "real",
+            "summary": "Weight used in lbs, null for bodyweight exercises",
+            "isNullable": true
+          },
+          {
+            "name": "duration_sec",
+            "type": "integer",
+            "summary": "Duration in seconds for timed exercises",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_exercises_workout_id",
+            "columns": [
+              "workout_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      },
+      {
+        "uuid": "model-meals",
+        "name": "meals",
+        "columns": [
+          {
+            "name": "date",
+            "type": "text",
+            "summary": "ISO 8601 date of the meal"
+          },
+          {
+            "name": "meal_type",
+            "type": "text",
+            "summary": "Meal type: breakfast, lunch, dinner, or snack"
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Name of the food item, e.g. Grilled Chicken Salad"
+          },
+          {
+            "name": "calories",
+            "type": "integer",
+            "summary": "Calories in the meal item"
+          },
+          {
+            "name": "protein",
+            "type": "real",
+            "summary": "Protein in grams"
+          },
+          {
+            "name": "carbs",
+            "type": "real",
+            "summary": "Carbohydrates in grams"
+          },
+          {
+            "name": "fat",
+            "type": "real",
+            "summary": "Fat in grams"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_meals_date",
+            "columns": [
+              "date"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_meals_meal_type",
+            "columns": [
+              "meal_type"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      },
+      {
+        "uuid": "model-measurements",
+        "name": "measurements",
+        "columns": [
+          {
+            "name": "date",
+            "type": "text",
+            "summary": "ISO 8601 date of the measurement"
+          },
+          {
+            "name": "weight",
+            "type": "real",
+            "summary": "Body weight in lbs"
+          },
+          {
+            "name": "body_fat_pct",
+            "type": "real",
+            "summary": "Body fat percentage",
+            "isNullable": true
+          },
+          {
+            "name": "chest",
+            "type": "real",
+            "summary": "Chest measurement in inches",
+            "isNullable": true
+          },
+          {
+            "name": "waist",
+            "type": "real",
+            "summary": "Waist measurement in inches",
+            "isNullable": true
+          },
+          {
+            "name": "hips",
+            "type": "real",
+            "summary": "Hips measurement in inches",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_measurements_date",
+            "columns": [
+              "date"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      },
+      {
+        "uuid": "model-goals",
+        "name": "goals",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Goal title, e.g. Lose 10 lbs, Run 5K under 25 min"
+          },
+          {
+            "name": "target_value",
+            "type": "real",
+            "summary": "Target value to achieve"
+          },
+          {
+            "name": "current_value",
+            "type": "real",
+            "summary": "Current progress value"
+          },
+          {
+            "name": "unit",
+            "type": "text",
+            "summary": "Unit of measurement, e.g. lbs, min, reps"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Goal category: weight, strength, cardio, or nutrition"
+          },
+          {
+            "name": "deadline",
+            "type": "text",
+            "summary": "ISO 8601 date deadline for the goal"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Goal status: active or completed",
+            "defaultValue": "active"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_goals_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_goals_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getWeeklySummary",
+        "name": "getWeeklySummary",
+        "method": "getWeeklySummary",
+        "authLevel": "authenticated",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "total_calories",
+            "type": "number",
+            "summary": "Total calories burned this week"
+          },
+          {
+            "name": "total_workouts",
+            "type": "number",
+            "summary": "Total workouts completed this week"
+          },
+          {
+            "name": "avg_sleep",
+            "type": "number",
+            "summary": "Average sleep hours this week"
+          },
+          {
+            "name": "macro_breakdown",
+            "type": "json",
+            "summary": "Object with protein, carbs, fat totals for the week"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getProgressTrend",
+        "name": "getProgressTrend",
+        "method": "getProgressTrend",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "metric",
+            "type": "string",
+            "required": true,
+            "summary": "Metric to track: weight, calories, workouts"
+          },
+          {
+            "name": "period",
+            "type": "string",
+            "required": false,
+            "summary": "Time period: 7d, 30d, or 90d (default 30d)"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "data_points",
+            "type": "array",
+            "summary": "Array of {date, value} objects for chart rendering"
+          }
+        ]
+      },
+      {
+        "uuid": "h-updateGoalProgress",
+        "name": "updateGoalProgress",
+        "method": "updateGoalProgress",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "goal_id",
+            "type": "string",
+            "required": true,
+            "summary": "ID of the goal to update"
+          },
+          {
+            "name": "new_value",
+            "type": "number",
+            "required": true,
+            "summary": "New current value for the goal"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "goal",
+            "type": "json",
+            "summary": "Updated goal object"
+          },
+          {
+            "name": "milestones_hit",
+            "type": "array",
+            "summary": "Array of milestone strings that were achieved"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#052e16",
+        "primary": "#15803d",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdf4",
+        "secondary-foreground": "#052e16",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#dcfce7",
+        "accent-foreground": "#052e16",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#16a34a"
+      },
+      "dark": {
+        "background": "#052e16",
+        "foreground": "#f0fdf4",
+        "primary": "#4ade80",
+        "primary-foreground": "#052e16",
+        "secondary": "#14532d",
+        "secondary-foreground": "#f0fdf4",
+        "muted": "#14532d",
+        "muted-foreground": "#86efac",
+        "accent": "#14532d",
+        "accent-foreground": "#f0fdf4",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#166534",
+        "input": "#166534",
+        "ring": "#4ade80"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "selectedDate": null,
+        "activeTab": "dashboard",
+        "workoutFilter": "all"
+      }
+    },
+    "header": [
+      {
+        "uuid": "header-1",
+        "componentType": "CodeComponentProps",
+        "component": "FitnessHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sidebar-1",
+        "componentType": "CodeComponentProps",
+        "component": "FitnessSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-dashboard",
+        "pageType": "WebPageProps",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Main dashboard with KPI cards, weekly activity chart, today's meals, and upcoming workouts",
+        "content": [
+          {
+            "uuid": "c-dashboard",
+            "componentType": "CodeComponentProps",
+            "component": "FitnessDashboard"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-workouts",
+        "pageType": "WebPageProps",
+        "title": "Workouts",
+        "slug": "/workouts",
+        "summary": "Workout log with filtering, type badges, exercise details, and add workout dialog",
+        "content": [
+          {
+            "uuid": "c-workouts",
+            "componentType": "CodeComponentProps",
+            "component": "WorkoutLog"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-nutrition",
+        "pageType": "WebPageProps",
+        "title": "Nutrition",
+        "slug": "/nutrition",
+        "summary": "Daily nutrition tracker with calorie goals, macro progress bars, meal lists, and pie chart",
+        "content": [
+          {
+            "uuid": "c-nutrition",
+            "componentType": "CodeComponentProps",
+            "component": "NutritionTracker"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-progress",
+        "pageType": "WebPageProps",
+        "title": "Progress",
+        "slug": "/progress",
+        "summary": "Progress charts with weight trend, body measurements, workout frequency, and personal records",
+        "content": [
+          {
+            "uuid": "c-progress",
+            "componentType": "CodeComponentProps",
+            "component": "ProgressCharts"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-goals",
+        "pageType": "WebPageProps",
+        "title": "Goals",
+        "slug": "/goals",
+        "summary": "Goals manager with progress rings, milestone timelines, and add goal dialog",
+        "content": [
+          {
+            "uuid": "c-goals",
+            "componentType": "CodeComponentProps",
+            "component": "GoalsManager"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with fitness stats and recent activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-login",
+        "pageType": "WebPageProps",
+        "title": "Login",
+        "slug": "/login",
+        "summary": "Login page for authentication",
+        "content": [
+          {
+            "uuid": "c-login",
+            "componentType": "CodeComponentProps",
+            "component": "LoginForm"
+          }
+        ]
+      }
+    ]
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  }
+}

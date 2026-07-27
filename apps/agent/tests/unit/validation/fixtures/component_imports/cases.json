@@ -1,0 +1,153 @@
+{
+  "cases": [
+    {
+      "id": "export_function_renamed",
+      "kind": "broken",
+      "tsx_path": "examples/broken_export_function_renamed.tsx",
+      "context": {"expected_component_name": "Hero"},
+      "expected_fix_substrings": ["Renamed export 'Header' → 'Hero'"],
+      "expected_output_contains": ["export default function Hero("],
+      "expected_output_absent": ["export default function Header("]
+    },
+    {
+      "id": "export_already_matches_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_export_already_matches.tsx",
+      "context": {"expected_component_name": "Hero"}
+    },
+
+    {
+      "id": "react_default_only_rewritten_to_sdk",
+      "kind": "broken",
+      "tsx_path": "examples/broken_react_default_only.tsx",
+      "expected_fix_substrings": ["Rewrote react imports → @exepad/sdk"],
+      "expected_output_contains": ["import { React } from '@exepad/sdk'"],
+      "expected_output_absent": ["from \"react\"", "from 'react'"]
+    },
+    {
+      "id": "react_named_only_rewritten_with_destructure",
+      "kind": "broken",
+      "tsx_path": "examples/broken_react_named_only.tsx",
+      "expected_fix_substrings": ["Rewrote react imports → @exepad/sdk"],
+      "expected_output_contains": [
+        "import { React } from '@exepad/sdk'",
+        "const { useState, useEffect } = React"
+      ]
+    },
+    {
+      "id": "react_default_and_named_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_react_default_and_named.tsx",
+      "expected_fix_substrings": ["Rewrote react imports → @exepad/sdk"],
+      "expected_output_contains": [
+        "import { React } from '@exepad/sdk'",
+        "const { useState } = React"
+      ]
+    },
+    {
+      "id": "react_already_sdk_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_react_already_sdk.tsx"
+    },
+
+    {
+      "id": "framer_motion_rewritten_to_sdk",
+      "kind": "broken",
+      "tsx_path": "examples/broken_framer_motion.tsx",
+      "expected_fix_substrings": ["Rewrote framer-motion → @exepad/sdk"],
+      "expected_output_contains": ["from \"@exepad/sdk\""],
+      "expected_output_absent": ["framer-motion"]
+    },
+    {
+      "id": "lucide_react_rewritten_to_sdk",
+      "kind": "broken",
+      "tsx_path": "examples/broken_lucide_react.tsx",
+      "expected_fix_substrings": ["Rewrote lucide-react → @exepad/sdk"],
+      "expected_output_absent": ["lucide-react"]
+    },
+
+    {
+      "id": "missing_sdk_function_call_useNavigation_added",
+      "kind": "broken",
+      "tsx_path": "examples/broken_missing_sdk_function_call.tsx",
+      "expected_fix_substrings": ["Added missing SDK imports: useNavigation"],
+      "expected_output_contains": ["useNavigation"]
+    },
+    {
+      "id": "missing_sdk_jsx_element_button_added",
+      "kind": "broken",
+      "tsx_path": "examples/broken_missing_sdk_jsx_element.tsx",
+      "expected_fix_substrings": ["Added missing SDK imports: Button"],
+      "expected_output_contains": ["Button, React"]
+    },
+    {
+      "id": "unknown_sdk_import_buttn_stripped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_unknown_sdk_import_stripped.tsx",
+      "expected_fix_substrings": [
+        "Stripped unknown @exepad/sdk imports: Buttn"
+      ],
+      "expected_output_absent": ["Buttn"]
+    },
+    {
+      "id": "complete_sdk_imports_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_complete_sdk_imports.tsx"
+    },
+
+    {
+      "id": "useapp_inline_object_selector_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_useapp_inline_object_selector.tsx",
+      "expected_fix_substrings": [
+        "Rewrote useApp inline object selector → 2 individual calls"
+      ],
+      "expected_output_contains": [
+        "const profile = useApp(s => s.profile);",
+        "const settings = useApp(s => s.settings);"
+      ]
+    },
+    {
+      "id": "useapp_bare_destructure_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_useapp_bare_destructure.tsx",
+      "expected_fix_substrings": [
+        "Rewrote bare useApp() destructuring → 2 individual calls"
+      ],
+      "expected_output_contains": [
+        "const count = useApp(s => s.count);",
+        "const label = useApp(s => s.label);"
+      ]
+    },
+    {
+      "id": "useapp_individual_selectors_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_useapp_individual_selectors.tsx"
+    },
+
+    {
+      "id": "kitchen_sink_imports_all_branches_fire",
+      "kind": "broken",
+      "tsx_path": "examples/broken_kitchen_sink_imports.tsx",
+      "context": {"expected_component_name": "HeaderRoot"},
+      "expected_fix_substrings": [
+        "Renamed export 'HeaderOriginal' → 'HeaderRoot'",
+        "Rewrote react imports → @exepad/sdk",
+        "Rewrote framer-motion → @exepad/sdk",
+        "Rewrote lucide-react → @exepad/sdk",
+        "Rewrote bare useApp() destructuring → 1 individual calls",
+        "Added missing SDK imports"
+      ],
+      "expected_output_contains": [
+        "export default function HeaderRoot(",
+        "const profile = useApp(s => s.profile);"
+      ],
+      "expected_output_absent": ["framer-motion", "lucide-react", "from 'react'", "HeaderOriginal"]
+    },
+    {
+      "id": "no_imports_changes_needed_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_no_imports_changes_needed.tsx"
+    }
+  ]
+}

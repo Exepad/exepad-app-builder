@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-dim": "#f271b5",
+              "on-tertiary-fixed-variant": "#73004b",
+              "error-dim": "#d73357",
+              "tertiary-fixed": "#ff8bc5",
+              "primary-fixed-dim": "#b971ff",
+              "tertiary-container": "#f673b7",
+              "on-primary": "#47007c",
+              "surface-dim": "#0e0e0e",
+              "on-secondary-fixed": "#003a43",
+              "surface-variant": "#262626",
+              "on-tertiary-container": "#4a002f",
+              "secondary-container": "#006877",
+              "on-tertiary": "#5f003e",
+              "on-primary-container": "#360061",
+              "on-error-container": "#ffb2b9",
+              "surface-tint": "#cc97ff",
+              "background": "#0e0e0e",
+              "primary-fixed": "#c284ff",
+              "surface-container-high": "#201f1f",
+              "on-secondary-fixed-variant": "#005966",
+              "tertiary": "#ff86c3",
+              "primary": "#cc97ff",
+              "surface-bright": "#2c2c2c",
+              "inverse-on-surface": "#565554",
+              "surface-container": "#1a1919",
+              "surface": "#0e0e0e",
+              "primary-dim": "#9c48ea",
+              "on-tertiary-fixed": "#360021",
+              "outline": "#777575",
+              "surface-container-low": "#131313",
+              "error-container": "#a70138",
+              "on-secondary": "#004b56",
+              "on-error": "#490013",
+              "secondary-fixed": "#48e4ff",
+              "on-surface": "#ffffff",
+              "outline-variant": "#484847",
+              "on-primary-fixed": "#000000",
+              "secondary-fixed-dim": "#29d6f1",
+              "inverse-primary": "#842cd3",
+              "inverse-surface": "#fcf8f8",
+              "on-primary-fixed-variant": "#430076",
+              "on-background": "#ffffff",
+              "tertiary-fixed-dim": "#f976ba",
+              "primary-container": "#c284ff",
+              "surface-container-highest": "#262626",
+              "surface-container-lowest": "#000000",
+              "secondary-dim": "#1ad0eb",
+              "error": "#ff6e84",
+              "on-surface-variant": "#adaaaa",
+              "on-secondary-container": "#eafbff",
+              "secondary": "#3adffa"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(26, 25, 25, 0.9);
+        backdrop-filter: blur(16px);
+      }
+      .glow-border {
+        position: relative;
+      }
+      .glow-border::before {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        background: linear-gradient(135deg, rgba(204, 151, 255, 0.4) 0%, transparent 50%);
+        z-index: -1;
+        border-radius: inherit;
+      }
+      .featured-glow {
+        box-shadow: 0 0 40px rgba(204, 151, 255, 0.15);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#0e0e0e]/80 backdrop-blur-xl flex justify-between items-center px-8 h-20 max-w-full no-border bg-gradient-to-b from-white/5 to-transparent shadow-[0_0_40px_rgba(204,151,255,0.08)]">
+<div class="text-2xl font-black tracking-tighter text-white font-headline">KINETIC</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors" href="#">Features</a>
+<a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors" href="#">Solutions</a>
+<a class="font-headline tracking-tight font-bold uppercase text-[#cc97ff] border-b border-[#cc97ff]/50" href="#">Pricing</a>
+<a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors" href="#">Resources</a>
+</div>
+<div class="flex items-center space-x-6">
+<button class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors">Login</button>
+<button class="bg-primary hover:bg-primary-dim text-on-primary-fixed font-headline tracking-tight font-bold uppercase px-6 py-2.5 rounded-md transition-all duration-300 scale-95 active:scale-90 shadow-[0_0_20px_rgba(204,151,255,0.3)]">Get Started</button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Hero Header -->
+<header class="text-center mb-20">
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter mb-6">
+                Scale Your <span class="text-primary">Intelligence</span>
+</h1>
+<p class="text-on-surface-variant max-w-2xl mx-auto text-lg md:text-xl">
+                Choose the performance tier that aligns with your operational velocity. Liquid data, architected for growth.
+            </p>
+</header>
+<!-- Pricing Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+<!-- Basic Tier -->
+<div class="glass-card glow-border p-10 flex flex-col rounded-xl border border-white/5">
+<div class="mb-8">
+<h3 class="font-headline text-xl font-bold uppercase tracking-widest text-on-surface mb-2">Basic</h3>
+<p class="text-on-surface-variant text-sm">For individuals and startups</p>
+</div>
+<div class="mb-8">
+<div class="flex items-baseline">
+<span class="text-4xl font-headline font-black">$49</span>
+<span class="text-on-surface-variant ml-2">/month</span>
+</div>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center text-sm">
+<span class="material-symbols-outlined text-secondary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        5 Keyword Tracks
+                    </li>
+<li class="flex items-center text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Weekly SEO Audits
+                    </li>
+<li class="flex items-center text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Basic Competitor Insight
+                    </li>
+</ul>
+<button class="w-full py-4 rounded-md border border-outline-variant hover:bg-white/5 transition-all font-headline font-bold uppercase tracking-tight text-sm">Select Basic</button>
+</div>
+<!-- Pro Tier (Featured) -->
+<div class="glass-card featured-glow relative p-10 flex flex-col rounded-xl border border-primary/30 transform md:-translate-y-4">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-on-primary shadow-[0_0_20px_rgba(204,151,255,0.5)]">
+                    Most Popular
+                </div>
+<div class="mb-8">
+<h3 class="font-headline text-xl font-bold uppercase tracking-widest text-primary mb-2">Pro</h3>
+<p class="text-on-surface-variant text-sm">The digital command center</p>
+</div>
+<div class="mb-8">
+<div class="flex items-baseline">
+<span class="text-6xl font-headline font-black text-white">$149</span>
+<span class="text-on-surface-variant ml-2">/month</span>
+</div>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center text-sm font-medium">
+<span class="material-symbols-outlined text-primary mr-3" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                        Unlimited Keyword Tracks
+                    </li>
+<li class="flex items-center text-sm">
+<span class="material-symbols-outlined text-primary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Daily SEO Audits
+                    </li>
+<li class="flex items-center text-sm">
+<span class="material-symbols-outlined text-primary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Advanced AI Prediction
+                    </li>
+<li class="flex items-center text-sm">
+<span class="material-symbols-outlined text-primary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Competitor Content Gaps
+                    </li>
+</ul>
+<button class="w-full py-4 rounded-md bg-gradient-to-r from-primary to-primary-dim text-on-primary-fixed hover:opacity-90 transition-all font-headline font-bold uppercase tracking-tight text-sm shadow-[0_0_30px_rgba(204,151,255,0.2)]">Upgrade to Pro</button>
+</div>
+<!-- Enterprise Tier -->
+<div class="glass-card glow-border p-10 flex flex-col rounded-xl border border-white/5">
+<div class="mb-8">
+<h3 class="font-headline text-xl font-bold uppercase tracking-widest text-on-surface mb-2">Enterprise</h3>
+<p class="text-on-surface-variant text-sm">For global-scale operations</p>
+</div>
+<div class="mb-8">
+<div class="flex items-baseline">
+<span class="text-4xl font-headline font-black">$499</span>
+<span class="text-on-surface-variant ml-2">/month</span>
+</div>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center text-sm">
+<span class="material-symbols-outlined text-tertiary mr-3" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                        Custom Integration API
+                    </li>
+<li class="flex items-center text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Dedicated SEO Architect
+                    </li>
+<li class="flex items-center text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary mr-3" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        24/7 Priority Support
+                    </li>
+</ul>
+<button class="w-full py-4 rounded-md border border-outline-variant hover:bg-white/5 transition-all font-headline font-bold uppercase tracking-tight text-sm">Contact Sales</button>
+</div>
+</div>
+<!-- Trust Section -->
+<div class="mt-24 pt-12 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+<div class="flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+<span class="font-headline font-bold tracking-widest text-xs">QUANTUM</span>
+</div>
+<div class="flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined" data-icon="diamond">diamond</span>
+<span class="font-headline font-bold tracking-widest text-xs">PLATINUM</span>
+</div>
+<div class="flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined" data-icon="cyclone">cyclone</span>
+<span class="font-headline font-bold tracking-widest text-xs">VORTEX</span>
+</div>
+<div class="flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined" data-icon="all_inclusive">all_inclusive</span>
+<span class="font-headline font-bold tracking-widest text-xs">ETERNITY</span>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0e0e0e] border-t border-white/5 py-12 px-8">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div>
+<div class="text-lg font-black text-white mb-4">KINETIC</div>
+<p class="font-['Inter'] text-xs text-[#adaaaa] leading-relaxed">
+                    Elevating search visibility through algorithmic precision and liquid data architecture.
+                </p>
+</div>
+<div class="flex flex-col space-y-3">
+<h4 class="font-headline text-white text-xs font-bold uppercase tracking-widest mb-2">Platform</h4>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Features</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Pricing</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Solutions</a>
+</div>
+<div class="flex flex-col space-y-3">
+<h4 class="font-headline text-white text-xs font-bold uppercase tracking-widest mb-2">Resources</h4>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Documentation</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">API Status</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Security</a>
+</div>
+<div class="flex flex-col space-y-3">
+<h4 class="font-headline text-white text-xs font-bold uppercase tracking-widest mb-2">Legal</h4>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Terms of Service</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Contact</a>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="font-['Inter'] text-xs text-[#adaaaa]">© 2024 KINETIC SEO. Powered by Liquid Data.</span>
+<div class="flex space-x-6">
+<span class="material-symbols-outlined text-[#adaaaa] text-sm cursor-pointer hover:text-white" data-icon="public">public</span>
+<span class="material-symbols-outlined text-[#adaaaa] text-sm cursor-pointer hover:text-white" data-icon="mail">mail</span>
+<span class="material-symbols-outlined text-[#adaaaa] text-sm cursor-pointer hover:text-white" data-icon="share">share</span>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,18 @@
+# Dokploy blueprint compose for Exepad (prepared for a PR to Dokploy/templates:
+# blueprints/exepad/{docker-compose.yml,template.toml}).
+# Dokploy fronts apps with Traefik — the studio serves plain HTTP on 8080 and
+# the domain/TLS comes from template.toml's [[config.domains]].
+services:
+  exepad:
+    image: ghcr.io/exepad/exepad-app-builder:latest
+    restart: unless-stopped
+    environment:
+      - EXEPAD_HTTPS_DISABLE=1
+      - EXEPAD_LLM_API_KEY=${EXEPAD_LLM_API_KEY}
+      - EXEPAD_LLM_PROVIDER=${EXEPAD_LLM_PROVIDER}
+      - EXEPAD_ALLOWED_ORIGINS=${EXEPAD_ALLOWED_ORIGINS}
+      - EXEPAD_COOKIE_SECURE=1
+    volumes:
+      - exepad-data:/data
+volumes:
+  exepad-data:

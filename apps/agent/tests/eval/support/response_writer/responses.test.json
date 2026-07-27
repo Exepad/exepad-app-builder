@@ -1,0 +1,205 @@
+{
+  "eval_set_id": "response_writer_tests",
+  "name": "Result Response Writer Evaluation",
+  "description": "Validates ResultResponseWriterAgent generates appropriate user-friendly responses for different workflow outcomes",
+  "eval_cases": [
+    {
+      "eval_id": "creation_workflow_response",
+      "conversation": [
+        {
+          "invocation_id": "inv-response-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "## User Request\nCreate a portfolio website with home, about, and projects pages\n\n## Workflow\ncreation\n\n## Tasks Completed\n- Created app skeleton with 3 pages\n- Generated hero section for home page\n- Built about page with company info\n- Created projects showcase section\n- Applied modern theme\n- Set up navigation links\n\n## Language\nen"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"result_chat_response\": \"I've created your portfolio website with three pages! Your new site includes a Home page with an eye-catching hero section, an About page with company information, and a Projects page to showcase your work. I've also set up the navigation so visitors can easily move between pages. The modern theme gives your portfolio a clean, professional look.\", \"conversation_message_summary\": {\"action\": \"creation\", \"summary\": \"Created portfolio website with home, about, and projects pages\"}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "editing_workflow_response",
+      "conversation": [
+        {
+          "invocation_id": "inv-response-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "## User Request\nAdd a contact section with a form\n\n## Workflow\nedit\n\n## Tasks Completed\n- Added new contact section to the page\n- Created contact form with name, email, and message fields\n- Added submit button with primary styling\n\n## Language\nen"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"result_chat_response\": \"Done! I've added a contact section to your page with a form that includes fields for name, email, and message. Visitors can now easily reach out to you.\", \"conversation_message_summary\": {\"action\": \"edit\", \"summary\": \"Added contact section with form\"}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "blogging_workflow_response",
+      "conversation": [
+        {
+          "invocation_id": "inv-response-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "## User Request\nWrite a blog post about web development trends\n\n## Workflow\nblogging\n\n## Tasks Completed\n- Created new blog post titled 'Top Web Development Trends in 2024'\n- Added introduction section\n- Wrote about 5 key trends\n- Added conclusion with call to action\n- Published post to blog\n\n## Language\nen"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"result_chat_response\": \"Your new blog post 'Top Web Development Trends in 2024' is now live! The post covers five key trends in web development and includes a call to action for your readers. You can find it on your blog page.\", \"conversation_message_summary\": {\"action\": \"blogging\", \"summary\": \"Created and published blog post about web development trends\"}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "help_desk_response",
+      "conversation": [
+        {
+          "invocation_id": "inv-response-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "## User Request\nHow can I change my website's colors?\n\n## Workflow\nhelp_desk\n\n## Tasks Completed\n- Provided guidance on theme customization\n\n## Language\nen"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"result_chat_response\": \"You can change your website's colors by asking me to update the theme! Just tell me what colors you'd like, for example: 'Change the primary color to blue' or 'Make the theme more vibrant with orange accents'. I can also apply a completely new color scheme if you describe the mood you're going for.\", \"conversation_message_summary\": {\"action\": \"help_desk\", \"summary\": \"Explained how to change website colors\"}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "multilingual_response_french",
+      "conversation": [
+        {
+          "invocation_id": "inv-response-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "## User Request\nAjouter une section de témoignages\n\n## Workflow\nedit\n\n## Tasks Completed\n- Added testimonials section\n- Created 3 testimonial cards\n- Applied styling\n\n## Language\nfr"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"result_chat_response\": \"C'est fait ! J'ai ajouté une section de témoignages avec trois cartes présentant les avis de vos clients. Cette section aidera à renforcer la confiance des visiteurs de votre site.\", \"conversation_message_summary\": {\"action\": \"edit\", \"summary\": \"Ajouté section témoignages\"}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "quick_action_response",
+      "conversation": [
+        {
+          "invocation_id": "inv-response-006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "## User Request\nChange the heading to 'Welcome'\n\n## Workflow\nedit\n\n## Tasks Completed\n- Updated heading text from 'Hello' to 'Welcome'\n\n## Language\nen"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"result_chat_response\": \"Updated! The heading now says 'Welcome'.\", \"conversation_message_summary\": {\"action\": \"edit\", \"summary\": \"Changed heading text to Welcome\"}}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    }
+  ]
+}

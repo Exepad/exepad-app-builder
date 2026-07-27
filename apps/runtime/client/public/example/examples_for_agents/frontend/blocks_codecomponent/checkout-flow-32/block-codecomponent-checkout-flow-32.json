@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-checkout-flow",
+  "alias": "codecomponent-checkout-flow",
+  "name": "E-Commerce Checkout Flow",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Three-step e-commerce checkout flow demonstrating cart management, form validation, and order confirmation. Step 1 shows a cart summary Table with quantity +/- buttons, remove button, subtotal calculations, and an InputGroup with addon for promo code entry. Step 2 features a useForm + Zod validated shipping form with Input fields for name, address, city, zip, and a Controller-wrapped Select for country. Step 3 displays a full order confirmation with itemized list, shipping info, and computed totals including tax. Uses useArrayState for cart items, React.useMemo for subtotal/tax/discount/total calculations, useModel pattern for order creation (demo simulated), useHandler for payment processing (demo simulated), useNavigation for redirect after order, and toast for notifications. Includes Badge step indicators and Separator between sections.",
+  "shortSummary": "3-step checkout with cart table, promo codes, Zod-validated shipping form, and order confirmation",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "CheckoutFlow": {
+        "source": "frontend/components/CheckoutFlow.tsx",
+        "compiled": "frontend/components/CheckoutFlow.js",
+        "summary": "Full checkout flow with cart summary, shipping form with Zod validation, and order confirmation with computed totals"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#12873d",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdf4",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f0fdf4",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#16a34a"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#4ade80",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#4ade80"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-checkout-main",
+        "title": "Checkout",
+        "slug": "/",
+        "summary": "Main checkout page with multi-step cart, shipping, and confirmation flow.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "checkout-flow-1",
+            "component": "CheckoutFlow",
+            "classes": "w-full min-h-[600px]"
+          }
+        ],
+        "shortSummary": "Multi-step checkout with cart, shipping form, and order review",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

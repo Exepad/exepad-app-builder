@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-pdf-document-viewer",
+  "alias": "codecomponent-pdf-document-viewer",
+  "name": "PDF Document Viewer",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "PDF document viewer CodeComponent using react-pdf extension for rendering PDF pages. Features toolbar with zoom controls (ButtonGroup for zoom in/out/fit-width), search Input with match count Badge, thumbnail sidebar toggle. ScrollArea sidebar showing page thumbnails via ReactPDF.Document and ReactPDF.Page at small width. Main content area renders current page with ReactPDF.Document and ReactPDF.Page at full size with zoom transform. Pagination at bottom for page navigation. Uses useAppState for current page, zoom level, search query, thumbnail visibility. useTheme for dark/light background styling. Placeholder states for loading and error when no PDF is connected.",
+  "shortSummary": "PDF viewer with react-pdf rendering, zoom controls, thumbnail sidebar, search, and pagination",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "PdfDocumentViewer": {
+        "source": "frontend/components/PdfDocumentViewer.tsx",
+        "compiled": "frontend/components/PdfDocumentViewer.js",
+        "summary": "React-pdf powered document viewer with zoom controls, thumbnail sidebar, search input, and page pagination"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1c1917",
+        "primary": "#dc2626",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fef2f2",
+        "secondary-foreground": "#1c1917",
+        "muted": "#f5f5f4",
+        "muted-foreground": "#78716c",
+        "accent": "#fef2f2",
+        "accent-foreground": "#1c1917",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e7e5e4",
+        "input": "#e7e5e4",
+        "ring": "#dc2626"
+      },
+      "dark": {
+        "background": "#1c1917",
+        "foreground": "#fafaf9",
+        "primary": "#f87171",
+        "primary-foreground": "#1c1917",
+        "secondary": "#292524",
+        "secondary-foreground": "#fafaf9",
+        "muted": "#292524",
+        "muted-foreground": "#a8a29e",
+        "accent": "#292524",
+        "accent-foreground": "#fafaf9",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fafaf9",
+        "border": "#44403c",
+        "input": "#44403c",
+        "ring": "#ef4444"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-viewer",
+        "title": "PDF Viewer",
+        "slug": "/",
+        "summary": "PDF document viewer with thumbnails, zoom controls, search, and page navigation.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "pdf-document-viewer-1",
+            "component": "PdfDocumentViewer",
+            "classes": "w-full",
+            "extensions": [
+              "pdf"
+            ]
+          }
+        ],
+        "shortSummary": "PDF viewer with react-pdf, thumbnails, and zoom controls",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

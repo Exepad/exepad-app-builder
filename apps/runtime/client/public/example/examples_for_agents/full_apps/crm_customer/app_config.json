@@ -1,0 +1,594 @@
+{
+  "uuid": "crm-customer",
+  "alias": "crm-customer",
+  "name": "PulseCRM",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Full-featured CRM / Customer Management application with contact management, deal pipeline tracking, activity logging, and reporting dashboards. Features sidebar navigation, KPI cards, pipeline visualization, searchable contacts table, activity timeline, and revenue/conversion charts.",
+  "shortSummary": "CRM app with contacts, deals pipeline, activities, and reports",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "frontend": {
+      "components": {
+        "CrmSidebar": {
+          "source": "frontend/code/components/CrmSidebar.tsx",
+          "compiled": "frontend/compiled/components/CrmSidebar.js",
+          "summary": "Sidebar navigation with PulseCRM logo, nav items with icons and deal count badges, active link highlight"
+        },
+        "CrmHeader": {
+          "source": "frontend/code/components/CrmHeader.tsx",
+          "compiled": "frontend/compiled/components/CrmHeader.js",
+          "summary": "Top header with search input, quick-add buttons for contacts and deals, notification bell"
+        },
+        "CrmDashboard": {
+          "source": "frontend/code/components/CrmDashboard.tsx",
+          "compiled": "frontend/compiled/components/CrmDashboard.js",
+          "summary": "Dashboard with 4 KPI cards, pipeline funnel bar chart, recent activities list, and top deals table"
+        },
+        "ContactsTable": {
+          "source": "frontend/code/components/ContactsTable.tsx",
+          "compiled": "frontend/compiled/components/ContactsTable.js",
+          "summary": "Searchable contacts table with status badges, add contact dialog, and row actions"
+        },
+        "DealsPipeline": {
+          "source": "frontend/code/components/DealsPipeline.tsx",
+          "compiled": "frontend/compiled/components/DealsPipeline.js",
+          "summary": "Kanban-style pipeline with 5 stage columns, deal cards showing value, company, and close date"
+        },
+        "ActivityFeed": {
+          "source": "frontend/code/components/ActivityFeed.tsx",
+          "compiled": "frontend/compiled/components/ActivityFeed.js",
+          "summary": "Timeline activity feed with type icons, filter tabs, and 20+ demo activities"
+        },
+        "CrmReports": {
+          "source": "frontend/code/components/CrmReports.tsx",
+          "compiled": "frontend/compiled/components/CrmReports.js",
+          "summary": "Reports page with revenue line chart, deals pie chart, conversion funnel, and summary cards"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js"
+        }
+      }
+    },
+    "seed": {
+      "activities": {
+        "source": "repo/seed/activities.json",
+        "format": "json",
+        "model": "activities",
+        "source_hash": "sha256:7994c1c3ebf19418c1a13aff1686c1d536e654c7f2d275992a3197dd7909ff44"
+      },
+      "companies": {
+        "source": "repo/seed/companies.json",
+        "format": "json",
+        "model": "companies",
+        "source_hash": "sha256:6697aa5ffe4bd2292369c68549316ba66f75c81d912884d4a4ff2369f80ea01a"
+      },
+      "contacts": {
+        "source": "repo/seed/contacts.json",
+        "format": "json",
+        "model": "contacts",
+        "source_hash": "sha256:89e362c322008f5f758b6016c480e9596009fd985d8cfbbcf1c8d0038f2fc532"
+      },
+      "deals": {
+        "source": "repo/seed/deals.json",
+        "format": "json",
+        "model": "deals",
+        "source_hash": "sha256:6149728d14fac8ca10d67d4ac06b0506c1ebce2b942a0930df7afa95c5a88fdd"
+      },
+      "tags": {
+        "source": "repo/seed/tags.json",
+        "format": "json",
+        "model": "tags",
+        "source_hash": "sha256:18286d95913feb7f9d019a9e603770ab787e3e6df2c0af954b09850022cc6801"
+      }
+    }
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-contacts",
+        "name": "contacts",
+        "summary": "Customer and lead contact records",
+        "ownerScope": "shared",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Full name of the contact"
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "summary": "Email address",
+            "isUnique": true
+          },
+          {
+            "name": "company",
+            "type": "text",
+            "summary": "Company name"
+          },
+          {
+            "name": "phone",
+            "type": "text",
+            "summary": "Phone number",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Contact status: lead, prospect, customer, or churned"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Free-text notes about the contact",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO date when contact was created"
+          }
+        ]
+      },
+      {
+        "uuid": "model-deals",
+        "name": "deals",
+        "summary": "Sales deals and opportunities",
+        "ownerScope": "shared",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Deal name or title"
+          },
+          {
+            "name": "company",
+            "type": "text",
+            "summary": "Company associated with the deal"
+          },
+          {
+            "name": "value",
+            "type": "real",
+            "summary": "Monetary value of the deal"
+          },
+          {
+            "name": "stage",
+            "type": "text",
+            "summary": "Pipeline stage: qualification, proposal, negotiation, closed_won, closed_lost"
+          },
+          {
+            "name": "close_date",
+            "type": "text",
+            "summary": "Expected or actual close date"
+          },
+          {
+            "name": "contact_id",
+            "type": "integer",
+            "summary": "FK to contacts table",
+            "references": {
+              "model": "contacts",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "model-activities",
+        "name": "activities",
+        "summary": "CRM activity log for calls, emails, meetings, and notes",
+        "ownerScope": "shared",
+        "columns": [
+          {
+            "name": "type",
+            "type": "text",
+            "summary": "Activity type: call, email, meeting, or note"
+          },
+          {
+            "name": "subject",
+            "type": "text",
+            "summary": "Activity subject line"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Detailed description of the activity"
+          },
+          {
+            "name": "contact_id",
+            "type": "integer",
+            "summary": "FK to contacts table",
+            "references": {
+              "model": "contacts",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "deal_id",
+            "type": "integer",
+            "summary": "FK to deals table (optional)",
+            "isNullable": true,
+            "references": {
+              "model": "deals",
+              "column": "id",
+              "onDelete": "set_null"
+            }
+          },
+          {
+            "name": "date",
+            "type": "text",
+            "summary": "ISO date/time of the activity"
+          }
+        ]
+      },
+      {
+        "uuid": "model-companies",
+        "name": "companies",
+        "summary": "Company directory with firmographic data",
+        "ownerScope": "shared",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Company name",
+            "isUnique": true
+          },
+          {
+            "name": "industry",
+            "type": "text",
+            "summary": "Industry vertical"
+          },
+          {
+            "name": "website",
+            "type": "text",
+            "summary": "Company website URL",
+            "isNullable": true
+          },
+          {
+            "name": "size",
+            "type": "text",
+            "summary": "Employee count range: 1-10, 11-50, 51-200, 201-1000, 1000+"
+          },
+          {
+            "name": "revenue",
+            "type": "real",
+            "summary": "Annual revenue estimate"
+          }
+        ]
+      },
+      {
+        "uuid": "model-tags",
+        "name": "tags",
+        "summary": "Tags for contacts, deals, and companies",
+        "ownerScope": "shared",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Tag label"
+          },
+          {
+            "name": "color",
+            "type": "text",
+            "summary": "Tag color (hex)"
+          },
+          {
+            "name": "entity_type",
+            "type": "text",
+            "summary": "Entity type: contact, deal, or company"
+          },
+          {
+            "name": "entity_id",
+            "type": "integer",
+            "summary": "ID of the tagged entity"
+          }
+        ]
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "handler-deals-by-stage",
+        "name": "getDealsByStage",
+        "summary": "Returns all deals for a given pipeline stage with total value",
+        "authLevel": "public",
+        "handlerType": "read",
+        "method": "getDealsByStage",
+        "inputs": [
+          {
+            "name": "stage",
+            "type": "string",
+            "required": true,
+            "summary": "Pipeline stage to filter by"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "deals",
+            "type": "array",
+            "items": "json",
+            "summary": "Deals in the given stage"
+          },
+          {
+            "name": "total_value",
+            "type": "number",
+            "summary": "Sum of deal values in this stage"
+          }
+        ]
+      },
+      {
+        "uuid": "handler-contact-deals",
+        "name": "getContactDeals",
+        "summary": "Returns all deals and activities for a specific contact",
+        "authLevel": "public",
+        "handlerType": "read",
+        "method": "getContactDeals",
+        "inputs": [
+          {
+            "name": "contact_id",
+            "type": "number",
+            "required": true,
+            "summary": "Contact ID to look up"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "deals",
+            "type": "array",
+            "items": "json",
+            "summary": "Deals associated with the contact"
+          },
+          {
+            "name": "activities",
+            "type": "array",
+            "items": "json",
+            "summary": "Activities associated with the contact"
+          }
+        ]
+      },
+      {
+        "uuid": "handler-pipeline-stats",
+        "name": "getPipelineStats",
+        "summary": "Returns pipeline statistics including per-stage breakdown, total revenue, conversion rate, and average deal size",
+        "authLevel": "public",
+        "handlerType": "read",
+        "method": "getPipelineStats",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "by_stage",
+            "type": "array",
+            "items": "json",
+            "summary": "Deal count and value per stage"
+          },
+          {
+            "name": "total_revenue",
+            "type": "number",
+            "summary": "Total revenue from closed-won deals"
+          },
+          {
+            "name": "conversion_rate",
+            "type": "number",
+            "summary": "Percentage of deals that closed won"
+          },
+          {
+            "name": "avg_deal_size",
+            "type": "number",
+            "summary": "Average value of all deals"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#0e7490",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdfa",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#ecfeff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0891b2"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#22d3ee",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#22d3ee"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "selectedContact": null,
+        "pipelineFilter": "all",
+        "dateRange": "30d"
+      }
+    },
+    "pages": [
+      {
+        "uuid": "page-dashboard",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Main CRM dashboard with KPI cards, pipeline chart, recent activities, and top deals.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "crm-dashboard-1",
+            "component": "CrmDashboard",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "CRM dashboard with KPIs, pipeline chart, and top deals",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      },
+      {
+        "uuid": "page-contacts",
+        "title": "Contacts",
+        "slug": "/contacts",
+        "summary": "Searchable contacts table with status badges, add/edit dialog, and row actions.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "contacts-table-1",
+            "component": "ContactsTable",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Contact management with search, status badges, and CRUD",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      },
+      {
+        "uuid": "page-pipeline",
+        "title": "Pipeline",
+        "slug": "/pipeline",
+        "summary": "Visual deal pipeline with 5 stage columns and deal cards.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "deals-pipeline-1",
+            "component": "DealsPipeline",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Kanban-style deal pipeline with stage columns",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      },
+      {
+        "uuid": "page-activities",
+        "title": "Activities",
+        "slug": "/activities",
+        "summary": "Chronological activity feed with type filters and timeline layout.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "activity-feed-1",
+            "component": "ActivityFeed",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Activity timeline with type filters",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      },
+      {
+        "uuid": "page-reports",
+        "title": "Reports",
+        "slug": "/reports",
+        "summary": "CRM reports with revenue charts, pipeline breakdown, and conversion metrics.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "crm-reports-1",
+            "component": "CrmReports",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Revenue charts, pipeline breakdown, and conversion metrics",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      },
+      {
+        "name": "Profile",
+        "slug": "profile",
+        "access": "authenticated",
+        "sections": [
+          {
+            "components": [
+              {
+                "type": "code",
+                "componentName": "ProfilePage"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Settings",
+        "slug": "settings",
+        "access": "authenticated",
+        "sections": [
+          {
+            "components": [
+              {
+                "type": "code",
+                "componentName": "SettingsPage"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "header": [
+      {
+        "componentType": "CodeComponentProps",
+        "uuid": "crm-header-1",
+        "component": "CrmHeader",
+        "classes": "w-full"
+      }
+    ],
+    "sidebar": [
+      {
+        "componentType": "CodeComponentProps",
+        "uuid": "crm-sidebar-1",
+        "component": "CrmSidebar",
+        "classes": "w-full"
+      }
+    ],
+    "footer": []
+  }
+}

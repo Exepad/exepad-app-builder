@@ -1,0 +1,38 @@
+/* ==========================================================================
+   HappyDoods Farm — Code Focus Theme
+   Non-Tailwind styles: fonts, icon font, typography, scroll behavior
+   ========================================================================== */
+
+/* Material Symbols class — font loaded at page level via repo.frontend.styles.fonts */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Shadow DOM base — :host replaces body, * inherits */
+:host {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #fcf9f3;
+  color: #1c1c18;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: 'Noto Serif', serif;
+}

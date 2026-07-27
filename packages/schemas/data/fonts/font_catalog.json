@@ -1,0 +1,502 @@
+[
+    {
+      "family": "Roboto",
+      "tags": ["sans-serif", "modern", "clean", "geometric", "versatile", "neutral", "legible", "professional"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Open Sans",
+      "tags": ["sans-serif", "humanist", "friendly", "legible", "web-safe", "neutral", "corporate", "approachable"],
+      "variants": ["300", "regular", "500", "600", "700", "800", "300italic", "italic", "500italic", "600italic", "700italic", "800italic"]
+    },
+    {
+      "family": "Noto Sans JP",
+      "tags": ["sans-serif", "japanese", "international", "clean", "legible", "modern", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Montserrat",
+      "tags": ["sans-serif", "geometric", "urban", "bold", "versatile", "display", "fashion", "contemporary"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Inter",
+      "tags": ["sans-serif", "ui", "interface", "legible", "neutral", "modern", "clean", "professional"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Poppins",
+      "tags": ["sans-serif", "geometric", "modern", "friendly", "rounded", "versatile", "playful", "lively"],
+      "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"]
+    },
+    {
+      "family": "Lato",
+      "tags": ["sans-serif", "humanist", "warm", "friendly", "corporate", "legible", "elegant", "approachable"],
+      "variants": ["100", "100italic", "300", "300italic", "regular", "italic", "700", "700italic", "900", "900italic"]
+    },
+    {
+      "family": "Material Icons",
+      "tags": ["monospace", "icons", "symbols", "ui", "google", "interface", "minimalist"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Roboto Condensed",
+      "tags": ["sans-serif", "condensed", "narrow", "modern", "clean", "space-saving", "legible", "efficient"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Roboto Mono",
+      "tags": ["monospace", "coding", "technical", "clean", "legible", "fixed-width", "modern", "programming"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic"]
+    },
+    {
+      "family": "Oswald",
+      "tags": ["sans-serif", "display", "condensed", "bold", "impactful", "headline", "strong"],
+      "variants": ["200", "300", "regular", "500", "600", "700"]
+    },
+    {
+      "family": "Arimo",
+      "tags": ["sans-serif", "humanist", "legible", "neutral", "web-safe", "clean", "corporate"],
+      "variants": ["regular", "500", "600", "700", "italic", "500italic", "600italic", "700italic"]
+    },
+    {
+      "family": "Noto Sans",
+      "tags": ["sans-serif", "international", "legible", "clean", "neutral", "versatile", "global"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Raleway",
+      "tags": ["sans-serif", "elegant", "geometric", "display", "versatile", "fashion", "thin"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Nunito Sans",
+      "tags": ["sans-serif", "rounded", "friendly", "legible", "versatile", "soft", "approachable"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Nunito",
+      "tags": ["sans-serif", "rounded", "friendly", "soft", "versatile", "playful", "legible"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Rubik",
+      "tags": ["sans-serif", "rounded", "modern", "friendly", "versatile", "display", "bold"],
+      "variants": ["300", "regular", "500", "600", "700", "800", "900", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Ubuntu",
+      "tags": ["sans-serif", "humanist", "modern", "friendly", "open-source", "legible", "clean"],
+      "variants": ["300", "300italic", "regular", "italic", "500", "500italic", "700", "700italic"]
+    },
+    {
+      "family": "Playfair Display",
+      "tags": ["serif", "elegant", "display", "high-contrast", "classic", "fashion", "luxury"],
+      "variants": ["regular", "500", "600", "700", "800", "900", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Noto Sans KR",
+      "tags": ["sans-serif", "korean", "international", "clean", "legible", "modern", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Merriweather",
+      "tags": ["serif", "legible", "classic", "workhorse", "web-safe", "editorial", "traditional"],
+      "variants": ["300", "regular", "500", "600", "700", "800", "900", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Kanit",
+      "tags": ["sans-serif", "thai", "modern", "condensed", "display", "bold", "energetic"],
+      "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"]
+    },
+    {
+      "family": "DM Sans",
+      "tags": ["sans-serif", "geometric", "modern", "clean", "legible", "minimalist", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Roboto Slab",
+      "tags": ["serif", "slab-serif", "modern", "clean", "geometric", "sturdy", "bold"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Work Sans",
+      "tags": ["sans-serif", "grotesque", "versatile", "modern", "workhorse", "legible", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "PT Sans",
+      "tags": ["sans-serif", "humanist", "legible", "classic", "web-safe", "corporate", "neutral"],
+      "variants": ["regular", "italic", "700", "700italic"]
+    },
+    {
+      "family": "Noto Sans TC",
+      "tags": ["sans-serif", "chinese-traditional", "international", "clean", "legible", "modern", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Lora",
+      "tags": ["serif", "elegant", "calligraphic", "classic", "legible", "editorial", "traditional"],
+      "variants": ["regular", "500", "600", "700", "italic", "500italic", "600italic", "700italic"]
+    },
+    {
+      "family": "Material Symbols Outlined",
+      "tags": ["monospace", "icons", "symbols", "ui", "google", "outlined", "interface", "minimalist"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700"]
+    },
+    {
+      "family": "Mulish",
+      "tags": ["sans-serif", "geometric", "minimalist", "modern", "versatile", "clean", "legible"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Fira Sans",
+      "tags": ["sans-serif", "humanist", "legible", "modern", "web-safe", "versatile", "corporate"],
+      "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"]
+    },
+    {
+      "family": "Quicksand",
+      "tags": ["sans-serif", "rounded", "display", "friendly", "modern", "playful", "light"],
+      "variants": ["300", "regular", "500", "600", "700"]
+    },
+    {
+      "family": "IBM Plex Sans",
+      "tags": ["sans-serif", "grotesque", "corporate", "technical", "modern", "legible", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic"]
+    },
+    {
+      "family": "Manrope",
+      "tags": ["sans-serif", "geometric", "modern", "clean", "legible", "neutral", "ui"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800"]
+    },
+    {
+      "family": "Barlow",
+      "tags": ["sans-serif", "grotesque", "neo-grotesque", "modern", "versatile", "legible", "clean"],
+      "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"]
+    },
+    {
+      "family": "Titillium Web",
+      "tags": ["sans-serif", "techno", "modern", "geometric", "display", "clean", "futuristic"],
+      "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "600", "600italic", "700", "700italic", "900"]
+    },
+    {
+      "family": "Outfit",
+      "tags": ["sans-serif", "geometric", "modern", "clean", "display", "versatile", "bold"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Libre Baskerville",
+      "tags": ["serif", "classic", "transitional", "elegant", "legible", "editorial", "traditional"],
+      "variants": ["regular", "italic", "700"]
+    },
+    {
+      "family": "Inconsolata",
+      "tags": ["monospace", "coding", "technical", "clean", "legible", "fixed-width", "programming", "modern"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Material Icons Outlined",
+      "tags": ["monospace", "icons", "symbols", "ui", "google", "outlined", "interface", "minimalist"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Bebas Neue",
+      "tags": ["sans-serif", "display", "condensed", "bold", "impactful", "headline", "strong"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "PT Serif",
+      "tags": ["serif", "transitional", "classic", "legible", "web-safe", "editorial", "professional"],
+      "variants": ["regular", "italic", "700", "700italic"]
+    },
+    {
+      "family": "Heebo",
+      "tags": ["sans-serif", "hebrew", "modern", "clean", "legible", "neutral", "versatile"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Karla",
+      "tags": ["sans-serif", "humanist", "quirky", "legible", "modern", "friendly", "versatile"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic"]
+    },
+    {
+      "family": "Roboto Flex",
+      "tags": ["sans-serif", "variable", "modern", "clean", "geometric", "versatile", "legible"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Bungee",
+      "tags": ["display", "bold", "urban", "retro", "layered", "funky", "playful"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Noto Serif",
+      "tags": ["serif", "international", "classic", "legible", "neutral", "traditional", "editorial"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Fjalla One",
+      "tags": ["sans-serif", "display", "condensed", "bold", "impactful", "headline", "strong"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Jost",
+      "tags": ["sans-serif", "geometric", "modern", "elegant", "versatile", "clean", "minimalist"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Prompt",
+      "tags": ["sans-serif", "thai", "modern", "geometric", "clean", "legible", "versatile"],
+      "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"]
+    },
+    {
+      "family": "Noto Color Emoji",
+      "tags": ["sans-serif", "emoji", "symbols", "color", "fun", "expressive"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Figtree",
+      "tags": ["sans-serif", "geometric", "modern", "clean", "legible", "neutral", "friendly"],
+      "variants": ["300", "regular", "500", "600", "700", "800", "900", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Hind Siliguri",
+      "tags": ["sans-serif", "bengali", "humanist", "legible", "modern", "clean", "neutral"],
+      "variants": ["300", "regular", "500", "600", "700"]
+    },
+    {
+      "family": "Libre Franklin",
+      "tags": ["sans-serif", "grotesque", "humanist", "legible", "workhorse", "neutral", "versatile"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Noto Sans SC",
+      "tags": ["sans-serif", "chinese-simplified", "international", "clean", "legible", "modern", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Bricolage Grotesque",
+      "tags": ["sans-serif", "display", "quirky", "modern", "versatile", "expressive", "unique"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800"]
+    },
+    {
+      "family": "Source Sans 3",
+      "tags": ["sans-serif", "humanist", "legible", "neutral", "workhorse", "adobe", "clean"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Josefin Sans",
+      "tags": ["sans-serif", "geometric", "elegant", "display", "thin", "vintage", "fashion"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic"]
+    },
+    {
+      "family": "Archivo",
+      "tags": ["sans-serif", "grotesque", "modern", "clean", "versatile", "legible", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Dancing Script",
+      "tags": ["handwriting", "script", "cursive", "elegant", "informal", "feminine", "playful"],
+      "variants": ["regular", "500", "600", "700"]
+    },
+    {
+      "family": "Archivo Black",
+      "tags": ["sans-serif", "display", "bold", "impactful", "grotesque", "headline", "strong"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Noto Serif JP",
+      "tags": ["serif", "japanese", "mincho", "elegant", "legible", "traditional", "editorial"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Saira",
+      "tags": ["sans-serif", "techno", "condensed", "display", "modern", "bold", "wide"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Cabin",
+      "tags": ["sans-serif", "humanist", "friendly", "legible", "modern", "clean", "versatile"],
+      "variants": ["regular", "500", "600", "700", "italic", "500italic", "600italic", "700italic"]
+    },
+    {
+      "family": "Nanum Gothic",
+      "tags": ["sans-serif", "korean", "legible", "clean", "modern", "neutral", "versatile"],
+      "variants": ["regular", "700", "800"]
+    },
+    {
+      "family": "Schibsted Grotesk",
+      "tags": ["sans-serif", "grotesque", "modern", "legible", "neutral", "corporate", "clean"],
+      "variants": ["regular", "500", "600", "700", "800", "900", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Source Code Pro",
+      "tags": ["monospace", "coding", "technical", "legible", "adobe", "fixed-width", "programming"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "EB Garamond",
+      "tags": ["serif", "garalde", "classic", "elegant", "legible", "editorial", "traditional"],
+      "variants": ["regular", "500", "600", "700", "800", "italic", "500italic", "600italic", "700italic", "800italic"]
+    },
+    {
+      "family": "Anton",
+      "tags": ["sans-serif", "display", "bold", "impactful", "headline", "strong", "condensed"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Cairo",
+      "tags": ["sans-serif", "arabic", "modern", "kufic", "legible", "clean", "versatile"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Barlow Condensed",
+      "tags": ["sans-serif", "condensed", "grotesque", "modern", "display", "narrow", "legible"],
+      "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"]
+    },
+    {
+      "family": "Dosis",
+      "tags": ["sans-serif", "rounded", "futuristic", "display", "thin", "modern", "light"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800"]
+    },
+    {
+      "family": "Mukta",
+      "tags": ["sans-serif", "devanagari", "humanist", "legible", "modern", "clean", "versatile"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800"]
+    },
+    {
+      "family": "Plus Jakarta Sans",
+      "tags": ["sans-serif", "geometric", "modern", "versatile", "neutral", "clean", "legible"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic"]
+    },
+    {
+      "family": "Public Sans",
+      "tags": ["sans-serif", "grotesque", "neutral", "legible", "workhorse", "clean", "modern"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Gravitas One",
+      "tags": ["display", "slab-serif", "bold", "heavy", "impactful", "strong", "vintage"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Lobster Two",
+      "tags": ["display", "script", "cursive", "bold", "retro", "vintage", "playful"],
+      "variants": ["regular", "italic", "700", "700italic"]
+    },
+    {
+      "family": "Bitter",
+      "tags": ["serif", "slab-serif", "contemporary", "legible", "workhorse", "sturdy", "friendly"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Share Tech",
+      "tags": ["sans-serif", "techno", "display", "modern", "geometric", "futuristic", "clean"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Smooch Sans",
+      "tags": ["sans-serif", "condensed", "display", "modern", "versatile", "bold", "narrow"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Material Icons Round",
+      "tags": ["monospace", "icons", "symbols", "ui", "google", "rounded", "interface", "minimalist"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Exo 2",
+      "tags": ["sans-serif", "techno", "futuristic", "display", "geometric", "modern", "clean"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Material Symbols Rounded",
+      "tags": ["monospace", "icons", "symbols", "ui", "google", "rounded", "interface", "minimalist"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700"]
+    },
+    {
+      "family": "Red Hat Display",
+      "tags": ["sans-serif", "grotesque", "display", "modern", "clean", "versatile", "legible"],
+      "variants": ["300", "regular", "500", "600", "700", "800", "900", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "M PLUS Rounded 1c",
+      "tags": ["sans-serif", "japanese", "rounded", "modern", "friendly", "legible", "soft"],
+      "variants": ["100", "300", "regular", "500", "700", "800", "900"]
+    },
+    {
+      "family": "Assistant",
+      "tags": ["sans-serif", "hebrew", "humanist", "legible", "clean", "modern", "neutral"],
+      "variants": ["200", "300", "regular", "500", "600", "700", "800"]
+    },
+    {
+      "family": "Oxygen",
+      "tags": ["sans-serif", "humanist", "legible", "modern", "web-safe", "clean", "neutral"],
+      "variants": ["300", "regular", "700"]
+    },
+    {
+      "family": "Hind",
+      "tags": ["sans-serif", "devanagari", "humanist", "legible", "modern", "clean", "neutral"],
+      "variants": ["300", "regular", "500", "600", "700"]
+    },
+    {
+      "family": "PT Sans Narrow",
+      "tags": ["sans-serif", "condensed", "humanist", "legible", "classic", "narrow", "elegant"],
+      "variants": ["regular", "700"]
+    },
+    {
+      "family": "Crimson Text",
+      "tags": ["serif", "old-style", "classic", "elegant", "legible", "editorial", "traditional"],
+      "variants": ["regular", "italic", "600", "600italic", "700", "700italic"]
+    },
+    {
+      "family": "Alfa Slab One",
+      "tags": ["display", "slab-serif", "bold", "heavy", "egyptian", "impactful", "strong"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Pacifico",
+      "tags": ["handwriting", "script", "brush", "cursive", "retro", "fun", "playful"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Space Grotesk",
+      "tags": ["sans-serif", "grotesque", "monospace", "modern", "geometric", "futuristic", "clean"],
+      "variants": ["300", "regular", "500", "600", "700"]
+    },
+    {
+      "family": "Abel",
+      "tags": ["sans-serif", "condensed", "display", "modern", "thin", "narrow", "elegant"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Lexend",
+      "tags": ["sans-serif", "modern", "legible", "clean", "versatile", "neutral", "friendly"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"]
+    },
+    {
+      "family": "Arvo",
+      "tags": ["serif", "slab-serif", "geometric", "legible", "sturdy", "bold", "classic"],
+      "variants": ["regular", "italic", "700", "700italic"]
+    },
+    {
+      "family": "Lobster",
+      "tags": ["display", "script", "bold", "cursive", "retro", "fun", "vintage"],
+      "variants": ["regular"]
+    },
+    {
+      "family": "Overpass",
+      "tags": ["sans-serif", "humanist", "legible", "modern", "workhorse", "clean", "neutral"],
+      "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"]
+    },
+    {
+      "family": "Tajawal",
+      "tags": ["sans-serif", "arabic", "modern", "clean", "legible", "versatile", "neutral"],
+      "variants": ["200", "300", "regular", "500", "700", "800", "900"]
+    },
+    {
+      "family": "Caveat",
+      "tags": ["handwriting", "script", "cursive", "informal", "personal", "playful", "friendly"],
+      "variants": ["regular", "500", "600", "700"]
+    }
+  ]

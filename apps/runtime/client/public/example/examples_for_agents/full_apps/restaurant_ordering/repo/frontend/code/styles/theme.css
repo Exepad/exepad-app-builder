@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Savora Kitchen — Code Focus Theme
+   Non-Tailwind styles: fonts, transitions, spice indicators, hero gradient
+   ========================================================================== */
+
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.menu-card {
+  transition: transform 0.2s ease;
+}
+.menu-card:hover {
+  transform: scale(1.02);
+}
+
+.spice-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.spice-mild {
+  background: #fbbf24;
+}
+.spice-medium {
+  background: #f97316;
+}
+.spice-hot {
+  background: #ef4444;
+}
+.spice-extra {
+  background: #991b1b;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+}

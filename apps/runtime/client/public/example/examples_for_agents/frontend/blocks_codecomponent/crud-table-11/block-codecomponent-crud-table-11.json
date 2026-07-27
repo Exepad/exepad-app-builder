@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-crud-table",
+  "alias": "codecomponent-crud-table",
+  "name": "Customer Directory CRUD Table",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Full CRUD data table CodeComponent showing customer records with sortable columns, pagination (PaginationPrevious/Next/Link/Ellipsis), add/edit Dialog with form, delete AlertDialog confirmation, DropdownMenu for row actions, Badge status indicators, and toast notifications. Uses local demo data with useModel pattern shown in comments. No backend required.",
+  "shortSummary": "CRUD data table with sorting, pagination, Dialog forms, AlertDialog delete, and DropdownMenu actions",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "CustomerDirectory": {
+        "source": "frontend/components/CustomerDirectory.tsx",
+        "compiled": "frontend/components/CustomerDirectory.js",
+        "summary": "Full CRUD customer table with sortable columns, pagination, add/edit dialogs, delete confirmation, and dropdown row actions"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eff6ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#eff6ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0a0e1a",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0a0e1a",
+        "secondary": "#111827",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#111827",
+        "muted-foreground": "#94a3b8",
+        "accent": "#111827",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#111827",
+        "input": "#111827",
+        "ring": "#60a5fa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-main",
+        "title": "Customer Directory",
+        "slug": "/",
+        "summary": "Customer directory page with full CRUD data table, sorting, and pagination.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-1",
+            "component": "CustomerDirectory",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "CRUD customer table with sorting and pagination",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}
