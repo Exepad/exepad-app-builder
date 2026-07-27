@@ -1,0 +1,17 @@
+<div id="nav">nav</div>
+<a id="magnetCta" href="#">cta</a>
+<canvas id="sigCanvas"></canvas>
+<script>
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nav = document.getElementById('nav');
+  const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  const cta = document.getElementById('magnetCta');
+  if(cta && !reduced){
+    cta.addEventListener('mousemove', (e) => { /* magnet */ });
+    cta.addEventListener('mouseleave', () => { /* reset */ });
+  }
+})();
+</script>

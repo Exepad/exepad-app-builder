@@ -1,0 +1,171 @@
+# Self-hosted Exepad — ONE self-contained container, HTTPS by default.
+#
+#   1. Put your LLM key in a .env file next to this file (see env vars below).
+#   2. docker compose up --build
+#   3. Open https://localhost → accept the one-time local-certificate warning →
+#      complete first-run setup → build an app.
+#
+# HTTPS needs zero configuration and NO extra packages or sidecars: the image runs
+# Caddy in-process as the TLS terminator (80/443) in front of the runtime (8080).
+# On a publicly reachable box you additionally get a browser-TRUSTED certificate
+# automatically at https://<your-public-ip-dashed>.sslip.io (no warning, no domain
+# to buy). Opt out with EXEPAD_HTTPS_DISABLE=1 (serves plain HTTP on 8080).
+#
+services:
+  exepad:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # AGPL-3.0 §13 source offer. A FORK rebuilding here points these at its own
+      # repo so the studio's About page, GET /source and the <link rel="license">
+      # on every served page all name the source the user can actually get. The
+      # build args bake them into the SPA; the `environment:` entry below repoints
+      # the server side at runtime. Unset, they describe this upstream build.
+      args:
+        EXEPAD_SOURCE_URL: "${EXEPAD_SOURCE_URL:-}"
+        EXEPAD_VERSION: "${EXEPAD_VERSION:-dev}"
+        EXEPAD_COMMIT: "${EXEPAD_COMMIT:-}"
+    image: exepad:latest
+    # Host networking: the container shares the host's network namespace, so the
+    # in-image Caddy binds the host's ports DIRECTLY — :80 (HTTP redirect + ACME
+    # HTTP-01) and the studio's HTTPS port (443 by default). This is what lets the
+    # in-app "Server & network" page MOVE the HTTPS port with no docker-compose /
+    # .env edit: Caddy reads the saved port (net.https_port) at startup and binds it
+    # on the host, so a change just needs a restart (there's a button for it).
+    #
+    # Caddy is the intended front door, and the Node runtime BEHIND it is kept off
+    # the host's interfaces: EXEPAD_HTTP_BIND=127.0.0.1 (below) pins the plain-HTTP
+    # :8080 listener to loopback. That matters specifically under host networking —
+    # with no network namespace of its own, the runtime's default "bind all
+    # interfaces when a proxy fronts TLS" would put the studio on
+    # http://<this-box>:8080 in PLAINTEXT, next to Caddy's HTTPS front. Caddy still
+    # reaches it (`reverse_proxy 127.0.0.1:8080`), as do the healthcheck and the
+    # optional tunnel. Always open the box over https://.
+    #
+    # Appliance model: this box's :80 and your HTTPS port must be free. Host
+    # networking is Linux-native; on Docker Desktop (macOS/Windows) it has caveats,
+    # so there swap it for a fixed bridge mapping — delete `network_mode: host` and
+    # add `ports: ["80:80", "443:443"]`. That leaves :8080 unpublished (off the host
+    # network entirely), at the cost of the in-app port move, which then needs a
+    # matching edit here.
+    network_mode: host
+    environment:
+      # ── AGPL-3.0 §13 source offer ───────────────────────────────────────────
+      # Server-side half of the offer (GET /source + <link rel="license">), read
+      # at boot. A fork sets this alongside the matching build arg above.
+      EXEPAD_SOURCE_URL: ${EXEPAD_SOURCE_URL:-}
+
+      # ── LLM provider (required) ─────────────────────────────────────────────
+      # Default provider is Gemini. For any other vendor set EXEPAD_LLM_PROVIDER
+      # (anthropic | openai | openrouter | ollama | groq | mistral | deepseek |
+      # custom) and, for OpenAI-compatible endpoints, EXEPAD_LLM_BASE_URL.
+      EXEPAD_LLM_PROVIDER: ${EXEPAD_LLM_PROVIDER:-gemini}
+      EXEPAD_LLM_API_KEY: ${EXEPAD_LLM_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      EXEPAD_LLM_BASE_URL: ${EXEPAD_LLM_BASE_URL:-}
+      EXEPAD_LLM_MODEL_DEFAULT: ${EXEPAD_LLM_MODEL_DEFAULT:-}
+      # ── First-run admin (optional) ─────────────────────────────────────────
+      # If set on first boot, the operator account is seeded automatically;
+      # otherwise complete setup in the browser at /login. When NOT seeded here,
+      # browser setup requires a one-time token the container prints to its logs
+      # on first boot (so an exposed instance can't be claimed by a stranger).
+      # Override the token, or set EXEPAD_ALLOW_OPEN_SETUP=1 to allow tokenless
+      # setup on a purely local instance.
+      EXEPAD_ADMIN_EMAIL: ${EXEPAD_ADMIN_EMAIL:-}
+      EXEPAD_ADMIN_PASSWORD: ${EXEPAD_ADMIN_PASSWORD:-}
+      EXEPAD_SETUP_TOKEN: ${EXEPAD_SETUP_TOKEN:-}
+      EXEPAD_ALLOW_OPEN_SETUP: ${EXEPAD_ALLOW_OPEN_SETUP:-}
+      # ── Optional integrations ──────────────────────────────────────────────
+      PEXELS_API_KEY: ${PEXELS_API_KEY:-}
+      # Comma-separated host allowlist for handler outbound fetch (default deny).
+      EXEPAD_FETCH_ALLOWLIST: ${EXEPAD_FETCH_ALLOWLIST:-}
+      # ── Networking & custom domains (only needed beyond localhost) ─────────
+      # Allow a LAN IP / custom domain for credentialed /api calls (CORS).
+      # Exact origin, host:port, or *.suffix wildcard; comma/pipe-separated.
+      EXEPAD_ALLOWED_ORIGINS: ${EXEPAD_ALLOWED_ORIGINS:-}
+      # Behind a TLS-terminating proxy, set to 1 (or forward X-Forwarded-Proto).
+      EXEPAD_COOKIE_SECURE: ${EXEPAD_COOKIE_SECURE:-}
+      # Off unless you set it. Set to 1 ONLY when a real Cloudflare edge fronts
+      # this box: it makes the rate limiter bucket on `cf-connecting-ip`, so
+      # visitors stop sharing one Cloudflare-edge bucket. With anything else in
+      # front, that header is client-forgeable and defeats the login throttle.
+      EXEPAD_TRUST_CF: ${EXEPAD_TRUST_CF:-}
+      # ── Built-in HTTPS (on by default; in-image Caddy, nothing to install) ──
+      # Set to 1 to turn the in-image Caddy OFF and serve plain HTTP on 8080
+      # (e.g. when you front your own TLS-terminating reverse proxy). Safe to set
+      # on its own: the runtime then ignores the loopback pin below, because plain
+      # HTTP has become the only way in.
+      EXEPAD_HTTPS_DISABLE: ${EXEPAD_HTTPS_DISABLE:-}
+      # Keep the runtime's plain-HTTP listener on loopback while Caddy fronts TLS.
+      # Required under `network_mode: host`: without it the TLS-fronted runtime
+      # binds 0.0.0.0:8080 on the host, exposing the studio in cleartext beside
+      # Caddy's HTTPS. Ignored when EXEPAD_HTTPS_DISABLE is set (see above).
+      EXEPAD_HTTP_BIND: ${EXEPAD_HTTP_BIND:-127.0.0.1}
+      # Optional Let's Encrypt account contact for the trusted-cert path (expiry
+      # notices only — automatic issuance works without it).
+      EXEPAD_ACME_EMAIL: ${EXEPAD_ACME_EMAIL:-}
+      # Optional shared key gating the on-demand-TLS authorize endpoint.
+      EXEPAD_ONDEMAND_TLS_ASK_KEY: ${EXEPAD_ONDEMAND_TLS_ASK_KEY:-}
+      # Self-serve custom domains (Studio → Settings → Custom domains): the public
+      # A-record IP (or CNAME host) shown to operators as the DNS target to point
+      # their domain at. Verified domains are then allowed for CORS + cert issuance
+      # dynamically — no env edit. Automatic ACME needs the Caddy on-demand sidecar
+      # (docker-compose.ondemand.yml); behind your OWN reverse proxy these just
+      # populate the DNS hint. EXEPAD_HSTS=1 opts ALL secure responses into HSTS
+      # (off by default — it can lock out later plain-HTTP/cert-loss access).
+      EXEPAD_PUBLIC_IP: ${EXEPAD_PUBLIC_IP:-}
+      EXEPAD_PUBLIC_HOST: ${EXEPAD_PUBLIC_HOST:-}
+      EXEPAD_HSTS: ${EXEPAD_HSTS:-}
+      # When EXEPAD_PUBLIC_IP is unset, the entrypoint auto-detects the box's
+      # public IP by calling third-party echo services (ipify/amazonaws/
+      # icanhazip) once at boot. Set to 1 to skip that outbound call entirely
+      # (air-gapped / egress-restricted hosts).
+      EXEPAD_DISABLE_IP_ECHO: ${EXEPAD_DISABLE_IP_ECHO:-}
+      # ── Auth email for your generated apps' end users (optional) ───────────
+      # Powers exactly two per-app auth flows: email verification and password
+      # reset. Nothing else sends mail, and leaving this unset costs you nothing
+      # else — signup and login work without it, because the "Require Email
+      # Verification" toggle is off by default.
+      #
+      # All THREE are needed for a send to succeed. The transport is a Resend
+      # proxy that the runtime keeps to itself (the key never reaches an app
+      # isolate); with no key it answers 503 and the auth flows report that email
+      # is unavailable. The from-address must be on a domain YOU control and have
+      # verified with Resend — the built-in default is an @exepad.com address you
+      # cannot verify, so a send with the default from is rejected by Resend even
+      # when the key is valid. Add your domain to the allowlist alongside it.
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EXEPAD_EMAIL_FROM: ${EXEPAD_EMAIL_FROM:-}
+      EXEPAD_EMAIL_FROM_NAME: ${EXEPAD_EMAIL_FROM_NAME:-}
+      # From-address domains allowed for auth email (default exepad.com,exepad.app).
+      EXEPAD_EMAIL_SENDER_DOMAINS: ${EXEPAD_EMAIL_SENDER_DOMAINS:-}
+      # One-click "Share live URL" (Cloudflare Quick Tunnel). cloudflared is baked
+      # into the image; override only to point at a custom binary path. The tunnel
+      # dials OUT to Cloudflare's edge, so there is no inbound port to publish.
+      EXEPAD_CLOUDFLARED_BIN: ${EXEPAD_CLOUDFLARED_BIN:-}
+    volumes:
+      # Persists meta.sqlite, per-app SQLite, storage, uploads, agent sessions,
+      # and the generated secrets. Back up by archiving this volume.
+      - exepad-data:/data
+    restart: unless-stopped
+    # Cap container logs so an `unless-stopped` studio can't fill the disk on a
+    # small self-host box (the agent streams LLM build logs; a full /data disk
+    # corrupts the SQLite state). Docker's default json-file driver never rotates
+    # unless told to.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  exepad-data:
+    # Explicit name — do NOT remove. Without it Compose prefixes the project (the
+    # checkout directory), giving `exepad-app-builder_exepad-data`, while
+    # install.sh (DATA_VOLUME), install.ps1, the CLI's own generated compose, and
+    # `exepad backup` / `exepad restore` all mount the LITERAL name `exepad-data`.
+    # Mounting a volume that doesn't exist is not an error — Docker creates an
+    # empty one — so a backup taken against a compose install would silently
+    # produce a valid-looking, EMPTY archive, and the docs' documented
+    # `docker run -v exepad-data:/data … tar czf` would do the same.
+    name: exepad-data

@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-video-course-player",
+  "alias": "codecomponent-video-course-player",
+  "name": "Video Course Player",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Video course player CodeComponent using VideoJS extension library. VideoJS player initialized with useRef + useEffect in a 16:9 AspectRatio container. Chapter sidebar uses Accordion with 3 modules, each containing 3-4 lessons. Each lesson shows Progress bar (watched %) and Badge (Complete/In Progress/Not Started). Click lesson loads video via placeholder URL. Completion AlertDialog shown when lesson finishes. Mark Complete button triggers useHandler('markComplete'). Uses useModel pattern for course content (demo data: 3 modules, 10 lessons), useAppState for current lesson and progress tracking.",
+  "shortSummary": "VideoJS course player with chapter sidebar, progress tracking, completion dialog, and mark complete handler",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "VideoCoursePlayer": {
+        "source": "frontend/components/VideoCoursePlayer.tsx",
+        "compiled": "frontend/components/VideoCoursePlayer.js",
+        "summary": "VideoJS-based course player with accordion chapter sidebar, per-lesson progress, completion dialog, and mark complete handler"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1c1917",
+        "primary": "#dc2626",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fef2f2",
+        "secondary-foreground": "#1c1917",
+        "muted": "#fef2f2",
+        "muted-foreground": "#6b7280",
+        "accent": "#fee2e2",
+        "accent-foreground": "#1c1917",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#fecaca",
+        "input": "#fecaca",
+        "ring": "#dc2626"
+      },
+      "dark": {
+        "background": "#1c1917",
+        "foreground": "#fef2f2",
+        "primary": "#f87171",
+        "primary-foreground": "#1c1917",
+        "secondary": "#450a0a",
+        "secondary-foreground": "#fef2f2",
+        "muted": "#450a0a",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#450a0a",
+        "accent-foreground": "#fef2f2",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fef2f2",
+        "border": "#7f1d1d",
+        "input": "#7f1d1d",
+        "ring": "#f87171"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-course-player",
+        "title": "Course Player",
+        "slug": "/",
+        "summary": "Video course player with chapter navigation, progress tracking, and completion flow.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "video-course-player-1",
+            "component": "VideoCoursePlayer",
+            "extensions": [
+              "videojs"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Video course player with chapter navigation and progress",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

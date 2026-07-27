@@ -1,0 +1,49 @@
+# Dependencies & build output (reinstalled/rebuilt inside the image)
+**/node_modules
+**/dist
+**/.turbo
+**/.wrangler
+# TypeScript incremental cache — stale copies make `tsc` skip emitting on a clean
+# build (deploy-utils emitted 0 files → app-backend couldn't resolve its types).
+**/*.tsbuildinfo
+apps/runtime/worker/dist
+apps/runtime/client/dist
+
+# Python
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.mypy_cache
+**/.coverage
+**/htmlcov
+
+# Local data / artifacts / secrets. Mirror the secret-bearing .gitignore entries so
+# `./run.sh local` state (live secrets, meta.sqlite operator hashes, per-app user
+# DBs), mkcert TLS keys, and the Caddy DNS-01 token NEVER enter the build context or
+# the builder-stage layer cache. A churning meta.sqlite-wal here would also bust the
+# `COPY . .` layer on every build.
+**/.env
+**/.env.local
+apps/agent/.local_artifacts
+apps/agent/_vendor
+data
+exepad-data
+.exepad-data
+certs/
+*.pem
+caddy.env
+.claude/
+.playwright-mcp/
+
+# VCS & tooling
+.git
+.github
+**/*.log
+**/test-results.json
+**/coverage
+
+# Docs & editor cruft not needed at build time
+**/.DS_Store
+.vscode
+.idea

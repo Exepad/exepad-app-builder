@@ -1,0 +1,54 @@
+# Caddyfile.ondemand — automatic, browser-trusted HTTPS for self-serve custom
+# domains, via Caddy on-demand TLS.
+#
+# Like the reference ./Caddyfile this obtains a real Let's Encrypt certificate per
+# hostname on the first HTTPS request, but WITHOUT that config's internal-CA
+# fallback for localhost/LAN — issuance is public-challenge only. ONLY hostnames
+# the Exepad worker authorizes through the `ask` endpoint get a cert, which here
+# returns HTTP 200 only for domains the operator has registered AND verified in
+# Studio → Settings → Custom domains (plus the box's own addresses).
+# That allowlist is the abuse guard that keeps issuance inside Let's Encrypt's
+# rate limits (an attacker sending bogus SNIs is refused, so Caddy never tries
+# ACME for them).
+#
+# Use it with:
+#   docker compose -f docker-compose.yml -f docker-compose.ondemand.yml up --build
+#
+# Requirements per domain: a public DNS A/AAAA (or CNAME) pointing at this box,
+# inbound TCP 80 + 443 reachable from the internet, and EXEPAD_ACME_EMAIL set.
+
+{
+	# No `email` directive: the Let's Encrypt account contact is OPTIONAL (Caddy
+	# registers an anonymous account and issues fine without it; it only gates
+	# expiry notices). Templating an empty {$EXEPAD_ACME_EMAIL} would emit a bare
+	# `email` token and FAIL config parsing whenever the var is unset (the
+	# default) — so we omit it. Add `email you@example.com` to receive notices.
+
+	# On-demand issuance is gated by the worker: Caddy asks before obtaining a
+	# cert for an unknown SNI and only proceeds on HTTP 200. An `ask` endpoint
+	# (or rate-limit cap) is REQUIRED for production on-demand TLS with a public
+	# CA. The optional shared key is carried in the URL and matched by the worker
+	# against ?key= (EXEPAD_ONDEMAND_TLS_ASK_KEY); leave it empty to disable.
+	on_demand_tls {
+		ask http://127.0.0.1:8080/internal/tls/authorize?key={$EXEPAD_ONDEMAND_TLS_ASK_KEY}
+	}
+}
+
+# Plain HTTP -> HTTPS redirect for bare-host visitors. Caddy answers ACME HTTP-01
+# challenges on :80 before this redirect; on-demand also supports TLS-ALPN-01 on
+# :443, so issuance still works if only 443 is reachable. No HSTS here by design
+# (the app sets it opt-in per-domain / via EXEPAD_HSTS).
+http:// {
+	redir https://{host}{uri} permanent
+}
+
+# Catch-all HTTPS with on-demand issuance. Caddy PRESERVES the inbound Host and
+# sets X-Forwarded-For / X-Forwarded-Proto / X-Forwarded-Host by default — the
+# worker reads X-Forwarded-Proto for Secure cookies and the preserved Host for
+# host->app routing + canonical URLs. Do not strip these or rewrite Host.
+https:// {
+	tls {
+		on_demand
+	}
+	reverse_proxy 127.0.0.1:8080
+}

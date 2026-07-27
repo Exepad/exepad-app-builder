@@ -1,0 +1,283 @@
+{
+  "uuid": "backend-project-management",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "Project Management",
+  "alias": "backend-project-management",
+  "summary": "Project management backend with projects and tasks models. Read handler for project tasks and write handler for moving tasks between kanban columns.",
+  "shortSummary": "Project management backend with projects and task",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-projects",
+        "name": "projects",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Name of the project"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Detailed description of the project scope and goals",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Current project status: planning, active, on_hold, completed, archived",
+            "defaultValue": "planning"
+          },
+          {
+            "name": "start_date",
+            "type": "text",
+            "summary": "Project start date in YYYY-MM-DD format",
+            "isNullable": true
+          },
+          {
+            "name": "end_date",
+            "type": "text",
+            "summary": "Planned or actual end date in YYYY-MM-DD format",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_projects_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-tasks",
+        "name": "tasks",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Title or brief description of the task"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Detailed task description and acceptance criteria",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Kanban column status: backlog, todo, in_progress, review, done",
+            "defaultValue": "backlog"
+          },
+          {
+            "name": "priority",
+            "type": "text",
+            "summary": "Task priority level: low, medium, high, urgent",
+            "defaultValue": "medium"
+          },
+          {
+            "name": "assignee",
+            "type": "text",
+            "summary": "Name or email of the person assigned to the task",
+            "isNullable": true
+          },
+          {
+            "name": "project_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the parent project",
+            "references": {
+              "model": "projects",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "due_date",
+            "type": "text",
+            "summary": "Task due date in YYYY-MM-DD format",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_tasks_project_id",
+            "columns": [
+              "project_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_priority",
+            "columns": [
+              "priority"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_assignee",
+            "columns": [
+              "assignee"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "authenticated"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getProjectTasks",
+        "name": "getProjectTasks",
+        "method": "getProjectTasks",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "project_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the project to retrieve tasks for"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": false,
+            "summary": "Optionally filter tasks by kanban status"
+          },
+          {
+            "name": "assignee",
+            "type": "string",
+            "required": false,
+            "summary": "Optionally filter tasks by assignee"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "tasks",
+            "type": "array",
+            "summary": "List of tasks for the specified project"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of tasks matching the filter"
+          },
+          {
+            "name": "statusCounts",
+            "type": "json",
+            "summary": "Breakdown of task counts by kanban status column"
+          }
+        ]
+      },
+      {
+        "uuid": "h-moveTask",
+        "name": "moveTask",
+        "method": "moveTask",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "task_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the task to move"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": true,
+            "summary": "Target kanban column: backlog, todo, in_progress, review, done"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "success",
+            "type": "boolean",
+            "summary": "Whether the task was successfully moved"
+          },
+          {
+            "name": "task",
+            "type": "json",
+            "summary": "Updated task object with the new status"
+          },
+          {
+            "name": "previousStatus",
+            "type": "string",
+            "summary": "The kanban column the task was in before the move"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

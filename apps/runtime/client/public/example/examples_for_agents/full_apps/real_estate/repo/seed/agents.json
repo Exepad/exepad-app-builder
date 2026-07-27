@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Sarah Mitchell",
+    "email": "sarah.mitchell@nestfinder.com",
+    "phone": "(555) 234-5678",
+    "bio": "With over 12 years of experience in residential real estate, Sarah specializes in luxury homes and waterfront properties. She has consistently been a top performer in the Austin market.",
+    "photo_url": null,
+    "license_number": "TX-RE-2014-88432",
+    "specializations": "[\"Residential\",\"Luxury\",\"Waterfront\"]"
+  },
+  {
+    "name": "James Rodriguez",
+    "email": "james.rodriguez@nestfinder.com",
+    "phone": "(555) 345-6789",
+    "bio": "James brings 8 years of commercial and residential expertise to every transaction. His background in architecture gives clients a unique perspective on property value.",
+    "photo_url": null,
+    "license_number": "TX-RE-2017-61205",
+    "specializations": "[\"Residential\",\"Commercial\",\"New Construction\"]"
+  },
+  {
+    "name": "Emily Chen",
+    "email": "emily.chen@nestfinder.com",
+    "phone": "(555) 456-7890",
+    "bio": "Emily is a first-time homebuyer specialist who makes the buying process simple and stress-free. She has helped over 200 families find their dream homes in the greater Austin area.",
+    "photo_url": null,
+    "license_number": "TX-RE-2019-44217",
+    "specializations": "[\"Residential\",\"First-Time Buyers\"]"
+  },
+  {
+    "name": "Michael Thompson",
+    "email": "michael.thompson@nestfinder.com",
+    "phone": "(555) 567-8901",
+    "bio": "A seasoned investor-focused agent, Michael helps clients build wealth through strategic real estate investments. He manages a portfolio of over $50M in rental properties.",
+    "photo_url": null,
+    "license_number": "TX-RE-2012-33891",
+    "specializations": "[\"Investment\",\"Multi-Family\",\"Commercial\"]"
+  },
+  {
+    "name": "Jessica Park",
+    "email": "jessica.park@nestfinder.com",
+    "phone": "(555) 678-9012",
+    "bio": "Jessica focuses on eco-friendly and sustainable properties. She is LEED-certified and passionate about helping clients find energy-efficient homes.",
+    "photo_url": null,
+    "license_number": "TX-RE-2018-55603",
+    "specializations": "[\"Residential\",\"Green Homes\",\"Condos\"]"
+  },
+  {
+    "name": "David Williams",
+    "email": "david.williams@nestfinder.com",
+    "phone": "(555) 789-0123",
+    "bio": "David has been selling luxury properties for over 15 years. His deep knowledge of the Hill Country market and attention to detail make him a trusted advisor for high-net-worth clients.",
+    "photo_url": null,
+    "license_number": "TX-RE-2010-21478",
+    "specializations": "[\"Luxury\",\"Ranch\",\"Land\"]"
+  },
+  {
+    "name": "Amanda Foster",
+    "email": "amanda.foster@nestfinder.com",
+    "phone": "(555) 890-1234",
+    "bio": "Amanda specializes in downtown condos and urban living. She knows every neighborhood in Austin and helps young professionals find the perfect city apartment.",
+    "photo_url": null,
+    "license_number": "TX-RE-2020-72156",
+    "specializations": "[\"Condos\",\"Urban\",\"Residential\"]"
+  },
+  {
+    "name": "Robert Kim",
+    "email": "robert.kim@nestfinder.com",
+    "phone": "(555) 901-2345",
+    "bio": "Robert is a relocation specialist who assists families moving to Texas from out of state. His comprehensive market knowledge and concierge-level service ensure a smooth transition.",
+    "photo_url": null,
+    "license_number": "TX-RE-2016-98341",
+    "specializations": "[\"Residential\",\"Relocation\",\"Luxury\"]"
+  }
+]

@@ -1,0 +1,6 @@
+# One-click Windows wrapper files ship inside a ZIP and are parsed by
+# cmd.exe/Notepad: they MUST stay CRLF byte-for-byte. Mark them -text so git
+# never re-normalizes them on any platform.
+packaging/one-click/windows/** -text
+# .url is a Windows INI file inside the MSI payload: keep CRLF byte-for-byte.
+packaging/msi/*.url -text

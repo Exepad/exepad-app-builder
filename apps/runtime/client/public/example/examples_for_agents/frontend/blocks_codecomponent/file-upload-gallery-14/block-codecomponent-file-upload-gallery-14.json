@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-file-upload-gallery",
+  "alias": "codecomponent-file-upload-gallery",
+  "name": "File Upload Image Gallery",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Image gallery with drag-and-drop upload functionality using CodeComponentProps. Demonstrates useFileUpload for file handling with demo simulation fallback, useFileUrl for image URLs, useArrayState for tracking uploaded files, toast for notifications, Progress bar during uploads, AspectRatio containers for consistent image sizing, Dialog for full-size preview, ToggleGroup for grid/list view switching, and Skeleton placeholders. No backend required — uses embedded demo data with simulated upload progress.",
+  "shortSummary": "Image gallery with drag-and-drop upload using useFileUpload and useArrayState",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ImageGallery": {
+        "source": "frontend/components/ImageGallery.tsx",
+        "compiled": "frontend/components/ImageGallery.js",
+        "summary": "Image gallery with drag-and-drop upload zone, progress bar, grid/list view toggle, thumbnail previews with AspectRatio, and full-size Dialog preview"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#db2777",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fdf2f8",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#fdf2f8",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#db2777"
+      },
+      "dark": {
+        "background": "#0f0a10",
+        "foreground": "#f8fafc",
+        "primary": "#f472b6",
+        "primary-foreground": "#0f0a10",
+        "secondary": "#1f1220",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1f1220",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#f472b6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-gallery",
+        "title": "Gallery",
+        "slug": "/",
+        "summary": "Image gallery page with upload zone and grid/list view.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "image-gallery-1",
+            "component": "ImageGallery",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Image gallery with upload and grid/list view",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

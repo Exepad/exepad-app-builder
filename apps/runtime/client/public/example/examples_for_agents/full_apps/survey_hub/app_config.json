@@ -1,0 +1,442 @@
+{
+  "uuid": "survey-hub",
+  "alias": "survey-hub",
+  "name": "PulseCheck",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Survey creation and response collection app with analytics, step-through survey experience, and aggregated result visualizations",
+  "shortSummary": "Survey builder with response collection and analytics",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "SurveyHeader": {
+          "source": "frontend/code/components/SurveyHeader.tsx",
+          "compiled": "frontend/compiled/components/SurveyHeader.js",
+          "summary": "Top bar with PulseCheck logo (BarChart3 icon), app name, user avatar with rose/pink theme"
+        },
+        "SurveySidebar": {
+          "source": "frontend/code/components/SurveySidebar.tsx",
+          "compiled": "frontend/compiled/components/SurveySidebar.js",
+          "summary": "Left navigation with Dashboard, Surveys, and Results links with active state highlighting"
+        },
+        "SurveyDashboard": {
+          "source": "frontend/code/components/SurveyDashboard.tsx",
+          "compiled": "frontend/compiled/components/SurveyDashboard.js",
+          "summary": "Dashboard with stats cards, active surveys with progress bars, recent responses timeline, and quick actions"
+        },
+        "SurveyList": {
+          "source": "frontend/code/components/SurveyList.tsx",
+          "compiled": "frontend/compiled/components/SurveyList.js",
+          "summary": "Grid of survey cards with status badges, question count, response count, date range, and Take Survey button"
+        },
+        "SurveyTaker": {
+          "source": "frontend/code/components/SurveyTaker.tsx",
+          "compiled": "frontend/compiled/components/SurveyTaker.js",
+          "summary": "Step-through survey UI with progress bar, multiple choice, rating, text, and yes/no question types, submit and thank you screen"
+        },
+        "SurveyResults": {
+          "source": "frontend/code/components/SurveyResults.tsx",
+          "compiled": "frontend/compiled/components/SurveyResults.js",
+          "summary": "Survey results with dropdown selector, bar charts for multiple choice, star ratings, text response lists, and yes/no pie visualizations"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile with avatar, survey performance metrics, stats grid, and recent activity timeline"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification toggles, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Custom utility classes for survey cards, progress bars, star ratings, and hover transitions"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "surveys": {
+        "source": "repo/seed/surveys.json",
+        "format": "json",
+        "model": "surveys",
+        "source_hash": "sha256:83bf37c5a5e0822918433c96e6e62a30ce3e33f5125931ae909c60502ae89281"
+      },
+      "survey_questions": {
+        "source": "repo/seed/survey_questions.json",
+        "format": "json",
+        "model": "survey_questions",
+        "source_hash": "sha256:9c12452274397478d85f1cfb01bc5b28afd22f9e538a61608b084bde420d25e0"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-surveys",
+        "name": "surveys",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Survey title"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Survey description"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Survey status: draft, active, or closed",
+            "defaultValue": "active"
+          },
+          {
+            "name": "question_count",
+            "type": "integer",
+            "summary": "Number of questions in the survey"
+          },
+          {
+            "name": "starts_at",
+            "type": "text",
+            "summary": "ISO 8601 start date",
+            "isNullable": true
+          },
+          {
+            "name": "ends_at",
+            "type": "text",
+            "summary": "ISO 8601 end date",
+            "isNullable": true
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Survey category",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_surveys_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_surveys_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-survey-questions",
+        "name": "survey_questions",
+        "columns": [
+          {
+            "name": "survey_id",
+            "type": "integer",
+            "summary": "FK to surveys table",
+            "references": {
+              "model": "surveys",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "question_text",
+            "type": "text",
+            "summary": "The question text"
+          },
+          {
+            "name": "question_type",
+            "type": "text",
+            "summary": "Question type: multiple_choice, rating, text, or yes_no"
+          },
+          {
+            "name": "options",
+            "type": "text",
+            "summary": "JSON array of options for multiple_choice questions",
+            "isNullable": true
+          },
+          {
+            "name": "is_required",
+            "type": "integer",
+            "summary": "Whether the question is required (1=yes, 0=no)",
+            "defaultValue": 1
+          },
+          {
+            "name": "sort_order",
+            "type": "integer",
+            "summary": "Display order of the question within the survey"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_sq_survey_id",
+            "columns": [
+              "survey_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_sq_sort_order",
+            "columns": [
+              "sort_order"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-survey-responses",
+        "name": "survey_responses",
+        "columns": [
+          {
+            "name": "survey_id",
+            "type": "integer",
+            "summary": "FK to surveys table",
+            "references": {
+              "model": "surveys",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "answers",
+            "type": "text",
+            "summary": "JSON object mapping question_id to answer value"
+          },
+          {
+            "name": "completed_at",
+            "type": "text",
+            "summary": "ISO 8601 completion timestamp"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_sr_survey_id",
+            "columns": [
+              "survey_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": []
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1c1917",
+        "primary": "#e11d48",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fff1f2",
+        "secondary-foreground": "#1c1917",
+        "muted": "#f5f5f4",
+        "muted-foreground": "#78716c",
+        "accent": "#ffe4e6",
+        "accent-foreground": "#9f1239",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e7e5e4",
+        "input": "#e7e5e4",
+        "ring": "#e11d48"
+      },
+      "dark": {
+        "background": "#1c1917",
+        "foreground": "#fafaf9",
+        "primary": "#fb7185",
+        "primary-foreground": "#1c1917",
+        "secondary": "#44403c",
+        "secondary-foreground": "#fafaf9",
+        "muted": "#292524",
+        "muted-foreground": "#a8a29e",
+        "accent": "#44403c",
+        "accent-foreground": "#fafaf9",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#44403c",
+        "input": "#44403c",
+        "ring": "#fb7185"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "activeSurveyId": null,
+        "currentStep": 0
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-survey",
+        "componentType": "CodeComponentProps",
+        "component": "SurveyHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sb-survey",
+        "componentType": "CodeComponentProps",
+        "component": "SurveySidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-dashboard",
+        "pageType": "WebPageProps",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Dashboard with stats cards, active surveys progress, recent responses, and quick actions",
+        "content": [
+          {
+            "uuid": "c-dashboard",
+            "componentType": "CodeComponentProps",
+            "component": "SurveyDashboard"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-surveys",
+        "pageType": "WebPageProps",
+        "title": "Surveys",
+        "slug": "/surveys",
+        "summary": "Grid of survey cards with status filtering, question counts, and Take Survey buttons",
+        "content": [
+          {
+            "uuid": "c-surveys",
+            "componentType": "CodeComponentProps",
+            "component": "SurveyList"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-take",
+        "pageType": "WebPageProps",
+        "title": "Take Survey",
+        "slug": "/take/:id",
+        "summary": "Step-through survey experience with progress bar, question types, and submission",
+        "content": [
+          {
+            "uuid": "c-take",
+            "componentType": "CodeComponentProps",
+            "component": "SurveyTaker"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-results",
+        "pageType": "WebPageProps",
+        "title": "Results",
+        "slug": "/results",
+        "summary": "Survey results with aggregated visualizations for each question type",
+        "content": [
+          {
+            "uuid": "c-results",
+            "componentType": "CodeComponentProps",
+            "component": "SurveyResults"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with survey stats and activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  }
+}

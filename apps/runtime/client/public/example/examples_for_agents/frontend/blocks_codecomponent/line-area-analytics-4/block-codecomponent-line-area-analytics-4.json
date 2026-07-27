@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-line-area-analytics",
+  "alias": "codecomponent-line-area-analytics",
+  "name": "Website Analytics Dashboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Website analytics dashboard using CodeComponentProps to render LineChart and AreaChart visualizations. Displays 30 days of page views, sessions, and bounce rate data. Uses ToggleGroup to switch between chart views, Badge for trend indicators, and useAppState for persisting the active chart selection. Demonstrates Charts namespace (LineChart, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, Area) with date-fns format.",
+  "shortSummary": "Analytics dashboard with LineChart and AreaChart for traffic and session data",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "AnalyticsDashboard": {
+        "source": "frontend/components/AnalyticsDashboard.tsx",
+        "compiled": "frontend/components/AnalyticsDashboard.js",
+        "summary": "Website analytics page with LineChart for page views/sessions, AreaChart for session duration and bounce rate, ToggleGroup for view switching, and summary stat cards with trend badges"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#4f46e5",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eef2ff",
+        "secondary-foreground": "#1e1b4b",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#eef2ff",
+        "accent-foreground": "#1e1b4b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#4f46e5"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#818cf8",
+        "primary-foreground": "#1e1b4b",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#e0e7ff",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#e0e7ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#6366f1"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-main",
+        "title": "Analytics",
+        "slug": "/",
+        "summary": "Website analytics page with traffic charts, session duration, and bounce rate visualizations.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "component-1",
+            "component": "AnalyticsDashboard",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Analytics dashboard with line and area charts",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

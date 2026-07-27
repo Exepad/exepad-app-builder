@@ -1,0 +1,52 @@
+{
+  "name": "exepad-app-builder",
+  "private": true,
+  "description": "Open-source, self-hosted alternative to Lovable, Replit & Base44: turn a prompt into a real, deployed full-stack web app (React frontend + auto-CRUD SQLite backend + custom handlers + auth) inside one container on your own machine.",
+  "homepage": "https://exepad.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Exepad/exepad-app-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Exepad/exepad-app-builder/issues"
+  },
+  "author": "Exepad and contributors",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "turbo run dev --filter=!@exepad/runtime",
+    "dev:runtime": "turbo run dev --filter=@exepad/runtime-client --filter=@exepad/runtime-worker",
+    "build": "turbo run build",
+    "build:sdk": "turbo run build --filter=@exepad/sdk",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "test": "turbo run test",
+    "compile:backend-demo": "pnpm --filter @exepad/deploy-utils build && tsx apps/runtime/scripts/compile-methods.ts",
+    "compile:backend-crud": "pnpm --filter @exepad/deploy-utils build && tsx apps/runtime/scripts/compile-backend-crud.ts",
+    "gen:schemas:full": "pnpm --filter @exepad/schemas generate",
+    "validate:examples": "pnpm --filter @exepad/schemas validate:examples",
+    "validate:examples:public": "pnpm --filter @exepad/schemas validate:examples:public",
+    "perf:ci": "node tools/perf-ci/runner.mjs",
+    "perf:bytes": "node tools/perf-ci/runner.mjs --bytes-only",
+    "perf:selftest": "node tools/perf-ci/runner.mjs --selftest",
+    "perf:seed": "node tools/perf-ci/seed-fixture.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.27.2",
+    "playwright": "^1.58.2",
+    "tsx": "^4.7.0",
+    "turbo": "^2.3.0",
+    "typescript": "~5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "hono": "^4.12.25",
+      "lodash": "^4.18.0",
+      "lodash-es": "^4.18.0",
+      "fast-uri": "^3.1.2",
+      "react-router": "^7.15.0",
+      "ajv@>=8": "^8.18.0"
+    }
+  },
+  "license": "AGPL-3.0-only"
+}

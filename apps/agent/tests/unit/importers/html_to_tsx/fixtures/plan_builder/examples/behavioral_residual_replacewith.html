@@ -1,0 +1,11 @@
+<form id="briefForm"><input name="msg" /></form>
+<script>
+const form = document.getElementById('briefForm');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const success = document.createElement('div');
+  success.className = 'thanks';
+  success.innerHTML = 'Thanks!';
+  form.replaceWith(success);
+});
+</script>

@@ -1,0 +1,337 @@
+{
+  "eval_set_id": "help_desk_routing_tests",
+  "name": "Help Desk Routing Evaluation",
+  "description": "Validates AppHelpDeskAgent correctly routes user requests to edit, blogging, or help_desk branches with appropriate sub_actions",
+  "eval_cases": [
+    {
+      "eval_id": "edit_quick_modify_selected_component",
+      "conversation": [
+        {
+          "invocation_id": "inv-edit-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Change the title to Welcome\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"{\\\"uuid\\\": \\\"heading-001\\\", \\\"componentType\\\": \\\"HeadingProps\\\", \\\"text\\\": \\\"Hello World\\\"}\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Component selected on WebPage. Simple text update request. Branch: edit, Sub-action: quick_modify. Only affects selected component.\", \"branch_label\": \"edit\", \"sub_action\": \"quick_modify\", \"help_desk_response\": \"Updating title...\", \"needs_full_app_config\": false}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "edit_quick_remove_selected_component",
+      "conversation": [
+        {
+          "invocation_id": "inv-edit-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Delete this section\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"{\\\"uuid\\\": \\\"section-001\\\", \\\"componentType\\\": \\\"SectionProps\\\", \\\"sectionSlug\\\": \\\"hero\\\"}\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Component selected. User explicitly requests deletion. Branch: edit, Sub-action: quick_remove.\", \"branch_label\": \"edit\", \"sub_action\": \"quick_remove\", \"help_desk_response\": \"Removing section...\", \"needs_full_app_config\": false}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "edit_generic_add_section",
+      "conversation": [
+        {
+          "invocation_id": "inv-edit-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Add a features section with 3 feature cards\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Request to add new component. No component selected. Requires planner. Branch: edit, Sub-action: generic_request. Single page operation.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Adding features section...\", \"needs_full_app_config\": false}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "edit_generic_add_page",
+      "conversation": [
+        {
+          "invocation_id": "inv-edit-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Create a Contact page with a contact form\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Request to add new page. Requires full config for navigation update. Branch: edit, Sub-action: generic_request.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Creating Contact page...\", \"needs_full_app_config\": true}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "blogging_add_blog_post",
+      "conversation": [
+        {
+          "invocation_id": "inv-blog-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Write a blog post about machine learning trends in 2024\", \"chat_history\": [], \"current_page_type\": \"BlogMainPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"On blog page. Request to create new blog post with specific topic. Branch: blogging, Sub-action: add_blog_post.\", \"branch_label\": \"blogging\", \"sub_action\": \"add_blog_post\", \"help_desk_response\": \"Creating your blog post...\", \"needs_full_app_config\": false}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "blogging_set_status_enable",
+      "conversation": [
+        {
+          "invocation_id": "inv-blog-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Enable the blog feature\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Request to enable blog feature. Branch: blogging, Sub-action: set_blogging_status. Full config needed for navigation.\", \"branch_label\": \"blogging\", \"sub_action\": \"set_blogging_status\", \"help_desk_response\": \"Enabling the blog...\", \"needs_full_app_config\": true}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "blogging_quick_remove_post",
+      "conversation": [
+        {
+          "invocation_id": "inv-blog-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Delete this blog post\", \"chat_history\": [], \"current_page_type\": \"BlogPostPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"On blog post page. Request to delete current post. Branch: blogging, Sub-action: quick_remove.\", \"branch_label\": \"blogging\", \"sub_action\": \"quick_remove\", \"help_desk_response\": \"Removing blog post...\", \"needs_full_app_config\": false}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "help_desk_question",
+      "conversation": [
+        {
+          "invocation_id": "inv-help-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"How do I add a new page to my website?\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"User is asking a question about how to use the platform. This is a help desk inquiry, not an action request.\", \"branch_label\": \"help_desk\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"To add a new page to your website, you can simply ask me to create one! For example, say 'Create an About page' or 'Add a Contact page with a form'. I'll handle the page creation and update your navigation automatically.\", \"needs_full_app_config\": false}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "help_desk_greeting",
+      "conversation": [
+        {
+          "invocation_id": "inv-help-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Hello!\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"User sent a greeting. No action required. Branch: help_desk.\", \"branch_label\": \"help_desk\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Hello! I'm here to help you build and edit your website. What would you like to do today?\", \"needs_full_app_config\": false}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "edit_theme_modification",
+      "conversation": [
+        {
+          "invocation_id": "inv-edit-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "{\"user_request\": \"Change the website theme to use blue as primary color\", \"chat_history\": [], \"current_page_type\": \"WebPageProps\", \"selected_component_config\": \"\"}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "{\"reasoning\": \"Request for site-wide theme change. Branch: edit, Sub-action: generic_request. Full config needed for theme update.\", \"branch_label\": \"edit\", \"sub_action\": \"generic_request\", \"help_desk_response\": \"Updating theme colors...\", \"needs_full_app_config\": true}"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "orchestrator",
+        "user_id": "test_user",
+        "state": {}
+      }
+    }
+  ]
+}

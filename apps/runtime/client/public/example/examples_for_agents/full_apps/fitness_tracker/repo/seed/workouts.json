@@ -1,0 +1,130 @@
+[
+  {
+    "type": "cardio",
+    "name": "Morning Run",
+    "duration_min": 35,
+    "calories_burned": 420,
+    "date": "2026-03-13",
+    "notes": "Easy pace through the park. Felt good."
+  },
+  {
+    "type": "strength",
+    "name": "Upper Body Push",
+    "duration_min": 55,
+    "calories_burned": 380,
+    "date": "2026-03-14",
+    "notes": "Bench press 185x5, shoulder press 95x8. New PR on incline."
+  },
+  {
+    "type": "flexibility",
+    "name": "Yoga Flow",
+    "duration_min": 45,
+    "calories_burned": 180,
+    "date": "2026-03-15",
+    "notes": "Focused on hip openers and hamstring flexibility."
+  },
+  {
+    "type": "strength",
+    "name": "Leg Day",
+    "duration_min": 60,
+    "calories_burned": 450,
+    "date": "2026-03-16",
+    "notes": "Squats 225x5, leg press 400x8, lunges 3x12."
+  },
+  {
+    "type": "cardio",
+    "name": "Interval Sprints",
+    "duration_min": 25,
+    "calories_burned": 350,
+    "date": "2026-03-17",
+    "notes": "8x400m sprints with 90s rest. Average 1:32 per rep."
+  },
+  {
+    "type": "strength",
+    "name": "Upper Body Pull",
+    "duration_min": 50,
+    "calories_burned": 360,
+    "date": "2026-03-18",
+    "notes": "Deadlift 275x3, pull-ups 3x10, rows 135x8."
+  },
+  {
+    "type": "sports",
+    "name": "Basketball Pickup Game",
+    "duration_min": 90,
+    "calories_burned": 650,
+    "date": "2026-03-19",
+    "notes": "Full court 5v5. Great cardio and footwork practice."
+  },
+  {
+    "type": "cardio",
+    "name": "Cycling",
+    "duration_min": 45,
+    "calories_burned": 400,
+    "date": "2026-03-20",
+    "notes": "20-mile ride on the bike trail. Avg speed 16 mph."
+  },
+  {
+    "type": "strength",
+    "name": "Full Body Circuit",
+    "duration_min": 40,
+    "calories_burned": 380,
+    "date": "2026-03-21",
+    "notes": "5 rounds: 10 cleans, 15 push-ups, 20 box jumps, 25 sit-ups."
+  },
+  {
+    "type": "flexibility",
+    "name": "Stretching & Mobility",
+    "duration_min": 30,
+    "calories_burned": 120,
+    "date": "2026-03-22",
+    "notes": "Foam rolling and dynamic stretching. Recovery day."
+  },
+  {
+    "type": "cardio",
+    "name": "Morning Run",
+    "duration_min": 40,
+    "calories_burned": 480,
+    "date": "2026-03-23",
+    "notes": "Tempo run. Pushed the pace in the last 2 miles."
+  },
+  {
+    "type": "strength",
+    "name": "Upper Body Push",
+    "duration_min": 55,
+    "calories_burned": 390,
+    "date": "2026-03-24",
+    "notes": "Bench press 195x3 — new PR! OHP 100x6."
+  },
+  {
+    "type": "sports",
+    "name": "Swimming Laps",
+    "duration_min": 40,
+    "calories_burned": 350,
+    "date": "2026-03-25",
+    "notes": "1500m freestyle. Working on breathing technique."
+  },
+  {
+    "type": "strength",
+    "name": "Leg Day",
+    "duration_min": 55,
+    "calories_burned": 430,
+    "date": "2026-03-26",
+    "notes": "Squats 235x3, Romanian deadlift 185x8, calf raises 4x15."
+  },
+  {
+    "type": "cardio",
+    "name": "HIIT Treadmill",
+    "duration_min": 30,
+    "calories_burned": 380,
+    "date": "2026-03-27",
+    "notes": "1 min sprint / 1 min walk x 15 rounds. Intense session."
+  },
+  {
+    "type": "flexibility",
+    "name": "Yoga Power Flow",
+    "duration_min": 50,
+    "calories_burned": 220,
+    "date": "2026-03-27",
+    "notes": "Evening yoga. Warrior sequences and balance poses."
+  }
+]

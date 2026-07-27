@@ -1,0 +1,141 @@
+{
+  "apps": [
+    {
+      "appType": "WebAppProps",
+      "description": "WebAppProps - Root configuration schema for Exepad web applications\n\nExtends AppProps with web-specific configuration:\n- frontend: All UI configuration (theme, pages, logic, etc.)\n- backend: All server configuration (models, handlers, etc.)\n- repo: Custom code registry (Tier 2 methods)",
+      "keyProperties": [
+        "alias",
+        "appSecondaryType",
+        "lastUpdatedEpoch",
+        "name",
+        "shortSummary",
+        "summary",
+        "version"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "pageType": "WebPageProps",
+      "description": "A standard web page. This interface extends PageProps without additional properties, serving as a distinct type in the PageType discriminated union.",
+      "keyProperties": [
+        "content",
+        "slug",
+        "title",
+        "access",
+        "classes"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "componentType": "AnimationProps",
+      "description": "Base animation configuration for any component. Can be applied to individual components via the `animation` prop.",
+      "keyProperties": [
+        "delay",
+        "easing",
+        "enter",
+        "exit"
+      ],
+      "category": "Common"
+    },
+    {
+      "componentType": "CodeComponentProps",
+      "description": "Code component props Now strictly structural. Content is \"baked in\" to the compiled module.\n\nCan be used in two ways: 1. Direct URL: { compiled_module_url: \"https://...\" } 2. Repo reference: { component: \"StatsWidget\" } - resolves from repo.components",
+      "keyProperties": [
+        "uuid",
+        "animation",
+        "code_component_source",
+        "compiled_module_url"
+      ],
+      "category": "Utils"
+    },
+    {
+      "componentType": "CodeComponentSourceProps",
+      "description": "No description available",
+      "keyProperties": [
+        "source_code_url",
+        "source_code_hash"
+      ],
+      "category": "Utils"
+    },
+    {
+      "componentType": "ComponentProps",
+      "description": "Base interface for all renderable UI components, providing identification, conditional visibility, and animation.",
+      "keyProperties": [
+        "uuid",
+        "animation",
+        "inlineStyle",
+        "lastUpdatedEpoch"
+      ],
+      "category": "Common"
+    },
+    {
+      "componentType": "IconProps",
+      "description": "Renders a Lucide icon by name at a specified pixel size. Kept as infrastructure type (used by metadata generator for favicon resolution).",
+      "keyProperties": [
+        "name",
+        "size",
+        "uuid",
+        "animation"
+      ],
+      "category": "Common"
+    },
+    {
+      "componentType": "ImageAssetProps",
+      "description": "Stores metadata for an image asset. Kept as infrastructure type (used by image renderers and the metadata generator).",
+      "keyProperties": [
+        "isProcessed",
+        "keywords",
+        "requestedHeight",
+        "requestedWidth",
+        "uuid"
+      ],
+      "category": "Common"
+    },
+    {
+      "componentType": "ImageProps",
+      "description": "Renders an image element with metadata. Kept as infrastructure type (used by image renderers and the metadata generator).",
+      "keyProperties": [
+        "alt",
+        "asset",
+        "src",
+        "uuid"
+      ],
+      "category": "Common"
+    },
+    {
+      "componentType": "LinkProps",
+      "description": "Renders a clickable hyperlink for internal navigation or external URLs. Kept as infrastructure type (used by the metadata generator and renderers).",
+      "keyProperties": [
+        "href",
+        "text",
+        "uuid",
+        "animation"
+      ],
+      "category": "Common"
+    },
+    {
+      "componentType": "ListAnimationProps",
+      "description": "Extended animation configuration for list containers (Grid, Flex). Adds stagger support for child item animations.",
+      "keyProperties": [
+        "delay",
+        "easing",
+        "enter",
+        "exit"
+      ],
+      "category": "Common"
+    },
+    {
+      "componentType": "SubComponentProps",
+      "description": "Base interface for components that exist only as children of a specific parent and cannot be used standalone.",
+      "keyProperties": [
+        "uuid",
+        "animation",
+        "inlineStyle",
+        "lastUpdatedEpoch"
+      ],
+      "category": "Common"
+    }
+  ]
+}

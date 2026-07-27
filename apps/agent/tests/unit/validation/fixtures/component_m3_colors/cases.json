@@ -1,0 +1,142 @@
+{
+  "cases": [
+    {
+      "id": "text_opacity_stripped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_text_opacity_stripped.tsx",
+      "expected_fix_substrings": ["Stripped text opacity text-on-primary/90 → text-on-primary"],
+      "expected_output_contains": ["text-on-primary text-2xl"],
+      "expected_output_absent": ["text-on-primary/90"]
+    },
+    {
+      "id": "text_opacity_multiple_all_stripped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_text_opacity_multiple.tsx",
+      "expected_fix_substrings": [
+        "Stripped text opacity text-on-primary/80",
+        "Stripped text opacity text-on-surface/60",
+        "Stripped text opacity text-on-surface-variant/70"
+      ],
+      "expected_output_absent": ["text-on-primary/80", "text-on-surface/60", "text-on-surface-variant/70"]
+    },
+    {
+      "id": "text_no_opacity_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_text_no_opacity.tsx"
+    },
+
+    {
+      "id": "opacity_dark_bg_wrong_container_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_opacity_dark_bg_wrong_container.tsx",
+      "expected_output_contains": ["text-on-primary"],
+      "expected_output_absent": ["text-on-primary-container"]
+    },
+
+    {
+      "id": "bare_outline_variant_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_bare_outline_variant.tsx",
+      "expected_fix_substrings": [
+        "Replaced bare outline-variant with border-outline-variant"
+      ],
+      "expected_output_contains": ["border-outline-variant"],
+      "expected_output_absent": ["\"outline-variant"]
+    },
+    {
+      "id": "border_outline_variant_already_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_border_outline_variant_already.tsx"
+    },
+
+    {
+      "id": "bg_opacity_below_30_clamped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_bg_opacity_below_30.tsx",
+      "expected_fix_substrings": ["Clamped bg opacity bg-primary/10 → bg-primary/30"],
+      "expected_output_contains": ["bg-primary/30"],
+      "expected_output_absent": ["bg-primary/10"]
+    },
+    {
+      "id": "bg_opacity_at_threshold_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_bg_opacity_at_threshold.tsx"
+    },
+    {
+      "id": "bg_opacity_above_threshold_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_bg_opacity_above_threshold.tsx"
+    },
+
+    {
+      "id": "orphan_inverse_text_rewritten_by_ast",
+      "kind": "broken",
+      "tsx_path": "examples/broken_orphan_inverse_text.tsx",
+      "expected_output_absent": ["text-inverse-on-surface"]
+    },
+    {
+      "id": "inverse_text_paired_correctly_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_inverse_text_paired_correctly.tsx"
+    },
+
+    {
+      "id": "header_bg_transparent_rewritten_with_blur",
+      "kind": "broken",
+      "tsx_path": "examples/broken_header_bg_transparent_replaced.tsx",
+      "expected_fix_substrings": [
+        "Replaced bg-transparent with bg-surface/90 backdrop-blur-md in header"
+      ],
+      "expected_output_contains": ["bg-surface/90 backdrop-blur-md"],
+      "expected_output_absent": ["bg-transparent flex"]
+    },
+    {
+      "id": "nav_bg_transparent_rewritten_with_blur",
+      "kind": "broken",
+      "tsx_path": "examples/broken_nav_bg_transparent_replaced.tsx",
+      "expected_fix_substrings": [
+        "Replaced bg-transparent with bg-surface/90 backdrop-blur-md in header"
+      ],
+      "expected_output_contains": ["bg-surface/90 backdrop-blur-md"]
+    },
+    {
+      "id": "header_bg_transparent_with_backdrop_blur_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_header_bg_transparent_with_backdrop_blur.tsx"
+    },
+    {
+      "id": "div_bg_transparent_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_div_bg_transparent_unchanged.tsx"
+    },
+
+    {
+      "id": "kitchen_sink_m3_all_branches_fire",
+      "kind": "broken",
+      "tsx_path": "examples/broken_kitchen_sink_m3.tsx",
+      "expected_fix_substrings": [
+        "Stripped text opacity text-on-primary/85",
+        "Replaced bare outline-variant with border-outline-variant",
+        "Clamped bg opacity bg-primary/10 → bg-primary/30",
+        "Replaced bg-transparent with bg-surface/90 backdrop-blur-md in header"
+      ],
+      "expected_output_contains": [
+        "text-on-surface",
+        "border-outline-variant",
+        "bg-primary/30",
+        "bg-surface/90 backdrop-blur-md"
+      ]
+    },
+    {
+      "id": "clean_m3_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_clean_m3.tsx"
+    },
+
+    {
+      "id": "svg_kebab_attrs_in_dangerously_set_html_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_svg_kebab_attrs_in_dangerously_set_html.tsx"
+    }
+  ]
+}

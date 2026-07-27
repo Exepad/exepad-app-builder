@@ -1,0 +1,65 @@
+# Caddyfile.ondemand-dns — automatic, browser-trusted HTTPS for self-serve custom
+# domains via Caddy on-demand TLS, issued over ACME **DNS-01**.
+#
+# Same self-serve model as Caddyfile.ondemand (the worker `ask` endpoint gates
+# issuance to operator-VERIFIED domains — the abuse guard that keeps issuance
+# inside Let's Encrypt's rate limits), but the ACME challenge is DNS-01 instead of
+# HTTP-01/TLS-ALPN-01. DNS-01:
+#   - needs NO inbound :80/:443 for ISSUANCE → works behind NAT / when :80 is blocked;
+#   - is the ONLY challenge that can issue a *wildcard* certificate.
+#
+# Requires the DNS-plugin Caddy image (Dockerfile.caddy-dns) and a DNS-provider API
+# token. Use it with:
+#   docker compose -f docker-compose.yml -f docker-compose.ondemand-dns.yml up --build
+# Set EXEPAD_DNS_PROVIDER + EXEPAD_DNS_TOKEN in ./caddy.env (Caddy-only — the token
+# never reaches the app container). The box still serves on :443, so it must be
+# reachable there; DNS-01 only removes the inbound requirement for ISSUANCE.
+
+{
+	# No `email` directive: the Let's Encrypt contact is OPTIONAL (issuance works
+	# without it). An empty {$EXEPAD_ACME_EMAIL} would emit a bare `email` token
+	# and fail parsing when unset (the default), so we omit it. Add
+	# `email you@example.com` for expiry notices.
+
+	# Issue ALL certificates via ACME DNS-01 using the configured provider plugin.
+	# The provider name is substituted at parse time from EXEPAD_DNS_PROVIDER (e.g.
+	# cloudflare); the API token is read at runtime from EXEPAD_DNS_TOKEN. Both come
+	# from ./caddy.env. This applies to on-demand issuance below AND the wildcard
+	# block — DNS-01 is what lets either work without inbound HTTP.
+	acme_dns {$EXEPAD_DNS_PROVIDER} {env.EXEPAD_DNS_TOKEN}
+
+	# On-demand issuance is gated by the worker: Caddy asks before obtaining a cert
+	# for an unknown SNI and only proceeds on HTTP 200 (a verified registered domain).
+	on_demand_tls {
+		ask http://127.0.0.1:8080/internal/tls/authorize?key={$EXEPAD_ONDEMAND_TLS_ASK_KEY}
+	}
+}
+
+# Plain HTTP -> HTTPS redirect for bare-host visitors.
+http:// {
+	redir https://{host}{uri} permanent
+}
+
+# Per-host issuance for individual custom domains (incl. behind NAT), on demand.
+# Caddy PRESERVES the inbound Host and sets X-Forwarded-Proto/Host — the worker
+# reads those for Secure cookies + host->app routing. Do not strip them.
+https:// {
+	tls {
+		on_demand
+	}
+	reverse_proxy 127.0.0.1:8080
+}
+
+# ── Wildcard: a subdomain per app ──────────────────────────────────────────────
+# on-demand TLS issues ONE cert per SNI as requests arrive, so it CANNOT issue a
+# wildcard. To serve *.apps.example.com (each {app}.apps.example.com -> that app),
+# add an EXPLICIT block — the global DNS-01 issuer above already applies. Uncomment
+# and set your zone, then register *.apps.example.com in
+# Studio -> Settings -> Custom domains with mode DNS-01:
+#
+# *.apps.example.com {
+# 	tls {
+# 		dns {$EXEPAD_DNS_PROVIDER} {env.EXEPAD_DNS_TOKEN}
+# 	}
+# 	reverse_proxy 127.0.0.1:8080
+# }

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "baseUrl": "../../apps/runtime/client",
+    "paths": {
+      "@exepad/types": ["../../packages/types/src/index.ts"]
+    }
+  },
+  "include": [
+    "../../apps/runtime/client/src/app_runtime/interfaces/apps/webapp.ts"
+  ]
+}

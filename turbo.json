@@ -1,0 +1,34 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "@exepad/runtime-client#build": {
+      "dependsOn": ["^build", "@exepad/sdk#build"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "generate:agent-docs": {
+      "dependsOn": ["build"],
+      "inputs": ["packages/exepad-sdk/src/index.ts"],
+      "outputs": [
+        "packages/exepad-sdk/dist/sdk-exports.json",
+        "packages/schemas/data/agent_docs/05_CODE_COMPONENTS.md"
+      ]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

@@ -1,0 +1,65 @@
+# =============================================================================
+# Production Dependencies for Exepad Agent
+# =============================================================================
+# Direct dependencies only — pip resolves transitive deps.
+# Dev/test deps live in requirements-dev.txt.
+
+# -----------------------------------------------------------------------------
+# Google ADK + GCP
+# -----------------------------------------------------------------------------
+# Deliberately NO `[extensions]` extra: it drags in ~250 MB the agent never
+# imports (kubernetes, pandas, numpy, llama-index, langgraph, docker, nltk, …
+# verified: zero direct imports in apps/agent). The one extensions feature we
+# use — running any LLM vendor via EXEPAD_LLM_PROVIDER (config.get_agent_model()
+# → google.adk.models.lite_llm) — needs only litellm, pinned explicitly below.
+google-adk==2.2.0
+google-cloud-aiplatform==1.157.0
+google-cloud-logging==3.13.0
+google-genai==2.8.0
+litellm==1.83.7
+
+# -----------------------------------------------------------------------------
+# Web framework
+# -----------------------------------------------------------------------------
+fastapi==0.136.1
+uvicorn==0.38.0
+
+# -----------------------------------------------------------------------------
+# HTTP clients
+# -----------------------------------------------------------------------------
+httpx==0.28.1
+aiohttp==3.13.5
+
+# -----------------------------------------------------------------------------
+# Data validation
+# -----------------------------------------------------------------------------
+pydantic==2.12.5
+pydantic-settings==2.11.0
+json_repair==0.52.3
+
+# -----------------------------------------------------------------------------
+# Database / session storage
+# -----------------------------------------------------------------------------
+SQLAlchemy==2.0.44
+aiosqlite==0.21.0
+asyncpg==0.30.0
+
+# -----------------------------------------------------------------------------
+# Parsing (validation pipeline + DesignImporter HTML tools)
+# -----------------------------------------------------------------------------
+sqlparse==0.5.3
+tinycss2==1.5.1
+tree-sitter==0.23.2
+tree-sitter-typescript==0.23.2
+beautifulsoup4==4.12.3
+
+# -----------------------------------------------------------------------------
+# Config & logging
+# -----------------------------------------------------------------------------
+python-dotenv==1.0.1
+structlog==25.5.0
+
+# -----------------------------------------------------------------------------
+# MCP support for generated apps
+# -----------------------------------------------------------------------------
+mcp==1.26.0

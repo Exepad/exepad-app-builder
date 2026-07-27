@@ -1,0 +1,86 @@
+[
+  {
+    "rating": 5,
+    "comment": "Absolutely incredible dining experience. The ribeye was cooked to perfection and the service was impeccable.",
+    "customer_name": "Marco Valentini",
+    "menu_item_id": null,
+    "created_at": "2026-03-20T19:30:00Z"
+  },
+  {
+    "rating": 5,
+    "comment": "Best tiramisu I've had outside of Italy. Will definitely be coming back.",
+    "customer_name": "Sophia Laurent",
+    "menu_item_id": "15",
+    "created_at": "2026-03-18T20:45:00Z"
+  },
+  {
+    "rating": 4,
+    "comment": "Great ambiance and food. The truffle tagliatelle was divine. Took a star off for the wait time.",
+    "customer_name": "James Parker",
+    "menu_item_id": "10",
+    "created_at": "2026-03-15T21:00:00Z"
+  },
+  {
+    "rating": 5,
+    "comment": "The spicy seafood stew is a must-try! Bold flavors and generous portions.",
+    "customer_name": "Elena Ruiz",
+    "menu_item_id": "14",
+    "created_at": "2026-03-12T18:15:00Z"
+  },
+  {
+    "rating": 4,
+    "comment": "Lovely place for date night. The carbonara was authentic and delicious.",
+    "customer_name": "Nathan Wright",
+    "menu_item_id": "8",
+    "created_at": "2026-03-10T20:00:00Z"
+  },
+  {
+    "rating": 3,
+    "comment": "Food was good but the restaurant was quite loud on a Saturday night. Hard to have a conversation.",
+    "customer_name": "Rebecca Hall",
+    "menu_item_id": null,
+    "created_at": "2026-03-08T21:30:00Z"
+  },
+  {
+    "rating": 5,
+    "comment": "The Korean BBQ short ribs blew my mind. Perfect blend of sweet and spicy. The staff were so friendly.",
+    "customer_name": "David Cho",
+    "menu_item_id": "6",
+    "created_at": "2026-03-05T19:00:00Z"
+  },
+  {
+    "rating": 4,
+    "comment": "Excellent cocktails. The mojito was refreshing and well-balanced. Food portions could be slightly larger.",
+    "customer_name": "Isabella Torres",
+    "menu_item_id": "18",
+    "created_at": "2026-03-03T22:00:00Z"
+  },
+  {
+    "rating": 5,
+    "comment": "We ordered delivery and everything arrived hot and fresh. The bruschetta trio was a highlight.",
+    "customer_name": "Ahmed Hassan",
+    "menu_item_id": "1",
+    "created_at": "2026-02-28T12:30:00Z"
+  },
+  {
+    "rating": 5,
+    "comment": "Celebrated our anniversary here. The chocolate lava cake was the perfect ending to a perfect evening.",
+    "customer_name": "Laura Bennett",
+    "menu_item_id": "16",
+    "created_at": "2026-02-25T20:15:00Z"
+  },
+  {
+    "rating": 4,
+    "comment": "Pan-seared salmon was perfectly cooked with a beautiful crispy skin. Great wine selection too.",
+    "customer_name": "Robert Chen",
+    "menu_item_id": "12",
+    "created_at": "2026-02-22T19:45:00Z"
+  },
+  {
+    "rating": 3,
+    "comment": "The herb-crusted chicken was a bit dry. The sides were excellent though, especially the truffle fries.",
+    "customer_name": "Maria Gonzalez",
+    "menu_item_id": "5",
+    "created_at": "2026-02-20T18:30:00Z"
+  }
+]

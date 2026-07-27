@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-canvas-design-tool",
+  "alias": "codecomponent-canvas-design-tool",
+  "name": "Canvas Design Tool",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Interactive 2D canvas design tool CodeComponent powered by Konva. Features a Konva.Stage and Konva.Layer for rendering shapes, a ButtonGroup toolbar for Rectangle, Circle, Text, and Select tools, draggable shapes with Konva.Transformer for resize and rotate, a Sheet-based properties panel from the right for editing selected shape color, size, and position via Sliders and Inputs, Export to PNG button with toast notification, and useAppState for persisting canvas shapes. Starts with 5 pre-placed demo shapes on a grid background. Uses Konva extension for canvas rendering.",
+  "shortSummary": "2D canvas design tool with Konva shapes, transformer, properties panel, and PNG export",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "CanvasDesignTool": {
+        "source": "frontend/components/CanvasDesignTool.tsx",
+        "compiled": "frontend/components/CanvasDesignTool.js",
+        "summary": "2D canvas design tool with Konva.Stage, shape tools, drag-and-drop, transformer, properties sheet, and PNG export"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1a0a2e",
+        "primary": "#9333ea",
+        "primary-foreground": "#ffffff",
+        "secondary": "#faf5ff",
+        "secondary-foreground": "#1a0a2e",
+        "muted": "#faf5ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#f3e8ff",
+        "accent-foreground": "#1a0a2e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e9d5ff",
+        "input": "#e9d5ff",
+        "ring": "#9333ea"
+      },
+      "dark": {
+        "background": "#0f0520",
+        "foreground": "#faf5ff",
+        "primary": "#c084fc",
+        "primary-foreground": "#0f0520",
+        "secondary": "#1e0a3a",
+        "secondary-foreground": "#faf5ff",
+        "muted": "#1e0a3a",
+        "muted-foreground": "#a78bfa",
+        "accent": "#1e0a3a",
+        "accent-foreground": "#faf5ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#faf5ff",
+        "border": "#2e1065",
+        "input": "#2e1065",
+        "ring": "#a855f7"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-canvas",
+        "title": "Canvas",
+        "slug": "/",
+        "summary": "Interactive 2D canvas design tool with shape tools and properties panel.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "canvas-design-tool-1",
+            "component": "CanvasDesignTool",
+            "extensions": [
+              "konva"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "2D canvas design tool with Konva",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

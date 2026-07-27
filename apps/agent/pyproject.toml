@@ -1,0 +1,43 @@
+# Metadata for license/SBOM scanners only. The agent is not distributed as a
+# Python package — there is deliberately no [build-system], and dependencies
+# are installed from requirements.lock (see Dockerfile).
+[project]
+name = "exepad-agent"
+version = "1.0.0"
+description = "Exepad app-builder agent (ADK/FastAPI), served on internal :8081."
+requires-python = ">=3.12"
+license = {text = "AGPL-3.0-only"}
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+]
+
+[tool.black]
+# Line length to match flake8
+line-length = 100
+
+# Target Python version
+target-version = ["py312"]
+
+# Files/directories to exclude
+exclude = '''
+/(
+    \.git
+    | \.venv
+    | venv
+    | env
+    | __pycache__
+    | build
+    | dist
+    | \.eggs
+    | .*\.egg-info
+    | \.mypy_cache
+    | \.pytest_cache
+    | htmlcov
+)/
+'''
+
+# Use double quotes for strings (default)
+skip-string-normalization = false
+
+# Preview features disabled for stability
+preview = false

@@ -1,0 +1,54 @@
+{
+  "semantic_cases": [
+    {
+      "id": "palette_aware_primary_pair",
+      "tsx": "import { LightDOMContainer } from \"@exepad/sdk\";\nexport default function Hero() {\n  return (\n    <LightDOMContainer>\n      <section className=\"bg-primary text-on-primary\">\n        <h1>Launch faster</h1>\n      </section>\n    </LightDOMContainer>\n  );\n}\n",
+      "models": [],
+      "logic": {},
+      "page_slugs": ["/"],
+      "expected_component_name": "Hero",
+      "theme_palette": {
+        "primary": "#0ea5e9",
+        "on-primary": "#1c1b1f",
+        "surface": "#ffffff",
+        "on-surface": "#1c1b1f",
+        "surface-variant": "#f8fafc",
+        "on-surface-variant": "#475569"
+      },
+      "expect": {
+        "valid": true,
+        "required_warning_substrings": [],
+        "forbidden_warning_substrings": [
+          "Low measured contrast",
+          "Prefer text-on-primary"
+        ],
+        "required_error_substrings": []
+      }
+    },
+    {
+      "id": "document_api_blocks",
+      "tsx": "export default function BrokenCard() {\n  document.querySelector(\".hero\");\n  return <div>Broken</div>;\n}\n",
+      "models": [],
+      "logic": {},
+      "page_slugs": ["/"],
+      "expected_component_name": "BrokenCard",
+      "expect": {
+        "valid": false,
+        "required_error_substrings": ["Direct document access"]
+      }
+    }
+  ],
+  "theme_cases": [
+    {
+      "id": "light_primary_pair_warns_and_autofixes",
+      "css": "@import \"tailwindcss\";\n@theme {\n  --color-primary: #dbeafe;\n  --color-on-primary: #ffffff;\n}\n:root {\n  --primary: 214 95% 93%;\n  --primary-foreground: 0 0% 100%;\n}\n",
+      "expect_warning_substrings": [
+        "SDK \"primary-foreground\""
+      ],
+      "expect_fixed_contains": [
+        "--color-on-primary: #1C1B1F",
+        "--primary-foreground: 255 7% 11%"
+      ]
+    }
+  ]
+}

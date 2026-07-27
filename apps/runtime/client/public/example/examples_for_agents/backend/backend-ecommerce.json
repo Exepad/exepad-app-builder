@@ -1,0 +1,369 @@
+{
+  "uuid": "backend-ecommerce",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "E-Commerce",
+  "alias": "backend-ecommerce",
+  "summary": "E-commerce backend with products catalog, orders, and order items models. Handlers for product category queries, order creation, and order history retrieval.",
+  "shortSummary": "E-commerce backend with products catalog, orders,",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-products",
+        "name": "products",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Display name of the product"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Detailed product description",
+            "isNullable": true
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Current selling price in default currency"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Product category for browsing and filtering"
+          },
+          {
+            "name": "image_url",
+            "type": "text",
+            "summary": "URL of the product image",
+            "isNullable": true
+          },
+          {
+            "name": "stock",
+            "type": "integer",
+            "summary": "Number of units available in stock"
+          },
+          {
+            "name": "is_active",
+            "type": "integer",
+            "summary": "Whether the product is listed for sale (1 = active, 0 = inactive)",
+            "defaultValue": "1"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_products_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_products_is_active",
+            "columns": [
+              "is_active"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-orders",
+        "name": "orders",
+        "columns": [
+          {
+            "name": "customer_id",
+            "type": "integer",
+            "summary": "ID of the customer who placed the order"
+          },
+          {
+            "name": "total",
+            "type": "real",
+            "summary": "Total order amount including all items"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Order fulfillment status: pending, processing, shipped, delivered, cancelled",
+            "defaultValue": "pending"
+          },
+          {
+            "name": "shipping_address",
+            "type": "text",
+            "summary": "Full shipping address for order delivery"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_orders_customer_id",
+            "columns": [
+              "customer_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_orders_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-order_items",
+        "name": "order_items",
+        "columns": [
+          {
+            "name": "order_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the parent order",
+            "references": {
+              "model": "orders",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "product_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the purchased product",
+            "references": {
+              "model": "products",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "quantity",
+            "type": "integer",
+            "summary": "Number of units of this product in the order"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Unit price at the time of purchase (snapshot)"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_order_items_order_id",
+            "columns": [
+              "order_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_order_items_product_id",
+            "columns": [
+              "product_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getProductsByCategory",
+        "name": "getProductsByCategory",
+        "method": "getProductsByCategory",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "category",
+            "type": "string",
+            "required": true,
+            "summary": "Product category to filter by"
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "summary": "Maximum number of products to return"
+          },
+          {
+            "name": "offset",
+            "type": "number",
+            "required": false,
+            "summary": "Number of products to skip for pagination"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "products",
+            "type": "array",
+            "summary": "List of active products in the specified category"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of products in this category"
+          }
+        ]
+      },
+      {
+        "uuid": "h-createOrder",
+        "name": "createOrder",
+        "method": "createOrder",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "items",
+            "type": "json",
+            "required": true,
+            "summary": "Array of order items, each with product_id and quantity"
+          },
+          {
+            "name": "shipping_address",
+            "type": "string",
+            "required": true,
+            "summary": "Full shipping address for the order"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "orderId",
+            "type": "number",
+            "summary": "ID of the newly created order"
+          },
+          {
+            "name": "total",
+            "type": "number",
+            "summary": "Calculated total amount for the order"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "summary": "Initial order status"
+          },
+          {
+            "name": "itemCount",
+            "type": "number",
+            "summary": "Total number of items in the order"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getOrderHistory",
+        "name": "getOrderHistory",
+        "method": "getOrderHistory",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "summary": "Maximum number of orders to return"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": false,
+            "summary": "Filter orders by status"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "orders",
+            "type": "array",
+            "summary": "List of orders with their items and status"
+          },
+          {
+            "name": "totalOrders",
+            "type": "number",
+            "summary": "Total number of orders for this user"
+          },
+          {
+            "name": "totalSpent",
+            "type": "number",
+            "summary": "Total amount spent across all orders"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

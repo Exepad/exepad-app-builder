@@ -1,0 +1,767 @@
+{
+  "uuid": "lms-platform",
+  "alias": "lms-platform",
+  "name": "LearnHub",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Learning Management System with course catalog, lesson viewer, student progress tracking, and interactive quizzes",
+  "shortSummary": "LMS with courses, lessons, progress, and quizzes",
+  "lastUpdatedEpoch": 1742515200,
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "repo": {
+    "frontend": {
+      "components": {
+        "LmsSidebar": {
+          "source": "frontend/code/components/LmsSidebar.tsx",
+          "compiled": "frontend/compiled/components/LmsSidebar.js",
+          "summary": "Left sidebar with LearnHub logo, navigation links (Dashboard, Courses, Progress, Quizzes), and enrolled courses list with progress bars."
+        },
+        "LmsHeader": {
+          "source": "frontend/code/components/LmsHeader.tsx",
+          "compiled": "frontend/compiled/components/LmsHeader.js",
+          "summary": "Top header bar with search courses input, notification bell, user avatar, and Browse Courses button."
+        },
+        "LmsDashboard": {
+          "source": "frontend/code/components/LmsDashboard.tsx",
+          "compiled": "frontend/compiled/components/LmsDashboard.js",
+          "summary": "Dashboard with welcome card, continue learning section, KPI stats (enrolled, completed, hours, certificates), upcoming deadlines, and achievement badges."
+        },
+        "CoursesCatalog": {
+          "source": "frontend/code/components/CoursesCatalog.tsx",
+          "compiled": "frontend/compiled/components/CoursesCatalog.js",
+          "summary": "Course catalog with category tabs, level filter, and grid of course cards with thumbnail, title, instructor, rating, duration, level badge, price, and enroll button."
+        },
+        "CourseDetail": {
+          "source": "frontend/code/components/CourseDetail.tsx",
+          "compiled": "frontend/compiled/components/CourseDetail.js",
+          "summary": "Single course view with header info, enroll/continue button, curriculum accordion with modules and lessons, and reviews section."
+        },
+        "LessonViewer": {
+          "source": "frontend/code/components/LessonViewer.tsx",
+          "compiled": "frontend/compiled/components/LessonViewer.js",
+          "summary": "Lesson viewer with video placeholder, lesson content, previous/next navigation, mark as complete button, and lesson sidebar."
+        },
+        "StudentProgress": {
+          "source": "frontend/code/components/StudentProgress.tsx",
+          "compiled": "frontend/compiled/components/StudentProgress.js",
+          "summary": "Student progress dashboard with overall stats, per-course progress cards, learning streak chart, and certificates earned."
+        },
+        "QuizPage": {
+          "source": "frontend/code/components/QuizPage.tsx",
+          "compiled": "frontend/compiled/components/QuizPage.js",
+          "summary": "Quiz interface with multiple choice questions, timer, submit button, and results view with score and explanations."
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with learning stats, course progress, and recent activity"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Custom utility classes for course cards, progress bars, lesson highlights, and quiz options"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "courses": {
+        "source": "repo/seed/courses.json",
+        "format": "json",
+        "model": "courses",
+        "source_hash": "sha256:59c0c2d8542c908d0229d7c49f93b93c092952215cc19a8f277ecdcce78a99b2"
+      },
+      "lessons": {
+        "source": "repo/seed/lessons.json",
+        "format": "json",
+        "model": "lessons",
+        "source_hash": "sha256:7e1fb78a337e1a3576e8f4b08124cd26ca3f4bcc9de6ff98dc55ade3dd622ead"
+      },
+      "modules": {
+        "source": "repo/seed/modules.json",
+        "format": "json",
+        "model": "modules",
+        "source_hash": "sha256:1551d28b5312d49dcd234fd9ddeb8b8c9e81f712ecfc13558231a40733a39aa2"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-courses",
+        "name": "courses",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Course display title"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Full course description"
+          },
+          {
+            "name": "instructor",
+            "type": "text",
+            "summary": "Instructor full name"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Course category: programming, design, business, data-science, marketing"
+          },
+          {
+            "name": "level",
+            "type": "text",
+            "summary": "Difficulty level: beginner, intermediate, advanced"
+          },
+          {
+            "name": "duration_hours",
+            "type": "real",
+            "summary": "Total course duration in hours"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Course price in USD"
+          },
+          {
+            "name": "thumbnail_url",
+            "type": "text",
+            "summary": "Course thumbnail image URL",
+            "isNullable": true
+          },
+          {
+            "name": "is_published",
+            "type": "integer",
+            "summary": "Whether course is published (1=yes, 0=no)",
+            "defaultValue": "1"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_courses_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_courses_level",
+            "columns": [
+              "level"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-modules",
+        "name": "modules",
+        "columns": [
+          {
+            "name": "course_id",
+            "type": "integer",
+            "summary": "FK to courses",
+            "references": {
+              "model": "courses",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Module title"
+          },
+          {
+            "name": "sort_order",
+            "type": "integer",
+            "summary": "Display sort order"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Module description",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_modules_course",
+            "columns": [
+              "course_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-lessons",
+        "name": "lessons",
+        "columns": [
+          {
+            "name": "module_id",
+            "type": "integer",
+            "summary": "FK to modules",
+            "references": {
+              "model": "modules",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Lesson title"
+          },
+          {
+            "name": "content_type",
+            "type": "text",
+            "summary": "Content type: video, text, quiz"
+          },
+          {
+            "name": "content_url",
+            "type": "text",
+            "summary": "URL to lesson content",
+            "isNullable": true
+          },
+          {
+            "name": "duration_min",
+            "type": "integer",
+            "summary": "Lesson duration in minutes"
+          },
+          {
+            "name": "sort_order",
+            "type": "integer",
+            "summary": "Display sort order"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_lessons_module",
+            "columns": [
+              "module_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-enrollments",
+        "name": "enrollments",
+        "columns": [
+          {
+            "name": "course_id",
+            "type": "integer",
+            "summary": "FK to courses",
+            "references": {
+              "model": "courses",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "progress_pct",
+            "type": "real",
+            "summary": "Completion percentage 0-100",
+            "defaultValue": "0"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Enrollment status: active, completed, paused"
+          },
+          {
+            "name": "enrolled_at",
+            "type": "text",
+            "summary": "ISO 8601 enrollment timestamp"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_enrollments_course",
+            "columns": [
+              "course_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_enrollments_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-lesson-progress",
+        "name": "lesson_progress",
+        "columns": [
+          {
+            "name": "lesson_id",
+            "type": "integer",
+            "summary": "FK to lessons",
+            "references": {
+              "model": "lessons",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "enrollment_id",
+            "type": "integer",
+            "summary": "FK to enrollments",
+            "references": {
+              "model": "enrollments",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "is_completed",
+            "type": "integer",
+            "summary": "Whether lesson is completed (1=yes, 0=no)",
+            "defaultValue": "0"
+          },
+          {
+            "name": "completed_at",
+            "type": "text",
+            "summary": "ISO 8601 completion timestamp",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_lp_lesson",
+            "columns": [
+              "lesson_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_lp_enrollment",
+            "columns": [
+              "enrollment_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-quiz-attempts",
+        "name": "quiz_attempts",
+        "columns": [
+          {
+            "name": "lesson_id",
+            "type": "integer",
+            "summary": "FK to lessons",
+            "references": {
+              "model": "lessons",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "score",
+            "type": "real",
+            "summary": "Quiz score percentage 0-100"
+          },
+          {
+            "name": "answers_json",
+            "type": "text",
+            "summary": "JSON string of submitted answers"
+          },
+          {
+            "name": "submitted_at",
+            "type": "text",
+            "summary": "ISO 8601 submission timestamp"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_qa_lesson",
+            "columns": [
+              "lesson_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getCourseWithCurriculum",
+        "name": "getCourseWithCurriculum",
+        "method": "getCourseWithCurriculum",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "course_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the course to fetch"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "course",
+            "type": "json",
+            "summary": "Course details"
+          },
+          {
+            "name": "modules",
+            "type": "array",
+            "summary": "List of modules with nested lessons"
+          },
+          {
+            "name": "lessons",
+            "type": "array",
+            "summary": "Flat list of all lessons"
+          }
+        ]
+      },
+      {
+        "uuid": "h-enrollInCourse",
+        "name": "enrollInCourse",
+        "method": "enrollInCourse",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "course_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the course to enroll in"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "enrollment_id",
+            "type": "number",
+            "summary": "New enrollment record ID"
+          }
+        ]
+      },
+      {
+        "uuid": "h-completeLesson",
+        "name": "completeLesson",
+        "method": "completeLesson",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "lesson_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the completed lesson"
+          },
+          {
+            "name": "enrollment_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the enrollment"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "new_progress_pct",
+            "type": "number",
+            "summary": "Updated progress percentage"
+          }
+        ]
+      },
+      {
+        "uuid": "h-submitQuiz",
+        "name": "submitQuiz",
+        "method": "submitQuiz",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "lesson_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the quiz lesson"
+          },
+          {
+            "name": "answers",
+            "type": "json",
+            "required": true,
+            "summary": "JSON object of question answers"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "score",
+            "type": "number",
+            "summary": "Quiz score percentage"
+          },
+          {
+            "name": "correct_answers",
+            "type": "json",
+            "summary": "Map of correct answers per question"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eff6ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#dbeafe",
+        "accent-foreground": "#2563eb",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#60a5fa",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#60a5fa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "currentCourse": null,
+        "currentLesson": null,
+        "quizAnswers": {}
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-lms",
+        "componentType": "CodeComponentProps",
+        "component": "LmsHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sb-lms",
+        "componentType": "CodeComponentProps",
+        "component": "LmsSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-dashboard",
+        "pageType": "WebPageProps",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Student dashboard with learning progress, continue learning, KPIs, and achievements",
+        "content": [
+          {
+            "uuid": "c-dashboard",
+            "componentType": "CodeComponentProps",
+            "component": "LmsDashboard"
+          }
+        ]
+      },
+      {
+        "uuid": "p-courses",
+        "pageType": "WebPageProps",
+        "title": "Courses",
+        "slug": "/courses",
+        "summary": "Course catalog with category tabs, level filters, and course cards",
+        "content": [
+          {
+            "uuid": "c-courses",
+            "componentType": "CodeComponentProps",
+            "component": "CoursesCatalog"
+          }
+        ]
+      },
+      {
+        "uuid": "p-course-detail",
+        "pageType": "WebPageProps",
+        "title": "Course Detail",
+        "slug": "/course/:id",
+        "summary": "Single course view with curriculum, reviews, and enrollment",
+        "content": [
+          {
+            "uuid": "c-course-detail",
+            "componentType": "CodeComponentProps",
+            "component": "CourseDetail"
+          }
+        ]
+      },
+      {
+        "uuid": "p-lesson",
+        "pageType": "WebPageProps",
+        "title": "Lesson",
+        "slug": "/lesson/:id",
+        "summary": "Lesson viewer with content, navigation, and completion tracking",
+        "content": [
+          {
+            "uuid": "c-lesson",
+            "componentType": "CodeComponentProps",
+            "component": "LessonViewer"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-progress",
+        "pageType": "WebPageProps",
+        "title": "Progress",
+        "slug": "/progress",
+        "summary": "Student progress with stats, per-course progress, streak chart, and certificates",
+        "content": [
+          {
+            "uuid": "c-progress",
+            "componentType": "CodeComponentProps",
+            "component": "StudentProgress"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-quizzes",
+        "pageType": "WebPageProps",
+        "title": "Quizzes",
+        "slug": "/quizzes",
+        "summary": "Quiz interface with questions, timer, and results",
+        "content": [
+          {
+            "uuid": "c-quizzes",
+            "componentType": "CodeComponentProps",
+            "component": "QuizPage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with learning stats and recent activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  }
+}

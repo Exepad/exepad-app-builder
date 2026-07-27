@@ -1,0 +1,15 @@
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+exclude = '''
+/(
+    \.git
+    | __pycache__
+    | \.mypy_cache
+    | \.pytest_cache
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["scripts/py"]
+python_files = ["test_*.py"]

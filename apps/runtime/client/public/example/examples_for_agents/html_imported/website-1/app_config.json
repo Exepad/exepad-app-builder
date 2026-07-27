@@ -1,0 +1,158 @@
+{
+  "uuid": "happydoods-farm",
+  "alias": "happydoods-farm",
+  "name": "HappyDoods Farm",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "version": "1.0.0",
+  "summary": "Organic chicken farm website with editorial design, Material Design 3 tokens, and Tailwind CSS",
+  "shortSummary": "HappyDoods organic farm",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "HappyDoodsHeader": {
+          "source": "frontend/code/components/HappyDoodsHeader.tsx",
+          "compiled": "frontend/compiled/components/HappyDoodsHeader.js",
+          "summary": "Fixed glassmorphism navbar with logo, route-aware nav links, Order Now CTA"
+        },
+        "HappyDoodsFooter": {
+          "source": "frontend/code/components/HappyDoodsFooter.tsx",
+          "compiled": "frontend/compiled/components/HappyDoodsFooter.js",
+          "summary": "3-column footer with farm address, policy links, hours"
+        },
+        "HomeContent": {
+          "source": "frontend/code/components/HomeContent.tsx",
+          "compiled": "frontend/compiled/components/HomeContent.js",
+          "summary": "Home page: full-height hero with gradient overlay, Our Story bento grid, Latest Products cards, Join the Farmily newsletter"
+        },
+        "AboutContent": {
+          "source": "frontend/code/components/AboutContent.tsx",
+          "compiled": "frontend/compiled/components/AboutContent.js",
+          "summary": "About page: rotated image hero, Our Philosophy 3-card grid, Why Our Chickens are Happy bento, Meet the Team circular portraits, CTA overlay"
+        },
+        "ProductsContent": {
+          "source": "frontend/code/components/ProductsContent.tsx",
+          "compiled": "frontend/compiled/components/ProductsContent.js",
+          "summary": "Products page: editorial hero header, bento product grid (eggs, chicken, seasonal), Beyond Organic statement card, Pantry Staples row"
+        },
+        "ContactContent": {
+          "source": "frontend/code/components/ContactContent.tsx",
+          "compiled": "frontend/compiled/components/ContactContent.js",
+          "summary": "Contact page: hero with 100% Organic badge, contact form with name/email/message, address card, phone/socials, map placeholder with bouncing pin"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Material Symbols icon font class, base typography, Shadow DOM :host styles"
+        },
+        "tailwind": {
+          "source": "frontend/code/styles/tailwind.config.js",
+          "compiled": "frontend/compiled/styles/tailwind-compiled.css",
+          "summary": "Pre-compiled Tailwind utility CSS with M3 color tokens"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+        "https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    }
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "HeaderMenuTop",
+    "headerScrollBehavior": "fixed",
+    "theme": {},
+    "transitions": {
+      "enabled": true,
+      "type": "fade",
+      "timing": "normal"
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "header": [
+      {
+        "uuid": "hdr-1",
+        "componentType": "CodeComponentProps",
+        "component": "HappyDoodsHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [
+      {
+        "uuid": "ftr-1",
+        "componentType": "CodeComponentProps",
+        "component": "HappyDoodsFooter"
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Landing page with hero, farm story, featured products, and newsletter signup",
+        "content": [
+          {
+            "uuid": "c-home",
+            "componentType": "CodeComponentProps",
+            "component": "HomeContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-about",
+        "pageType": "WebPageProps",
+        "title": "About Us",
+        "slug": "/about",
+        "summary": "Farm story, philosophy, happy chickens showcase, and team members",
+        "content": [
+          {
+            "uuid": "c-about",
+            "componentType": "CodeComponentProps",
+            "component": "AboutContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-products",
+        "pageType": "WebPageProps",
+        "title": "Products",
+        "slug": "/products",
+        "summary": "Product catalog with bento-style grid layout and pantry staples",
+        "content": [
+          {
+            "uuid": "c-products",
+            "componentType": "CodeComponentProps",
+            "component": "ProductsContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-contact",
+        "pageType": "WebPageProps",
+        "title": "Contact",
+        "slug": "/contact",
+        "summary": "Contact form, farm address, phone, social links, and map",
+        "content": [
+          {
+            "uuid": "c-contact",
+            "componentType": "CodeComponentProps",
+            "component": "ContactContent"
+          }
+        ]
+      }
+    ]
+  }
+}

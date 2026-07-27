@@ -1,0 +1,28 @@
+@layer exepad-app {
+  @import "tailwindcss";
+}
+
+@theme {
+  --color-primary: #7dd3fc;
+  --color-on-primary: #1c1b1f;
+  --color-primary-container: #e0f2fe;
+  --color-on-primary-container: #0f172a;
+  --color-secondary: #0f766e;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #ccfbf1;
+  --color-on-secondary-container: #134e4a;
+  --color-surface: #ffffff;
+  --color-on-surface: #1f2937;
+  --color-surface-variant: #f3f4f6;
+  --color-on-surface-variant: #4b5563;
+  --color-background: #ffffff;
+  --color-on-background: #1f2937;
+  --color-outline: #cbd5e1;
+  --color-outline-variant: #e5e7eb;
+  --color-error: #dc2626;
+  --color-on-error: #ffffff;
+  --color-error-container: #fee2e2;
+  --color-on-error-container: #7f1d1d;
+  --color-inverse-surface: #111827;
+  --color-inverse-on-surface: #ffffff;
+}

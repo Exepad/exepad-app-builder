@@ -1,0 +1,661 @@
+{
+  "uuid": "project-management",
+  "alias": "project-management",
+  "name": "TaskForge",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Project management application with kanban boards, task tracking, team management, and timeline views",
+  "shortSummary": "Project management with kanban, tasks, team, and timeline",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "ProjectSidebar": {
+          "source": "frontend/code/components/ProjectSidebar.tsx",
+          "compiled": "frontend/compiled/components/ProjectSidebar.js",
+          "summary": "Fixed left sidebar with project list, navigation items (Dashboard, Board, Tasks, Team, Timeline) with icons, and user actions"
+        },
+        "ProjectHeader": {
+          "source": "frontend/code/components/ProjectHeader.tsx",
+          "compiled": "frontend/compiled/components/ProjectHeader.js",
+          "summary": "Top header bar with project name, search input, notification bell, and user avatar"
+        },
+        "ProjectDashboard": {
+          "source": "frontend/code/components/ProjectDashboard.tsx",
+          "compiled": "frontend/compiled/components/ProjectDashboard.js",
+          "summary": "Dashboard overview with KPI cards, task distribution pie chart, and recent activity list"
+        },
+        "KanbanBoard": {
+          "source": "frontend/code/components/KanbanBoard.tsx",
+          "compiled": "frontend/compiled/components/KanbanBoard.js",
+          "summary": "Kanban board with 5 columns (Backlog, To Do, In Progress, Review, Done), task cards with priority badge, assignee avatar, and due date"
+        },
+        "TaskList": {
+          "source": "frontend/code/components/TaskList.tsx",
+          "compiled": "frontend/compiled/components/TaskList.js",
+          "summary": "Filterable and sortable task table with columns for title, priority, status, assignee, and due date"
+        },
+        "TeamMembers": {
+          "source": "frontend/code/components/TeamMembers.tsx",
+          "compiled": "frontend/compiled/components/TeamMembers.js",
+          "summary": "Grid of team member cards with avatar, name, role badge, tasks assigned count, and email"
+        },
+        "ProjectTimeline": {
+          "source": "frontend/code/components/ProjectTimeline.tsx",
+          "compiled": "frontend/compiled/components/ProjectTimeline.js",
+          "summary": "Gantt-style timeline view with horizontal progress bars for tasks, color-coded by status"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with project activity, contributions, and recent activity"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Shadow DOM base styles, kanban column layout, task card hover effects, priority border colors"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "comments": {
+        "source": "repo/seed/comments.json",
+        "format": "json",
+        "model": "comments",
+        "source_hash": "sha256:5d357d5e221c231df1ee02fcd0d34dd61e8e08fc39c6a084219476c82dbe68f2"
+      },
+      "projects": {
+        "source": "repo/seed/projects.json",
+        "format": "json",
+        "model": "projects",
+        "source_hash": "sha256:431311ebb6d2ad99d84b6280c38389ee5388e9fd841a06ee36b8ef8fcb39d2d5"
+      },
+      "tasks": {
+        "source": "repo/seed/tasks.json",
+        "format": "json",
+        "model": "tasks",
+        "source_hash": "sha256:34f13dcc0e0af84f0ae89c8acae5ea317094f7298fdca8f5b973dc934bf00898"
+      },
+      "team_members": {
+        "source": "repo/seed/team_members.json",
+        "format": "json",
+        "model": "team_members",
+        "source_hash": "sha256:75d95dfad3fe00e91673a8a19266a975ea93851b9cf649090c488db7b6085361"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-projects",
+        "name": "projects",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Project display name"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Project description",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Project status: planning, active, on_hold, completed, archived",
+            "defaultValue": "planning"
+          },
+          {
+            "name": "start_date",
+            "type": "text",
+            "summary": "ISO 8601 project start date",
+            "isNullable": true
+          },
+          {
+            "name": "end_date",
+            "type": "text",
+            "summary": "ISO 8601 project end date",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_projects_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_projects_name",
+            "columns": [
+              "name"
+            ],
+            "unique": true
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-tasks",
+        "name": "tasks",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Task title"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Task description",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Task status: backlog, todo, in_progress, review, done",
+            "defaultValue": "backlog"
+          },
+          {
+            "name": "priority",
+            "type": "text",
+            "summary": "Task priority: low, medium, high, urgent",
+            "defaultValue": "medium"
+          },
+          {
+            "name": "assignee",
+            "type": "text",
+            "summary": "Name of person assigned to the task",
+            "isNullable": true
+          },
+          {
+            "name": "project_id",
+            "type": "text",
+            "summary": "Foreign key reference to projects model ID"
+          },
+          {
+            "name": "due_date",
+            "type": "text",
+            "summary": "ISO 8601 task due date",
+            "isNullable": true
+          },
+          {
+            "name": "estimated_hours",
+            "type": "real",
+            "summary": "Estimated hours to complete the task",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_tasks_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_priority",
+            "columns": [
+              "priority"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_project_id",
+            "columns": [
+              "project_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_assignee",
+            "columns": [
+              "assignee"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-team-members",
+        "name": "team_members",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Team member full name"
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "summary": "Team member email address"
+          },
+          {
+            "name": "role",
+            "type": "text",
+            "summary": "Role: developer, designer, pm, qa",
+            "defaultValue": "developer"
+          },
+          {
+            "name": "avatar_url",
+            "type": "text",
+            "summary": "URL to avatar image",
+            "isNullable": true
+          },
+          {
+            "name": "department",
+            "type": "text",
+            "summary": "Department name",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_team_email",
+            "columns": [
+              "email"
+            ],
+            "unique": true
+          },
+          {
+            "name": "idx_team_role",
+            "columns": [
+              "role"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-comments",
+        "name": "comments",
+        "columns": [
+          {
+            "name": "task_id",
+            "type": "text",
+            "summary": "Foreign key reference to tasks model ID"
+          },
+          {
+            "name": "content",
+            "type": "text",
+            "summary": "Comment text content"
+          },
+          {
+            "name": "author",
+            "type": "text",
+            "summary": "Name of comment author"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when comment was created"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_comments_task_id",
+            "columns": [
+              "task_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_comments_created_at",
+            "columns": [
+              "created_at"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getProjectTasks",
+        "name": "getProjectTasks",
+        "method": "getProjectTasks",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "project_id",
+            "type": "string",
+            "required": true,
+            "summary": "ID of the project to get tasks for"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "required": false,
+            "summary": "Filter tasks by status"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "tasks",
+            "type": "array",
+            "summary": "Array of task objects"
+          },
+          {
+            "name": "counts_by_status",
+            "type": "json",
+            "summary": "Object with task counts per status"
+          }
+        ]
+      },
+      {
+        "uuid": "h-moveTask",
+        "name": "moveTask",
+        "method": "moveTask",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "task_id",
+            "type": "string",
+            "required": true,
+            "summary": "ID of the task to move"
+          },
+          {
+            "name": "new_status",
+            "type": "string",
+            "required": true,
+            "summary": "New status for the task"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "success",
+            "type": "boolean",
+            "summary": "Whether the task was successfully moved"
+          },
+          {
+            "name": "task",
+            "type": "json",
+            "summary": "Updated task object"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getProjectStats",
+        "name": "getProjectStats",
+        "method": "getProjectStats",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "project_id",
+            "type": "string",
+            "required": true,
+            "summary": "ID of the project"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "total_tasks",
+            "type": "number",
+            "summary": "Total number of tasks in the project"
+          },
+          {
+            "name": "completed",
+            "type": "number",
+            "summary": "Number of completed tasks"
+          },
+          {
+            "name": "overdue",
+            "type": "number",
+            "summary": "Number of overdue tasks"
+          },
+          {
+            "name": "by_priority",
+            "type": "json",
+            "summary": "Task counts grouped by priority level"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#4f46e5",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#334155",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#eef2ff",
+        "accent-foreground": "#3730a3",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#4f46e5",
+        "card": "#ffffff",
+        "card-foreground": "#0f172a",
+        "popover": "#ffffff",
+        "popover-foreground": "#0f172a"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#818cf8",
+        "primary-foreground": "#1e1b4b",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#cbd5e1",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#c7d2fe",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#818cf8",
+        "card": "#1e293b",
+        "card-foreground": "#f8fafc",
+        "popover": "#1e293b",
+        "popover-foreground": "#f8fafc"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "header": [
+      {
+        "uuid": "header-1",
+        "componentType": "CodeComponentProps",
+        "component": "ProjectHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sidebar-1",
+        "componentType": "CodeComponentProps",
+        "component": "ProjectSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-dashboard",
+        "pageType": "WebPageProps",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Project dashboard with KPI cards, task distribution chart, and recent activity",
+        "content": [
+          {
+            "uuid": "c-dashboard",
+            "componentType": "CodeComponentProps",
+            "component": "ProjectDashboard"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-board",
+        "pageType": "WebPageProps",
+        "title": "Board",
+        "slug": "/board",
+        "summary": "Kanban board with 5 columns for visual task management",
+        "content": [
+          {
+            "uuid": "c-board",
+            "componentType": "CodeComponentProps",
+            "component": "KanbanBoard"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-tasks",
+        "pageType": "WebPageProps",
+        "title": "Tasks",
+        "slug": "/tasks",
+        "summary": "Filterable and sortable task list table",
+        "content": [
+          {
+            "uuid": "c-tasks",
+            "componentType": "CodeComponentProps",
+            "component": "TaskList"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-team",
+        "pageType": "WebPageProps",
+        "title": "Team",
+        "slug": "/team",
+        "summary": "Team members grid with roles and task counts",
+        "content": [
+          {
+            "uuid": "c-team",
+            "componentType": "CodeComponentProps",
+            "component": "TeamMembers"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-timeline",
+        "pageType": "WebPageProps",
+        "title": "Timeline",
+        "slug": "/timeline",
+        "summary": "Gantt-style timeline view of project tasks",
+        "content": [
+          {
+            "uuid": "c-timeline",
+            "componentType": "CodeComponentProps",
+            "component": "ProjectTimeline"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with project activity and contributions",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ],
+    "logic": {
+      "state": {
+        "selectedProject": 1,
+        "taskFilter": "all",
+        "viewMode": "board"
+      }
+    }
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  }
+}

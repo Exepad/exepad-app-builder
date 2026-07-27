@@ -1,0 +1,54 @@
+{
+  "name": "exepad-app-builder",
+  "version": "0.1.0",
+  "description": "Single-command installer and operator CLI for the self-hosted Exepad studio (thin wrapper over the published Docker image).",
+  "type": "module",
+  "homepage": "https://exepad.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Exepad/exepad-app-builder.git",
+    "directory": "packages/exepad-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/Exepad/exepad-app-builder/issues"
+  },
+  "author": "Exepad and contributors",
+  "keywords": [
+    "exepad",
+    "self-hosted",
+    "ai",
+    "app-builder",
+    "low-code",
+    "installer",
+    "docker"
+  ],
+  "bin": {
+    "exepad": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.3.0"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "AGPL-3.0-only",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "esbuild": "^0.27.2",
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.4"
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "survey_id": 1,
+    "question_text": "How satisfied are you with our overall service?",
+    "question_type": "rating",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 1
+  },
+  {
+    "survey_id": 1,
+    "question_text": "Which aspect of our service do you value most?",
+    "question_type": "multiple_choice",
+    "options": "[\"Speed of delivery\",\"Product quality\",\"Customer support\",\"Pricing\",\"Ease of use\"]",
+    "is_required": 1,
+    "sort_order": 2
+  },
+  {
+    "survey_id": 1,
+    "question_text": "Would you recommend us to a friend or colleague?",
+    "question_type": "yes_no",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 3
+  },
+  {
+    "survey_id": 1,
+    "question_text": "How would you rate our customer support?",
+    "question_type": "rating",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 4
+  },
+  {
+    "survey_id": 1,
+    "question_text": "What could we do better? Please share any suggestions.",
+    "question_type": "text",
+    "options": null,
+    "is_required": 0,
+    "sort_order": 5
+  },
+  {
+    "survey_id": 2,
+    "question_text": "How would you rate your overall job satisfaction?",
+    "question_type": "rating",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 1
+  },
+  {
+    "survey_id": 2,
+    "question_text": "Do you feel your work is recognized and appreciated?",
+    "question_type": "yes_no",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 2
+  },
+  {
+    "survey_id": 2,
+    "question_text": "Which area needs the most improvement?",
+    "question_type": "multiple_choice",
+    "options": "[\"Communication\",\"Work-life balance\",\"Career growth\",\"Compensation\",\"Team collaboration\"]",
+    "is_required": 1,
+    "sort_order": 3
+  },
+  {
+    "survey_id": 2,
+    "question_text": "How likely are you to stay with the company for the next 2 years?",
+    "question_type": "rating",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 4
+  },
+  {
+    "survey_id": 2,
+    "question_text": "What changes would make the biggest positive impact on your work experience?",
+    "question_type": "text",
+    "options": null,
+    "is_required": 0,
+    "sort_order": 5
+  },
+  {
+    "survey_id": 3,
+    "question_text": "How would you rate the new dashboard redesign?",
+    "question_type": "rating",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 1
+  },
+  {
+    "survey_id": 3,
+    "question_text": "Which new feature do you use the most?",
+    "question_type": "multiple_choice",
+    "options": "[\"Dark mode\",\"Export to PDF\",\"Real-time collaboration\",\"Advanced filters\",\"API integrations\"]",
+    "is_required": 1,
+    "sort_order": 2
+  },
+  {
+    "survey_id": 3,
+    "question_text": "Did the latest update improve your workflow?",
+    "question_type": "yes_no",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 3
+  },
+  {
+    "survey_id": 3,
+    "question_text": "How intuitive is the new navigation?",
+    "question_type": "rating",
+    "options": null,
+    "is_required": 1,
+    "sort_order": 4
+  },
+  {
+    "survey_id": 3,
+    "question_text": "What feature would you most like to see added next?",
+    "question_type": "text",
+    "options": null,
+    "is_required": 0,
+    "sort_order": 5
+  }
+]

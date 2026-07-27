@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-container-low": "#f1f4fa",
+                "on-primary-fixed": "#2a1800",
+                "on-tertiary-fixed-variant": "#574500",
+                "on-tertiary": "#ffffff",
+                "on-primary-fixed-variant": "#643f00",
+                "on-tertiary-fixed": "#241a00",
+                "surface-container-high": "#e5e8ee",
+                "secondary-fixed-dim": "#88d982",
+                "on-surface": "#181c20",
+                "tertiary-fixed": "#ffe087",
+                "inverse-primary": "#ffb957",
+                "outline-variant": "#d7c3ae",
+                "primary": "#835400",
+                "on-primary-container": "#674100",
+                "on-secondary-fixed": "#002204",
+                "secondary": "#1b6d24",
+                "surface-tint": "#835400",
+                "on-error-container": "#93000a",
+                "surface-container-lowest": "#ffffff",
+                "tertiary-fixed-dim": "#ebc23e",
+                "surface-dim": "#d7dae0",
+                "secondary-container": "#a0f399",
+                "on-secondary-fixed-variant": "#005312",
+                "error": "#ba1a1a",
+                "surface": "#f7f9ff",
+                "tertiary": "#735c00",
+                "surface-container": "#ebeef4",
+                "surface-container-highest": "#dfe3e8",
+                "tertiary-container": "#dcb530",
+                "surface-variant": "#dfe3e8",
+                "on-background": "#181c20",
+                "inverse-surface": "#2d3135",
+                "on-secondary": "#ffffff",
+                "primary-fixed": "#ffddb5",
+                "on-tertiary-container": "#5a4700",
+                "secondary-fixed": "#a3f69c",
+                "on-primary": "#ffffff",
+                "inverse-on-surface": "#eef1f7",
+                "surface-bright": "#f7f9ff",
+                "primary-fixed-dim": "#ffb957",
+                "primary-container": "#f9a825",
+                "background": "#f7f9ff",
+                "outline": "#857462",
+                "on-secondary-container": "#217128",
+                "on-error": "#ffffff",
+                "error-container": "#ffdad6",
+                "on-surface-variant": "#524434"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-hex-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%23ffddb5' fill-opacity='0.05' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.32v12.86l10.99 6.34 11-6.34V17.32L14 10.98 3 17.32z'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 dark:bg-slate-950 font-inter text-sm font-medium tracking-wide flex flex-col h-full py-8 px-4 gap-2 border-r border-slate-100 dark:border-slate-900 z-50">
+<div class="mb-8 px-2">
+<h1 class="font-manrope font-black text-amber-700 dark:text-amber-500 text-xl leading-tight">The Living Ledger</h1>
+<p class="text-xs text-on-surface-variant mt-1">Hive Alpha Status: Thriving</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Overview
+            </a>
+<!-- ACTIVE TAB: Hives -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-amber-800 dark:text-amber-200 font-bold border-r-4 border-amber-600 dark:border-amber-400 bg-amber-50/50 dark:bg-amber-900/20 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+                Hives
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+                Honey Production
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="bug_report">bug_report</span>
+                Pest Control
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</nav>
+<button class="mt-4 mb-8 bg-secondary-container text-on-secondary-container py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+            Add Inspection
+        </button>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-64 min-h-screen bg-hex-pattern">
+<!-- Top App Bar -->
+<header class="w-full sticky top-0 z-40 bg-slate-50/70 dark:bg-slate-900/70 backdrop-blur-md flex justify-between items-center px-6 py-3 w-full border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm dark:shadow-none">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full bg-surface-container-highest border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search hives or logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 text-slate-500">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 text-slate-500">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-fixed flex items-center justify-center border-2 border-white shadow-sm overflow-hidden">
+<img alt="User profile avatar" data-alt="Close up portrait of a male beekeeper smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA87gWCGWKi7_kNZojbBXQEYmrwK3sGTGB1e7EY6MN_c9uo2AiEmJFZUNu1FVU2CSS_unAI1-Bypm4hnCY-uhT--m9Sw-KRIMcQomp071qHva2h92aFaR0nJ6YPZeipgdbFaZS8SQK3vIYpyibQrxGMZdqL0wYkYCS_Tu2Z-LYEd8czl2DE19xZRxVQRAX6Qup7MiuLYmF58I-jtZtS-TDIkflTM4Gr6UaW6c6QWZ0FjpnqnRGDxwogZP98BKbmHu92xCO3FBofY0X0"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-8 space-y-8">
+<!-- Header Section with Intentional Asymmetry -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6">
+<div>
+<span class="font-label text-xs tracking-widest text-on-surface-variant uppercase">Active Apiary</span>
+<h2 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mt-1">Hive Inventory</h2>
+<p class="text-on-surface-variant mt-2 max-w-lg">Monitoring 12 active colonies across the Golden Valley sector. All sensors reporting nominal status.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-semibold shadow-sm hover:shadow-md transition-all active:scale-95 border border-outline-variant/10">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                        Add New Hive
+                    </button>
+</div>
+</div>
+<!-- Bento Grid of Hive Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+<!-- Hive Card Template (Repeat for 12) -->
+<!-- Card 1: Thriving -->
+<div class="group bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-transparent hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary-fixed/30 rounded-xl text-primary">
+<span class="material-symbols-outlined text-3xl" data-icon="nest_eco_leaf" style="font-variation-settings: 'FILL' 1;">nest_eco_leaf</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container/30 text-secondary text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                            Thriving
+                        </span>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Hive Alpha</h3>
+<p class="text-sm text-on-surface-variant">Queen: Isabella II (Marked Red)</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-tighter">Temperature</span>
+<p class="font-headline text-lg font-bold text-on-surface">34.8°C</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-tighter">Humidity</span>
+<p class="font-headline text-lg font-bold text-on-surface">58%</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-xs text-on-surface-variant">
+<span>Activity (24h)</span>
+<span class="text-secondary font-semibold">+12%</span>
+</div>
+<div class="h-12 w-full flex items-end gap-1 px-1">
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[40%] group-hover:bg-secondary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[60%] group-hover:bg-secondary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[55%] group-hover:bg-secondary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[80%] group-hover:bg-secondary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[70%] group-hover:bg-secondary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[95%] group-hover:bg-secondary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary rounded-t-sm h-[100%]"></div>
+</div>
+</div>
+</div>
+<!-- Card 2: Alert -->
+<div class="group bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-transparent hover:shadow-xl hover:shadow-error/5 transition-all duration-300 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-error-container/30 rounded-xl text-error">
+<span class="material-symbols-outlined text-3xl" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-error-container text-on-error-container text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+                            Alert
+                        </span>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Hive Beta</h3>
+<p class="text-sm text-on-surface-variant">Queen: Elena (Marked Blue)</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-tighter">Temperature</span>
+<p class="font-headline text-lg font-bold text-error">38.2°C</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-tighter">Humidity</span>
+<p class="font-headline text-lg font-bold text-on-surface">42%</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-xs text-on-surface-variant">
+<span>Activity (24h)</span>
+<span class="text-error font-semibold">-24%</span>
+</div>
+<div class="h-12 w-full flex items-end gap-1 px-1">
+<div class="flex-1 bg-error/20 rounded-t-sm h-[100%]"></div>
+<div class="flex-1 bg-error/20 rounded-t-sm h-[85%]"></div>
+<div class="flex-1 bg-error/20 rounded-t-sm h-[70%]"></div>
+<div class="flex-1 bg-error/20 rounded-t-sm h-[60%]"></div>
+<div class="flex-1 bg-error/20 rounded-t-sm h-[40%]"></div>
+<div class="flex-1 bg-error/20 rounded-t-sm h-[30%]"></div>
+<div class="flex-1 bg-error rounded-t-sm h-[25%]"></div>
+</div>
+</div>
+</div>
+<!-- Card 3: Monitoring -->
+<div class="group bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-transparent hover:shadow-xl hover:shadow-tertiary/5 transition-all duration-300 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-tertiary-fixed/30 rounded-xl text-tertiary">
+<span class="material-symbols-outlined text-3xl" data-icon="visibility" style="font-variation-settings: 'FILL' 1;">visibility</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary-container/40 text-on-tertiary-container text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+                            Monitoring
+                        </span>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Hive Gamma</h3>
+<p class="text-sm text-on-surface-variant">Queen: Victoria (Marked Green)</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-tighter">Temperature</span>
+<p class="font-headline text-lg font-bold text-on-surface">35.1°C</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-tighter">Humidity</span>
+<p class="font-headline text-lg font-bold text-on-surface">55%</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-xs text-on-surface-variant">
+<span>Activity (24h)</span>
+<span class="text-tertiary font-semibold">+2%</span>
+</div>
+<div class="h-12 w-full flex items-end gap-1 px-1">
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[50%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[52%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[48%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[55%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[53%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[50%]"></div>
+<div class="flex-1 bg-tertiary rounded-t-sm h-[54%]"></div>
+</div>
+</div>
+</div>
+<!-- Repeat for other hives - Sample Grid Filler -->
+<!-- Card 4: Thriving -->
+<div class="group bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-transparent hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary-fixed/30 rounded-xl text-primary">
+<span class="material-symbols-outlined text-3xl" data-icon="nest_eco_leaf" style="font-variation-settings: 'FILL' 1;">nest_eco_leaf</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container/30 text-secondary text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+                            Thriving
+                        </span>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Hive Delta</h3>
+<p class="text-sm text-on-surface-variant">Queen: Maya (Marked Yellow)</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl"><span class="font-label text-[10px] uppercase">Temp</span><p class="font-headline font-bold">34.9°C</p></div>
+<div class="bg-surface-container-low p-4 rounded-xl"><span class="font-label text-[10px] uppercase">Humid</span><p class="font-headline font-bold">60%</p></div>
+</div>
+<div class="h-12 w-full flex items-end gap-1 px-1">
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[60%]"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[70%]"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[80%]"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[75%]"></div>
+<div class="flex-1 bg-secondary rounded-t-sm h-[90%]"></div>
+</div>
+</div>
+<!-- Cards 5-12 Simplified for layout visualization -->
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Epsilon</p>
+<span class="text-xs uppercase tracking-widest font-label">Thriving</span>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Zeta</p>
+<span class="text-xs uppercase tracking-widest font-label">Monitoring</span>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Eta</p>
+<span class="text-xs uppercase tracking-widest font-label">Thriving</span>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Theta</p>
+<span class="text-xs uppercase tracking-widest font-label">Thriving</span>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Iota</p>
+<span class="text-xs uppercase tracking-widest font-label">Monitoring</span>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Kappa</p>
+<span class="text-xs uppercase tracking-widest font-label">Thriving</span>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Lambda</p>
+<span class="text-xs uppercase tracking-widest font-label">Thriving</span>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-2xl p-6 border border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-4xl" data-icon="hive">hive</span>
+<p class="font-headline font-bold text-on-surface">Hive Mu</p>
+<span class="text-xs uppercase tracking-widest font-label">Thriving</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button for Mobile -->
+<button class="fixed bottom-6 right-6 lg:hidden w-14 h-14 rounded-full bg-primary text-on-primary shadow-xl flex items-center justify-center active:scale-90 transition-transform z-50">
+<span class="material-symbols-outlined" data-icon="add" style="font-variation-settings: 'wght' 600;">add</span>
+</button>
+<!-- Bottom Navigation for Mobile -->
+<nav class="fixed bottom-0 left-0 w-full bg-slate-50/90 backdrop-blur-lg lg:hidden flex justify-around items-center py-3 border-t border-slate-200/50 z-40">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-medium">Overview</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-amber-700" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="text-[10px] font-bold">Hives</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+<span class="text-[10px] font-medium">Production</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</nav>
+</body></html>

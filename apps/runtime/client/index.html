@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Warm up the Google Fonts connection early. Rendered app themes pull their
+         webfonts via `@import url(https://fonts.googleapis.com/...)` inside the
+         compiled app CSS, which only kicks off the font-CSS → font-file request
+         chain AFTER that stylesheet parses. Preconnecting both origins (gstatic
+         needs crossorigin for the font files) removes ~180ms from the chain. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Inline reset to prevent FOUC: the external stylesheet is render-blocking
+         in spec, but Chromium will still compute layout with the user-agent
+         default `body { margin: 8px }` for the first paint frame. Without this
+         block, the entire app left-shifts by 8px once globals.css applies. -->
+    <style>html,body{margin:0;padding:0}</style>
+
+    <!-- No-FOUC chrome theme bootstrap: apply the operator's light/dark choice to
+         <html> before first paint. Only the platform chrome (Login/Apps/Settings/
+         Studio) reads this; rendered user-app routes manage their own theme via
+         DynamicTheme/DefaultThemeApplier. Defaults to the OS preference. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('exepad-chrome-theme');
+          var dark = stored
+            ? stored === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', dark);
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Import map: core entries here, @exepad/ext-* injected by vite-plugin-ext-importmap -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@exepad/sdk": "/runtime_assets/dist/exepad-sdk.js",
+          "@exepad/sdk/core": "/runtime_assets/dist/exepad-sdk-core.js",
+          "@exepad/sdk/charts": "/runtime_assets/dist/exepad-sdk-charts.js",
+          "@exepad/sdk/motion": "/runtime_assets/dist/exepad-sdk-motion.js",
+          "@exepad/sdk/forms": "/runtime_assets/dist/exepad-sdk-forms.js",
+          "@exepad/sdk/overlays": "/runtime_assets/dist/exepad-sdk-overlays.js",
+          "@exepad/sdk/icons": "/runtime_assets/dist/exepad-sdk-icons.js",
+          "react": "/runtime_assets/dist/react-shim.js",
+          "react-dom": "/runtime_assets/dist/react-dom-shim.js",
+          "react/jsx-runtime": "/runtime_assets/dist/react-shim.js",
+          "react/jsx-dev-runtime": "/runtime_assets/dist/react-shim.js",
+          "slate": "https://esm.sh/slate@0.100.0",
+          "@tiptap/core": "https://esm.sh/@tiptap/core@2.12.0",
+          "prosemirror-model": "https://esm.sh/prosemirror-model@1.24.1",
+          "prosemirror-transform": "https://esm.sh/prosemirror-transform@1.10.4?external=prosemirror-model",
+          "prosemirror-state": "https://esm.sh/prosemirror-state@1.4.3?external=prosemirror-model,prosemirror-transform",
+          "prosemirror-view": "https://esm.sh/prosemirror-view@1.38.1?external=prosemirror-model,prosemirror-state,prosemirror-transform",
+          "prosemirror-history": "https://esm.sh/prosemirror-history@1.4.1?external=prosemirror-model,prosemirror-state,prosemirror-transform",
+          "prosemirror-keymap": "https://esm.sh/prosemirror-keymap@1.2.2?external=prosemirror-state",
+          "prosemirror-commands": "https://esm.sh/prosemirror-commands@1.7.0?external=prosemirror-model,prosemirror-state,prosemirror-transform"
+        }
+      }
+    </script>
+
+  </head>
+  <body class="leap-runtime font-sans">
+    <div id="root" class="min-h-screen bg-background text-foreground"></div>
+    <!-- Expose React globally BEFORE main app loads, so SDK/remote components can use window.React -->
+    <script type="module" src="/src/expose-react.ts"></script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practices · HappyDoods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .practice-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    margin-top: 48px;
+  }
+  @media (max-width: 900px) { .practice-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+  .toc {
+    position: sticky;
+    top: 96px;
+  }
+  .toc h4 {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .toc ol { list-style: none; counter-reset: toc; }
+  .toc li {
+    counter-increment: toc;
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    gap: 12px;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--barn);
+    flex-shrink: 0;
+  }
+  .toc li:hover { color: var(--ink); }
+
+  .practice-section {
+    padding: 48px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .practice-section:first-child { padding-top: 0; }
+  .practice-section:last-child { border-bottom: none; }
+
+  .practice-section .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--barn);
+    margin-bottom: 12px;
+  }
+  .practice-section h2 {
+    font-style: italic;
+    font-size: 44px;
+    margin-bottom: 16px;
+    max-width: 18ch;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 400;
+  }
+  .practice-section p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+    max-width: 60ch;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  @media (max-width: 700px) { .stat-row { grid-template-columns: 1fr 1fr; } }
+  .stat-row .stat .big {
+    font-family: var(--serif);
+    font-size: 40px;
+    line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    color: var(--ink);
+  }
+  .stat-row .stat .lbl {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  .feed-bar {
+    margin-top: 24px;
+    height: 36px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    border: 1px solid var(--line);
+  }
+  .feed-bar .seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--paper);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .feed-bar .seg.pasture { background: var(--moss-dark); flex: 4; }
+  .feed-bar .seg.grain { background: var(--barn); flex: 3; }
+  .feed-bar .seg.scraps { background: var(--butter); color: var(--ink); flex: 2; }
+  .feed-bar .seg.bugs { background: var(--ink); flex: 1; }
+
+  .feed-legend {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    font-size: 13px; margin-top: 12px;
+    color: var(--ink-soft);
+  }
+  .feed-legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 32px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .compare .col { padding: 24px; }
+  .compare .col-bad { background: var(--cream-deep); }
+  .compare .col-good { background: var(--paper); border-left: 1px solid var(--line); }
+  .compare h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .compare .col-bad h4 { color: #963d2a; }
+  .compare .col-good h4 { color: var(--moss-dark); }
+  .compare ul { list-style: none; }
+  .compare li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    display: flex; gap: 8px;
+  }
+  .compare .col-bad li::before { content: "✕"; color: #963d2a; }
+  .compare .col-good li::before { content: "✓"; color: var(--moss-dark); }
+
+  .photo-strip {
+    aspect-ratio: 16/7;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <ellipse cx="22" cy="24" rx="13" ry="10" fill="#A8472A"/>
+        <circle cx="11" cy="17" r="6" fill="#A8472A"/>
+        <path d="M7 12 L9 7 L11 11 L13 7 L14 12 Z" fill="#A8472A"/>
+        <circle cx="9.5" cy="16.5" r="1" fill="#F5EFE2"/>
+        <path d="M5 18 L7.5 17.5 L7 19 Z" fill="#E8B850"/>
+        <path d="M16 33 L18 36 M22 33 L24 36" stroke="#A8472A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Happy<span class="brand-em">Doods</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="flock.html">The Flock</a></li>
+      <li><a href="practices.html" class="active">Practices</a></li>
+      <li><a href="visit.html">Visit</a></li>
+      <li><a href="stockists.html">Stockists</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="visit.html">Plan a Visit →</a>
+  </div>
+</nav>
+
+<header class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">Practices · The honest version</div>
+    <h1>How we farm, in unflattering detail.</h1>
+    <p class="lede">Most farms list certifications. We're going to walk you through what actually happens, day to day, with the chickens and the land.</p>
+  </div>
+</header>
+
+<section style="padding-top: 64px;">
+  <div class="wrap">
+    <div class="practice-grid">
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li>Pasture rotation</li>
+          <li>What they eat</li>
+          <li>Heritage breeds</li>
+          <li>Egg handling</li>
+          <li>Winter</li>
+          <li>End-of-life</li>
+          <li>What we won't do</li>
+        </ol>
+      </aside>
+
+      <div>
+        <article class="practice-section">
+          <div class="num">01 / Pasture rotation</div>
+          <h2>Move the hens, not the manure.</h2>
+          <p>We split our seven acres into five paddocks. Each flock spends 7 days on a paddock, then moves to the next. By the time they come back to the first paddock, 35 days have passed — long enough for grass to recover and for parasite cycles to break.</p>
+          <p>Mobile coops on skids make this easy. Joel built them out of welded steel and corrugated roofing, with nest boxes accessible from the outside. We pull them with a little Kubota tractor and the hens follow because that's where the food is.</p>
+          <div class="stat-row">
+            <div class="stat"><div class="big">5</div><div class="lbl">Paddocks</div></div>
+            <div class="stat"><div class="big">7 days</div><div class="lbl">Per rotation</div></div>
+            <div class="stat"><div class="big">35 days</div><div class="lbl">Rest before return</div></div>
+          </div>
+          <div class="ph photo-strip"><span class="ph-label">Aerial · 5 paddocks marked w/ mobile coops</span></div>
+        </article>
+
+        <article class="practice-section">
+          <div class="num">02 / What they eat</div>
+          <h2>Mostly bugs and grass. The rest is grain.</h2>
+          <p>People are surprised by this, but a hen on real pasture gets the majority of her calories from foraging — grass, clover, beetles, worms, the occasional small frog. Grain is a supplement, not the main course.</p>
+          <p>Our grain comes from Green Mountain Mill in Brattleboro: an organic, non-GMO, soy-free blend of corn, peas, oats, flax, and a little kelp. We also feed kitchen scraps from two neighborhood restaurants — bread heels, vegetable trim, the occasional wedge of stale cheese.</p>
+
+          <div class="feed-bar" aria-label="Feed composition">
+            <div class="seg pasture">Pasture forage 40%</div>
+            <div class="seg grain">Local grain 30%</div>
+            <div class="seg scraps">Kitchen scraps 20%</div>
+            <div class="seg bugs">Bugs 10%</div>
+          </div>
+          <div class="feed-legend">
+            <span><span class="sw" style="background:var(--moss-dark)"></span>Pasture forage</span>
+            <span><span class="sw" style="background:var(--barn)"></span>Local grain</span>
+            <span><span class="sw" style="background:var(--butter)"></span>Kitchen scraps</span>
+            <span><span class="sw" style="background:var(--ink)"></span>Bugs &amp; small critters</span>
+          </div>
+        </article>
+
+        <article class="practice-section">
+          <div class="num">03 / Heritage breeds</div>
+          <h2>Slower, prettier, hardier.</h2>
+          <p>The egg industry has spent 60 years breeding hens that lay 320 eggs a year and burn out at 18 months. We don't raise those.</p>
+          <p>Our flock is a mix: Plymouth Rocks, Buff Orpingtons, Welsummers, Marans, Ameraucanas, a handful of Easter Eggers. They lay 220–250 eggs a year, take longer to start, and live 5–7 years instead of 2. Their eggs are different colors, different sizes, and — importantly — produced by hens that aren't crashing through their own biology to get there.</p>
+        </article>
+
+        <article class="practice-section">
+          <div class="num">04 / Egg handling</div>
+          <h2>Collect, brush, candle, carton.</h2>
+          <p>We collect twice a day, between 7–8 am and 3–4 pm. Eggs go straight into a dry basket — no washing. A fresh egg is coated in a natural protective layer (the "bloom") that keeps it shelf-stable. Washing strips it and forces refrigeration.</p>
+          <p>Back in the packing room: dry brush off any straw or speck, candle for cracks, weight-grade by hand, into the carton. Total time from nest to fridge: under twelve hours.</p>
+
+          <div class="compare">
+            <div class="col col-bad">
+              <h4>Industrial · what we don't do</h4>
+              <ul>
+                <li>Chlorine wash</li>
+                <li>Eggs up to 30 days old at carton</li>
+                <li>Mechanical sorting</li>
+                <li>Plastic carton</li>
+                <li>Eggs from 6+ farms blended</li>
+              </ul>
+            </div>
+            <div class="col col-good">
+              <h4>Here · what we do</h4>
+              <ul>
+                <li>Dry brush only</li>
+                <li>&lt; 12 hours nest-to-fridge</li>
+                <li>Hand-graded</li>
+                <li>Pulp carton, returnable</li>
+                <li>Single farm, single flock</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="practice-section">
+          <div class="num">05 / Winter</div>
+          <h2>Vermont winters are real. So are our hens.</h2>
+          <p>Heritage breeds are cold-hardy. Their feet have countercurrent heat exchange (a thing). They tolerate temperatures down to about 0°F without supplemental heat. We don't heat the coops — heated coops cause more problems than they solve.</p>
+          <p>What we do: deep-pack bedding (composts in place, generates warmth), wind-break tarps on the coop's north wall, unfrozen water rotated three times a day. Egg production drops to about 35% in deep winter, which is fine and natural.</p>
+        </article>
+
+        <article class="practice-section">
+          <div class="num">06 / End-of-life</div>
+          <h2>The hard part, said plainly.</h2>
+          <p>Hens slow down at age 4 or 5. The industrial approach is to "depopulate" the flock and start over — meat birds aren't economical at that point.</p>
+          <p>We don't do that. Our retired hens — about 60 currently — live in the smaller "retirement coop" near the orchard. They eat the same feed, lay the occasional egg, eat bugs, and die quietly of old age. It costs us money. We've decided we're okay with that.</p>
+        </article>
+
+        <article class="practice-section">
+          <div class="num">07 / What we won't do</div>
+          <h2>Worth being explicit about.</h2>
+          <p>We'll never beak-trim. We'll never light the coops 16 hours a day to force off-season laying. We'll never replace the entire flock yearly. We'll never sell our name to a holding company. We'll never quietly ship in eggs from another farm to fill a shortage. We'll never raise more hens than we can know.</p>
+          <p>If any of this changes, you'll read it here first.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner" style="background: var(--paper); border-top: 1px solid var(--line); padding:96px 0;">
+  <div class="wrap-narrow" style="text-align:center;">
+    <h2 style="font-style:italic;">Questions about any of this?</h2>
+    <p>We're happy to talk shop. Email us, or come Saturday and ask in person.</p>
+    <div class="row" style="justify-content:center; margin-top:24px;">
+      <a href="contact.html" class="btn btn-primary">Get in touch</a>
+      <a href="visit.html" class="btn btn-outline">Visit the farm</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-tag">Eggs from hens<br>who know their names.</div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; opacity:0.6; text-transform:uppercase;">438 Willow Creek Rd · Putney, VT 05346</div>
+      </div>
+      <div><h4>Visit</h4><ul><li><a href="visit.html">Open Saturdays</a></li><li><a href="visit.html">Farm tours</a></li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="shop.html">Eggs</a></li><li><a href="shop.html">Pantry</a></li><li><a href="stockists.html">Stockists</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="story.html">Our story</a></li><li><a href="practices.html">Practices</a></li><li><a href="flock.html">Meet the flock</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 HappyDoods Farm · A small operation, on purpose.</div>
+      <div>Hand-built in Vermont. Mostly held together with good intentions.</div>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+(function() {
+  const PH = {"pasture_wide":"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80","hens_grass":"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80","hen_closeup":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=1000&q=80","eggs_brown":"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&q=80","eggs_basket":"https://images.unsplash.com/photo-1569127959161-2b1297b2d9a8?auto=format&fit=crop&w=1200&q=80","eggs_pastel":"https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?auto=format&fit=crop&w=1200&q=80","eggs_flat":"https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1200&q=80","eggs_carton":"https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&w=1200&q=80","eggs_blue":"https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&q=80","barn":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80","farmer":"https://images.unsplash.com/photo-1592982499091-5b71f7be930e?auto=format&fit=crop&w=1100&q=80","couple":"https://images.unsplash.com/photo-1578307556311-d97c5c1e22e1?auto=format&fit=crop&w=1100&q=80","pasta":"https://images.unsplash.com/photo-1551892589-865f69869476?auto=format&fit=crop&w=1100&q=80","pickled":"https://images.unsplash.com/photo-1599909533730-89d0e3aef91d?auto=format&fit=crop&w=1100&q=80","butter":"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=1100&q=80","market":"https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1100&q=80","compost":"https://images.unsplash.com/photo-1416664806563-bb6be3be8074?auto=format&fit=crop&w=1100&q=80","old_coop":"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1100&q=80","kid_chicken":"https://images.unsplash.com/photo-1559588981-6c5ec47bf4a3?auto=format&fit=crop&w=1100&q=80","hen_feet":"https://images.unsplash.com/photo-1608755728617-4cb3a6b87c91?auto=format&fit=crop&w=1100&q=80","truck":"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1100&q=80","aerial":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80","plymouth":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=900&q=80","buff":"https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80","welsummer":"https://images.unsplash.com/photo-1573593928259-37bf012015b1?auto=format&fit=crop&w=900&q=80","marans":"https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=900&q=80","ameraucana":"https://images.unsplash.com/photo-1583845112203-29329902332e?auto=format&fit=crop&w=900&q=80","easter":"https://images.unsplash.com/photo-1556909114-44e3e9399a2b?auto=format&fit=crop&w=900&q=80"};
+  const MAP = [
+    ["Marta + Joel", "couple"],
+    ["Marta · collecting", "farmer"],
+    ["Marta · golden", "farmer"],
+    ["Original coop", "old_coop"],
+    ["Wren w/ goslings", "kid_chicken"],
+    ["Joel · fixing fence", "farmer"],
+    ["hen feet on grass", "hen_feet"],
+    ["loaded for market", "truck"],
+    ["truck", "truck"],
+    ["Brown dozen", "eggs_brown"],
+    ["Brown eggs", "eggs_brown"],
+    ["brown eggs", "eggs_brown"],
+    ["Pastel mix", "eggs_pastel"],
+    ["pastel", "eggs_pastel"],
+    ["Half-flat", "eggs_carton"],
+    ["Half flat", "eggs_carton"],
+    ["18ct", "eggs_carton"],
+    ["Two dozens", "eggs_basket"],
+    ["Tiny eggs", "eggs_flat"],
+    ["pickled eggs", "pickled"],
+    ["Pickled", "pickled"],
+    ["Pasta noodles", "pasta"],
+    ["pasta", "pasta"],
+    ["golden ghee", "butter"],
+    ["butter", "butter"],
+    ["gift bundle", "market"],
+    ["wooden box", "market"],
+    ["Compost bucket", "compost"],
+    ["compost", "compost"],
+    ["Aerial", "aerial"],
+    ["aerial", "aerial"],
+    ["paddocks marked", "aerial"],
+    ["Plymouth Rock", "plymouth"],
+    ["Buff Orpington", "buff"],
+    ["Welsummer", "welsummer"],
+    ["Marans", "marans"],
+    ["Ameraucana", "ameraucana"],
+    ["Easter Egger", "easter"],
+  ];
+  document.querySelectorAll(".ph").forEach(ph => {
+    const labelEl = ph.querySelector(".ph-label");
+    if (!labelEl) return;
+    const txt = (labelEl.textContent || "").toLowerCase();
+    let url = null;
+    for (const [needle, key] of MAP) {
+      if (txt.includes(needle.toLowerCase()) && PH[key]) { url = PH[key]; break; }
+    }
+    if (!url) return;
+    // Preload — only commit on success
+    const img = new Image();
+    img.onload = () => {
+      ph.style.backgroundImage = "url('" + url + "')";
+      ph.classList.add("has-photo");
+    };
+    img.onerror = () => { /* leave placeholder visible */ };
+    img.src = url;
+  });
+})();
+</script>
+
+</body>
+</html>

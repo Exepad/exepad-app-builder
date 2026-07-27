@@ -1,0 +1,762 @@
+{
+  "uuid": "real-estate",
+  "alias": "real-estate",
+  "name": "NestFinder",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "version": "1.0.0",
+  "summary": "Real estate listings platform with property search, detailed views with map integration, agent profiles, and favorites management",
+  "shortSummary": "Real estate listings with search, maps, agents, and favorites",
+  "lastUpdatedEpoch": 1742515200,
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "repo": {
+    "frontend": {
+      "components": {
+        "RealEstateHeader": {
+          "source": "frontend/code/components/RealEstateHeader.tsx",
+          "compiled": "frontend/compiled/components/RealEstateHeader.js",
+          "summary": "Fixed top header with NestFinder logo, nav links (Home, Listings, Favorites, Agents), List Property CTA, and user menu with backdrop blur and violet accent"
+        },
+        "RealEstateFooter": {
+          "source": "frontend/code/components/RealEstateFooter.tsx",
+          "compiled": "frontend/compiled/components/RealEstateFooter.js",
+          "summary": "4-column footer with About NestFinder, Property Types, Quick Links, Contact info, newsletter signup, social icons, and copyright"
+        },
+        "RealEstateHome": {
+          "source": "frontend/code/components/RealEstateHome.tsx",
+          "compiled": "frontend/compiled/components/RealEstateHome.js",
+          "summary": "Landing page with hero search form, stats counters, featured properties grid, how-it-works steps, and CTA section"
+        },
+        "PropertyListings": {
+          "source": "frontend/code/components/PropertyListings.tsx",
+          "compiled": "frontend/compiled/components/PropertyListings.js",
+          "summary": "Property listings with filter bar (price, type, beds, baths, city), grid/list toggle, property cards with favorite button, and pagination"
+        },
+        "PropertyDetail": {
+          "source": "frontend/code/components/PropertyDetail.tsx",
+          "compiled": "frontend/compiled/components/PropertyDetail.js",
+          "summary": "Single property view with image gallery, details grid, description, amenities, map placeholder, contact agent form, and similar properties"
+        },
+        "FavoritesList": {
+          "source": "frontend/code/components/FavoritesList.tsx",
+          "compiled": "frontend/compiled/components/FavoritesList.js",
+          "summary": "Saved properties grid with remove button, compare feature for 2-3 properties, and empty state"
+        },
+        "AgentProfiles": {
+          "source": "frontend/code/components/AgentProfiles.tsx",
+          "compiled": "frontend/compiled/components/AgentProfiles.js",
+          "summary": "Agent cards grid with photo, name, specializations badges, listings count, rating stars, contact button, and search"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile with avatar, search preferences, stats grid, and recent activity timeline"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification toggles, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Custom property card hover effects, price display, favorite button, and hero search styling"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "agents": {
+        "source": "repo/seed/agents.json",
+        "format": "json",
+        "model": "agents",
+        "source_hash": "sha256:c047c529995dcd075b716437267001d6fa17493f0cb9c4c06974fe9d609d146d"
+      },
+      "properties": {
+        "source": "repo/seed/properties.json",
+        "format": "json",
+        "model": "properties",
+        "source_hash": "sha256:2cdab084fa00d5308fa73f2adcfe165c57e6c3ccd0321f8f82396570cb393a6e"
+      },
+      "property_features": {
+        "source": "repo/seed/property_features.json",
+        "format": "json",
+        "model": "property_features",
+        "source_hash": "sha256:1767088e06fcb6bc136c6169f3d481fd34282ce76e55b3a4c4cea975491d0c83"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-properties",
+        "name": "properties",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Property listing title"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Full property description"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Listing price in USD"
+          },
+          {
+            "name": "property_type",
+            "type": "text",
+            "summary": "Type: house, apartment, condo, land"
+          },
+          {
+            "name": "bedrooms",
+            "type": "integer",
+            "summary": "Number of bedrooms"
+          },
+          {
+            "name": "bathrooms",
+            "type": "integer",
+            "summary": "Number of bathrooms"
+          },
+          {
+            "name": "sqft",
+            "type": "integer",
+            "summary": "Square footage"
+          },
+          {
+            "name": "address",
+            "type": "text",
+            "summary": "Street address"
+          },
+          {
+            "name": "city",
+            "type": "text",
+            "summary": "City name"
+          },
+          {
+            "name": "state",
+            "type": "text",
+            "summary": "State abbreviation"
+          },
+          {
+            "name": "zip",
+            "type": "text",
+            "summary": "ZIP code"
+          },
+          {
+            "name": "latitude",
+            "type": "real",
+            "summary": "GPS latitude",
+            "isNullable": true
+          },
+          {
+            "name": "longitude",
+            "type": "real",
+            "summary": "GPS longitude",
+            "isNullable": true
+          },
+          {
+            "name": "image_urls",
+            "type": "text",
+            "summary": "JSON array of image URLs",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Listing status: active, pending, sold",
+            "defaultValue": "active"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_properties_type",
+            "columns": [
+              "property_type"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_properties_city",
+            "columns": [
+              "city"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_properties_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-agents",
+        "name": "agents",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Agent full name"
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "summary": "Agent email address"
+          },
+          {
+            "name": "phone",
+            "type": "text",
+            "summary": "Agent phone number"
+          },
+          {
+            "name": "bio",
+            "type": "text",
+            "summary": "Agent biography"
+          },
+          {
+            "name": "photo_url",
+            "type": "text",
+            "summary": "Agent photo URL",
+            "isNullable": true
+          },
+          {
+            "name": "license_number",
+            "type": "text",
+            "summary": "Real estate license number"
+          },
+          {
+            "name": "specializations",
+            "type": "text",
+            "summary": "JSON array of specializations",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_agents_email",
+            "columns": [
+              "email"
+            ],
+            "unique": true
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-favorites",
+        "name": "favorites",
+        "columns": [
+          {
+            "name": "property_id",
+            "type": "integer",
+            "summary": "FK to properties",
+            "references": {
+              "model": "properties",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Personal notes about the property",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_favorites_property",
+            "columns": [
+              "property_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "owner",
+          "delete": "owner"
+        }
+      },
+      {
+        "uuid": "model-inquiries",
+        "name": "inquiries",
+        "columns": [
+          {
+            "name": "property_id",
+            "type": "integer",
+            "summary": "FK to properties",
+            "references": {
+              "model": "properties",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "agent_id",
+            "type": "integer",
+            "summary": "FK to agents",
+            "isNullable": true,
+            "references": {
+              "model": "agents",
+              "column": "id",
+              "onDelete": "set_null"
+            }
+          },
+          {
+            "name": "message",
+            "type": "text",
+            "summary": "Inquiry message"
+          },
+          {
+            "name": "customer_name",
+            "type": "text",
+            "summary": "Customer full name"
+          },
+          {
+            "name": "customer_email",
+            "type": "text",
+            "summary": "Customer email"
+          },
+          {
+            "name": "customer_phone",
+            "type": "text",
+            "summary": "Customer phone number",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Inquiry status: new, contacted, closed",
+            "defaultValue": "new"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_inquiries_property",
+            "columns": [
+              "property_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_inquiries_agent",
+            "columns": [
+              "agent_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-property-features",
+        "name": "property_features",
+        "columns": [
+          {
+            "name": "property_id",
+            "type": "integer",
+            "summary": "FK to properties",
+            "references": {
+              "model": "properties",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "feature_name",
+            "type": "text",
+            "summary": "Feature name (e.g., Central AC, Pool)"
+          },
+          {
+            "name": "feature_value",
+            "type": "text",
+            "summary": "Feature value or description",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_pf_property",
+            "columns": [
+              "property_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-searchProperties",
+        "name": "searchProperties",
+        "method": "searchProperties",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "min_price",
+            "type": "number",
+            "required": false,
+            "summary": "Minimum price filter"
+          },
+          {
+            "name": "max_price",
+            "type": "number",
+            "required": false,
+            "summary": "Maximum price filter"
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "required": false,
+            "summary": "Property type filter"
+          },
+          {
+            "name": "bedrooms",
+            "type": "number",
+            "required": false,
+            "summary": "Minimum bedrooms"
+          },
+          {
+            "name": "city",
+            "type": "string",
+            "required": false,
+            "summary": "City name filter"
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "summary": "Results per page"
+          },
+          {
+            "name": "offset",
+            "type": "number",
+            "required": false,
+            "summary": "Pagination offset"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "properties",
+            "type": "array",
+            "summary": "Matching property listings"
+          },
+          {
+            "name": "total",
+            "type": "number",
+            "summary": "Total matching count"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getPropertyDetails",
+        "name": "getPropertyDetails",
+        "method": "getPropertyDetails",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "property_id",
+            "type": "number",
+            "required": true,
+            "summary": "Property ID to fetch"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "property",
+            "type": "json",
+            "summary": "Full property record"
+          },
+          {
+            "name": "agent",
+            "type": "json",
+            "summary": "Listing agent info"
+          },
+          {
+            "name": "features",
+            "type": "array",
+            "summary": "Property features list"
+          },
+          {
+            "name": "similar",
+            "type": "array",
+            "summary": "Similar properties nearby"
+          }
+        ]
+      },
+      {
+        "uuid": "h-submitInquiry",
+        "name": "submitInquiry",
+        "method": "submitInquiry",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "property_id",
+            "type": "number",
+            "required": true,
+            "summary": "Property to inquire about"
+          },
+          {
+            "name": "message",
+            "type": "string",
+            "required": true,
+            "summary": "Inquiry message"
+          },
+          {
+            "name": "phone",
+            "type": "string",
+            "required": false,
+            "summary": "Contact phone number"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "inquiry_id",
+            "type": "number",
+            "summary": "Created inquiry ID"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "headerScrollBehavior": "fixed",
+    "transitions": {
+      "enabled": true,
+      "type": "fade",
+      "timing": "normal"
+    },
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e1b4b",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#1e1b4b",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#ede9fe",
+        "accent-foreground": "#1e1b4b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#7c3aed"
+      },
+      "dark": {
+        "background": "#1e1b4b",
+        "foreground": "#f5f3ff",
+        "primary": "#a78bfa",
+        "primary-foreground": "#1e1b4b",
+        "secondary": "#312e81",
+        "secondary-foreground": "#f5f3ff",
+        "muted": "#312e81",
+        "muted-foreground": "#a5b4fc",
+        "accent": "#312e81",
+        "accent-foreground": "#f5f3ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f5f3ff",
+        "border": "#3730a3",
+        "input": "#3730a3",
+        "ring": "#a78bfa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "searchFilters": {},
+        "favoriteIds": [],
+        "viewMode": "grid"
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-real-estate",
+        "componentType": "CodeComponentProps",
+        "component": "RealEstateHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [
+      {
+        "uuid": "ftr-real-estate",
+        "componentType": "CodeComponentProps",
+        "component": "RealEstateFooter"
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Landing page with hero search, stats, featured properties, how it works, and CTA",
+        "content": [
+          {
+            "uuid": "c-home",
+            "componentType": "CodeComponentProps",
+            "component": "RealEstateHome"
+          }
+        ]
+      },
+      {
+        "uuid": "p-listings",
+        "pageType": "WebPageProps",
+        "title": "Listings",
+        "slug": "/listings",
+        "summary": "Property listings with filters, grid/list view toggle, and pagination",
+        "content": [
+          {
+            "uuid": "c-listings",
+            "componentType": "CodeComponentProps",
+            "component": "PropertyListings"
+          }
+        ]
+      },
+      {
+        "uuid": "p-property",
+        "pageType": "WebPageProps",
+        "title": "Property",
+        "slug": "/property/:id",
+        "summary": "Single property detail with gallery, map, agent info, and contact form",
+        "content": [
+          {
+            "uuid": "c-property",
+            "componentType": "CodeComponentProps",
+            "component": "PropertyDetail",
+            "extensions": [
+              "leaflet"
+            ]
+          }
+        ]
+      },
+      {
+        "uuid": "p-favorites",
+        "pageType": "WebPageProps",
+        "title": "Favorites",
+        "slug": "/favorites",
+        "summary": "Saved favorite properties with compare feature",
+        "content": [
+          {
+            "uuid": "c-favorites",
+            "componentType": "CodeComponentProps",
+            "component": "FavoritesList"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-agents",
+        "pageType": "WebPageProps",
+        "title": "Agents",
+        "slug": "/agents",
+        "summary": "Agent directory with search and profile cards",
+        "content": [
+          {
+            "uuid": "c-agents",
+            "componentType": "CodeComponentProps",
+            "component": "AgentProfiles"
+          }
+        ]
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with stats, preferences, and activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  }
+}

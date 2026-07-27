@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-lodash-transforms",
+  "alias": "codecomponent-lodash-transforms",
+  "name": "Lodash Data Pipeline Visualizer",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Interactive data transformation pipeline CodeComponent that visualizes lodash operations step-by-step on employee records. Features a raw data Table with 20 employees, then seven transformation steps in an Accordion: _.groupBy(dept), _.sortBy(salary), _.filter(rating > 3), _.map for label transform, _.reduce/_.meanBy/_.sumBy for aggregated department stats, _.uniqBy(dept) for unique departments, and _.chunk(5) for pagination. Includes debounced search Input filtering. Uses Table, Accordion, Card, Badge, Input, and Icons from the SDK.",
+  "shortSummary": "Interactive lodash transformation pipeline visualizing groupBy, sortBy, filter, map, reduce, uniqBy, and chunk",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DataPipeline": {
+        "source": "frontend/components/DataPipeline.tsx",
+        "compiled": "frontend/components/DataPipeline.js",
+        "summary": "Step-by-step lodash data transformation visualizer with 20 employee records, debounced search, and 7 expandable pipeline steps showing groupBy, sortBy, filter, map, reduce, uniqBy, and chunk"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1a2e05",
+        "primary": "#50820a",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f7fee7",
+        "secondary-foreground": "#1a2e05",
+        "muted": "#f7fee7",
+        "muted-foreground": "#6b7280",
+        "accent": "#ecfccb",
+        "accent-foreground": "#1a2e05",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#d9f99d",
+        "input": "#d9f99d",
+        "ring": "#65a30d"
+      },
+      "dark": {
+        "background": "#0f1a05",
+        "foreground": "#f7fee7",
+        "primary": "#a3e635",
+        "primary-foreground": "#0f1a05",
+        "secondary": "#1a2e0a",
+        "secondary-foreground": "#f7fee7",
+        "muted": "#1a2e0a",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#1a2e0a",
+        "accent-foreground": "#f7fee7",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f7fee7",
+        "border": "#365314",
+        "input": "#365314",
+        "ring": "#84cc16"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-pipeline",
+        "title": "Data Pipeline",
+        "slug": "/",
+        "summary": "Interactive data transformation pipeline with lodash operations visualized step by step.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "data-pipeline-1",
+            "component": "DataPipeline",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Lodash data pipeline with 7 transformation steps",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

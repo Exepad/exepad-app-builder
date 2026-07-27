@@ -1,0 +1,35 @@
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.event-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.date-badge {
+  min-width: 60px;
+  text-align: center;
+}
+
+.ticket-code {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+.calendar-day {
+  min-height: 80px;
+  transition: background 0.15s ease;
+}
+
+.calendar-day:hover {
+  background: hsl(var(--accent));
+}
+
+.calendar-today {
+  border: 2px solid hsl(var(--primary));
+}

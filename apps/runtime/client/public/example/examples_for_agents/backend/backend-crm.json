@@ -1,0 +1,342 @@
+{
+  "uuid": "backend-crm",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "CRM",
+  "alias": "backend-crm",
+  "summary": "CRM backend with contacts, deals pipeline, and task management models. Handlers for fetching contact deals and deals by pipeline stage.",
+  "shortSummary": "CRM backend with contacts, deals pipeline, and ta",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-contacts",
+        "name": "contacts",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Full name of the contact person"
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "summary": "Primary email address of the contact"
+          },
+          {
+            "name": "company",
+            "type": "text",
+            "summary": "Company or organization the contact belongs to",
+            "isNullable": true
+          },
+          {
+            "name": "phone",
+            "type": "text",
+            "summary": "Phone number of the contact",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Contact lifecycle status: lead, prospect, customer, churned",
+            "defaultValue": "lead"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Free-form notes about the contact",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_contacts_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_contacts_email",
+            "columns": [
+              "email"
+            ],
+            "unique": true
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-deals",
+        "name": "deals",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Name or title of the deal"
+          },
+          {
+            "name": "company",
+            "type": "text",
+            "summary": "Company associated with the deal",
+            "isNullable": true
+          },
+          {
+            "name": "value",
+            "type": "real",
+            "summary": "Monetary value of the deal in default currency"
+          },
+          {
+            "name": "stage",
+            "type": "text",
+            "summary": "Current pipeline stage: qualification, proposal, negotiation, closed_won, closed_lost",
+            "defaultValue": "qualification"
+          },
+          {
+            "name": "close_date",
+            "type": "text",
+            "summary": "Expected closing date in YYYY-MM-DD format",
+            "isNullable": true
+          },
+          {
+            "name": "contact_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the associated contact",
+            "references": {
+              "model": "contacts",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_deals_contact_id",
+            "columns": [
+              "contact_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_deals_stage",
+            "columns": [
+              "stage"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-tasks",
+        "name": "tasks",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Title or brief description of the task"
+          },
+          {
+            "name": "assignee",
+            "type": "text",
+            "summary": "Name or email of the person assigned to the task"
+          },
+          {
+            "name": "priority",
+            "type": "text",
+            "summary": "Task priority level: low, medium, high, urgent",
+            "defaultValue": "medium"
+          },
+          {
+            "name": "due_date",
+            "type": "text",
+            "summary": "Task due date in YYYY-MM-DD format",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Task completion status: todo, in_progress, done",
+            "defaultValue": "todo"
+          },
+          {
+            "name": "related_contact_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the related contact",
+            "references": {
+              "model": "contacts",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_tasks_related_contact_id",
+            "columns": [
+              "related_contact_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_tasks_priority",
+            "columns": [
+              "priority"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "authenticated"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getContactDeals",
+        "name": "getContactDeals",
+        "method": "getContactDeals",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "contact_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the contact to retrieve deals for"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "contact",
+            "type": "json",
+            "summary": "Contact details including name, email, and company"
+          },
+          {
+            "name": "deals",
+            "type": "array",
+            "summary": "List of deals associated with the contact"
+          },
+          {
+            "name": "totalValue",
+            "type": "number",
+            "summary": "Sum of all deal values for this contact"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getDealsByStage",
+        "name": "getDealsByStage",
+        "method": "getDealsByStage",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "stage",
+            "type": "string",
+            "required": true,
+            "summary": "Pipeline stage to filter deals by: qualification, proposal, negotiation, closed_won, closed_lost"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "deals",
+            "type": "array",
+            "summary": "List of deals in the specified pipeline stage"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of deals in this stage"
+          },
+          {
+            "name": "totalValue",
+            "type": "number",
+            "summary": "Sum of all deal values in this stage"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

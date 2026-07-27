@@ -1,0 +1,1 @@
+"""Code Focus prompt templates."""

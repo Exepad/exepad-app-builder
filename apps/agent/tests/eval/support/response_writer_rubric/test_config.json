@@ -1,0 +1,31 @@
+{
+  "criteria": {
+    "rubric_based_final_response_quality_v1": {
+      "threshold": 0.8,
+      "judge_model_options": {
+        "judge_model": "gemini-2.0-flash",
+        "num_samples": 3
+      },
+      "rubrics": [
+        {
+          "rubric_id": "response_length",
+          "rubric_content": {
+            "text_property": "The result_chat_response is concise: 1-3 sentences, maximum 100 words. It summarizes what was done without excessive detail or verbosity."
+          }
+        },
+        {
+          "rubric_id": "language_match",
+          "rubric_content": {
+            "text_property": "The response is written in the same language as the user's original request. If the user wrote in French, the response is in French; if in English, the response is in English."
+          }
+        },
+        {
+          "rubric_id": "format_compliance",
+          "rubric_content": {
+            "text_property": "The response uses plain text only: no markdown formatting (no **, #, -, etc.), no emojis, no code blocks, no HTML. Just natural conversational text."
+          }
+        }
+      ]
+    }
+  }
+}

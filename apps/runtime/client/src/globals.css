@@ -1,0 +1,59 @@
+/*
+ * Pin the cascade so compiled app CSS (wrapped in `@layer exepad-app` by
+ * the deploy/compile pipeline) sits BETWEEN the runtime's
+ * components and utilities layers:
+ *
+ *   theme → base → components → exepad-app → utilities
+ *
+ * Why this slot, not first or last:
+ *   - Runtime's `utilities` (.px-8, .bg-foreground) must beat the compiled
+ *     preflight reset (`* { padding: 0 }`) that Tailwind puts in exepad-app's
+ *     base sublayer — otherwise SDK buttons collapse (observed: h-10 px-8
+ *     rendering with 0 padding).
+ *   - The compiled app utilities (.text-background, app-specific bg-primary
+ *     with the app's theme tokens) must beat the runtime's `base` preflight
+ *     (`button { color: inherit }`) — otherwise SDK buttons using app tokens
+ *     silently inherit the wrong color (observed: play button with invisible
+ *     triangle because fill-current blended into bg-foreground).
+ */
+@layer theme, base, components, exepad-app, utilities;
+
+@import "tailwindcss";
+@import "@exepad/ui-core/tailwind.css";
+@import "@exepad/ui-core/globals.css";
+
+/*
+ * Platform-chrome look-and-feel (operator/builder UI only).
+ *  - tw-animate-css: the `animate-in`/`fade-in`/`zoom-in`/`slide-in` utilities
+ *    that the ported Radix overlays (dialog/sheet/dropdown/tooltip) rely on;
+ *    ui-core ships only the accordion keyframes.
+ *  - studio-theme.css: warm "pro" palette, 1rem radius, Geist/Inter fonts,
+ *    glass-card/hover-lift, animations. Imported AFTER ui-core so its :root
+ *    wins by source order. See the file header for the HSL-token contract.
+ */
+@import "tw-animate-css";
+@import "./styles/studio-theme.css";
+
+/*
+ * Tailwind v4 auto-scans the project root but excludes node_modules, which
+ * means pnpm-linked workspace packages like @exepad/sdk are skipped. Without
+ * this @source directive, any Tailwind utility used exclusively in SDK
+ * components (Calendar's [--cell-size:2rem], Popover/Dialog animations,
+ * Accordion data-state variants, etc.) is silently dropped from the compiled
+ * CSS — producing components that work but look broken.
+ */
+@source "../../../../packages/exepad-sdk/src/**/*.{ts,tsx}";
+
+/*
+ * CLS guard: reserve viewport height for the app content slot so the first
+ * dynamic component import() mounts into already-reserved space instead of
+ * growing the page from ~0 (the prior empty-#root CSR path measured CLS 0.61).
+ * Placed in the `components` layer and written with :where() (zero specificity)
+ * so any app/component rule — or a runtime utility like min-h-* — trivially
+ * overrides it; this is a default, never an override.
+ */
+@layer components {
+  :where(.app-container) {
+    min-height: 100svh;
+  }
+}

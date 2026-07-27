@@ -1,0 +1,128 @@
+{
+  "cases": [
+    {
+      "id": "low_contrast_gray_text_promoted_to_600",
+      "kind": "broken",
+      "tsx_path": "examples/broken_low_contrast_gray_text.tsx",
+      "expected_fix_substrings": [
+        "Contrast: rewrote 2 text-*-300/400 class(es) → text-*-600"
+      ],
+      "expected_output_contains": ["text-gray-600"],
+      "expected_output_absent": ["text-gray-300", "text-gray-400"]
+    },
+    {
+      "id": "low_contrast_slate_zinc_neutral_stone_promoted",
+      "kind": "broken",
+      "tsx_path": "examples/broken_low_contrast_slate_zinc.tsx",
+      "expected_fix_substrings": [
+        "Contrast: rewrote 4 text-*-300/400 class(es) → text-*-600"
+      ],
+      "expected_output_contains": [
+        "text-slate-600",
+        "text-zinc-600",
+        "text-neutral-600",
+        "text-stone-600"
+      ]
+    },
+    {
+      "id": "dark_variant_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_dark_variant_unchanged.tsx"
+    },
+    {
+      "id": "text_500_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_text_500_unchanged.tsx"
+    },
+
+    {
+      "id": "animate_in_with_duration_rewritten_to_arbitrary",
+      "kind": "broken",
+      "tsx_path": "examples/broken_animate_in_with_duration.tsx",
+      "expected_fix_substrings": [
+        "Animation: rewrote 1 `animate-in ... duration-N` className"
+      ],
+      "expected_output_contains": ["[animation-duration:300ms]"],
+      "expected_output_absent": ["duration-300"]
+    },
+    {
+      "id": "animate_out_with_arbitrary_duration_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_animate_out_with_arbitrary_duration.tsx",
+      "expected_fix_substrings": [
+        "Animation: rewrote 1 `animate-in ... duration-N` className"
+      ],
+      "expected_output_contains": ["[animation-duration:450ms]"],
+      "expected_output_absent": ["duration-[450ms]"]
+    },
+    {
+      "id": "animate_with_explicit_transition_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_animate_with_explicit_transition.tsx"
+    },
+    {
+      "id": "data_state_duration_only_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_data_state_duration_only.tsx"
+    },
+
+    {
+      "id": "animation_duration_inline_style_gets_fallback",
+      "kind": "broken",
+      "tsx_path": "examples/broken_animation_duration_no_fallback.tsx",
+      "expected_fix_substrings": [
+        "Animation: added `200ms` fallback to 1 inline"
+      ],
+      "expected_output_contains": ["var(--animation-duration, 200ms)"],
+      "expected_output_absent": ["var(--animation-duration)'"]
+    },
+    {
+      "id": "animation_duration_inline_style_double_quoted_gets_fallback",
+      "kind": "broken",
+      "tsx_path": "examples/broken_animation_duration_no_fallback_double_quoted.tsx",
+      "expected_fix_substrings": [
+        "Animation: added `200ms` fallback to 1 inline"
+      ],
+      "expected_output_contains": ["var(--animation-duration, 200ms)"],
+      "expected_output_absent": ["var(--animation-duration)\""]
+    },
+    {
+      "id": "animation_duration_with_fallback_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_animation_duration_with_fallback.tsx"
+    },
+
+    {
+      "id": "overflow_hidden_on_root_rewritten_to_x_clip",
+      "kind": "broken",
+      "tsx_path": "examples/broken_overflow_hidden_on_root.tsx",
+      "expected_fix_substrings": [
+        "Layout: rewrote root overflow-hidden → overflow-x-clip"
+      ],
+      "expected_output_contains": ["overflow-x-clip"],
+      "expected_output_absent": ["overflow-hidden"]
+    },
+    {
+      "id": "overflow_hidden_nested_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_overflow_hidden_nested.tsx"
+    },
+    {
+      "id": "overflow_x_clip_already_present_no_op",
+      "kind": "correct",
+      "tsx_path": "examples/correct_overflow_x_clip_already_present.tsx"
+    },
+
+    {
+      "id": "clean_polished_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_clean_polished.tsx"
+    },
+
+    {
+      "id": "svg_kebab_attrs_and_string_literals_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_svg_kebab_attrs_in_dangerously_set_html.tsx"
+    }
+  ]
+}

@@ -1,0 +1,512 @@
+{
+  "cases": [
+    {
+      "id": "status_map_three_hits_all_lowercased",
+      "kind": "broken",
+      "tsx_path": "examples/broken_status_map_three_hits.tsx",
+      "expected_fix_substrings": [
+        "Lowercased status map keys: Paid\u2192paid, Pending\u2192pending, Sent\u2192sent"
+      ],
+      "expected_output_contains": [
+        "paid: \"bg-green",
+        "pending: \"bg-yellow",
+        "sent: \"bg-blue"
+      ],
+      "expected_output_absent": [
+        "Paid:",
+        "Pending:",
+        "Sent:"
+      ]
+    },
+    {
+      "id": "status_map_exact_two_hits_fires",
+      "kind": "broken",
+      "tsx_path": "examples/broken_status_map_exact_two_hits.tsx",
+      "expected_fix_substrings": [
+        "Lowercased status map keys: Paid\u2192paid, Refunded\u2192refunded"
+      ],
+      "expected_output_contains": [
+        "paid: \"Payment",
+        "refunded: \"Money"
+      ]
+    },
+    {
+      "id": "status_map_single_hit_below_threshold_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_status_map_single_hit_below_threshold.tsx"
+    },
+    {
+      "id": "status_map_no_status_words_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_status_map_no_status_words.tsx"
+    },
+    {
+      "id": "dialog_content_missing_description_injected",
+      "kind": "broken",
+      "tsx_path": "examples/broken_dialog_content_missing_description.tsx",
+      "expected_fix_substrings": [
+        "Added DialogDescription for accessibility"
+      ],
+      "expected_output_contains": [
+        "<DialogDescription className=\"sr-only\">Dialog content</DialogDescription>",
+        "DialogDescription"
+      ]
+    },
+    {
+      "id": "dialog_description_used_no_import_added",
+      "kind": "broken",
+      "tsx_path": "examples/broken_dialog_description_used_no_import.tsx",
+      "expected_fix_substrings": [
+        "Added missing DialogDescription import"
+      ],
+      "expected_output_contains": [
+        "DialogDescription"
+      ]
+    },
+    {
+      "id": "dialog_with_aria_describedby_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_dialog_with_aria_describedby.tsx"
+    },
+    {
+      "id": "dialog_already_has_description_imported_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_dialog_already_has_description_imported.tsx"
+    },
+    {
+      "id": "dialog_trigger_mixed_button_wrapped_in_span",
+      "kind": "broken",
+      "tsx_path": "examples/broken_dialog_trigger_mixed_button.tsx",
+      "expected_fix_substrings": [
+        "Wrapped mixed icon+text children in <span> under <DialogTrigger asChild>"
+      ],
+      "expected_output_contains": [
+        "<span className=\"inline-flex items-center gap-2\">"
+      ]
+    },
+    {
+      "id": "alert_dialog_trigger_mixed_button_wrapped_in_span",
+      "kind": "broken",
+      "tsx_path": "examples/broken_alert_dialog_trigger_mixed_button.tsx",
+      "expected_fix_substrings": [
+        "Wrapped mixed icon+text children in <span> under <AlertDialogTrigger asChild>"
+      ],
+      "expected_output_contains": [
+        "<span className=\"inline-flex items-center gap-2\">"
+      ]
+    },
+    {
+      "id": "trigger_icon_only_arrow_button_not_corrupted",
+      "kind": "correct",
+      "tsx_path": "examples/correct_trigger_icon_only_arrow_button.tsx",
+      "forbidden_fix_substrings": [
+        "Wrapped mixed icon+text children in <span>"
+      ]
+    },
+    {
+      "id": "trigger_mixed_arrow_button_wrapped_arrow_intact",
+      "kind": "broken",
+      "tsx_path": "examples/broken_trigger_mixed_arrow_button.tsx",
+      "expected_fix_substrings": [
+        "Wrapped mixed icon+text children in <span> under <DialogTrigger asChild>"
+      ],
+      "expected_output_contains": [
+        "<span className=\"inline-flex items-center gap-2\">",
+        "onClick={() => onOpen()}"
+      ]
+    },
+    {
+      "id": "trigger_already_wrapped_in_span_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_trigger_already_wrapped_in_span.tsx"
+    },
+    {
+      "id": "trigger_text_only_button_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_trigger_text_only_button.tsx"
+    },
+    {
+      "id": "trigger_icon_only_button_gets_aria_label",
+      "kind": "broken",
+      "tsx_path": "examples/correct_trigger_icon_only_button.tsx",
+      "expected_fix_substrings": [
+        "Injected aria-label on 1 icon-only button(s) for screen readers"
+      ],
+      "expected_output_contains": [
+        "<Button aria-label=\"Menu\">"
+      ],
+      "forbidden_fix_substrings": [
+        "Wrapped mixed icon+text Button"
+      ]
+    },
+    {
+      "id": "status_property_sent_lowercased",
+      "kind": "broken",
+      "tsx_path": "examples/broken_status_property_sent.tsx",
+      "expected_fix_substrings": [
+        "Lowercased status literal: \"Sent\" \u2192 \"sent\""
+      ],
+      "expected_output_contains": [
+        "status: \"sent\""
+      ],
+      "expected_output_absent": [
+        "status: \"Sent\""
+      ]
+    },
+    {
+      "id": "status_arg_save_draft_lowercased",
+      "kind": "broken",
+      "tsx_path": "examples/broken_status_arg_save_draft.tsx",
+      "expected_fix_substrings": [
+        "Lowercased status arg: saveDraft(\"Draft\") \u2192 saveDraft(\"draft\")"
+      ],
+      "expected_output_contains": [
+        "saveDraft(\"draft\")"
+      ]
+    },
+    {
+      "id": "status_arg_mark_approved_lowercased",
+      "kind": "broken",
+      "tsx_path": "examples/broken_status_arg_mark_approved.tsx",
+      "expected_fix_substrings": [
+        "Lowercased status arg: markAsApproved(\"Approved\") \u2192 markAsApproved(\"approved\")"
+      ],
+      "expected_output_contains": [
+        "markAsApproved(\"approved\")"
+      ]
+    },
+    {
+      "id": "status_arg_non_status_word_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_status_arg_non_status_word_unchanged.tsx"
+    },
+    {
+      "id": "kitchen_sink_multi_a11y_all_fire",
+      "kind": "broken",
+      "tsx_path": "examples/broken_kitchen_sink_multi_a11y.tsx",
+      "expected_fix_substrings": [
+        "Lowercased status map keys: Paid\u2192paid, Pending\u2192pending, Cancelled\u2192cancelled",
+        "Added DialogDescription for accessibility",
+        "Wrapped mixed icon+text children in <span> under <DialogTrigger asChild>",
+        "Lowercased status arg: saveStatus(\"Sent\") \u2192 saveStatus(\"sent\")"
+      ],
+      "expected_output_contains": [
+        "paid: \"text-green",
+        "<DialogDescription",
+        "<span className=\"inline-flex items-center gap-2\">",
+        "saveStatus(\"sent\")"
+      ]
+    },
+    {
+      "id": "no_a11y_issues_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_no_a11y_issues.tsx"
+    },
+    {
+      "id": "heading_h1_h3_h4_cascade_demoted",
+      "kind": "broken",
+      "tsx_path": "examples/broken_heading_h1_h3_h4_cascade.tsx",
+      "expected_fix_substrings": [
+        "Heading order: demoted h3 \u2192 h2",
+        "Heading order: demoted h4 \u2192 h3"
+      ],
+      "expected_output_contains": [
+        "<h1>",
+        "<h2>Skipped to h3</h2>",
+        "<h3>Skipped to h4</h3>"
+      ],
+      "expected_output_absent": [
+        "<h3>Skipped to h3",
+        "<h4>Skipped to h4"
+      ]
+    },
+    {
+      "id": "heading_h4_first_demoted_to_h2",
+      "kind": "broken",
+      "tsx_path": "examples/broken_heading_h4_first.tsx",
+      "expected_fix_substrings": [
+        "Heading order: demoted h4 \u2192 h2"
+      ],
+      "expected_output_contains": [
+        "<h2>Visit</h2>"
+      ],
+      "expected_output_absent": [
+        "<h4>Visit"
+      ]
+    },
+    {
+      "id": "heading_sibling_columns_unified",
+      "kind": "broken",
+      "tsx_path": "examples/broken_heading_sibling_columns_unify.tsx",
+      "expected_fix_substrings": [
+        "Heading order: demoted h4 \u2192 h2"
+      ],
+      "expected_output_contains": [
+        "<h2 className=\"col-title\">Visit</h2>",
+        "<h2 className=\"col-title\">Shop</h2>",
+        "<h2 className=\"col-title\">About</h2>"
+      ],
+      "expected_output_absent": [
+        "<h4 className=\"col-title\""
+      ]
+    },
+    {
+      "id": "heading_already_sequential_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_heading_already_sequential.tsx",
+      "forbidden_fix_substrings": [
+        "Heading order: demoted"
+      ]
+    },
+    {
+      "id": "heading_inside_card_subtree_left_alone",
+      "kind": "correct",
+      "tsx_path": "examples/correct_heading_inside_card_unchanged.tsx",
+      "forbidden_fix_substrings": [
+        "Heading order: demoted"
+      ],
+      "expected_output_contains": [
+        "<h3>Trafik Analizi</h3>"
+      ]
+    },
+    {
+      "id": "icon_only_button_with_icon_child_gets_aria_label",
+      "kind": "broken",
+      "tsx_path": "examples/broken_icon_only_button_with_icon_child.tsx",
+      "expected_fix_substrings": [
+        "Injected aria-label on 1 icon-only button(s) for screen readers"
+      ],
+      "expected_output_contains": [
+        "<Button aria-label=\"Menu\""
+      ],
+      "expected_output_absent": [
+        "<Button onClick={"
+      ]
+    },
+    {
+      "id": "icon_only_button_with_handler_hint_gets_aria_label",
+      "kind": "broken",
+      "tsx_path": "examples/broken_icon_only_button_with_handler_hint.tsx",
+      "expected_fix_substrings": [
+        "Injected aria-label on 1 icon-only button(s) for screen readers"
+      ],
+      "expected_output_contains": [
+        "<Button aria-label=\"Search\""
+      ]
+    },
+    {
+      "id": "button_already_has_aria_label_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_button_already_has_aria_label.tsx",
+      "forbidden_fix_substrings": [
+        "Injected aria-label"
+      ]
+    },
+    {
+      "id": "button_with_visible_text_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_button_with_visible_text.tsx",
+      "forbidden_fix_substrings": [
+        "Injected aria-label"
+      ]
+    },
+    {
+      "id": "button_with_expression_text_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_button_with_expression_text.tsx",
+      "forbidden_fix_substrings": [
+        "Injected aria-label"
+      ]
+    },
+    {
+      "id": "button_with_member_expr_and_trailing_icon_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_button_with_member_expr_and_trailing_icon.tsx",
+      "forbidden_fix_substrings": [
+        "Injected aria-label"
+      ]
+    },
+    {
+      "id": "button_with_ternary_text_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_button_with_ternary_text.tsx",
+      "forbidden_fix_substrings": [
+        "Injected aria-label"
+      ]
+    },
+    {
+      "id": "icon_only_button_with_circle_fallback_skipped",
+      "kind": "correct",
+      "tsx_path": "examples/correct_icon_only_button_with_circle_fallback.tsx",
+      "forbidden_fix_substrings": [
+        "Injected aria-label"
+      ]
+    },
+    {
+      "id": "route_content_no_h1_promotes_first_h2",
+      "kind": "broken",
+      "tsx_path": "examples/broken_route_content_no_h1.tsx",
+      "context": {
+        "expected_component_name": "FAQContent"
+      },
+      "expected_fix_substrings": [
+        "[a11y_ux] Route H1: promoted first <h2> to <h1>"
+      ],
+      "expected_output_contains": [
+        "<h1 className=\"text-5xl font-headline text-primary\">Frequently Asked Questions</h1>",
+        "<h2 className=\"text-2xl mt-12\">Booking & Scheduling</h2>"
+      ],
+      "expected_output_absent": [
+        "<h2 className=\"text-5xl font-headline text-primary\">"
+      ]
+    },
+    {
+      "id": "route_content_already_has_h1_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_route_content_already_has_h1.tsx",
+      "context": {
+        "expected_component_name": "HomeContent"
+      },
+      "forbidden_fix_substrings": [
+        "Route H1"
+      ]
+    },
+    {
+      "id": "chrome_component_no_h1_skipped",
+      "kind": "correct",
+      "tsx_path": "examples/correct_chrome_no_h1_required.tsx",
+      "context": {
+        "expected_component_name": "MainHeader"
+      },
+      "forbidden_fix_substrings": [
+        "Route H1"
+      ]
+    },
+    {
+      "id": "icon_only_anchor_gets_aria_label",
+      "kind": "broken",
+      "tsx_path": "examples/broken_icon_only_anchor_gets_aria_label.tsx",
+      "expected_fix_substrings": [
+        "Injected aria-label on 1 icon-only button(s) for screen readers"
+      ],
+      "expected_output_contains": [
+        "<a aria-label=\"Twitter\""
+      ]
+    },
+    {
+      "id": "logo_image_link_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_logo_image_link_unchanged.tsx",
+      "forbidden_fix_substrings": [
+        "Injected aria-label"
+      ]
+    },
+    {
+      "id": "star_rating_readonly_component_labeled",
+      "kind": "broken",
+      "tsx_path": "examples/broken_star_rating_readonly_component.tsx",
+      "expected_fix_substrings": [
+        "Injected role=img + value aria-label on 1 read-only star rating(s)"
+      ],
+      "expected_output_contains": [
+        "role=\"img\"",
+        "aria-label={`${rating} out of 5 stars`}"
+      ]
+    },
+    {
+      "id": "star_rating_inline_nullish_labeled",
+      "kind": "broken",
+      "tsx_path": "examples/broken_star_rating_inline_nullish.tsx",
+      "expected_fix_substrings": [
+        "Injected role=img + value aria-label on 1 read-only star rating(s)"
+      ],
+      "expected_output_contains": [
+        "aria-label={`${(hike.rating ?? 0)} out of 5 stars`}"
+      ]
+    },
+    {
+      "id": "star_rating_array_from_index_labeled",
+      "kind": "broken",
+      "tsx_path": "examples/broken_star_rating_array_from_index.tsx",
+      "expected_fix_substrings": [
+        "Injected role=img + value aria-label on 1 read-only star rating(s)"
+      ],
+      "expected_output_contains": [
+        "aria-label={`${score} out of 5 stars`}"
+      ]
+    },
+    {
+      "id": "star_rating_interactive_input_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_star_rating_interactive_input.tsx",
+      "forbidden_fix_substrings": [
+        "Injected role=img"
+      ]
+    },
+    {
+      "id": "star_rating_already_labeled_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_star_rating_already_labeled.tsx",
+      "forbidden_fix_substrings": [
+        "Injected role=img"
+      ]
+    },
+    {
+      "id": "star_rating_text_beside_stars_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_star_rating_text_beside_stars.tsx",
+      "forbidden_fix_substrings": [
+        "Injected role=img"
+      ]
+    },
+    {
+      "id": "star_rating_callback_local_value_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_star_rating_callback_local_value.tsx",
+      "forbidden_fix_substrings": [
+        "Injected role=img"
+      ]
+    },
+    {
+      "id": "star_rating_index_param_value_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_star_rating_index_param_value.tsx",
+      "forbidden_fix_substrings": [
+        "Injected role=img"
+      ]
+    },
+    {
+      "id": "star_rating_hover_interactive_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_star_rating_hover_interactive.tsx",
+      "forbidden_fix_substrings": [
+        "Injected role=img"
+      ]
+    },
+    {
+      "id": "star_rating_threshold_first_uses_dynamic_value",
+      "kind": "broken",
+      "tsx_path": "examples/broken_star_rating_threshold_first.tsx",
+      "expected_fix_substrings": [
+        "Injected role=img + value aria-label on 1 read-only star rating(s)"
+      ],
+      "expected_output_contains": [
+        "aria-label={`${rating} out of 5 stars`}"
+      ],
+      "expected_output_absent": [
+        "${6} out of 5 stars"
+      ]
+    },
+    {
+      "id": "star_rating_spread_array_labeled",
+      "kind": "broken",
+      "tsx_path": "examples/broken_star_rating_spread_array.tsx",
+      "expected_fix_substrings": [
+        "Injected role=img + value aria-label on 1 read-only star rating(s)"
+      ],
+      "expected_output_contains": [
+        "aria-label={`${rating} out of 5 stars`}"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-testimonial-carousel",
+  "alias": "codecomponent-testimonial-carousel",
+  "name": "Testimonial Carousel with Autoplay",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "summary": "Testimonial carousel CodeComponent using Carousel with CarouselContent, CarouselItem, CarouselPrevious/Next navigation, and CarouselApi for programmatic autoplay control. Each slide is a Card with star rating (Icons.Star filled/unfilled), Avatar with name/title, and blockquote. Features dot indicators, pause on hover, AspectRatio for consistent sizing, and responsive layout (1/2/3 cards). 8 testimonials with useAppState for current slide tracking. No backend required.",
+  "shortSummary": "Autoplay testimonial carousel with star ratings, avatars, and dot navigation",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "TestimonialCarousel": {
+        "source": "frontend/components/TestimonialCarousel.tsx",
+        "compiled": "frontend/components/TestimonialCarousel.js",
+        "summary": "Testimonial carousel with autoplay, star ratings, avatar cards, dot indicators, and responsive multi-card layout"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#e11d48",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fff1f2",
+        "secondary-foreground": "#0f172a",
+        "muted": "#fff1f2",
+        "muted-foreground": "#64748b",
+        "accent": "#fff1f2",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#e11d48"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#fb7185",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#fb7185"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-testimonials",
+        "title": "Testimonials",
+        "slug": "/",
+        "summary": "Testimonials page with autoplay carousel showcasing customer reviews.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "testimonial-carousel-1",
+            "component": "TestimonialCarousel",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Testimonial carousel with autoplay and star ratings",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

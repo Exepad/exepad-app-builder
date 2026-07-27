@@ -1,0 +1,18 @@
+[run]
+branch = true
+source =
+    main_agent.services.validation.semantic_validator
+    main_agent.services.validation.style_coverage
+    main_agent.services.validation.css_ast
+    main_agent.services.validation.tsx_ast
+    main_agent.services.validation.syntax_validator
+    main_agent.services.validation.failure_classification
+omit =
+    */tests/*
+
+[report]
+show_missing = true
+skip_covered = false
+
+[html]
+directory = htmlcov-validation

@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stockists · HappyDoods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .stockist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+  @media (max-width: 800px) { .stockist-grid { grid-template-columns: 1fr; } }
+  .stockist {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 20px;
+    align-items: start;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .stockist:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -20px rgba(42,31,23,0.18); }
+  .stockist-icon {
+    width: 80px; height: 80px;
+    background: var(--cream-deep);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--barn);
+    font-variation-settings: "opsz" 96, "SOFT" 80;
+  }
+  .stockist h3 {
+    font-style: italic;
+    font-size: 24px;
+    margin-bottom: 4px;
+    font-variation-settings: "opsz" 72, "SOFT" 80;
+  }
+  .stockist .addr { color: var(--ink-soft); font-size: 13px; margin-bottom: 12px; }
+  .stockist .has { display: flex; gap: 6px; flex-wrap: wrap; }
+  .stockist .distance {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+  .stockist .distance strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 48;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-bottom: 2px;
+  }
+
+  .area-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--line);
+    margin-top: 32px;
+  }
+  .area-tab {
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all .15s;
+  }
+  .area-tab.active { color: var(--ink); border-bottom-color: var(--barn); font-weight: 600; }
+  .area-tab:hover { color: var(--ink); }
+
+  .restaurants {
+    background: var(--ink);
+    color: var(--cream);
+    margin-top: 96px;
+  }
+  .restaurants h2 { color: var(--paper); font-style: italic; }
+  .resto-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(245,239,226,0.14);
+    margin-top: 48px;
+    border: 1px solid rgba(245,239,226,0.14);
+  }
+  @media (max-width: 800px) { .resto-grid { grid-template-columns: 1fr; } }
+  .resto {
+    background: var(--ink);
+    padding: 32px;
+  }
+  .resto h4 { font-family: var(--serif); font-size: 22px; font-style: italic; margin-bottom: 6px; color: var(--paper); font-variation-settings: "opsz" 48, "SOFT" 80; font-weight: 400; }
+  .resto p { color: rgba(245,239,226,0.65); font-size: 14px; }
+  .resto .where { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--butter); margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <ellipse cx="22" cy="24" rx="13" ry="10" fill="#A8472A"/>
+        <circle cx="11" cy="17" r="6" fill="#A8472A"/>
+        <path d="M7 12 L9 7 L11 11 L13 7 L14 12 Z" fill="#A8472A"/>
+        <circle cx="9.5" cy="16.5" r="1" fill="#F5EFE2"/>
+        <path d="M5 18 L7.5 17.5 L7 19 Z" fill="#E8B850"/>
+        <path d="M16 33 L18 36 M22 33 L24 36" stroke="#A8472A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Happy<span class="brand-em">Doods</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="flock.html">The Flock</a></li>
+      <li><a href="practices.html">Practices</a></li>
+      <li><a href="visit.html">Visit</a></li>
+      <li><a href="stockists.html" class="active">Stockists</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="visit.html">Plan a Visit →</a>
+  </div>
+</nav>
+
+<header class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">Stockists · 11 spots in the valley</div>
+    <h1>Where to find our eggs without driving to the farm.</h1>
+    <p class="lede">A small handful of co-ops, general stores, and bakeries we like and trust. They sell out fast — call ahead if you're making a special trip.</p>
+  </div>
+</header>
+
+<section style="padding-top:48px;">
+  <div class="wrap">
+    <div class="area-tabs">
+      <div class="area-tab active">All areas (11)</div>
+      <div class="area-tab">Putney (4)</div>
+      <div class="area-tab">Brattleboro (5)</div>
+      <div class="area-tab">Northampton (2)</div>
+    </div>
+
+    <div class="stockist-grid">
+      <div class="stockist">
+        <div class="stockist-icon">PG</div>
+        <div>
+          <h3>Putney General Store</h3>
+          <div class="addr">4 Kimball Hill, Putney VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Pickled eggs</span>
+          </div>
+        </div>
+        <div class="distance"><strong>2.1 mi</strong>10 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">PFM</div>
+        <div>
+          <h3>Putney Food Co-op</h3>
+          <div class="addr">8 Carol Brown Way, Putney VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Pasta</span>
+            <span class="tag">Butter</span>
+          </div>
+        </div>
+        <div class="distance"><strong>2.4 mi</strong>11 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">BB</div>
+        <div>
+          <h3>Bramble Bakery</h3>
+          <div class="addr">71 Main St, Putney VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Welcome boxes</span>
+          </div>
+        </div>
+        <div class="distance"><strong>2.8 mi</strong>12 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">RH</div>
+        <div>
+          <h3>Riverhouse Provisions</h3>
+          <div class="addr">200 Westminster Rd, Putney VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+          </div>
+        </div>
+        <div class="distance"><strong>3.5 mi</strong>14 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">BFC</div>
+        <div>
+          <h3>Brattleboro Food Co-op</h3>
+          <div class="addr">2 Main St, Brattleboro VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Pasta</span>
+            <span class="tag">Butter</span>
+            <span class="tag">Pickled</span>
+          </div>
+        </div>
+        <div class="distance"><strong>10.2 mi</strong>22 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">HC</div>
+        <div>
+          <h3>Hermit's Cellar</h3>
+          <div class="addr">36 Elliot St, Brattleboro VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Welcome boxes</span>
+          </div>
+        </div>
+        <div class="distance"><strong>10.8 mi</strong>23 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">MM</div>
+        <div>
+          <h3>Mocha Joe's Roasting</h3>
+          <div class="addr">82 Main St, Brattleboro VT</div>
+          <div class="has">
+            <span class="tag">Pasta</span>
+            <span class="tag">Butter</span>
+          </div>
+        </div>
+        <div class="distance"><strong>11.0 mi</strong>23 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">TG</div>
+        <div>
+          <h3>Top of the Hill Grill</h3>
+          <div class="addr">632 Putney Rd, Brattleboro VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+          </div>
+        </div>
+        <div class="distance"><strong>8.4 mi</strong>18 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">EM</div>
+        <div>
+          <h3>Elm St. Market</h3>
+          <div class="addr">36 Elm St, Brattleboro VT</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Pickled</span>
+          </div>
+        </div>
+        <div class="distance"><strong>11.5 mi</strong>24 min</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">RC</div>
+        <div>
+          <h3>River Valley Co-op</h3>
+          <div class="addr">330 N King St, Northampton MA</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Pasta</span>
+          </div>
+        </div>
+        <div class="distance"><strong>42 mi</strong>1 hr</div>
+      </div>
+
+      <div class="stockist">
+        <div class="stockist-icon">SB</div>
+        <div>
+          <h3>State Street Bakery</h3>
+          <div class="addr">22 State St, Northampton MA</div>
+          <div class="has">
+            <span class="tag"><span class="tag-dot"></span>Eggs</span>
+            <span class="tag">Welcome boxes</span>
+          </div>
+        </div>
+        <div class="distance"><strong>43 mi</strong>1 hr 5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="restaurants">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--butter); margin-bottom:16px;">On the menu</div>
+    <h2 style="font-style:italic; max-width:18ch;">Restaurants cooking with our eggs.</h2>
+    <p style="color:rgba(245,239,226,0.7); margin-top:16px; max-width:50ch;">If you can't make it to the farm, the next best thing is eating breakfast at one of these places.</p>
+
+    <div class="resto-grid">
+      <div class="resto">
+        <h4>Hatchet &amp; Whisk</h4>
+        <p>Brunch spot doing a soft-scramble with our pastel mix. Worth the wait on Sundays.</p>
+        <div class="where">Brattleboro · 11 mi</div>
+      </div>
+      <div class="resto">
+        <h4>The Greenhorn</h4>
+        <p>Farm-to-table tasting menu. Custard tart with our yolks, every fall.</p>
+        <div class="where">Putney · 2.6 mi</div>
+      </div>
+      <div class="resto">
+        <h4>Acorn &amp; Ash</h4>
+        <p>Wood-fired pizza. The "breakfast pie" is two of ours, cracked over Hilltop ricotta.</p>
+        <div class="where">Brattleboro · 10 mi</div>
+      </div>
+      <div class="resto">
+        <h4>Wren's Diner</h4>
+        <p>Old-school counter diner, no relation to our daughter. Eggs any-which-way for $6.</p>
+        <div class="where">Bellows Falls · 18 mi</div>
+      </div>
+      <div class="resto">
+        <h4>Salt &amp; Sage</h4>
+        <p>Tasting menu in a tiny converted barn. Eight-course, includes our pickled eggs in spring.</p>
+        <div class="where">Northampton · 43 mi</div>
+      </div>
+      <div class="resto">
+        <h4>Buttercup &amp; Co.</h4>
+        <p>Breakfast bakery; their quiche has been on the menu since they opened in 2020.</p>
+        <div class="where">Putney · 2.7 mi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner" style="padding:96px 0;">
+  <div class="wrap-narrow" style="text-align:center;">
+    <div class="hand" style="font-size:32px; margin-bottom: 16px;">stocking us? ↓</div>
+    <h2>Run a shop or restaurant? We'd love to hear from you.</h2>
+    <p>We deliver Tuesdays within 25 miles of the farm. Wholesale pricing available for orders over 10 dozen/week.</p>
+    <a href="contact.html" class="btn btn-primary">Wholesale inquiries</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-tag">Eggs from hens<br>who know their names.</div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; opacity:0.6; text-transform:uppercase;">438 Willow Creek Rd · Putney, VT 05346</div>
+      </div>
+      <div><h4>Visit</h4><ul><li><a href="visit.html">Open Saturdays</a></li><li><a href="visit.html">Farm tours</a></li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="shop.html">Eggs</a></li><li><a href="shop.html">Pantry</a></li><li><a href="stockists.html">Stockists</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="story.html">Our story</a></li><li><a href="practices.html">Practices</a></li><li><a href="flock.html">Meet the flock</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 HappyDoods Farm · A small operation, on purpose.</div>
+      <div>Hand-built in Vermont. Mostly held together with good intentions.</div>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+(function() {
+  const PH = {"pasture_wide":"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80","hens_grass":"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80","hen_closeup":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=1000&q=80","eggs_brown":"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&q=80","eggs_basket":"https://images.unsplash.com/photo-1569127959161-2b1297b2d9a8?auto=format&fit=crop&w=1200&q=80","eggs_pastel":"https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?auto=format&fit=crop&w=1200&q=80","eggs_flat":"https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1200&q=80","eggs_carton":"https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&w=1200&q=80","eggs_blue":"https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&q=80","barn":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80","farmer":"https://images.unsplash.com/photo-1592982499091-5b71f7be930e?auto=format&fit=crop&w=1100&q=80","couple":"https://images.unsplash.com/photo-1578307556311-d97c5c1e22e1?auto=format&fit=crop&w=1100&q=80","pasta":"https://images.unsplash.com/photo-1551892589-865f69869476?auto=format&fit=crop&w=1100&q=80","pickled":"https://images.unsplash.com/photo-1599909533730-89d0e3aef91d?auto=format&fit=crop&w=1100&q=80","butter":"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=1100&q=80","market":"https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1100&q=80","compost":"https://images.unsplash.com/photo-1416664806563-bb6be3be8074?auto=format&fit=crop&w=1100&q=80","old_coop":"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1100&q=80","kid_chicken":"https://images.unsplash.com/photo-1559588981-6c5ec47bf4a3?auto=format&fit=crop&w=1100&q=80","hen_feet":"https://images.unsplash.com/photo-1608755728617-4cb3a6b87c91?auto=format&fit=crop&w=1100&q=80","truck":"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1100&q=80","aerial":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80","plymouth":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=900&q=80","buff":"https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80","welsummer":"https://images.unsplash.com/photo-1573593928259-37bf012015b1?auto=format&fit=crop&w=900&q=80","marans":"https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=900&q=80","ameraucana":"https://images.unsplash.com/photo-1583845112203-29329902332e?auto=format&fit=crop&w=900&q=80","easter":"https://images.unsplash.com/photo-1556909114-44e3e9399a2b?auto=format&fit=crop&w=900&q=80"};
+  const MAP = [
+    ["Marta + Joel", "couple"],
+    ["Marta · collecting", "farmer"],
+    ["Marta · golden", "farmer"],
+    ["Original coop", "old_coop"],
+    ["Wren w/ goslings", "kid_chicken"],
+    ["Joel · fixing fence", "farmer"],
+    ["hen feet on grass", "hen_feet"],
+    ["loaded for market", "truck"],
+    ["truck", "truck"],
+    ["Brown dozen", "eggs_brown"],
+    ["Brown eggs", "eggs_brown"],
+    ["brown eggs", "eggs_brown"],
+    ["Pastel mix", "eggs_pastel"],
+    ["pastel", "eggs_pastel"],
+    ["Half-flat", "eggs_carton"],
+    ["Half flat", "eggs_carton"],
+    ["18ct", "eggs_carton"],
+    ["Two dozens", "eggs_basket"],
+    ["Tiny eggs", "eggs_flat"],
+    ["pickled eggs", "pickled"],
+    ["Pickled", "pickled"],
+    ["Pasta noodles", "pasta"],
+    ["pasta", "pasta"],
+    ["golden ghee", "butter"],
+    ["butter", "butter"],
+    ["gift bundle", "market"],
+    ["wooden box", "market"],
+    ["Compost bucket", "compost"],
+    ["compost", "compost"],
+    ["Aerial", "aerial"],
+    ["aerial", "aerial"],
+    ["paddocks marked", "aerial"],
+    ["Plymouth Rock", "plymouth"],
+    ["Buff Orpington", "buff"],
+    ["Welsummer", "welsummer"],
+    ["Marans", "marans"],
+    ["Ameraucana", "ameraucana"],
+    ["Easter Egger", "easter"],
+  ];
+  document.querySelectorAll(".ph").forEach(ph => {
+    const labelEl = ph.querySelector(".ph-label");
+    if (!labelEl) return;
+    const txt = (labelEl.textContent || "").toLowerCase();
+    let url = null;
+    for (const [needle, key] of MAP) {
+      if (txt.includes(needle.toLowerCase()) && PH[key]) { url = PH[key]; break; }
+    }
+    if (!url) return;
+    // Preload — only commit on success
+    const img = new Image();
+    img.onload = () => {
+      ph.style.backgroundImage = "url('" + url + "')";
+      ph.classList.add("has-photo");
+    };
+    img.onerror = () => { /* leave placeholder visible */ };
+    img.src = url;
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+/* ==========================================================================
+   TaskForge — Code Focus Theme
+   Project Management: Shadow DOM base styles, kanban, task cards
+   ========================================================================== */
+
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.kanban-column {
+  min-height: 400px;
+}
+
+.task-card {
+  transition: box-shadow 0.15s ease;
+}
+
+.task-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.priority-urgent {
+  border-left: 3px solid #ef4444;
+}
+
+.priority-high {
+  border-left: 3px solid #f59e0b;
+}
+
+.priority-medium {
+  border-left: 3px solid #3b82f6;
+}
+
+.priority-low {
+  border-left: 3px solid #6b7280;
+}

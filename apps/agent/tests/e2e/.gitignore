@@ -1,0 +1,7 @@
+# Ignore test output directories
+output/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo

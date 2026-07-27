@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-activity-feed",
+  "alias": "codecomponent-activity-feed",
+  "name": "Social Activity Feed with Item Components",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "summary": "Social-style activity feed CodeComponent using Item component system (ItemMedia, ItemContent, ItemActions, ItemTitle, ItemDescription, ItemHeader, ItemFooter, ItemGroup, ItemSeparator). Features Skeleton loading placeholders, ScrollArea for scrollable feed, date-fns format() for timestamps, useArrayState with prepend for new items, useHandler for load-more, grouped by date. Like, Reply, Bookmark action buttons with Badge for action types. 10 demo activities with varied action types (commented, pushed, merged, reviewed). No backend required.",
+  "shortSummary": "Activity feed with Item components, skeleton loading, date grouping, and action buttons",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ActivityFeed": {
+        "source": "frontend/components/ActivityFeed.tsx",
+        "compiled": "frontend/components/ActivityFeed.js",
+        "summary": "Social activity feed with Item component system, skeleton loading, date-grouped entries, like/reply/bookmark actions, and load-more functionality"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f5f3ff",
+        "muted-foreground": "#64748b",
+        "accent": "#f5f3ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e7eb",
+        "input": "#e5e7eb",
+        "ring": "#7c3aed"
+      },
+      "dark": {
+        "background": "#0f0b1a",
+        "foreground": "#f8fafc",
+        "primary": "#a78bfa",
+        "primary-foreground": "#0f0b1a",
+        "secondary": "#1e1530",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e1530",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e1530",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e1530",
+        "input": "#1e1530",
+        "ring": "#a78bfa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-feed",
+        "title": "Activity",
+        "slug": "/",
+        "summary": "Activity feed page showing team actions grouped by date with like, reply, and bookmark interactions.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "activity-feed-1",
+            "component": "ActivityFeed",
+            "classes": "w-full max-w-3xl mx-auto"
+          }
+        ],
+        "shortSummary": "Activity feed with date-grouped team actions",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

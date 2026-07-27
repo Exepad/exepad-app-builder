@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-code-playground",
+  "alias": "codecomponent-code-playground",
+  "name": "Code Playground",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Monaco code editor playground CodeComponent using the Monaco extension library. Features a Monaco.Editor component with TypeScript, JavaScript, and CSS language support. File tabs (TabsList) for switching between 3 demo files (App.tsx, styles.css, utils.ts). Editor theme syncs with platform theme via useTheme (vs-dark for dark mode, vs for light). Output/console panel below editor showing simulated build and runtime output using ResizablePanelGroup. Run button in toolbar to execute code (simulated compilation with toast feedback). Save button with toast notification. Console panel with timestamped entries, color-coded by type (log, error, info, warn). Uses useAppState for active file tracking and useTheme for editor theme selection.",
+  "shortSummary": "Monaco editor with file tabs, theme sync, run simulation, and console output panel",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "CodePlayground": {
+        "source": "frontend/components/CodePlayground.tsx",
+        "compiled": "frontend/components/CodePlayground.js",
+        "summary": "Monaco code editor with file tabs, theme sync, simulated run/build, and console output panel"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e293b",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#1e293b",
+        "muted": "#f8fafc",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#1e293b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#1e1e1e",
+        "foreground": "#d4d4d4",
+        "primary": "#569cd6",
+        "primary-foreground": "#1e1e1e",
+        "secondary": "#252526",
+        "secondary-foreground": "#d4d4d4",
+        "muted": "#252526",
+        "muted-foreground": "#808080",
+        "accent": "#2d2d2d",
+        "accent-foreground": "#d4d4d4",
+        "destructive": "#f44747",
+        "destructive-foreground": "#d4d4d4",
+        "border": "#3e3e3e",
+        "input": "#3e3e3e",
+        "ring": "#569cd6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-playground",
+        "title": "Playground",
+        "slug": "/",
+        "summary": "Monaco code editor playground with file tabs, run simulation, and console output.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-playground-1",
+            "component": "CodePlayground",
+            "extensions": [
+              "monaco"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Monaco editor playground with file tabs and console",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}
