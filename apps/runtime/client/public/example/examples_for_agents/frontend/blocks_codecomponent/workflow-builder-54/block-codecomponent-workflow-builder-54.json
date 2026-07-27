@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-workflow-builder",
+  "alias": "codecomponent-workflow-builder",
+  "name": "Workflow Builder with React Flow",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Visual workflow builder CodeComponent using React Flow extension for node-based graph editing. Features ReactFlow.ReactFlow with ReactFlow.Background, ReactFlow.Controls, ReactFlow.MiniMap. Custom node types (Trigger green, Action blue, Condition yellow) rendered as Cards with Icons and ReactFlow.Handle connection points. ReactFlow.useNodesState and useEdgesState for graph state, ReactFlow.addEdge on connect. Sidebar Sheet with draggable node templates, Drawer for selected node properties editing. Toolbar with Save, Deploy, Validate buttons and toast feedback. Demo 5-node workflow. Uses useAppState for workflow definition, useHandler for deployment, and toast for feedback.",
+  "shortSummary": "Visual workflow builder with React Flow, custom nodes, sidebar templates, and deploy toolbar",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "WorkflowBuilder": {
+        "source": "frontend/components/WorkflowBuilder.tsx",
+        "compiled": "frontend/components/WorkflowBuilder.js",
+        "summary": "React Flow workflow builder with custom colored node types, connection handles, node template sidebar, property drawer, and save/deploy/validate toolbar"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f5f3ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#7c3aed"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#a78bfa",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#a78bfa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-workflow",
+        "title": "Workflow Builder",
+        "slug": "/",
+        "summary": "Visual workflow builder with drag-and-drop node-based graph editing.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "workflow-builder-1",
+            "component": "WorkflowBuilder",
+            "extensions": [
+              "reactflow"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Workflow builder with React Flow node editor",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

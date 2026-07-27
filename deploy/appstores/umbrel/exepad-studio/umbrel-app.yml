@@ -1,0 +1,35 @@
+# Umbrel app manifest for the Exepad studio.
+# NOTE: pin `version` + the compose image tag to the released X.Y.Z at release
+# time (Umbrel convention is digest-pinned images for the official store; the
+# community store accepts tags). Validate against getumbrel/umbrel-apps
+# CONTRIBUTING.md before any official-store submission.
+manifestVersion: 1
+id: exepad-studio
+category: developer-tools
+name: Exepad
+version: "latest"
+tagline: Self-hosted AI app builder — prompt to deployed full-stack app
+description: >-
+  Exepad turns a prompt into a real, deployed web app. A multi-agent AI
+  builder plans the app, writes the React UI, models the data, and wires it
+  together — compiled, deployed, and served inside one container on your
+  Umbrel. Bring your own LLM key (Gemini, Anthropic, OpenAI, OpenRouter, or a
+  local model via Ollama for fully local generation).
+
+
+  Note: app builds peak at 2–3 GB RAM — recommended on x86 Umbrel hardware
+  with >= 4 GB total. All app data lives in this app's data directory and is
+  included in Umbrel backups.
+developer: Exepad
+website: https://exepad.com
+repo: https://github.com/exepad/exepad-app-builder
+support: https://github.com/exepad/exepad-app-builder/issues
+port: 8080
+gallery: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+releaseNotes: ""
+dependencies: []
+submitter: Exepad
+submission: https://github.com/exepad/exepad-app-builder

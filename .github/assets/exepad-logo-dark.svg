@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Exepad">
+  <rect x="0.75" y="0.75" width="118.5" height="118.5" rx="24" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="31" y="31" width="22" height="22" fill="#e6e8eb"/>
+  <rect x="67" y="31" width="22" height="22" fill="#e6e8eb" opacity="0.85"/>
+  <rect x="31" y="67" width="22" height="22" fill="#e6e8eb"/>
+  <rect x="67" y="67" width="22" height="22" fill="#e6e8eb"/>
+</svg>

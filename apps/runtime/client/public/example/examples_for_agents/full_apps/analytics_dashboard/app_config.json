@@ -1,0 +1,717 @@
+{
+  "uuid": "analytics-dashboard",
+  "alias": "analytics-dashboard",
+  "name": "InsightBoard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Analytics dashboard with traffic, revenue, user retention, and data exploration views powered by real-time metrics",
+  "shortSummary": "Analytics dashboard with traffic, revenue, and user insights",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "AnalyticsSidebar": {
+          "source": "frontend/code/components/AnalyticsSidebar.tsx",
+          "compiled": "frontend/compiled/components/AnalyticsSidebar.js",
+          "summary": "Left sidebar with InsightBoard logo, navigation (Overview, Traffic, Revenue, Users, Explorer) with mini sparkline indicators, date range display, and active highlight."
+        },
+        "DashboardHeader": {
+          "source": "frontend/code/components/DashboardHeader.tsx",
+          "compiled": "frontend/compiled/components/DashboardHeader.js",
+          "summary": "Top header with date range picker (From/To inputs), Compare toggle switch, Refresh button, and Export dropdown."
+        },
+        "AnalyticsOverview": {
+          "source": "frontend/code/components/AnalyticsOverview.tsx",
+          "compiled": "frontend/compiled/components/AnalyticsOverview.js",
+          "summary": "Overview page with 4 KPI cards (Visitors, Revenue, Conversion, Avg Order) with sparklines, traffic trend LineChart, top pages table, geographic distribution bars, and device breakdown pie chart."
+        },
+        "TrafficAnalytics": {
+          "source": "frontend/code/components/TrafficAnalytics.tsx",
+          "compiled": "frontend/compiled/components/TrafficAnalytics.js",
+          "summary": "Traffic page with page views LineChart (30 days), referral sources PieChart, top landing pages table, and bounce rate trend LineChart."
+        },
+        "RevenueReports": {
+          "source": "frontend/code/components/RevenueReports.tsx",
+          "compiled": "frontend/compiled/components/RevenueReports.js",
+          "summary": "Revenue page with monthly BarChart + trend line, MRR/ARR cards, revenue by category horizontal BarChart, growth rate card, and top products table."
+        },
+        "UserAnalytics": {
+          "source": "frontend/code/components/UserAnalytics.tsx",
+          "compiled": "frontend/compiled/components/UserAnalytics.js",
+          "summary": "Users page with active users LineChart (DAU/WAU/MAU), retention cohort table with color coding, user segments PieChart, new vs returning stacked BarChart, and geographic top 10."
+        },
+        "DataExplorer": {
+          "source": "frontend/code/components/DataExplorer.tsx",
+          "compiled": "frontend/compiled/components/DataExplorer.js",
+          "summary": "Data explorer with dataset selector, sortable data table, column visibility toggles, per-column filters, pagination, and CSV export button."
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with avatar, analytics stats, performance metrics, and recent activity feed"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Custom utility classes for metric cards, sparklines, cohort cells, and sortable data table headers"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "events": {
+        "source": "repo/seed/events.json",
+        "format": "json",
+        "model": "events",
+        "source_hash": "sha256:2d88514d03d6411da5319c75140612083f888b685c29dca5d4276b0d5eff0352"
+      },
+      "page_views": {
+        "source": "repo/seed/page_views.json",
+        "format": "json",
+        "model": "page_views",
+        "source_hash": "sha256:37b6c016fb27b5ee6fe8898a75ef8cc54874ec553be013cf1c672080d73cabe3"
+      },
+      "revenue_entries": {
+        "source": "repo/seed/revenue_entries.json",
+        "format": "json",
+        "model": "revenue_entries",
+        "source_hash": "sha256:e5e470d33d1cb7754b013212f303f19a7d5228cc973bba6236ba22defbca98a3"
+      },
+      "user_sessions": {
+        "source": "repo/seed/user_sessions.json",
+        "format": "json",
+        "model": "user_sessions",
+        "source_hash": "sha256:5bb6ea5e243445d507cbdb328a52cb474e2800b21da25920b27653714d11ba33"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-page-views",
+        "name": "page_views",
+        "columns": [
+          {
+            "name": "page_url",
+            "type": "text",
+            "summary": "Page URL path visited"
+          },
+          {
+            "name": "referrer",
+            "type": "text",
+            "summary": "Referrer URL",
+            "isNullable": true
+          },
+          {
+            "name": "session_id",
+            "type": "text",
+            "summary": "Session identifier"
+          },
+          {
+            "name": "user_agent",
+            "type": "text",
+            "summary": "Browser user agent string",
+            "isNullable": true
+          },
+          {
+            "name": "country",
+            "type": "text",
+            "summary": "Visitor country code"
+          },
+          {
+            "name": "city",
+            "type": "text",
+            "summary": "Visitor city",
+            "isNullable": true
+          },
+          {
+            "name": "timestamp",
+            "type": "text",
+            "summary": "ISO 8601 page view timestamp"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_pv_session",
+            "columns": [
+              "session_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_pv_country",
+            "columns": [
+              "country"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-events",
+        "name": "events",
+        "columns": [
+          {
+            "name": "event_name",
+            "type": "text",
+            "summary": "Name of the tracked event"
+          },
+          {
+            "name": "event_data",
+            "type": "text",
+            "summary": "JSON event payload",
+            "isNullable": true
+          },
+          {
+            "name": "session_id",
+            "type": "text",
+            "summary": "Session identifier"
+          },
+          {
+            "name": "user_id_ref",
+            "type": "text",
+            "summary": "Optional user reference",
+            "isNullable": true
+          },
+          {
+            "name": "timestamp",
+            "type": "text",
+            "summary": "ISO 8601 event timestamp"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_ev_name",
+            "columns": [
+              "event_name"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_ev_session",
+            "columns": [
+              "session_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-revenue-entries",
+        "name": "revenue_entries",
+        "columns": [
+          {
+            "name": "amount",
+            "type": "real",
+            "summary": "Revenue amount"
+          },
+          {
+            "name": "currency",
+            "type": "text",
+            "summary": "Currency code",
+            "defaultValue": "USD"
+          },
+          {
+            "name": "product",
+            "type": "text",
+            "summary": "Product name"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Product category"
+          },
+          {
+            "name": "source",
+            "type": "text",
+            "summary": "Revenue source channel",
+            "isNullable": true
+          },
+          {
+            "name": "date",
+            "type": "text",
+            "summary": "ISO 8601 date of revenue entry"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_rev_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_rev_date",
+            "columns": [
+              "date"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-user-sessions",
+        "name": "user_sessions",
+        "columns": [
+          {
+            "name": "session_id",
+            "type": "text",
+            "summary": "Unique session identifier"
+          },
+          {
+            "name": "start_time",
+            "type": "text",
+            "summary": "ISO 8601 session start"
+          },
+          {
+            "name": "end_time",
+            "type": "text",
+            "summary": "ISO 8601 session end",
+            "isNullable": true
+          },
+          {
+            "name": "pages_viewed",
+            "type": "integer",
+            "summary": "Number of pages viewed in session"
+          },
+          {
+            "name": "country",
+            "type": "text",
+            "summary": "Visitor country code"
+          },
+          {
+            "name": "device_type",
+            "type": "text",
+            "summary": "Device type: desktop, mobile, tablet"
+          },
+          {
+            "name": "is_new_user",
+            "type": "integer",
+            "summary": "Whether this is a new user (1=yes, 0=no)"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_us_session",
+            "columns": [
+              "session_id"
+            ],
+            "unique": true
+          },
+          {
+            "name": "idx_us_device",
+            "columns": [
+              "device_type"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getOverviewMetrics",
+        "name": "getOverviewMetrics",
+        "method": "getOverviewMetrics",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "date_from",
+            "type": "string",
+            "required": true,
+            "summary": "Start date ISO 8601"
+          },
+          {
+            "name": "date_to",
+            "type": "string",
+            "required": true,
+            "summary": "End date ISO 8601"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "visitors",
+            "type": "number",
+            "summary": "Total unique visitors"
+          },
+          {
+            "name": "revenue",
+            "type": "number",
+            "summary": "Total revenue in period"
+          },
+          {
+            "name": "conversion_rate",
+            "type": "number",
+            "summary": "Conversion rate percentage"
+          },
+          {
+            "name": "avg_order_value",
+            "type": "number",
+            "summary": "Average order value"
+          },
+          {
+            "name": "trends",
+            "type": "json",
+            "summary": "Trend data for sparklines"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getTrafficBreakdown",
+        "name": "getTrafficBreakdown",
+        "method": "getTrafficBreakdown",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "date_from",
+            "type": "string",
+            "required": true,
+            "summary": "Start date ISO 8601"
+          },
+          {
+            "name": "date_to",
+            "type": "string",
+            "required": true,
+            "summary": "End date ISO 8601"
+          },
+          {
+            "name": "group_by",
+            "type": "string",
+            "required": false,
+            "summary": "Grouping: day, week, or month"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "page_views",
+            "type": "array",
+            "summary": "Page view time series"
+          },
+          {
+            "name": "referrers",
+            "type": "array",
+            "summary": "Referrer breakdown"
+          },
+          {
+            "name": "top_pages",
+            "type": "array",
+            "summary": "Top landing pages"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getRevenueReport",
+        "name": "getRevenueReport",
+        "method": "getRevenueReport",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "date_from",
+            "type": "string",
+            "required": true,
+            "summary": "Start date ISO 8601"
+          },
+          {
+            "name": "date_to",
+            "type": "string",
+            "required": true,
+            "summary": "End date ISO 8601"
+          },
+          {
+            "name": "group_by",
+            "type": "string",
+            "required": false,
+            "summary": "Grouping: day, week, or month"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "revenue_data",
+            "type": "array",
+            "summary": "Revenue time series"
+          },
+          {
+            "name": "mrr",
+            "type": "number",
+            "summary": "Monthly recurring revenue"
+          },
+          {
+            "name": "arr",
+            "type": "number",
+            "summary": "Annual recurring revenue"
+          },
+          {
+            "name": "growth_rate",
+            "type": "number",
+            "summary": "Revenue growth rate percentage"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getUserRetention",
+        "name": "getUserRetention",
+        "method": "getUserRetention",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "cohort_period",
+            "type": "string",
+            "required": false,
+            "summary": "Cohort period: weekly or monthly"
+          },
+          {
+            "name": "num_periods",
+            "type": "number",
+            "required": false,
+            "summary": "Number of periods to show"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "cohorts",
+            "type": "array",
+            "summary": "Cohort retention data"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0c4a6e",
+        "primary": "#0369a1",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0f9ff",
+        "secondary-foreground": "#0c4a6e",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#e0f2fe",
+        "accent-foreground": "#0369a1",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0369a1"
+      },
+      "dark": {
+        "background": "#0c4a6e",
+        "foreground": "#f0f9ff",
+        "primary": "#38bdf8",
+        "primary-foreground": "#082f49",
+        "secondary": "#0369a1",
+        "secondary-foreground": "#f0f9ff",
+        "muted": "#0369a1",
+        "muted-foreground": "#7dd3fc",
+        "accent": "#0369a1",
+        "accent-foreground": "#38bdf8",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#0284c7",
+        "input": "#0284c7",
+        "ring": "#38bdf8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "dateRange": {
+          "from": null,
+          "to": null
+        },
+        "comparisonEnabled": false,
+        "selectedMetric": "visitors"
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-dashboard",
+        "componentType": "CodeComponentProps",
+        "component": "DashboardHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sb-analytics",
+        "componentType": "CodeComponentProps",
+        "component": "AnalyticsSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-overview",
+        "pageType": "WebPageProps",
+        "title": "Overview",
+        "slug": "/",
+        "summary": "Dashboard overview with KPI cards, traffic trend, top pages, geo distribution, and device breakdown",
+        "content": [
+          {
+            "uuid": "c-overview",
+            "componentType": "CodeComponentProps",
+            "component": "AnalyticsOverview"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-traffic",
+        "pageType": "WebPageProps",
+        "title": "Traffic",
+        "slug": "/traffic",
+        "summary": "Traffic analytics with page views chart, referral sources, landing pages, and bounce rate",
+        "content": [
+          {
+            "uuid": "c-traffic",
+            "componentType": "CodeComponentProps",
+            "component": "TrafficAnalytics"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-revenue",
+        "pageType": "WebPageProps",
+        "title": "Revenue",
+        "slug": "/revenue",
+        "summary": "Revenue reports with monthly charts, MRR/ARR metrics, category breakdown, and top products",
+        "content": [
+          {
+            "uuid": "c-revenue",
+            "componentType": "CodeComponentProps",
+            "component": "RevenueReports"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-users",
+        "pageType": "WebPageProps",
+        "title": "Users",
+        "slug": "/users",
+        "summary": "User analytics with active users, retention cohorts, segments, and geographic distribution",
+        "content": [
+          {
+            "uuid": "c-users",
+            "componentType": "CodeComponentProps",
+            "component": "UserAnalytics"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-explorer",
+        "pageType": "WebPageProps",
+        "title": "Explorer",
+        "slug": "/explorer",
+        "summary": "Data explorer with dataset selector, sortable table, filters, and CSV export",
+        "content": [
+          {
+            "uuid": "c-explorer",
+            "componentType": "CodeComponentProps",
+            "component": "DataExplorer"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with analytics stats and recent activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  }
+}

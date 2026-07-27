@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-pie-radar-overview",
+  "alias": "codecomponent-pie-radar-overview",
+  "name": "Team Performance Dashboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Team performance dashboard using CodeComponentProps to render PieChart and RadarChart visualizations. Displays task distribution across categories (Design, Development, Testing, DevOps, Research) and skill assessment radar (Frontend, Backend, DevOps, Design, Communication, Leadership). Uses ChartContainer, ChartConfig, ChartTooltip, ChartLegend for structured chart rendering. Includes Avatar for team member display and Select for filtering by member. Demonstrates useAppState for persisting the selected team member.",
+  "shortSummary": "Team performance dashboard with PieChart for tasks and RadarChart for skills",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "TeamPerformance": {
+        "source": "frontend/components/TeamPerformance.tsx",
+        "compiled": "frontend/components/TeamPerformance.js",
+        "summary": "Team performance dashboard with PieChart showing task distribution by category, RadarChart for skill assessment across competencies, Avatar-based team member cards, and Select dropdown for member filtering"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#0b8379",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdfa",
+        "secondary-foreground": "#134e4a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f0fdfa",
+        "accent-foreground": "#134e4a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0d9488"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#2dd4bf",
+        "primary-foreground": "#042f2e",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#ccfbf1",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#ccfbf1",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#14b8a6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-main",
+        "title": "Team Performance",
+        "slug": "/",
+        "summary": "Team performance page with task distribution pie chart, skill radar chart, and team member cards.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "component-1",
+            "component": "TeamPerformance",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Team dashboard with pie and radar charts",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

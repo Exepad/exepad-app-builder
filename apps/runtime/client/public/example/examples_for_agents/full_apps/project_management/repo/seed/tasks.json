@@ -1,0 +1,152 @@
+[
+  {
+    "title": "Design homepage hero section",
+    "description": "Create high-fidelity mockup for the new homepage hero with animated gradient background",
+    "status": "done",
+    "priority": "high",
+    "assignee": "Carol Singh",
+    "project_id": "1",
+    "due_date": "2026-03-01",
+    "estimated_hours": 8
+  },
+  {
+    "title": "Implement responsive navigation",
+    "description": "Build the responsive top nav and mobile hamburger menu using the new design system",
+    "status": "done",
+    "priority": "high",
+    "assignee": "Bob Martinez",
+    "project_id": "1",
+    "due_date": "2026-03-05",
+    "estimated_hours": 12
+  },
+  {
+    "title": "Set up CI/CD pipeline",
+    "description": "Configure GitHub Actions for automated testing, preview deployments, and production releases",
+    "status": "in_progress",
+    "priority": "urgent",
+    "assignee": "David Kim",
+    "project_id": "1",
+    "due_date": "2026-03-20",
+    "estimated_hours": 16
+  },
+  {
+    "title": "Write content for About page",
+    "description": "Draft and finalize copy for the About Us page including team bios and company history",
+    "status": "review",
+    "priority": "medium",
+    "assignee": "Alice Chen",
+    "project_id": "1",
+    "due_date": "2026-03-25",
+    "estimated_hours": 6
+  },
+  {
+    "title": "Performance audit",
+    "description": "Run Lighthouse audits and fix critical performance issues to achieve 90+ scores",
+    "status": "todo",
+    "priority": "high",
+    "assignee": "Frank Osei",
+    "project_id": "1",
+    "due_date": "2026-04-10",
+    "estimated_hours": 10
+  },
+  {
+    "title": "Implement offline data sync",
+    "description": "Add IndexedDB caching layer with background sync for offline-first experience",
+    "status": "in_progress",
+    "priority": "urgent",
+    "assignee": "Bob Martinez",
+    "project_id": "2",
+    "due_date": "2026-03-28",
+    "estimated_hours": 24
+  },
+  {
+    "title": "Design push notification UI",
+    "description": "Design notification center, permission prompt, and in-app notification cards",
+    "status": "done",
+    "priority": "medium",
+    "assignee": "Carol Singh",
+    "project_id": "2",
+    "due_date": "2026-02-20",
+    "estimated_hours": 10
+  },
+  {
+    "title": "Build onboarding screens",
+    "description": "Implement 4-step onboarding wizard with skip option and progress indicator",
+    "status": "review",
+    "priority": "high",
+    "assignee": "David Kim",
+    "project_id": "2",
+    "due_date": "2026-03-15",
+    "estimated_hours": 14
+  },
+  {
+    "title": "QA regression testing sprint",
+    "description": "Execute full regression test suite for v2 release candidate across iOS and Android",
+    "status": "todo",
+    "priority": "high",
+    "assignee": "Eva Novak",
+    "project_id": "2",
+    "due_date": "2026-04-01",
+    "estimated_hours": 20
+  },
+  {
+    "title": "Fix login token refresh bug",
+    "description": "Token refresh silently fails on slow connections causing unexpected logouts",
+    "status": "in_progress",
+    "priority": "urgent",
+    "assignee": "Frank Osei",
+    "project_id": "2",
+    "due_date": "2026-03-22",
+    "estimated_hours": 6
+  },
+  {
+    "title": "Define API schema and endpoints",
+    "description": "Document all public API endpoints with OpenAPI 3.1 spec and example payloads",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "Alice Chen",
+    "project_id": "3",
+    "due_date": "2026-04-15",
+    "estimated_hours": 16
+  },
+  {
+    "title": "Research rate limiting solutions",
+    "description": "Evaluate Cloudflare rate limiting, token bucket, and sliding window approaches",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "David Kim",
+    "project_id": "3",
+    "due_date": "2026-04-20",
+    "estimated_hours": 8
+  },
+  {
+    "title": "Design developer portal wireframes",
+    "description": "Create wireframes for the API developer portal including docs, playground, and key management",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "Carol Singh",
+    "project_id": "3",
+    "due_date": "2026-04-25",
+    "estimated_hours": 12
+  },
+  {
+    "title": "Set up usage analytics tracking",
+    "description": "Implement per-endpoint request counting, latency tracking, and error rate monitoring",
+    "status": "backlog",
+    "priority": "low",
+    "assignee": "Frank Osei",
+    "project_id": "3",
+    "due_date": "2026-05-10",
+    "estimated_hours": 14
+  },
+  {
+    "title": "SEO meta tags and sitemap",
+    "description": "Add dynamic meta tags, Open Graph data, and generate XML sitemap for all pages",
+    "status": "todo",
+    "priority": "low",
+    "assignee": "Bob Martinez",
+    "project_id": "1",
+    "due_date": "2026-04-15",
+    "estimated_hours": 5
+  }
+]

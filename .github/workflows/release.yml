@@ -1,0 +1,439 @@
+# Lockstep release: one git tag (vX.Y.Z) publishes, with the SAME version,
+#   1. the multi-arch studio image  → ghcr.io/exepad/exepad-app-builder:X.Y.Z (+ :latest)
+#   2. the npm launcher             → exepad@X.Y.Z          (npx exepad up)
+#   3. a GitHub Release carrying install.sh/install.ps1 pinned to X.Y.Z plus the
+#      one-click bundles (Exepad-Installer-{Windows,macOS}.zip / -Linux.tar.gz)
+#
+# Ordering is deliberate: the image is pushed BEFORE the npm launcher goes live,
+# so `npx exepad@X.Y.Z up` can never resolve to a launcher whose image tag does
+# not exist yet. See RELEASING.md.
+#
+# Required repo secret: NPM_TOKEN (npm automation token with publish rights on
+# the `exepad` npm package). GHCR uses the built-in GITHUB_TOKEN.
+name: release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+
+env:
+  IMAGE_REPO: ghcr.io/exepad/exepad-app-builder
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Parse + validate the tag; everything downstream consumes these outputs ──
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.parse.outputs.version }}
+      prerelease: ${{ steps.parse.outputs.prerelease }}
+      public: ${{ steps.parse.outputs.public }}
+    steps:
+      - name: Parse tag
+        id: parse
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$' \
+            || { echo "::error::tag $TAG is not vX.Y.Z[-pre]"; exit 1; }
+          case "$VERSION" in
+            *-*) PRERELEASE=true ;;
+            *)   PRERELEASE=false ;;
+          esac
+          # PRIVATE-mode detection: only the canonical repo releases publicly.
+          # Any other repo (a fork or a private mirror) releases PRIVATELY: the
+          # GHCR package stays private (auth to pull), npm publish is skipped
+          # (npm is inherently public), and cosign keyless signing is skipped —
+          # it writes to the PUBLIC Rekor transparency log, which would publish
+          # a private image's digests + repo identity.
+          if [ "${GITHUB_REPOSITORY}" = "Exepad/exepad-app-builder" ]; then
+            PUBLIC=true
+          else
+            PUBLIC=false
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$PRERELEASE" >> "$GITHUB_OUTPUT"
+          echo "public=$PUBLIC" >> "$GITHUB_OUTPUT"
+          echo "Releasing $VERSION (prerelease: $PRERELEASE, public: $PUBLIC)"
+
+  # ── 1. Multi-arch studio image → GHCR ───────────────────────────────────────
+  image:
+    needs: version
+    runs-on: ubuntu-latest
+    # arm64 builds under QEMU emulation — slow by design (packaging-plan A.3).
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      packages: write
+      # cosign keyless signing: the OIDC token proves this workflow built the image.
+      id-token: write
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute image tags + platforms
+        id: tags
+        run: |
+          set -euo pipefail
+          TAGS="${IMAGE_REPO}:${{ needs.version.outputs.version }}"
+          LITE_TAGS="${IMAGE_REPO}:${{ needs.version.outputs.version }}-lite"
+          # :latest / :latest-lite only track stable releases; prereleases stay tag-only.
+          if [ "${{ needs.version.outputs.prerelease }}" = "false" ]; then
+            TAGS="$TAGS,${IMAGE_REPO}:latest"
+            LITE_TAGS="$LITE_TAGS,${IMAGE_REPO}:latest-lite"
+          fi
+          echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
+          echo "lite_tags=$LITE_TAGS" >> "$GITHUB_OUTPUT"
+          # Private releases build amd64-only by default: the arm64 leg runs
+          # under QEMU (hours) and private-repo Actions minutes are billed.
+          # Opt back in with the repo variable EXEPAD_PRIVATE_MULTIARCH=1.
+          if [ "${{ needs.version.outputs.public }}" = "true" ] || [ "${{ vars.EXEPAD_PRIVATE_MULTIARCH }}" = "1" ]; then
+            echo "platforms=linux/amd64,linux/arm64" >> "$GITHUB_OUTPUT"
+          else
+            echo "platforms=linux/amd64" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build + push
+        id: build
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        with:
+          context: .
+          platforms: ${{ steps.tags.outputs.platforms }}
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          # The version/commit/source triple feeds the AGPL section 13 source
+          # offer (the studio About page + the server's /source route), so it is
+          # derived from THIS repo — a fork releasing from its own repo ships its
+          # own Corresponding Source URL without editing any code.
+          build-args: |
+            EXEPAD_VERSION=${{ needs.version.outputs.version }}
+            EXEPAD_COMMIT=${{ github.sha }}
+            EXEPAD_SOURCE_URL=https://github.com/${{ github.repository }}
+          labels: |
+            org.opencontainers.image.title=Exepad
+            org.opencontainers.image.description=Self-hosted AI app builder (single container)
+            org.opencontainers.image.version=${{ needs.version.outputs.version }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.licenses=AGPL-3.0-only
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # server-lite variant: same Dockerfile, EXEPAD_LITE=1 skips the Chromium
+      # layers (~1 GB smaller; dashboard thumbnails auto-disable at boot). Shares
+      # every other layer with the build above via the gha cache, so this is a
+      # cheap re-assembly, not a second full build.
+      - name: Build + push server-lite
+        id: build_lite
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        with:
+          context: .
+          platforms: ${{ steps.tags.outputs.platforms }}
+          push: true
+          build-args: |
+            EXEPAD_LITE=1
+            EXEPAD_VERSION=${{ needs.version.outputs.version }}
+            EXEPAD_COMMIT=${{ github.sha }}
+            EXEPAD_SOURCE_URL=https://github.com/${{ github.repository }}
+          tags: ${{ steps.tags.outputs.lite_tags }}
+          labels: |
+            org.opencontainers.image.title=Exepad (server-lite)
+            org.opencontainers.image.description=Self-hosted AI app builder (single container, no bundled Chromium)
+            org.opencontainers.image.version=${{ needs.version.outputs.version }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.licenses=AGPL-3.0-only
+          cache-from: type=gha
+
+      # Keyless (OIDC) signatures for both variants: operators verify provenance with
+      #   cosign verify ghcr.io/exepad/exepad-app-builder:<tag> \
+      #     --certificate-identity-regexp 'github.com/${{ github.repository }}' \
+      #     --certificate-oidc-issuer https://token.actions.githubusercontent.com
+      # PUBLIC releases only: keyless signing records the signature in the PUBLIC
+      # Rekor transparency log — signing a private release would leak the image
+      # digests and repo identity of a not-yet-announced product.
+      - name: Install cosign
+        if: needs.version.outputs.public == 'true'
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Sign images (cosign keyless)
+        if: needs.version.outputs.public == 'true'
+        env:
+          FULL_DIGEST: ${{ steps.build.outputs.digest }}
+          LITE_DIGEST: ${{ steps.build_lite.outputs.digest }}
+        run: |
+          set -euo pipefail
+          cosign sign --yes "${IMAGE_REPO}@${FULL_DIGEST}"
+          cosign sign --yes "${IMAGE_REPO}@${LITE_DIGEST}"
+
+  # ── 2. npm launcher (lockstep: package version == image tag) ────────────────
+  # PUBLIC releases only — an npm publish is inherently public. Private-phase
+  # operators run the launcher from the repo: `node packages/exepad-cli/dist/cli.js`.
+  npm:
+    needs: [version, image]
+    if: needs.version.outputs.public == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/exepad-cli
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Install (standalone — the launcher has no workspace deps)
+        run: pnpm install --ignore-workspace
+
+      - name: Stamp lockstep version from the tag
+        run: npm version "${{ needs.version.outputs.version }}" --no-git-tag-version
+
+      - name: Typecheck + test + build
+        run: |
+          pnpm run typecheck
+          pnpm run test
+          pnpm run build
+
+      - name: Smoke-test the built launcher
+        run: |
+          set -euo pipefail
+          GOT="$(node dist/cli.js --version)"
+          [ "$GOT" = "${{ needs.version.outputs.version }}" ] \
+            || { echo "::error::launcher reports $GOT, expected ${{ needs.version.outputs.version }}"; exit 1; }
+          node dist/cli.js --help >/dev/null
+          # Enforce the thin-launcher contract: npm ships KBs, Docker ships the image.
+          SIZE=$(npm pack --dry-run --json | node -p 'JSON.parse(require("fs").readFileSync(0,"utf8"))[0].size')
+          [ "$SIZE" -lt 262144 ] || { echo "::error::npm tarball is ${SIZE}B (>256KB) — launcher must stay thin"; exit 1; }
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          # prepublishOnly re-runs typecheck+test+build as a final gate.
+          if [ "${{ needs.version.outputs.prerelease }}" = "true" ]; then
+            npm publish --tag next
+          else
+            npm publish
+          fi
+
+  # ── 3. GitHub Release with the version-pinned install.sh ────────────────────
+  # Runs on BOTH release modes: when npm is skipped (private release) the
+  # release still publishes — on a private repo it is only visible to the team.
+  release:
+    needs: [version, image, npm]
+    if: ${{ !cancelled() && needs.image.result == 'success' && (needs.npm.result == 'success' || needs.npm.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Pin install.sh + install.ps1 to this release
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.version.outputs.version }}"
+          # Channel gates the npx delegation: the npm launcher only exists for
+          # public releases (see EXEPAD_RELEASE_CHANNEL in install.sh).
+          CHANNEL="private"
+          [ "${{ needs.version.outputs.public }}" = "true" ] && CHANNEL="public"
+          sed -i "s/^EXEPAD_DEFAULT_VERSION=.*/EXEPAD_DEFAULT_VERSION=\"$VERSION\"/" install.sh
+          grep -q "EXEPAD_DEFAULT_VERSION=\"$VERSION\"" install.sh
+          sed -i "s/^EXEPAD_RELEASE_CHANNEL=.*/EXEPAD_RELEASE_CHANNEL=\"$CHANNEL\"/" install.sh
+          grep -q "EXEPAD_RELEASE_CHANNEL=\"$CHANNEL\"" install.sh
+          bash -n install.sh
+          sha256sum install.sh > install.sh.sha256
+          # Windows front door: pin the param default + channel the same way.
+          sed -i "s/\[string\]\$Version = 'latest'/[string]\$Version = '$VERSION'/" install.ps1
+          grep -q "\$Version = '$VERSION'" install.ps1
+          sed -i "s/^\$ReleaseChannel = .*/\$ReleaseChannel = '$CHANNEL'/" install.ps1
+          grep -q "^\$ReleaseChannel = '$CHANNEL'" install.ps1
+          sha256sum install.ps1 > install.ps1.sha256
+
+      # One-click bundles (Windows/macOS/Linux) from the freshly pinned
+      # installers. Same script packaging-ci rehearses — assembly can't drift.
+      - name: Build one-click installer bundles
+        run: bash packaging/one-click/build-bundles.sh dist/installers
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.version.outputs.version }}"
+          EXTRA=""
+          [ "${{ needs.version.outputs.prerelease }}" = "true" ] && EXTRA="--prerelease"
+          if [ "${{ needs.version.outputs.public }}" = "true" ]; then
+            {
+              echo "## Install"
+              echo
+              echo "macOS or Linux (installs Docker for you on Linux if missing):"
+              echo '```bash'
+              echo "curl -fsSL https://github.com/${{ github.repository }}/releases/download/v$VERSION/install.sh | bash"
+              echo '```'
+              echo
+              echo "Windows (guides you through Docker Desktop if needed):"
+              echo '```powershell'
+              echo "powershell -ExecutionPolicy Bypass -c \"irm https://github.com/${{ github.repository }}/releases/download/v$VERSION/install.ps1 | iex\""
+              echo '```'
+              echo
+              echo "Or via npm (Node 18+):"
+              echo '```bash'
+              echo "npx exepad@$VERSION up"
+              echo '```'
+              echo
+              echo "### Prefer a download?"
+              echo
+              echo "| Platform | Package | Then |"
+              echo "|---|---|---|"
+              echo "| Windows | [Exepad-Installer-Windows.msi](https://github.com/${{ github.repository }}/releases/download/v$VERSION/Exepad-Installer-Windows.msi) | double-click — setup runs itself |"
+              echo "| macOS | [Exepad-Installer-macOS.zip](https://github.com/${{ github.repository }}/releases/download/v$VERSION/Exepad-Installer-macOS.zip) | extract → open \`Install Exepad.command\` |"
+              echo "| Linux | [Exepad-Installer-Linux.tar.gz](https://github.com/${{ github.repository }}/releases/download/v$VERSION/Exepad-Installer-Linux.tar.gz) | \`bash install.sh\` |"
+              echo
+              echo "Step-by-step (SmartScreen/Gatekeeper notes included): [INSTALL.md](https://github.com/${{ github.repository }}/blob/v$VERSION/INSTALL.md)"
+              echo
+              echo "Images (linux/amd64 + linux/arm64, cosign-signed):"
+              echo "- \`ghcr.io/exepad/exepad-app-builder:$VERSION\`"
+              echo "- \`ghcr.io/exepad/exepad-app-builder:$VERSION-lite\` — no bundled Chromium (~1.4 GB smaller uncompressed); dashboard thumbnails auto-disable"
+              echo
+              echo "Upgrading an existing install: \`npx exepad update --to $VERSION\` — it snapshots a backup of your data volume first automatically (skip with \`--no-backup\`)."
+              echo
+              echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/v$VERSION/CHANGELOG.md) for what changed."
+            } > release-notes.md
+          else
+            {
+              echo "## Private release (fork / private mirror)"
+              echo
+              echo "One-click installer bundles (download from THIS page while logged in):"
+              echo "- **Exepad-Installer-Windows.msi** — double-click; setup runs itself (uninstall via Add/Remove Programs — never touches your data)"
+              echo "- **Exepad-Installer-Windows.zip** — the same installer as extract → double-click \`Install Exepad.bat\`"
+              echo "- **Exepad-Installer-macOS.zip** — extract → open \`Install Exepad.command\` (one-time unsigned-app approval — steps in INSTALL.md)"
+              echo "- **Exepad-Installer-Linux.tar.gz** — \`bash install.sh\`"
+              echo
+              echo "Step-by-step: [INSTALL.md](https://github.com/${{ github.repository }}/blob/v$VERSION/INSTALL.md)"
+              echo
+              echo "This repo's GHCR package is private — authenticate BEFORE running an installer:"
+              echo '```bash'
+              echo "echo \$GH_PAT | docker login ghcr.io -u <github-user> --password-stdin   # PAT with read:packages"
+              echo "docker pull ghcr.io/exepad/exepad-app-builder:$VERSION"
+              echo '```'
+              echo
+              echo "Team install (npm launcher is NOT published for private releases):"
+              echo '```bash'
+              echo "git clone git@github.com:${{ github.repository }}.git && cd \$(basename ${{ github.repository }})"
+              echo "cd packages/exepad-cli && pnpm install --ignore-workspace && pnpm build"
+              echo "node dist/cli.js up --to $VERSION"
+              echo "# or: gh release download v$VERSION -p install.sh -R ${{ github.repository }} && bash install.sh --version $VERSION"
+              echo '```'
+              echo
+              echo "Images (amd64 by default — set repo var EXEPAD_PRIVATE_MULTIARCH=1 for arm64;"
+              echo "not cosign-signed: keyless signing would leak to the public Rekor log):"
+              echo "- \`ghcr.io/exepad/exepad-app-builder:$VERSION\` and \`:$VERSION-lite\`"
+              echo
+              echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/v$VERSION/CHANGELOG.md) for what changed."
+            } > release-notes.md
+          fi
+          gh release create "v$VERSION" \
+            install.sh install.sh.sha256 install.ps1 install.ps1.sha256 \
+            dist/installers/Exepad-Installer-Windows.zip \
+            dist/installers/Exepad-Installer-Windows.zip.sha256 \
+            dist/installers/Exepad-Installer-macOS.zip \
+            dist/installers/Exepad-Installer-macOS.zip.sha256 \
+            dist/installers/Exepad-Installer-Linux.tar.gz \
+            dist/installers/Exepad-Installer-Linux.tar.gz.sha256 \
+            --title "Exepad $VERSION" \
+            --notes-file release-notes.md \
+            $EXTRA
+
+  # ── 4. Windows MSI (built + smoke-tested on a real Windows runner) ──────────
+  # Runs after the release exists and uploads into it. WiX pinned to 5.0.2
+  # (v6+ requires the Open Source Maintenance Fee EULA; 5.x is plain OSS).
+  msi:
+    needs: [version, release]
+    if: ${{ !cancelled() && needs.release.result == 'success' }}
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Pin install.ps1 + assemble payload (same pin as the release job)
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.version.outputs.version }}"
+          CHANNEL="private"
+          [ "${{ needs.version.outputs.public }}" = "true" ] && CHANNEL="public"
+          sed -i "s/\[string\]\$Version = 'latest'/[string]\$Version = '$VERSION'/" install.ps1
+          grep -q "\$Version = '$VERSION'" install.ps1
+          sed -i "s/^\$ReleaseChannel = .*/\$ReleaseChannel = '$CHANNEL'/" install.ps1
+          grep -q "^\$ReleaseChannel = '$CHANNEL'" install.ps1
+          mkdir -p dist/msipayload
+          cp install.ps1 'packaging/one-click/windows/Install Exepad.bat' \
+             'packaging/msi/Exepad Studio.url' dist/msipayload/
+
+      - name: Install WiX 5.0.2
+        run: dotnet tool install --global wix --version 5.0.2
+
+      - name: Build MSI
+        shell: bash
+        run: |
+          set -euo pipefail
+          # MSI ProductVersion must be numeric x.y.z - strip any prerelease part.
+          MSIVER="${{ needs.version.outputs.version }}"
+          MSIVER="${MSIVER%%-*}"
+          wix build packaging/msi/exepad.wxs \
+            -d ExepadVersion="$MSIVER" -d PayloadDir=dist/msipayload \
+            -o dist/Exepad-Installer-Windows.msi
+
+      # Authenticode-sign the MSI via Azure Trusted Signing (Exepad LLC, US).
+      # Inert until the repo variable EXEPAD_CODESIGN=1 is set alongside:
+      #   secrets: AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET
+      #   vars:    EXEPAD_SIGNING_ENDPOINT (e.g. https://eus.codesigning.azure.net/),
+      #            EXEPAD_SIGNING_ACCOUNT, EXEPAD_SIGNING_PROFILE
+      # Runs BEFORE the smoke so the test installs exactly the bytes we ship.
+      - name: Sign MSI (Azure Trusted Signing)
+        if: ${{ vars.EXEPAD_CODESIGN == '1' }}
+        uses: azure/trusted-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ vars.EXEPAD_SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.EXEPAD_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.EXEPAD_SIGNING_PROFILE }}
+          files: ${{ github.workspace }}\dist\Exepad-Installer-Windows.msi
+          file-digest: SHA256
+          timestamp-digest: SHA256
+
+      - name: Install/uninstall smoke (per-user, silent)
+        shell: pwsh
+        run: ./packaging/msi/smoke.ps1 -MsiPath dist/Exepad-Installer-Windows.msi
+
+      - name: Upload MSI to the release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cd dist
+          sha256sum Exepad-Installer-Windows.msi > Exepad-Installer-Windows.msi.sha256
+          gh release upload "v${{ needs.version.outputs.version }}" \
+            Exepad-Installer-Windows.msi Exepad-Installer-Windows.msi.sha256 \
+            --clobber -R "${{ github.repository }}"

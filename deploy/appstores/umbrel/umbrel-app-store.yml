@@ -1,0 +1,6 @@
+# Umbrel COMMUNITY app store manifest (self-published, added by URL).
+# Users: umbrelOS → App Store → ⋯ → Community App Stores → add this repo's URL.
+# The store id prefixes every app id (exepad-studio → "exepad-exepad-studio"
+# is avoided by keeping the store id short).
+id: exepad
+name: Exepad

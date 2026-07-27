@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Science Fundamentals",
+    "description": "Test your knowledge of basic scientific concepts from physics, chemistry, and biology.",
+    "category": "science",
+    "difficulty": "easy",
+    "time_limit": 30,
+    "question_count": 5,
+    "is_published": 1
+  },
+  {
+    "title": "World History Highlights",
+    "description": "Journey through pivotal moments in world history from ancient civilizations to modern era.",
+    "category": "history",
+    "difficulty": "medium",
+    "time_limit": 30,
+    "question_count": 5,
+    "is_published": 1
+  },
+  {
+    "title": "Geography Challenge",
+    "description": "How well do you know the world? Test your knowledge of countries, capitals, and landmarks.",
+    "category": "geography",
+    "difficulty": "medium",
+    "time_limit": 25,
+    "question_count": 5,
+    "is_published": 1
+  },
+  {
+    "title": "Tech & Computing",
+    "description": "From programming languages to internet history, test your technology knowledge.",
+    "category": "technology",
+    "difficulty": "hard",
+    "time_limit": 35,
+    "question_count": 5,
+    "is_published": 1
+  },
+  {
+    "title": "Entertainment Trivia",
+    "description": "Movies, music, TV shows, and pop culture — how much do you really know?",
+    "category": "entertainment",
+    "difficulty": "easy",
+    "time_limit": 20,
+    "question_count": 5,
+    "is_published": 1
+  },
+  {
+    "title": "Sports Legends",
+    "description": "From the Olympics to the World Cup, test your knowledge of sports history and records.",
+    "category": "sports",
+    "difficulty": "medium",
+    "time_limit": 25,
+    "question_count": 5,
+    "is_published": 1
+  }
+]

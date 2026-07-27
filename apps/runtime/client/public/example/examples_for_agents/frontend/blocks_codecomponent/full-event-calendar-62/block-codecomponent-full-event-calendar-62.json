@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-full-event-calendar",
+  "alias": "codecomponent-full-event-calendar",
+  "name": "Full Event Calendar",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Full-featured event calendar CodeComponent powered by FullCalendar with dayGridPlugin, timeGridPlugin, interactionPlugin, and listPlugin. Features Month, Week, Day, and List views via ButtonGroup, click-to-create events with Dialog (title Input, time Select, category Select), click event for detail Dialog with edit/delete options, drag-to-resize events, Badge for event categories (Meeting=blue, Deadline=red, Social=green, Personal=purple), useAppState for current view and selected date range, and toast on create/update/delete. Starts with 15 demo events across the current month.",
+  "shortSummary": "Full event calendar with FullCalendar, multi-view, drag-resize, create/delete dialogs, and category badges",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "FullEventCalendar": {
+        "source": "frontend/components/FullEventCalendar.tsx",
+        "compiled": "frontend/components/FullEventCalendar.js",
+        "summary": "Full event calendar with FullCalendar plugins, multi-view switching, drag-resize, create/detail dialogs, category badges, and 15 demo events"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eff6ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#eff6ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#bfdbfe",
+        "input": "#bfdbfe",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e3a5f",
+        "input": "#1e3a5f",
+        "ring": "#3b82f6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-calendar",
+        "title": "Calendar",
+        "slug": "/",
+        "summary": "Full event calendar with multi-view, create/detail dialogs, and drag-resize.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "full-event-calendar-1",
+            "component": "FullEventCalendar",
+            "extensions": [
+              "fullcalendar"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Full event calendar with FullCalendar extension",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

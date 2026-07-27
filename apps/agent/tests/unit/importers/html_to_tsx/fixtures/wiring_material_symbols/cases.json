@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {
+      "id": "material_symbol_passthrough",
+      "input_path": "examples/material_symbol_passthrough.html",
+      "expected_tsx_contains": [
+        "<span className=\"material-symbols-outlined\">menu</span>"
+      ],
+      "expected_tsx_absent": [
+        "<Icons.",
+        "Lucide"
+      ]
+    },
+    {
+      "id": "material_symbol_in_button",
+      "input_path": "examples/material_symbol_in_button.html",
+      "expected_tsx_contains": [
+        "<button className=\"icon-btn\">",
+        "<span className=\"material-symbols-outlined\">close</span>",
+        "Close"
+      ]
+    },
+    {
+      "id": "material_symbol_with_inline_style",
+      "input_path": "examples/material_symbol_with_inline_style.html",
+      "expected_tsx_contains": [
+        "className=\"material-symbols-outlined\"",
+        "fontSize: '24px'",
+        ">egg</span>"
+      ]
+    }
+  ]
+}

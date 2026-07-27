@@ -1,0 +1,4 @@
+# Local dev artifacts
+src/handlers/compiled/
+src/handlers/_registry.generated.ts
+.wrangler/

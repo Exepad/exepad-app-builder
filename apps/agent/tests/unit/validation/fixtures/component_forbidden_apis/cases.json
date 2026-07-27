@@ -1,0 +1,137 @@
+{
+  "cases": [
+    {
+      "id": "console_log_at_line_start",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_at_line_start.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_indented_in_arrow_body",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_indented_in_arrow_body.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_contains": ["const onScroll = (e) => {"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_in_jsx_attribute",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_in_jsx_attribute.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_inside_jsx_expression",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_inside_jsx_expression.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_multi_line_args",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_multi_line_args.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_with_template_literal_interpolation",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_with_template_literal_interpolation.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_with_string_containing_paren",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_with_string_containing_paren.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_contains": ["return <h1>hi</h1>;"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_with_escaped_quote_in_string",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_with_escaped_quote_in_string.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_contains": ["return <p>quoted</p>;"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_log_with_nested_function_call",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_with_nested_function_call.tsx",
+      "expected_fix_substrings": ["Stripped console.log()"],
+      "expected_output_contains": ["return <div>{rows.length}</div>;"],
+      "expected_output_absent": ["console.log("]
+    },
+    {
+      "id": "console_warn_error_info_debug_mixed",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_warn_error_info_debug_mixed.tsx",
+      "expected_fix_substrings": [
+        "Stripped console.warn()",
+        "Stripped console.error()",
+        "Stripped console.info()",
+        "Stripped console.debug()"
+      ],
+      "expected_output_absent": [
+        "console.warn(",
+        "console.error(",
+        "console.info(",
+        "console.debug("
+      ]
+    },
+    {
+      "id": "console_log_multiple_collapses_to_count_suffix",
+      "kind": "broken",
+      "tsx_path": "examples/broken_console_log_multiple_collapses_to_count_suffix.tsx",
+      "expected_fix_substrings": [
+        "Stripped console.log() calls (2x)",
+        "Stripped console.warn()"
+      ],
+      "expected_output_absent": ["console.log(", "console.warn("]
+    },
+    {
+      "id": "window_location_href_with_template_string",
+      "kind": "broken",
+      "tsx_path": "examples/broken_window_location_href_with_template_string.tsx",
+      "expected_fix_substrings": ["Rewrote forbidden window.location"],
+      "expected_output_contains": ["navigate(`/users/${userId}`)"],
+      "expected_output_absent": ["window.location.href"]
+    },
+    {
+      "id": "window_location_bare_assignment",
+      "kind": "broken",
+      "tsx_path": "examples/broken_window_location_bare_assignment.tsx",
+      "expected_fix_substrings": ["Rewrote forbidden window.location"],
+      "expected_output_contains": ["navigate('/')"],
+      "expected_output_absent": ["window.location ="]
+    },
+    {
+      "id": "window_location_assign_and_replace_methods",
+      "kind": "broken",
+      "tsx_path": "examples/broken_window_location_assign_and_replace_methods.tsx",
+      "expected_fix_substrings": [
+        "Rewrote forbidden window.location.assign/replace"
+      ],
+      "expected_output_contains": ["navigate('/foo')", "navigate('/bar')"],
+      "expected_output_absent": [
+        "window.location.assign",
+        "window.location.replace"
+      ]
+    },
+    {
+      "id": "correct_window_location_read_only",
+      "kind": "correct",
+      "tsx_path": "examples/correct_window_location_read_only.tsx"
+    },
+    {
+      "id": "correct_logger_log_not_console",
+      "kind": "correct",
+      "tsx_path": "examples/correct_logger_log_not_console.tsx"
+    }
+  ]
+}

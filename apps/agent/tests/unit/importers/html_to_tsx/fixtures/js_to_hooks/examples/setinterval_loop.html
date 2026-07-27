@@ -1,0 +1,7 @@
+<div id="clock">--:--</div>
+<script>
+const tick = setInterval(() => {
+  const el = document.getElementById('clock');
+  if (el) el.textContent = new Date().toLocaleTimeString();
+}, 1000);
+</script>

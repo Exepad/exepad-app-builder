@@ -1,0 +1,130 @@
+/* Shared Tailwind v4 Theme Configuration for Exepad Monorepo */
+
+@theme {
+  /* ===== MAX-WIDTH ===== */
+  --max-width-boxed: 1200px;
+  --max-width-wide: 1600px;
+  --max-width-narrow: 800px;
+  --max-width-container: var(--container-width, 1200px);
+
+  /* ===== PADDING ===== */
+  --padding-container: var(--content-padding, 2rem);
+
+  /* ===== FONT SIZE ===== */
+  --font-size-xs: var(--font-size-xs, 0.75rem);
+  --font-size-xs--line-height: 1rem;
+  --font-size-sm: var(--font-size-sm, 0.875rem);
+  --font-size-sm--line-height: 1.25rem;
+  --font-size-base: var(--font-size-base, 1rem);
+  --font-size-base--line-height: 1.5rem;
+  --font-size-lg: var(--font-size-lg, 1.125rem);
+  --font-size-lg--line-height: 1.75rem;
+  --font-size-xl: var(--font-size-xl, 1.25rem);
+  --font-size-xl--line-height: 1.75rem;
+  --font-size-2xl: var(--font-size-2xl, 1.5rem);
+  --font-size-2xl--line-height: 2rem;
+  --font-size-3xl: var(--font-size-3xl, 1.875rem);
+  --font-size-3xl--line-height: 2.25rem;
+  --font-size-4xl: var(--font-size-4xl, 2.25rem);
+  --font-size-4xl--line-height: 2.5rem;
+  --font-size-5xl: var(--font-size-5xl, 3rem);
+  --font-size-5xl--line-height: 1;
+  --font-size-6xl: var(--font-size-6xl, 3.75rem);
+  --font-size-6xl--line-height: 1;
+  --font-size-7xl: var(--font-size-7xl, 4.5rem);
+  --font-size-7xl--line-height: 1;
+  --font-size-8xl: var(--font-size-8xl, 6rem);
+  --font-size-8xl--line-height: 1;
+  --font-size-9xl: var(--font-size-9xl, 8rem);
+  --font-size-9xl--line-height: 1;
+
+  /* ===== FONT FAMILY ===== */
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-heading: var(--font-heading), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* ===== BOX SHADOW ===== */
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-inner: var(--shadow-inner);
+
+  /* ===== TRANSITION ===== */
+  --transition-duration: var(--transition-duration);
+  --transition-timing-function: var(--transition-timing-function);
+
+  /* ===== COLORS ===== */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  /* ===== CHART COLORS ===== */
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* ===== ANIMATIONS ===== */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+/* ===== KEYFRAMES ===== */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+

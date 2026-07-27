@@ -1,0 +1,60 @@
+{
+  "cases": [
+    {
+      "id": "font_700_rewritten_to_bold",
+      "kind": "broken",
+      "tsx_path": "examples/broken_font_700.tsx",
+      "expected_fix_substrings": [
+        "font-700 → font-bold"
+      ],
+      "expected_output_contains": ["font-bold"],
+      "expected_output_absent": ["font-700"]
+    },
+    {
+      "id": "font_800_rewritten_to_extrabold",
+      "kind": "broken",
+      "tsx_path": "examples/broken_font_800.tsx",
+      "expected_fix_substrings": [
+        "font-800 → font-extrabold"
+      ],
+      "expected_output_contains": ["font-extrabold"],
+      "expected_output_absent": ["font-800"]
+    },
+    {
+      "id": "mixed_700_and_800_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_font_mixed.tsx",
+      "expected_fix_substrings": [
+        "font-700 → font-bold",
+        "font-800 → font-extrabold"
+      ],
+      "expected_output_contains": ["font-bold", "font-extrabold"],
+      "expected_output_absent": ["font-700", "font-800"]
+    },
+    {
+      "id": "template_literal_classname_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_font_template_literal.tsx",
+      "expected_fix_substrings": [
+        "font-700 → font-bold"
+      ],
+      "expected_output_contains": ["font-bold"],
+      "expected_output_absent": ["font-700"]
+    },
+    {
+      "id": "named_font_bold_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_named_font_bold.tsx"
+    },
+    {
+      "id": "arbitrary_font_700_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_arbitrary_font_700.tsx"
+    },
+    {
+      "id": "font_700_in_dynamic_template_left_alone",
+      "kind": "correct",
+      "tsx_path": "examples/correct_font_dynamic_template.tsx"
+    }
+  ]
+}

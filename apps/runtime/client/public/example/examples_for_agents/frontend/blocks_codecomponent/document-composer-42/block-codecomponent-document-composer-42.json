@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-document-composer",
+  "alias": "codecomponent-document-composer",
+  "name": "Document Composer",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Document composer CodeComponent powered by Slate.js editor with custom element types (paragraph, heading, blockquote, code-block) and custom leaf rendering (bold, italic, underline). Block type Select dropdown for changing element types. Formatting buttons for bold, italic, and underline marks. Side panel Sheet for auto-generated document outline from headings. File upload button for inline images using useFileUpload. Autosave indicator with animated Progress bar. useAppState persists the document as JSON. useTheme for editor background styling. Uses Slate.Slate, Slate.Editable, Slate.withReact, Slate.createEditor, Slate.Editor, Slate.Transforms, Popover, Sheet, Select, Card, Button, Progress, and Icons from the SDK.",
+  "shortSummary": "Slate.js document composer with block types, formatting marks, outline panel, and autosave progress",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DocumentComposer": {
+        "source": "frontend/components/DocumentComposer.tsx",
+        "compiled": "frontend/components/DocumentComposer.js",
+        "summary": "Slate.js document editor with custom blocks, text formatting, outline sheet, file upload, and autosave progress indicator"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#4c0519",
+        "primary": "#e11d48",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fff1f2",
+        "secondary-foreground": "#4c0519",
+        "muted": "#ffe4e6",
+        "muted-foreground": "#6b7280",
+        "accent": "#fecdd3",
+        "accent-foreground": "#4c0519",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#fda4af",
+        "input": "#fda4af",
+        "ring": "#e11d48"
+      },
+      "dark": {
+        "background": "#4c0519",
+        "foreground": "#fff1f2",
+        "primary": "#fb7185",
+        "primary-foreground": "#4c0519",
+        "secondary": "#881337",
+        "secondary-foreground": "#fff1f2",
+        "muted": "#881337",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#881337",
+        "accent-foreground": "#fff1f2",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fff1f2",
+        "border": "#9f1239",
+        "input": "#9f1239",
+        "ring": "#f43f5e"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-composer",
+        "title": "Composer",
+        "slug": "/",
+        "summary": "Document composer with Slate.js editor, block types, formatting, and autosave.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "document-composer-1",
+            "component": "DocumentComposer",
+            "classes": "w-full",
+            "extensions": [
+              "slate"
+            ]
+          }
+        ],
+        "shortSummary": "Slate.js document composer with outline and autosave",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

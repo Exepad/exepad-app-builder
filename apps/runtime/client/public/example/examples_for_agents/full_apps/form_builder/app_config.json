@@ -1,0 +1,389 @@
+{
+  "uuid": "form-builder",
+  "alias": "form-builder",
+  "name": "FormFlow",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Form submission and management application with contact, registration, and feedback forms, submission tracking, filtering, and status management",
+  "shortSummary": "Form builder with submissions, templates, and management",
+  "lastUpdatedEpoch": 1742515200,
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "repo": {
+    "frontend": {
+      "components": {
+        "FormHeader": {
+          "source": "frontend/code/components/FormHeader.tsx",
+          "compiled": "frontend/compiled/components/FormHeader.js",
+          "summary": "Top header bar with FormFlow logo (FileText icon), app name, green accent, user avatar area"
+        },
+        "FormSidebar": {
+          "source": "frontend/code/components/FormSidebar.tsx",
+          "compiled": "frontend/compiled/components/FormSidebar.js",
+          "summary": "Left sidebar with nav: Dashboard, Contact Form, Registration, Feedback, Submissions. Active state highlighting with icons"
+        },
+        "FormHome": {
+          "source": "frontend/code/components/FormHome.tsx",
+          "compiled": "frontend/compiled/components/FormHome.js",
+          "summary": "Dashboard with submission stats cards (Total, Pending, Reviewed, Today), recent submissions table, quick action buttons"
+        },
+        "ContactForm": {
+          "source": "frontend/code/components/ContactForm.tsx",
+          "compiled": "frontend/compiled/components/ContactForm.js",
+          "summary": "Contact form with Full Name, Email, Phone, Subject select, Message textarea, Priority select, validation and submit"
+        },
+        "RegistrationForm": {
+          "source": "frontend/code/components/RegistrationForm.tsx",
+          "compiled": "frontend/compiled/components/RegistrationForm.js",
+          "summary": "Event registration form with name fields, email, company, job title, dietary preferences, t-shirt size, session preferences"
+        },
+        "FeedbackForm": {
+          "source": "frontend/code/components/FeedbackForm.tsx",
+          "compiled": "frontend/compiled/components/FeedbackForm.js",
+          "summary": "Feedback form with star rating, category select, like/improve textareas, recommend yes/no buttons, submit"
+        },
+        "SubmissionsList": {
+          "source": "frontend/code/components/SubmissionsList.tsx",
+          "compiled": "frontend/compiled/components/SubmissionsList.js",
+          "summary": "Submissions table with ID, type badge, submitted by, date, status badge, actions. Filter bar with type/status/search. Pagination"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with avatar, form management stats, performance metrics, and recent activity feed"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font family, form card transitions, star rating styles, status badge animations, submission row hover"
+        }
+      }
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "submissions": {
+        "source": "repo/seed/submissions.json",
+        "format": "json",
+        "model": "submissions",
+        "source_hash": "sha256:3e211da3f7f9e91dc2f220928ac3e49941764f39df4be4d87b5708917dbfa839"
+      },
+      "form_templates": {
+        "source": "repo/seed/form_templates.json",
+        "format": "json",
+        "model": "form_templates",
+        "source_hash": "sha256:0fe348cf71b9679f346f131efbfc59e132157e1b9067d1f72d7271951b509110"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-submissions",
+        "name": "submissions",
+        "summary": "Form submissions from all form types",
+        "ownerScope": "user",
+        "columns": [
+          {
+            "name": "form_type",
+            "type": "text",
+            "summary": "Type of form: contact, registration, or feedback"
+          },
+          {
+            "name": "data",
+            "type": "text",
+            "summary": "JSON string containing the form field values"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Submission status: pending, reviewed, or archived",
+            "defaultValue": "pending"
+          },
+          {
+            "name": "submitted_by",
+            "type": "text",
+            "summary": "Email or name of the person who submitted the form"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Admin notes about the submission",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_submissions_form_type",
+            "columns": [
+              "form_type"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_submissions_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-form-templates",
+        "name": "form_templates",
+        "summary": "Reusable form template definitions with field configurations",
+        "ownerScope": "shared",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Template name, e.g. Contact Form, Registration Form"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Description of the form template purpose"
+          },
+          {
+            "name": "fields",
+            "type": "text",
+            "summary": "JSON string defining the form fields and their types"
+          },
+          {
+            "name": "is_active",
+            "type": "integer",
+            "summary": "Whether the template is active (1) or disabled (0)",
+            "defaultValue": "1"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Template category: contact, registration, feedback, survey"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_form_templates_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          }
+        ],
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": []
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#022c22",
+        "primary": "#047857",
+        "primary-foreground": "#ffffff",
+        "secondary": "#ecfdf5",
+        "secondary-foreground": "#022c22",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#d1fae5",
+        "accent-foreground": "#022c22",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#10b981"
+      },
+      "dark": {
+        "background": "#022c22",
+        "foreground": "#ecfdf5",
+        "primary": "#34d399",
+        "primary-foreground": "#022c22",
+        "secondary": "#064e3b",
+        "secondary-foreground": "#ecfdf5",
+        "muted": "#064e3b",
+        "muted-foreground": "#6ee7b7",
+        "accent": "#064e3b",
+        "accent-foreground": "#ecfdf5",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#065f46",
+        "input": "#065f46",
+        "ring": "#34d399"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "selectedFormType": "all",
+        "submissionFilter": "all"
+      }
+    },
+    "header": [
+      {
+        "uuid": "header-1",
+        "componentType": "CodeComponentProps",
+        "component": "FormHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sidebar-1",
+        "componentType": "CodeComponentProps",
+        "component": "FormSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-dashboard",
+        "pageType": "WebPageProps",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Main dashboard with submission stats cards, recent submissions table, and quick action buttons",
+        "content": [
+          {
+            "uuid": "c-dashboard",
+            "componentType": "CodeComponentProps",
+            "component": "FormHome"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-contact-form",
+        "pageType": "WebPageProps",
+        "title": "Contact Form",
+        "slug": "/contact-form",
+        "summary": "Contact form with name, email, phone, subject, message, and priority fields",
+        "content": [
+          {
+            "uuid": "c-contact-form",
+            "componentType": "CodeComponentProps",
+            "component": "ContactForm"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-registration",
+        "pageType": "WebPageProps",
+        "title": "Registration",
+        "slug": "/registration",
+        "summary": "Event registration form with personal info, company, dietary preferences, and session selections",
+        "content": [
+          {
+            "uuid": "c-registration",
+            "componentType": "CodeComponentProps",
+            "component": "RegistrationForm"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-feedback",
+        "pageType": "WebPageProps",
+        "title": "Feedback",
+        "slug": "/feedback",
+        "summary": "Feedback form with star rating, category, like/improve textareas, and recommendation",
+        "content": [
+          {
+            "uuid": "c-feedback",
+            "componentType": "CodeComponentProps",
+            "component": "FeedbackForm"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-submissions",
+        "pageType": "WebPageProps",
+        "title": "Submissions",
+        "slug": "/submissions",
+        "summary": "All submissions table with type/status filters, search, pagination, and row actions",
+        "content": [
+          {
+            "uuid": "c-submissions",
+            "componentType": "CodeComponentProps",
+            "component": "SubmissionsList"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with form management stats and recent activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  }
+}

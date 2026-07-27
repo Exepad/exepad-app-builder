@@ -1,0 +1,51 @@
+/* ==========================================================================
+   PulseCheck — Code Focus Theme
+   Survey app: card transitions, progress bars, star ratings for Shadow DOM
+   ========================================================================== */
+
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.survey-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.survey-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  transition: width 0.4s ease;
+}
+
+.star-rating {
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.kpi-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.nav-item {
+  transition: all 0.15s ease;
+}
+
+.response-row {
+  transition: background-color 0.1s ease;
+}
+
+.response-row:hover {
+  background-color: rgba(225, 29, 72, 0.04);
+}

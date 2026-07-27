@@ -1,0 +1,19 @@
+[run]
+source = main_agent
+omit =
+    */schemas/examples/*
+    */schemas/finetuning/*
+    */__pycache__/*
+    */tests/*
+
+[report]
+fail_under = 50
+show_missing = true
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__
+    raise NotImplementedError
+    pass
+
+[html]
+directory = htmlcov

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | The Golden Hive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f1f4fa",
+                        "on-primary-fixed": "#2a1800",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#643f00",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-container-high": "#e5e8ee",
+                        "secondary-fixed-dim": "#88d982",
+                        "on-surface": "#181c20",
+                        "tertiary-fixed": "#ffe087",
+                        "inverse-primary": "#ffb957",
+                        "outline-variant": "#d7c3ae",
+                        "primary": "#835400",
+                        "on-primary-container": "#674100",
+                        "on-secondary-fixed": "#002204",
+                        "secondary": "#1b6d24",
+                        "surface-tint": "#835400",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ebc23e",
+                        "surface-dim": "#d7dae0",
+                        "secondary-container": "#a0f399",
+                        "on-secondary-fixed-variant": "#005312",
+                        "error": "#ba1a1a",
+                        "surface": "#f7f9ff",
+                        "tertiary": "#735c00",
+                        "surface-container": "#ebeef4",
+                        "surface-container-highest": "#dfe3e8",
+                        "tertiary-container": "#dcb530",
+                        "surface-variant": "#dfe3e8",
+                        "on-background": "#181c20",
+                        "inverse-surface": "#2d3135",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#ffddb5",
+                        "on-tertiary-container": "#5a4700",
+                        "secondary-fixed": "#a3f69c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eef1f7",
+                        "surface-bright": "#f7f9ff",
+                        "primary-fixed-dim": "#ffb957",
+                        "primary-container": "#f9a825",
+                        "background": "#f7f9ff",
+                        "outline": "#857462",
+                        "on-secondary-container": "#217128",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#524434"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5z' fill='%23ffddb5' fill-opacity='0.05'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 dark:bg-slate-950 flex flex-col h-full py-8 px-4 gap-2 border-r border-slate-100 dark:border-slate-900 z-50">
+<div class="px-4 mb-10">
+<h1 class="font-manrope font-black text-amber-700 dark:text-amber-500 text-2xl tracking-tight">The Living Ledger</h1>
+<p class="text-xs font-inter font-medium tracking-wide text-slate-500 mt-1 uppercase">Hive Alpha Status: Thriving</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">dashboard</span> Overview
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">grid_view</span> Hives
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">water_drop</span> Honey Production
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">bug_report</span> Pest Control
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-amber-800 dark:text-amber-200 font-bold border-r-4 border-amber-600 dark:border-amber-400 bg-amber-50/50 dark:bg-amber-900/20 font-inter text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span> Settings
+            </a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">help</span> Help Center
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all font-inter text-sm font-medium tracking-wide text-error" href="#">
+<span class="material-symbols-outlined">logout</span> Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-64 min-h-screen relative flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-40 bg-slate-50/70 dark:bg-slate-900/70 backdrop-blur-md shadow-sm dark:shadow-none flex justify-between items-center px-6 py-3 w-full border-b border-slate-200/50 dark:border-slate-800/50">
+<div class="flex items-center gap-4">
+<span class="lg:hidden material-symbols-outlined text-on-surface-variant">menu</span>
+<h2 class="font-manrope font-bold text-lg text-amber-700 dark:text-amber-500">Settings</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-highest border-none rounded-full text-sm focus:ring-2 focus:ring-primary/20 w-64 transition-all" placeholder="Search settings..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">history</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-fixed overflow-hidden ml-2">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Portrait of a professional master apiarist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTYXaJmD7O-QWPtdYHnHNdlVDBNcidRgbsKLHzJp6EymuWNP-UXv5Jsy8S1aufSY4VqrFfdaP3J340xNjQCq2Aa_g-iHknoIy0y4iQWg-agAeAN7pUVtfVs-sMPi1-45XY5UvfoCx3DbsLgNG1OnDILp2_rQqmqLhbQ4Ks8kEB4_4EF-gE_idryoT7B9pojw53jgv_LBgcqg5buH4dkoeL5ZejJDw26Z78yb8AC3U42ocHtzB3n4hF7GstVuI04puD4AEMgwhPUIe_"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Settings Content -->
+<div class="flex-1 p-6 lg:p-10 space-y-10 max-w-6xl mx-auto w-full hex-bg">
+<!-- Hero Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<span class="text-xs font-bold tracking-widest text-primary uppercase font-label">Configuration Shell</span>
+<h3 class="font-manrope font-extrabold text-4xl text-on-surface tracking-tight">The Living Ledger Control</h3>
+<p class="text-on-surface-variant max-w-xl">Manage your apiary identity, sensor synchronization, and hive health thresholds from this centralized ledger.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-lg border border-outline-variant/30 text-on-surface-variant font-semibold text-sm hover:bg-surface-container-low transition-colors">Discard Changes</button>
+<button class="px-6 py-2.5 rounded-lg bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm shadow-lg shadow-primary/10 active:scale-95 transition-all">Save Ledger</button>
+</div>
+</div>
+<!-- Settings Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+<!-- Left Column: User & Apiary -->
+<div class="xl:col-span-8 space-y-8">
+<!-- Section 1: User Profile -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm ring-1 ring-slate-100/50">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h4 class="font-manrope font-bold text-xl">Master Apiarist Profile</h4>
+<p class="text-sm text-on-surface-variant">Update your professional credentials and public display</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-label">Full Name</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all" type="text" value="Alistair Thorne"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-label">Certification ID</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all" type="text" value="GOLD-88291-UK"/>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-label">Email Address</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all" type="email" value="thorne.a@goldenhive.com"/>
+</div>
+</div>
+</section>
+<!-- Section 2: Apiary Settings -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm ring-1 ring-slate-100/50">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">potted_plant</span>
+</div>
+<div>
+<h4 class="font-manrope font-bold text-xl">Apiary Configuration</h4>
+<p class="text-sm text-on-surface-variant">Define regional parameters and hive scale</p>
+</div>
+</div>
+<div class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-label">Primary Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">location_on</span>
+<input class="w-full bg-surface-container-highest border-none rounded-lg pl-10 pr-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all" type="text" value="Cotswolds, UK"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-label">Active Hives</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all" type="number" value="12"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider font-label">Flora Type</label>
+<select class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all">
+<option>Mixed Wildflower</option>
+<option>Lavender</option>
+<option>Heather</option>
+<option>Clover</option>
+</select>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/10">
+<h5 class="font-manrope font-bold text-sm mb-4">Health Notification Thresholds</h5>
+<div class="space-y-6">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<p class="font-semibold text-sm">Critical Temperature Alert</p>
+<p class="text-xs text-on-surface-variant">Trigger alert if hive temperature deviates by more than 5°C</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-mono font-bold text-primary bg-primary-fixed/30 px-2 py-1 rounded">35°C Target</span>
+<input class="accent-primary w-24" type="range"/>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<p class="font-semibold text-sm">Weight Loss Warning</p>
+<p class="text-xs text-on-surface-variant">Detect sudden drops indicative of potential swarming</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Integrations & Support -->
+<div class="xl:col-span-4 space-y-8">
+<!-- Section 3: Data Integration -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm ring-1 ring-slate-100/50">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined">sync</span>
+</div>
+<h4 class="font-manrope font-bold text-lg">Sensor Network</h4>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-low rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<div>
+<p class="text-sm font-bold">BeeLink Hub v2</p>
+<p class="text-[10px] text-on-surface-variant">Last sync: 2 mins ago</p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-tighter bg-secondary-fixed/30 px-2 py-0.5 rounded">Active</span>
+</div>
+<button class="w-full py-3 text-sm font-bold text-primary border border-primary/20 rounded-lg flex items-center justify-center gap-2 hover:bg-primary-fixed/20 transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+                                Add New Sensor
+                            </button>
+<div class="pt-4 mt-4 border-t border-outline-variant/10">
+<button class="w-full py-3 text-sm font-semibold text-on-surface-variant hover:text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">download</span>
+                                    Export CSV Activity Logs
+                                </button>
+<button class="w-full py-3 text-sm font-semibold text-on-surface-variant hover:text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">api</span>
+                                    Manage API Keys
+                                </button>
+</div>
+</div>
+</section>
+<!-- Section 4: Help & Support -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm ring-1 ring-slate-100/50">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">contact_support</span>
+</div>
+<h4 class="font-manrope font-bold text-lg">Hive Assistance</h4>
+</div>
+<div class="space-y-2">
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<span class="text-sm font-medium">Documentation &amp; Guides</span>
+<span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<span class="text-sm font-medium">Community Forum</span>
+<span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<span class="text-sm font-medium">Technical Support</span>
+<span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>
+</a>
+<div class="mt-6 p-4 bg-primary-fixed/10 rounded-xl border-l-4 border-primary">
+<p class="text-xs font-bold text-on-primary-fixed-variant mb-1">PRO TIP</p>
+<p class="text-[11px] leading-relaxed text-on-primary-fixed-variant">Regularly export your hive logs to maintain a physical backup of your production history.</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest flex justify-around items-center py-3 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Hives</span>
+</a>
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center -mt-8 shadow-lg shadow-primary/30 text-on-primary">
+<span class="material-symbols-outlined">add</span>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Stats</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-amber-700" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Config</span>
+</a>
+</nav>
+</main>
+</body></html>

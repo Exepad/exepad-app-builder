@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-barcode-inventory",
+  "alias": "codecomponent-barcode-inventory",
+  "name": "Barcode Inventory Manager",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Barcode inventory manager CodeComponent powered by barcode extension. Features table of inventory items with inline SVG barcodes rendered via JsBarcode. Format selector supporting CODE128, EAN13, UPC, CODE39. Add new item form with name, SKU, price, quantity fields. Each item displays its barcode below the SKU. Print layout button triggers window.print. useAppState persists inventory items and barcode format. toast notifications on add, remove, and print. Demo pre-loaded with 6 inventory items including Wireless Mouse, USB-C Hub, Mechanical Keyboard, Monitor Stand, Webcam HD, and Desk Lamp LED.",
+  "shortSummary": "Barcode inventory table with inline barcodes, add form, format selector, and print layout",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "BarcodeInventory": {
+        "source": "frontend/components/BarcodeInventory.tsx",
+        "compiled": "frontend/components/BarcodeInventory.js",
+        "summary": "Inventory table with inline barcodes, add/remove items, format selector, print support, and persistent state"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#fafafa",
+        "foreground": "#171717",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eff6ff",
+        "secondary-foreground": "#171717",
+        "muted": "#eff6ff",
+        "muted-foreground": "#737373",
+        "accent": "#dbeafe",
+        "accent-foreground": "#171717",
+        "destructive": "#dc2626",
+        "destructive-foreground": "#ffffff",
+        "border": "#93c5fd",
+        "input": "#93c5fd",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0a0a0a",
+        "foreground": "#fafafa",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0a0a0a",
+        "secondary": "#1e3a5f",
+        "secondary-foreground": "#fafafa",
+        "muted": "#1e3a5f",
+        "muted-foreground": "#93c5fd",
+        "accent": "#1e3a5f",
+        "accent-foreground": "#fafafa",
+        "destructive": "#991b1b",
+        "destructive-foreground": "#fafafa",
+        "border": "#1e40af",
+        "input": "#1e40af",
+        "ring": "#3b82f6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-inventory",
+        "title": "Inventory",
+        "slug": "/",
+        "summary": "Barcode inventory manager with inline barcodes and item management.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "barcode-inventory-1",
+            "component": "BarcodeInventory",
+            "extensions": [
+              "barcode"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Inventory table with barcodes and management",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

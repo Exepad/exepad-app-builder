@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "id": "semantic_palette_aware_primary_pair",
+      "kind": "semantic",
+      "description": "text-on-primary should respect the resolved theme palette instead of assuming white text.",
+      "tags": ["smoke", "building"],
+      "input": {
+        "tsx": "import { LightDOMContainer } from \"@exepad/sdk\";\nexport default function Hero() {\n  return (\n    <LightDOMContainer>\n      <section className=\"bg-primary text-on-primary\">\n        <h1>Launch faster</h1>\n      </section>\n    </LightDOMContainer>\n  );\n}\n",
+        "models": [],
+        "logic": {},
+        "page_slugs": ["/"],
+        "expected_component_name": "Hero",
+        "theme_palette": {
+          "primary": "#0ea5e9",
+          "on-primary": "#1c1b1f",
+          "surface": "#ffffff",
+          "on-surface": "#1c1b1f",
+          "surface-variant": "#f8fafc",
+          "on-surface-variant": "#475569"
+        }
+      },
+      "expect": {
+        "valid": true,
+        "required_warning_substrings": [],
+        "forbidden_warning_substrings": [
+          "Low measured contrast",
+          "Prefer text-on-primary"
+        ],
+        "required_error_substrings": []
+      }
+    },
+    {
+      "id": "semantic_forbidden_document_api",
+      "kind": "semantic",
+      "description": "Direct document access remains a hard semantic blocker.",
+      "tags": ["smoke", "building"],
+      "input": {
+        "tsx": "export default function BrokenCard() {\n  document.querySelector(\".hero\");\n  return <div>Broken</div>;\n}\n",
+        "models": [],
+        "logic": {},
+        "page_slugs": ["/"],
+        "expected_component_name": "BrokenCard"
+      },
+      "expect": {
+        "valid": false,
+        "required_error_substrings": ["Direct document access"]
+      }
+    },
+    {
+      "id": "semantic_static_src_in_map_warns",
+      "kind": "semantic",
+      "description": "Phase 3: static_src_in_map is now a warning (visible-but-broken — every row renders same asset).",
+      "tags": ["building", "nightly"],
+      "input": {
+        "tsx": "export default function TeamGrid() {\n  const team = [{ name: \"Ada\" }, { name: \"Linus\" }];\n  return (\n    <div>\n      {team.map((member) => (\n        <div key={member.name}>\n          <img src=\"/images/team.jpg\" alt={member.name} />\n        </div>\n      ))}\n    </div>\n  );\n}\n",
+        "models": [],
+        "logic": {},
+        "page_slugs": ["/"],
+        "expected_component_name": "TeamGrid"
+      },
+      "expect": {
+        "valid": true,
+        "required_warning_substrings": ["string-literal src inside .map()"]
+      }
+    },
+    {
+      "id": "pipeline_compile_succeeds_minimal",
+      "kind": "pipeline",
+      "description": "Final Tailwind compile gate runs deterministically on a minimal valid theme.css + a single component. Replaces the deleted multi-stage validate_pipeline replay cases.",
+      "tags": ["smoke", "building"],
+      "input": {
+        "base_css": "@import \"tailwindcss\";\n@source \"./components\";\n:root { --background: 0 0% 100%; --foreground: 0 0% 0%; --primary: 214 100% 50%; --primary-foreground: 0 0% 100%; --secondary: 0 0% 96%; --secondary-foreground: 0 0% 9%; --destructive: 0 84% 60%; --destructive-foreground: 0 0% 98%; --muted: 0 0% 96%; --muted-foreground: 0 0% 45%; --accent: 0 0% 96%; --accent-foreground: 0 0% 9%; --card: 0 0% 100%; --card-foreground: 0 0% 0%; --popover: 0 0% 100%; --popover-foreground: 0 0% 0%; --border: 0 0% 90%; --input: 0 0% 90%; --ring: 214 100% 50%; --radius: 0.5rem; }\n@layer exepad-app {\n  :root { --color-primary: hsl(214 100% 50%); }\n}\n",
+        "tsx_sources": {
+          "Hero": "export default function Hero() { return <div className=\"bg-primary p-4\">Hi</div>; }\n"
+        }
+      },
+      "expect": {
+        "status": "success",
+        "compile_succeeds": true
+      }
+    }
+  ]
+}

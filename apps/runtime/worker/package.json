@@ -1,0 +1,32 @@
+{
+  "name": "@exepad/runtime-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server/main.ts",
+    "build": "node build-server.mjs",
+    "build:server": "node build-server.mjs",
+    "start": "node dist/server.mjs",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@exepad/deploy-utils": "workspace:*",
+    "@exepad/local-adapters": "workspace:*",
+    "@exepad/types": "workspace:*",
+    "@exepad/app-backend": "workspace:*",
+    "@hono/node-server": "^1.13.7",
+    "fflate": "^0.8.2",
+    "hono": "^4.12.25",
+    "node-sql-parser": "^5.4.0",
+    "playwright-core": "^1.58.2",
+    "undici": "^6.21.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250109.0",
+    "@types/node": "^24.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "~5.9.3"
+  },
+  "license": "AGPL-3.0-only"
+}

@@ -1,0 +1,61 @@
+{
+  "name": "@exepad/deploy-utils",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "import": "./dist/schema/index.js"
+    },
+    "./bundle": {
+      "types": "./dist/bundle/index.d.ts",
+      "import": "./dist/bundle/index.js"
+    },
+    "./bundle/config": {
+      "types": "./dist/bundle/config.d.ts",
+      "import": "./dist/bundle/config.js"
+    },
+    "./bundle/types": {
+      "types": "./dist/bundle/types.d.ts",
+      "import": "./dist/bundle/types.js"
+    },
+    "./seed": {
+      "types": "./dist/seed/index.d.ts",
+      "import": "./dist/seed/index.js"
+    },
+    "./deploy": {
+      "types": "./dist/deploy/index.d.ts",
+      "import": "./dist/deploy/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@exepad/local-adapters": "workspace:*",
+    "@exepad/types": "workspace:*",
+    "better-sqlite3": "^11.8.1",
+    "csv-parse": "^5.5.6",
+    "esbuild": "^0.27.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250109.0",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^24.10.1",
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.4"
+  },
+  "license": "AGPL-3.0-only"
+}

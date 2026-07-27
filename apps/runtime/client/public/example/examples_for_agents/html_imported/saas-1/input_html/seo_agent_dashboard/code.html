@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KINETIC SEO | Command Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-dim": "#f271b5",
+                        "on-tertiary-fixed-variant": "#73004b",
+                        "error-dim": "#d73357",
+                        "tertiary-fixed": "#ff8bc5",
+                        "primary-fixed-dim": "#b971ff",
+                        "tertiary-container": "#f673b7",
+                        "on-primary": "#47007c",
+                        "surface-dim": "#0e0e0e",
+                        "on-secondary-fixed": "#003a43",
+                        "surface-variant": "#262626",
+                        "on-tertiary-container": "#4a002f",
+                        "secondary-container": "#006877",
+                        "on-tertiary": "#5f003e",
+                        "on-primary-container": "#360061",
+                        "on-error-container": "#ffb2b9",
+                        "surface-tint": "#cc97ff",
+                        "background": "#0e0e0e",
+                        "primary-fixed": "#c284ff",
+                        "surface-container-high": "#201f1f",
+                        "on-secondary-fixed-variant": "#005966",
+                        "tertiary": "#ff86c3",
+                        "primary": "#cc97ff",
+                        "surface-bright": "#2c2c2c",
+                        "inverse-on-surface": "#565554",
+                        "surface-container": "#1a1919",
+                        "surface": "#0e0e0e",
+                        "primary-dim": "#9c48ea",
+                        "on-tertiary-fixed": "#360021",
+                        "outline": "#777575",
+                        "surface-container-low": "#131313",
+                        "error-container": "#a70138",
+                        "on-secondary": "#004b56",
+                        "on-error": "#490013",
+                        "secondary-fixed": "#48e4ff",
+                        "on-surface": "#ffffff",
+                        "outline-variant": "#484847",
+                        "on-primary-fixed": "#000000",
+                        "secondary-fixed-dim": "#29d6f1",
+                        "inverse-primary": "#842cd3",
+                        "inverse-surface": "#fcf8f8",
+                        "on-primary-fixed-variant": "#430076",
+                        "on-background": "#ffffff",
+                        "tertiary-fixed-dim": "#f976ba",
+                        "primary-container": "#c284ff",
+                        "surface-container-highest": "#262626",
+                        "surface-container-lowest": "#000000",
+                        "secondary-dim": "#1ad0eb",
+                        "error": "#ff6e84",
+                        "on-surface-variant": "#adaaaa",
+                        "on-secondary-container": "#eafbff",
+                        "secondary": "#3adffa"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(26, 25, 25, 0.9);
+            backdrop-filter: blur(16px);
+            position: relative;
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(204, 151, 255, 0.4) 0%, transparent 40%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .ambient-glow {
+            box-shadow: 0 0 60px 0 rgba(204, 151, 255, 0.08);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-dim selection:text-white">
+<!-- Sidebar Navigation -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-[#131313] flex flex-col p-6 space-y-8 z-40">
+<div class="mb-4">
+<span class="font-headline font-bold text-primary tracking-tight text-xl">KINETIC</span>
+</div>
+<div class="flex flex-col space-y-4">
+<div class="flex flex-col space-y-1">
+<span class="text-white font-headline font-bold text-sm tracking-tight">Project Alpha</span>
+<span class="text-on-surface-variant text-xs">SEO Command Center</span>
+</div>
+<button class="w-full py-2.5 px-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary-fixed font-semibold text-sm rounded-lg transition-transform active:scale-95">
+                New Audit
+            </button>
+</div>
+<div class="flex-1 space-y-2">
+<!-- Active State: Overview -->
+<a class="flex items-center space-x-3 p-3 bg-[#1a1919] text-primary rounded-lg shadow-[0_0_15px_rgba(204,151,255,0.1)] font-medium text-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center space-x-3 p-3 text-on-surface-variant hover:text-white hover:bg-[#1a1919] rounded-lg font-medium text-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="key">key</span>
+<span>Keywords</span>
+</a>
+<a class="flex items-center space-x-3 p-3 text-on-surface-variant hover:text-white hover:bg-[#1a1919] rounded-lg font-medium text-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="link">link</span>
+<span>Backlinks</span>
+</a>
+<a class="flex items-center space-x-3 p-3 text-on-surface-variant hover:text-white hover:bg-[#1a1919] rounded-lg font-medium text-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Competitors</span>
+</a>
+<a class="flex items-center space-x-3 p-3 text-on-surface-variant hover:text-white hover:bg-[#1a1919] rounded-lg font-medium text-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<div class="pt-6 border-t border-white/5 space-y-2">
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-secondary text-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-secondary text-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+<span>Documentation</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen p-10 bg-surface">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-12">
+<div>
+<h1 class="font-headline text-4xl font-extrabold text-on-surface tracking-tighter mb-2">Command Center</h1>
+<p class="text-on-surface-variant font-medium">Monitoring <span class="text-secondary">project-alpha.kinetic.io</span> in real-time.</p>
+</div>
+<div class="flex items-center space-x-4">
+<div class="flex -space-x-2">
+<img class="w-10 h-10 rounded-full border-2 border-surface" data-alt="User avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcdWDhUzkq5Ak4j1yLUjYX0-VaDjUaPJtPyTYz6Se0dekRBQJQa6SID2M3YTBys48xLEBDCZgXLp92_XBv7mEgCAeilhmxJY3w2ni5xPOaIEklzYae4nqQ3zOL1IQpyLlnjVFkhPwtZLEbxQUrjdwTLRTwP8QGcefLnwH3bjy7JbPeS42N_A70_i07jJkFB2G6DRNjxFkCWIoqBXBcSood8KWZWfLM5tpwLVEDGEagZHq-XHGF_Y3HZkBEUrRmS3q6at89cUZhRBIx"/>
+<img class="w-10 h-10 rounded-full border-2 border-surface" data-alt="User avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGYNijBUuspSTskON2785Y02JD2-FwLlnIoAIRtTSct91CGLczw_bMUQ2fwswwdAcwJYyO4rPG-afni8a9qGoORRUX2ErepDZSzxDTJ7XHIszAwupt-DNCDGUsQtH_dKsKo9cELGigwRSP5m_iZo8XX7P0E10eNabYbM2sWM5htJvqh1Exia8f-yTvF6l-Fk6-7GVXEvEngViuzib80Z3CVPfMGNbW9CxPsUKEpGdA6jeX5heRkGIP6cqb1RK097koMXguTjnA5adp"/>
+</div>
+<div class="h-10 w-px bg-white/10"></div>
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 border border-white/5 hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="calendar_today">calendar_today</span>
+<span>Last 30 Days</span>
+</button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Site Health Card -->
+<div class="col-span-12 md:col-span-4 glass-card p-8 rounded-2xl ambient-glow">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest font-bold mb-1">Site Health</p>
+<h2 class="font-headline text-3xl font-extrabold text-secondary">94%</h2>
+</div>
+<div class="bg-secondary-container/10 p-2 rounded-full">
+<span class="material-symbols-outlined text-secondary" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+</div>
+<div class="h-24 flex items-end space-x-1">
+<div class="w-full bg-secondary/20 h-12 rounded-t-sm"></div>
+<div class="w-full bg-secondary/20 h-16 rounded-t-sm"></div>
+<div class="w-full bg-secondary/40 h-20 rounded-t-sm"></div>
+<div class="w-full bg-secondary/60 h-24 rounded-t-sm"></div>
+<div class="w-full bg-secondary h-22 rounded-t-sm shadow-[0_0_15px_rgba(58,223,250,0.3)]"></div>
+<div class="w-full bg-secondary/80 h-18 rounded-t-sm"></div>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant">+2.4% from last audit</p>
+</div>
+<!-- Keywords Ranked Card -->
+<div class="col-span-12 md:col-span-4 glass-card p-8 rounded-2xl ambient-glow">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest font-bold mb-1">Keywords Ranked</p>
+<h2 class="font-headline text-3xl font-extrabold text-primary">1,284</h2>
+</div>
+<div class="bg-primary-container/10 p-2 rounded-full">
+<span class="material-symbols-outlined text-primary" data-icon="search">search</span>
+</div>
+</div>
+<div class="h-24 relative flex items-center">
+<svg class="w-full h-full" viewbox="0 0 100 40">
+<path class="text-primary" d="M0 35 Q 25 35, 40 20 T 80 10 T 100 5" fill="none" stroke="currentColor" stroke-width="2"></path>
+<path d="M0 35 Q 25 35, 40 20 T 80 10 T 100 5 V 40 H 0 Z" fill="url(#purpleGradient)" opacity="0.1"></path>
+<defs>
+<lineargradient id="purpleGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#cc97ff"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<div class="mt-4 flex items-center space-x-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/10 text-secondary text-[10px] font-bold">TOP 3: 42</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-bold">TOP 10: 184</span>
+</div>
+</div>
+<!-- Organic Traffic Card -->
+<div class="col-span-12 md:col-span-4 glass-card p-8 rounded-2xl ambient-glow">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest font-bold mb-1">Organic Traffic</p>
+<h2 class="font-headline text-3xl font-extrabold text-tertiary">42.5k</h2>
+</div>
+<div class="bg-tertiary-container/10 p-2 rounded-full">
+<span class="material-symbols-outlined text-tertiary" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<div class="h-24 flex items-center justify-center">
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-3/4 shadow-[0_0_10px_rgba(255,134,195,0.4)]"></div>
+</div>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant">Targeting 50k by October</p>
+</div>
+<!-- AI Insights Panel -->
+<div class="col-span-12 md:col-span-8 glass-card p-10 rounded-2xl min-h-[400px]">
+<div class="flex items-center space-x-3 mb-8">
+<div class="relative">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="psychology" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<div class="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full animate-pulse border-2 border-surface"></div>
+</div>
+<h3 class="font-headline text-2xl font-extrabold tracking-tight">AI Kinetic Insights</h3>
+</div>
+<div class="space-y-6">
+<div class="group p-6 bg-surface-container-low rounded-xl border-l-4 border-primary hover:bg-surface-container transition-all">
+<div class="flex justify-between mb-2">
+<span class="text-primary font-bold text-xs uppercase tracking-widest">High Impact</span>
+<span class="text-on-surface-variant text-xs">2 hours ago</span>
+</div>
+<h4 class="text-lg font-bold mb-2">Optimize Content for "Semantic SEO"</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Your ranking for "SEO automation" has dipped. Adding LSI keywords like "neural matching" and "entity-based search" could recover your #2 position.</p>
+<div class="mt-4 flex space-x-3">
+<button class="text-primary text-sm font-bold border-b border-primary/20 hover:border-primary transition-all pb-1">Apply Optimization</button>
+<button class="text-on-surface-variant text-sm font-medium hover:text-white transition-colors">Dismiss</button>
+</div>
+</div>
+<div class="group p-6 bg-surface-container-low rounded-xl border-l-4 border-secondary hover:bg-surface-container transition-all">
+<div class="flex justify-between mb-2">
+<span class="text-secondary font-bold text-xs uppercase tracking-widest">Growth Opportunity</span>
+<span class="text-on-surface-variant text-xs">5 hours ago</span>
+</div>
+<h4 class="text-lg font-bold mb-2">Internal Link Structure Audit</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">We detected 14 high-authority pages that aren't linking to your new "AI Strategy" pillar page. Automated linking is ready for review.</p>
+<div class="mt-4 flex space-x-3">
+<button class="text-secondary text-sm font-bold border-b border-secondary/20 hover:border-secondary transition-all pb-1">Review Links</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Metrics / Recent Activities -->
+<div class="col-span-12 md:col-span-4 flex flex-col space-y-6">
+<div class="glass-card p-6 rounded-2xl flex-1">
+<h3 class="font-headline font-bold text-lg mb-4">Competitor Pulse</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center font-bold text-[10px]">SV</div>
+<span class="text-sm font-medium">SearchVoice.io</span>
+</div>
+<span class="text-error text-xs font-bold">-12%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center font-bold text-[10px]">LX</div>
+<span class="text-sm font-medium">LinkXpert</span>
+</div>
+<span class="text-secondary text-xs font-bold">+5%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center font-bold text-[10px]">AD</div>
+<span class="text-sm font-medium">AutoData</span>
+</div>
+<span class="text-on-surface-variant text-xs font-bold">0%</span>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border border-white/5 rounded-lg text-xs font-bold hover:bg-white/5 transition-colors">Full Comparison</button>
+</div>
+<div class="glass-card p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent">
+<div class="flex items-center space-x-2 text-primary mb-2">
+<span class="material-symbols-outlined text-sm" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">System Status</span>
+</div>
+<h4 class="font-headline font-bold text-lg leading-tight">Liquid Data Indexing Active</h4>
+<p class="text-xs text-on-surface-variant mt-2">Next global crawl scheduled in 42 minutes.</p>
+</div>
+</div>
+</div>
+<!-- Space for breathing -->
+<div class="h-20"></div>
+<!-- Minimal Footer within Canvas -->
+<footer class="mt-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+<div class="flex items-center space-x-6">
+<span class="font-headline font-black text-white text-lg">KINETIC</span>
+<p class="font-body text-xs text-on-surface-variant">© 2024 KINETIC SEO. Powered by Liquid Data.</p>
+</div>
+<div class="flex space-x-6">
+<a class="text-xs text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="text-xs text-on-surface-variant hover:text-secondary transition-colors" href="#">Security</a>
+<a class="text-xs text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</main>
+</body></html>

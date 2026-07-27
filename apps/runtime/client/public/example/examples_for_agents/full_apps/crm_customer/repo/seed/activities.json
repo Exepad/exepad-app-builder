@@ -1,0 +1,170 @@
+[
+  {
+    "type": "call",
+    "subject": "Discovery call with John",
+    "description": "Discussed current pain points and platform requirements. Interested in enterprise features.",
+    "contact_id": 1,
+    "deal_id": 1,
+    "date": "2025-11-20T10:00:00Z"
+  },
+  {
+    "type": "email",
+    "subject": "Sent proposal to Globex",
+    "description": "Emailed detailed proposal for manufacturing suite with pricing breakdown and timeline.",
+    "contact_id": 2,
+    "deal_id": 3,
+    "date": "2025-12-05T14:30:00Z"
+  },
+  {
+    "type": "meeting",
+    "subject": "Contract negotiation with Globex",
+    "description": "In-person meeting to finalize contract terms. Agreed on 3-year deal with annual reviews.",
+    "contact_id": 2,
+    "deal_id": 3,
+    "date": "2025-12-15T09:00:00Z"
+  },
+  {
+    "type": "email",
+    "subject": "Follow-up after webinar",
+    "description": "Sent Mike a recording of the webinar and additional case studies for his industry.",
+    "contact_id": 3,
+    "deal_id": 5,
+    "date": "2026-01-22T11:00:00Z"
+  },
+  {
+    "type": "call",
+    "subject": "Demo call with Mike",
+    "description": "45-minute product demo covering core features. Mike requested a pilot program.",
+    "contact_id": 3,
+    "deal_id": 5,
+    "date": "2026-02-01T15:00:00Z"
+  },
+  {
+    "type": "note",
+    "subject": "Lisa added as new lead",
+    "description": "Met Lisa at healthcare conference. She is evaluating platforms for their patient data workflows.",
+    "contact_id": 4,
+    "deal_id": null,
+    "date": "2026-03-01T16:00:00Z"
+  },
+  {
+    "type": "call",
+    "subject": "Intro call with Lisa",
+    "description": "Discussed Umbrella Health's integration needs. They use Epic EHR and need FHIR support.",
+    "contact_id": 4,
+    "deal_id": 7,
+    "date": "2026-03-05T10:30:00Z"
+  },
+  {
+    "type": "email",
+    "subject": "Referral intro to James Carter",
+    "description": "John Mitchell introduced James from Stark Ventures. Sent introductory email with overview deck.",
+    "contact_id": 5,
+    "deal_id": 8,
+    "date": "2026-02-12T09:00:00Z"
+  },
+  {
+    "type": "meeting",
+    "subject": "QBR with Emily at Wayne Logistics",
+    "description": "Quarterly business review. Usage up 40%. Discussed expansion to European warehouses.",
+    "contact_id": 6,
+    "deal_id": 10,
+    "date": "2026-03-10T14:00:00Z"
+  },
+  {
+    "type": "note",
+    "subject": "Tom downloaded whitepaper",
+    "description": "Tom from Pied Piper downloaded our data compression whitepaper. Startup with small team.",
+    "contact_id": 7,
+    "deal_id": null,
+    "date": "2026-03-10T08:15:00Z"
+  },
+  {
+    "type": "call",
+    "subject": "Pricing discussion with Rachel",
+    "description": "Rachel needs a comparison with their current analytics tool. Sent pricing matrix afterward.",
+    "contact_id": 8,
+    "deal_id": 12,
+    "date": "2026-02-28T13:00:00Z"
+  },
+  {
+    "type": "email",
+    "subject": "Technical specs to David",
+    "description": "Sent API documentation and integration guides for Acme Corp's custom integration work.",
+    "contact_id": 9,
+    "deal_id": 2,
+    "date": "2026-03-15T11:00:00Z"
+  },
+  {
+    "type": "meeting",
+    "subject": "Procurement review with Anna",
+    "description": "Walked through analytics upgrade proposal with Anna's procurement team at Globex.",
+    "contact_id": 10,
+    "deal_id": 4,
+    "date": "2026-03-20T10:00:00Z"
+  },
+  {
+    "type": "call",
+    "subject": "Win-back attempt with Chris",
+    "description": "Called Chris to discuss Q3 budget cycle. Open to re-evaluating if we offer migration support.",
+    "contact_id": 11,
+    "deal_id": 13,
+    "date": "2026-03-12T15:30:00Z"
+  },
+  {
+    "type": "note",
+    "subject": "Nina met at SaaStr",
+    "description": "CTO of Initech. Very technical, interested in our API-first approach. Connected on LinkedIn.",
+    "contact_id": 12,
+    "deal_id": null,
+    "date": "2026-03-15T17:00:00Z"
+  },
+  {
+    "type": "email",
+    "subject": "Sent case study to Nina",
+    "description": "Shared the Initech-relevant SaaS case study showing 3x ROI for similar-sized companies.",
+    "contact_id": 12,
+    "deal_id": 6,
+    "date": "2026-03-18T09:30:00Z"
+  },
+  {
+    "type": "call",
+    "subject": "Negotiation call with James",
+    "description": "Discussed starter pack terms. James wants monthly billing instead of annual.",
+    "contact_id": 5,
+    "deal_id": 8,
+    "date": "2026-03-20T11:00:00Z"
+  },
+  {
+    "type": "meeting",
+    "subject": "Technical deep dive with Rachel",
+    "description": "2-hour technical session covering data pipeline integration, SDK capabilities, and SLA terms.",
+    "contact_id": 8,
+    "deal_id": 12,
+    "date": "2026-03-22T14:00:00Z"
+  },
+  {
+    "type": "email",
+    "subject": "Support contract renewal reminder",
+    "description": "Sent renewal reminder for Acme Corp support contract with updated pricing for 2026.",
+    "contact_id": 1,
+    "deal_id": 14,
+    "date": "2026-01-25T10:00:00Z"
+  },
+  {
+    "type": "call",
+    "subject": "Check-in with Tom",
+    "description": "Brief call with Tom about Pied Piper's needs. Budget is limited but growing. Startup plan fits.",
+    "contact_id": 7,
+    "deal_id": 11,
+    "date": "2026-03-22T16:00:00Z"
+  },
+  {
+    "type": "note",
+    "subject": "Wayne expansion timeline confirmed",
+    "description": "Emily confirmed European expansion timeline: pilot in Q3, full rollout by Q4 2026.",
+    "contact_id": 6,
+    "deal_id": 10,
+    "date": "2026-03-25T09:00:00Z"
+  }
+]

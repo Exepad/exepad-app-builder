@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-handler-search",
+  "alias": "codecomponent-handler-search",
+  "name": "Search Explorer with Command Palette",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Search interface CodeComponent featuring CommandDialog triggered by Ctrl+K keyboard shortcut, search Input with results area, loading Spinner, Empty state with EmptyTitle/EmptyDescription, search history stored in useArrayState with removable Badge tags, ScrollArea for results list, result Cards with relevance Badge, and useHandler simulated for search. No backend required.",
+  "shortSummary": "Search explorer with CommandDialog, search history, Spinner loading, Empty states, and ScrollArea results",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "SearchExplorer": {
+        "source": "frontend/components/SearchExplorer.tsx",
+        "compiled": "frontend/components/SearchExplorer.js",
+        "summary": "Search interface with command palette, search history, loading states, empty states, and scrollable result cards"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#9333ea",
+        "primary-foreground": "#ffffff",
+        "secondary": "#faf5ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#faf5ff",
+        "muted-foreground": "#64748b",
+        "accent": "#faf5ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#9333ea"
+      },
+      "dark": {
+        "background": "#0d0a14",
+        "foreground": "#f8fafc",
+        "primary": "#c084fc",
+        "primary-foreground": "#0d0a14",
+        "secondary": "#1a1025",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1a1025",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1a1025",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1a1025",
+        "input": "#1a1025",
+        "ring": "#c084fc"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-main",
+        "title": "Search Explorer",
+        "slug": "/",
+        "summary": "Search explorer page with command palette, history, and scrollable results.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-1",
+            "component": "SearchExplorer",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Search explorer with command palette and scrollable results",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,688 @@
+{
+  "uuid": "ecommerce-store",
+  "alias": "ecommerce-store",
+  "name": "ShopWave",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Full-featured e-commerce store with product catalog, shopping cart, multi-step checkout, and order history tracking",
+  "shortSummary": "E-commerce store with catalog, cart, and orders",
+  "lastUpdatedEpoch": 1742515200,
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "repo": {
+    "frontend": {
+      "components": {
+        "StoreSidebar": {
+          "source": "frontend/code/components/StoreSidebar.tsx",
+          "compiled": "frontend/compiled/components/StoreSidebar.js",
+          "summary": "Left sidebar with store navigation: Products, Cart (with badge count), Checkout, Orders. Includes store logo and category filters."
+        },
+        "StoreHeader": {
+          "source": "frontend/code/components/StoreHeader.tsx",
+          "compiled": "frontend/compiled/components/StoreHeader.js",
+          "summary": "Top header bar with search input, cart icon with item count badge, and user menu."
+        },
+        "ProductCatalog": {
+          "source": "frontend/code/components/ProductCatalog.tsx",
+          "compiled": "frontend/compiled/components/ProductCatalog.js",
+          "summary": "Product grid with search bar, category filter tabs, product cards showing image placeholder, name, price, rating stars, and Add to Cart button."
+        },
+        "ProductDetail": {
+          "source": "frontend/code/components/ProductDetail.tsx",
+          "compiled": "frontend/compiled/components/ProductDetail.js",
+          "summary": "Single product view with large image placeholder, title, price, description, size/color selectors, quantity picker, Add to Cart, and customer reviews section."
+        },
+        "ShoppingCart": {
+          "source": "frontend/code/components/ShoppingCart.tsx",
+          "compiled": "frontend/compiled/components/ShoppingCart.js",
+          "summary": "Cart page with items table (image, name, price, quantity adjuster, remove button), promo code input, subtotal/shipping/tax/total summary, and Proceed to Checkout button."
+        },
+        "CheckoutFlow": {
+          "source": "frontend/code/components/CheckoutFlow.tsx",
+          "compiled": "frontend/compiled/components/CheckoutFlow.js",
+          "summary": "3-step checkout wizard: Shipping (address form), Payment (card form), Review & Place Order. Step indicator, back/next navigation, order confirmation."
+        },
+        "OrderHistory": {
+          "source": "frontend/code/components/OrderHistory.tsx",
+          "compiled": "frontend/compiled/components/OrderHistory.js",
+          "summary": "Order history table with order ID, date, total, status badge (pending/shipped/delivered), expandable row showing line items."
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with avatar, shopping stats, purchase highlights, and recent activity feed"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Custom utility classes for product cards, price tags, and cart badges"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "categories": {
+        "source": "repo/seed/categories.json",
+        "format": "json",
+        "model": "categories",
+        "source_hash": "sha256:50690e09ebed24eca877cde858483b0e30724f969daafbe3d0d5662288063e7b"
+      },
+      "products": {
+        "source": "repo/seed/products.json",
+        "format": "json",
+        "model": "products",
+        "source_hash": "sha256:54520474c816b6248520b7bd95061fe9d9b20263a5e8cda95af64d0f1b997e7c"
+      },
+      "reviews": {
+        "source": "repo/seed/reviews.json",
+        "format": "json",
+        "model": "reviews",
+        "source_hash": "sha256:3f2eee3042f8fb3ac3d39c5cafb2b964cd59743f76ffea467accecc637b6ae1e"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-products",
+        "name": "products",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Product display name"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Detailed product description",
+            "isNullable": true
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Current selling price in USD"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Product category: Electronics, Clothing, Home, Sports, Books"
+          },
+          {
+            "name": "image_url",
+            "type": "text",
+            "summary": "Product image URL",
+            "isNullable": true
+          },
+          {
+            "name": "stock",
+            "type": "integer",
+            "summary": "Units available in stock"
+          },
+          {
+            "name": "rating",
+            "type": "real",
+            "summary": "Average customer rating 0-5",
+            "isNullable": true
+          },
+          {
+            "name": "is_active",
+            "type": "integer",
+            "summary": "Whether product is listed (1=active, 0=inactive)",
+            "defaultValue": "1"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_products_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_products_active",
+            "columns": [
+              "is_active"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-categories",
+        "name": "categories",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Category display name"
+          },
+          {
+            "name": "slug",
+            "type": "text",
+            "summary": "URL-friendly slug"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Category description",
+            "isNullable": true
+          },
+          {
+            "name": "image_url",
+            "type": "text",
+            "summary": "Category image URL",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_categories_slug",
+            "columns": [
+              "slug"
+            ],
+            "unique": true
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-orders",
+        "name": "orders",
+        "columns": [
+          {
+            "name": "total",
+            "type": "real",
+            "summary": "Total order amount in USD"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Order status: pending, processing, shipped, delivered, cancelled",
+            "defaultValue": "pending"
+          },
+          {
+            "name": "shipping_address",
+            "type": "text",
+            "summary": "Full shipping address"
+          },
+          {
+            "name": "payment_method",
+            "type": "text",
+            "summary": "Payment method used",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 order creation timestamp",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_orders_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-order-items",
+        "name": "order_items",
+        "columns": [
+          {
+            "name": "order_id",
+            "type": "integer",
+            "summary": "FK to orders",
+            "references": {
+              "model": "orders",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "product_id",
+            "type": "integer",
+            "summary": "FK to products",
+            "references": {
+              "model": "products",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "quantity",
+            "type": "integer",
+            "summary": "Units ordered"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Unit price at time of purchase"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_oi_order",
+            "columns": [
+              "order_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_oi_product",
+            "columns": [
+              "product_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-reviews",
+        "name": "reviews",
+        "columns": [
+          {
+            "name": "product_id",
+            "type": "integer",
+            "summary": "FK to products",
+            "references": {
+              "model": "products",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "rating",
+            "type": "integer",
+            "summary": "Star rating 1-5"
+          },
+          {
+            "name": "comment",
+            "type": "text",
+            "summary": "Review text",
+            "isNullable": true
+          },
+          {
+            "name": "reviewer_name",
+            "type": "text",
+            "summary": "Name of reviewer"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 review timestamp",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_reviews_product",
+            "columns": [
+              "product_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "public",
+          "update": "owner",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getProductsByCategory",
+        "name": "getProductsByCategory",
+        "method": "getProductsByCategory",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "category",
+            "type": "string",
+            "required": true,
+            "summary": "Category to filter by"
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "summary": "Max products to return"
+          },
+          {
+            "name": "offset",
+            "type": "number",
+            "required": false,
+            "summary": "Pagination offset"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "products",
+            "type": "array",
+            "summary": "List of products in category"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total products in category"
+          }
+        ]
+      },
+      {
+        "uuid": "h-createOrder",
+        "name": "createOrder",
+        "method": "createOrder",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "items",
+            "type": "json",
+            "required": true,
+            "summary": "Array of {product_id, quantity}"
+          },
+          {
+            "name": "shipping_address",
+            "type": "string",
+            "required": true,
+            "summary": "Shipping address"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "orderId",
+            "type": "number",
+            "summary": "New order ID"
+          },
+          {
+            "name": "total",
+            "type": "number",
+            "summary": "Order total"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getOrderHistory",
+        "name": "getOrderHistory",
+        "method": "getOrderHistory",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "summary": "Max orders to return"
+          },
+          {
+            "name": "offset",
+            "type": "number",
+            "required": false,
+            "summary": "Pagination offset"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "orders",
+            "type": "array",
+            "summary": "Order list with items"
+          },
+          {
+            "name": "totalOrders",
+            "type": "number",
+            "summary": "Total order count"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#e11d48",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#fff1f2",
+        "accent-foreground": "#e11d48",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#e11d48"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#fb7185",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#fb7185",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#fb7185"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "cartItems": [],
+        "searchQuery": "",
+        "selectedCategory": "all"
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-store",
+        "componentType": "CodeComponentProps",
+        "component": "StoreHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sb-store",
+        "componentType": "CodeComponentProps",
+        "component": "StoreSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-products",
+        "pageType": "WebPageProps",
+        "title": "Products",
+        "slug": "/",
+        "summary": "Product catalog with search, category filters, and product cards",
+        "content": [
+          {
+            "uuid": "c-catalog",
+            "componentType": "CodeComponentProps",
+            "component": "ProductCatalog"
+          }
+        ]
+      },
+      {
+        "uuid": "p-product-detail",
+        "pageType": "WebPageProps",
+        "title": "Product Detail",
+        "slug": "/product/:id",
+        "summary": "Single product view with details, reviews, and add to cart",
+        "content": [
+          {
+            "uuid": "c-detail",
+            "componentType": "CodeComponentProps",
+            "component": "ProductDetail"
+          }
+        ]
+      },
+      {
+        "uuid": "p-cart",
+        "pageType": "WebPageProps",
+        "title": "Cart",
+        "slug": "/cart",
+        "summary": "Shopping cart with items, quantities, and checkout button",
+        "content": [
+          {
+            "uuid": "c-cart",
+            "componentType": "CodeComponentProps",
+            "component": "ShoppingCart"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-checkout",
+        "pageType": "WebPageProps",
+        "title": "Checkout",
+        "slug": "/checkout",
+        "summary": "Multi-step checkout: shipping, payment, review",
+        "content": [
+          {
+            "uuid": "c-checkout",
+            "componentType": "CodeComponentProps",
+            "component": "CheckoutFlow"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-orders",
+        "pageType": "WebPageProps",
+        "title": "Orders",
+        "slug": "/orders",
+        "summary": "Order history with status tracking",
+        "content": [
+          {
+            "uuid": "c-orders",
+            "componentType": "CodeComponentProps",
+            "component": "OrderHistory"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with shopping stats and recent activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-login",
+        "pageType": "WebPageProps",
+        "title": "Login",
+        "slug": "/login",
+        "summary": "Login page for authentication",
+        "content": [
+          {
+            "uuid": "c-login",
+            "componentType": "CodeComponentProps",
+            "component": "LoginForm"
+          }
+        ]
+      }
+    ]
+  }
+}

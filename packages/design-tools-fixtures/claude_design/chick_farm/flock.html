@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Flock · HappyDoods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .flock-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+  @media (max-width: 700px) { .flock-stats { grid-template-columns: 1fr 1fr; } }
+  .flock-stat {
+    padding: 28px;
+    background: var(--paper);
+    border-right: 1px solid var(--line);
+  }
+  .flock-stat:last-child { border-right: none; }
+  @media (max-width: 700px) {
+    .flock-stat:nth-child(2) { border-right: none; }
+    .flock-stat:nth-child(1), .flock-stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+  }
+  .flock-stat .big {
+    font-family: var(--serif);
+    font-size: 48px;
+    line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    color: var(--ink);
+  }
+  .flock-stat .lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+
+  .breed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+  @media (max-width: 800px) { .breed-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 500px) { .breed-grid { grid-template-columns: 1fr; } }
+
+  .breed {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .breed-img {
+    aspect-ratio: 4/3;
+    position: relative;
+    background: var(--cream-deep);
+  }
+  .breed-img .ph-label { position: absolute; top: 12px; left: 12px; }
+  .breed-img .egg-color {
+    position: absolute;
+    bottom: 12px; right: 12px;
+    width: 28px; height: 36px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    border: 2px solid var(--paper);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  .breed-info { padding: 20px 22px 24px; }
+  .breed-info h3 {
+    font-style: italic;
+    font-size: 22px;
+    font-variation-settings: "opsz" 48, "SOFT" 80;
+    margin-bottom: 4px;
+  }
+  .breed-info .latin { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); letter-spacing: 0.04em; margin-bottom: 12px; }
+  .breed-info p { font-size: 14px; color: var(--ink-soft); margin-bottom: 12px; }
+  .breed-stats {
+    display: flex; justify-content: space-between;
+    padding-top: 12px; border-top: 1px solid var(--line);
+    font-size: 12px;
+  }
+  .breed-stats .v { font-family: var(--serif); font-size: 18px; color: var(--ink); display:block; font-variation-settings: "opsz" 48; }
+  .breed-stats .k { color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; margin-top: 2px; }
+
+  /* Star hen profiles */
+  .stars { background: var(--ink); color: var(--cream); margin-top: 96px; }
+  .stars h2 { color: var(--paper); font-style: italic; }
+  .stars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+  @media (max-width: 800px) { .stars-grid { grid-template-columns: 1fr; } }
+
+  .star {
+    background: rgba(245,239,226,0.04);
+    border: 1px solid rgba(245,239,226,0.14);
+    border-radius: 6px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+  }
+  .star-portrait {
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background:
+      repeating-linear-gradient(135deg, #5a4a3a 0px, #5a4a3a 8px, #6a5a48 8px, #6a5a48 16px);
+    border: 2px solid var(--butter);
+    position: relative;
+    overflow: hidden;
+  }
+  .star-portrait .lbl {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    text-align: center;
+    padding: 0 4px;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.4);
+  }
+  .star h4 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--paper);
+    margin-bottom: 4px;
+    font-variation-settings: "opsz" 96, "SOFT" 80;
+    font-weight: 400;
+  }
+  .star .breed-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--butter);
+    margin-bottom: 12px;
+  }
+  .star p { color: rgba(245,239,226,0.7); font-size: 14px; line-height: 1.55; }
+  .star .since {
+    font-family: var(--hand);
+    font-size: 18px;
+    color: var(--butter);
+    margin-top: 12px;
+  }
+
+  /* Egg color row */
+  .egg-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .egg-swatch {
+    flex: 1;
+    min-width: 120px;
+    aspect-ratio: 3/4;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+    box-shadow: inset -8px -10px 24px rgba(0,0,0,0.08), 0 4px 12px rgba(42,31,23,0.06);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+  }
+  .egg-swatch::before {
+    content: "";
+    position: absolute;
+    top: 12%; left: 22%;
+    width: 18%; height: 14%;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+  .egg-swatch .name {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <ellipse cx="22" cy="24" rx="13" ry="10" fill="#A8472A"/>
+        <circle cx="11" cy="17" r="6" fill="#A8472A"/>
+        <path d="M7 12 L9 7 L11 11 L13 7 L14 12 Z" fill="#A8472A"/>
+        <circle cx="9.5" cy="16.5" r="1" fill="#F5EFE2"/>
+        <path d="M5 18 L7.5 17.5 L7 19 Z" fill="#E8B850"/>
+        <path d="M16 33 L18 36 M22 33 L24 36" stroke="#A8472A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Happy<span class="brand-em">Doods</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="flock.html" class="active">The Flock</a></li>
+      <li><a href="practices.html">Practices</a></li>
+      <li><a href="visit.html">Visit</a></li>
+      <li><a href="stockists.html">Stockists</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="visit.html">Plan a Visit →</a>
+  </div>
+</nav>
+
+<header class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">The Flock · 412 individuals</div>
+    <h1>Meet the hens. (Some by name.)</h1>
+    <p class="lede">412 girls, 6 breeds, and a hierarchy that we couldn't hope to chart. Here's a primer on who's who.</p>
+
+    <div class="flock-stats">
+      <div class="flock-stat"><div class="big">412</div><div class="lbl">Active layers</div></div>
+      <div class="flock-stat"><div class="big">6</div><div class="lbl">Breeds</div></div>
+      <div class="flock-stat"><div class="big">5</div><div class="lbl">Egg colors</div></div>
+      <div class="flock-stat"><div class="big">62</div><div class="lbl">Retired hens</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:16px;">The breeds</div>
+    <h2 style="font-style:italic; max-width:18ch;">Six heritage breeds, all old as your grandma.</h2>
+
+    <div class="breed-grid">
+      <div class="breed">
+        <div class="breed-img ph">
+          <span class="ph-label">Plymouth Rock · barred</span>
+          <div class="egg-color" style="background: linear-gradient(to bottom, #c89a6a, #a87a4a);"></div>
+        </div>
+        <div class="breed-info">
+          <h3>Plymouth Rock</h3>
+          <div class="latin">Barred · since 1869</div>
+          <p>Black-and-white striped, calm, talkative, often the first to investigate a visitor. Our oldest breed line.</p>
+          <div class="breed-stats">
+            <div><span class="v">98</span><span class="k">In flock</span></div>
+            <div><span class="v">240/yr</span><span class="k">Eggs</span></div>
+            <div><span class="v">Brown</span><span class="k">Egg color</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breed">
+        <div class="breed-img ph ph-barn">
+          <span class="ph-label">Buff Orpington · golden</span>
+          <div class="egg-color" style="background: linear-gradient(to bottom, #d4a06a, #b8804a);"></div>
+        </div>
+        <div class="breed-info">
+          <h3>Buff Orpington</h3>
+          <div class="latin">Buff · since 1894</div>
+          <p>Big, soft, golden, slow. The Labrador retrievers of the chicken world. Marta's personal favorites.</p>
+          <div class="breed-stats">
+            <div><span class="v">76</span><span class="k">In flock</span></div>
+            <div><span class="v">220/yr</span><span class="k">Eggs</span></div>
+            <div><span class="v">Brown</span><span class="k">Egg color</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breed">
+        <div class="breed-img ph ph-moss">
+          <span class="ph-label">Welsummer · partridge</span>
+          <div class="egg-color" style="background: linear-gradient(to bottom, #8a4a28, #6a3818);"></div>
+        </div>
+        <div class="breed-info">
+          <h3>Welsummer</h3>
+          <div class="latin">Partridge · since 1900s, NL</div>
+          <p>Reddish-brown with iridescent tails. Lays the dark chocolate eggs everyone wants.</p>
+          <div class="breed-stats">
+            <div><span class="v">64</span><span class="k">In flock</span></div>
+            <div><span class="v">200/yr</span><span class="k">Eggs</span></div>
+            <div><span class="v">Dk Brown</span><span class="k">Egg color</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breed">
+        <div class="breed-img ph">
+          <span class="ph-label">Marans · cuckoo</span>
+          <div class="egg-color" style="background: linear-gradient(to bottom, #6e3818, #4e2810);"></div>
+        </div>
+        <div class="breed-info">
+          <h3>Marans</h3>
+          <div class="latin">Cuckoo · since 1920s, FR</div>
+          <p>French breed, lays the darkest eggs in our flock — sometimes nearly black. Standoffish, dignified.</p>
+          <div class="breed-stats">
+            <div><span class="v">42</span><span class="k">In flock</span></div>
+            <div><span class="v">180/yr</span><span class="k">Eggs</span></div>
+            <div><span class="v">V. Dark</span><span class="k">Egg color</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breed">
+        <div class="breed-img ph ph-moss">
+          <span class="ph-label">Ameraucana · blue</span>
+          <div class="egg-color" style="background: linear-gradient(to bottom, #b8d8d4, #88b8b4);"></div>
+        </div>
+        <div class="breed-info">
+          <h3>Ameraucana</h3>
+          <div class="latin">Blue · since 1970s, US</div>
+          <p>Muffs, beards, slate-blue legs. Lays the famous sky-blue eggs. Slightly suspicious of everyone.</p>
+          <div class="breed-stats">
+            <div><span class="v">82</span><span class="k">In flock</span></div>
+            <div><span class="v">230/yr</span><span class="k">Eggs</span></div>
+            <div><span class="v">Sky Blue</span><span class="k">Egg color</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="breed">
+        <div class="breed-img ph ph-barn">
+          <span class="ph-label">Easter Egger · multi</span>
+          <div class="egg-color" style="background: linear-gradient(to bottom, #d8b8c8, #b88aa8);"></div>
+        </div>
+        <div class="breed-info">
+          <h3>Easter Egger</h3>
+          <div class="latin">Mixed lineage · variable</div>
+          <p>Not a true breed but a happy mix. Each lays one color her whole life — pink, mint, olive, lavender. The wild cards.</p>
+          <div class="breed-stats">
+            <div><span class="v">50</span><span class="k">In flock</span></div>
+            <div><span class="v">240/yr</span><span class="k">Eggs</span></div>
+            <div><span class="v">Various</span><span class="k">Egg color</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Egg color row -->
+    <div class="eyebrow" style="margin-top:80px; margin-bottom:16px;">Egg palette</div>
+    <h2 style="font-style:italic; max-width:18ch;">Five colors, no dye involved.</h2>
+    <div class="egg-row">
+      <div class="egg-swatch" style="background: linear-gradient(to bottom, #FBF6E8, #EDE0BD);"><span class="name">Cream</span></div>
+      <div class="egg-swatch" style="background: linear-gradient(to bottom, #d4a06a, #b8804a);"><span class="name">Brown</span></div>
+      <div class="egg-swatch" style="background: linear-gradient(to bottom, #6e3818, #4e2810);"><span class="name" style="color:var(--paper); background:var(--ink); border-color:var(--ink);">Chocolate</span></div>
+      <div class="egg-swatch" style="background: linear-gradient(to bottom, #b8d8d4, #88b8b4);"><span class="name">Sky Blue</span></div>
+      <div class="egg-swatch" style="background: linear-gradient(to bottom, #c8c8a4, #98a878);"><span class="name">Olive</span></div>
+      <div class="egg-swatch" style="background: linear-gradient(to bottom, #d8b8c8, #b88aa8);"><span class="name">Pink</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="stars">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--butter); margin-bottom:16px;">The personalities</div>
+    <h2 style="font-style:italic; max-width:18ch;">A few we know especially well.</h2>
+    <p style="color:rgba(245,239,226,0.7); margin-top:16px; max-width:50ch;">We don't name all 412. We name the ones that earn it — by being exceptionally kind, exceptionally weird, or exceptionally bossy.</p>
+
+    <div class="stars-grid">
+      <div class="star">
+        <div class="star-portrait"><div class="lbl">Pepper · barred</div></div>
+        <div>
+          <h4>Pepper</h4>
+          <div class="breed-tag">Plymouth Rock · est. 2014</div>
+          <p>Our very first hen. Twelve years old, mostly retired, still walks the porch most mornings. Lays maybe one egg a month, all of which we keep.</p>
+          <div class="since">— hen #1.</div>
+        </div>
+      </div>
+
+      <div class="star">
+        <div class="star-portrait"><div class="lbl">Brunhilde · buff</div></div>
+        <div>
+          <h4>Brunhilde</h4>
+          <div class="breed-tag">Buff Orpington · est. 2019</div>
+          <p>The undisputed queen of the main coop. If you stand still long enough she'll fly up and roost on your arm. Has bitten Joel exactly once, in 2021.</p>
+          <div class="since">— matriarch.</div>
+        </div>
+      </div>
+
+      <div class="star">
+        <div class="star-portrait"><div class="lbl">Margot · ameraucana</div></div>
+        <div>
+          <h4>Margot</h4>
+          <div class="breed-tag">Ameraucana · est. 2022</div>
+          <p>Lays the bluest egg in the flock — a real Tiffany blue. Refuses to lay anywhere except a specific cardboard box behind the feed bin.</p>
+          <div class="since">— our color queen.</div>
+        </div>
+      </div>
+
+      <div class="star">
+        <div class="star-portrait"><div class="lbl">Doris · welsummer</div></div>
+        <div>
+          <h4>Doris</h4>
+          <div class="breed-tag">Welsummer · est. 2020</div>
+          <p>Has escaped the run forty-three documented times. We added a second layer of fencing last year. She still gets out.</p>
+          <div class="since">— freedom fighter.</div>
+        </div>
+      </div>
+
+      <div class="star">
+        <div class="star-portrait"><div class="lbl">Henrietta · marans</div></div>
+        <div>
+          <h4>Henrietta</h4>
+          <div class="breed-tag">Marans · est. 2021</div>
+          <p>Stately, French, judgmental. Lays eggs so dark they look painted. Will tolerate being held for exactly seven seconds.</p>
+          <div class="since">— our snob.</div>
+        </div>
+      </div>
+
+      <div class="star">
+        <div class="star-portrait"><div class="lbl">Biscuit · easter egger</div></div>
+        <div>
+          <h4>Biscuit</h4>
+          <div class="breed-tag">Easter Egger · est. 2023</div>
+          <p>Wren's hen. Lays a soft pink egg, every other day. Comes when called, mostly.</p>
+          <div class="since">— wren's girl.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner" style="padding:96px 0;">
+  <div class="wrap-narrow" style="text-align:center;">
+    <div class="hand" style="font-size:32px; margin-bottom: 16px;">come meet them ↓</div>
+    <h2>Saturdays you can hold a hen, if she lets you.</h2>
+    <p>Brunhilde almost always lets you. Henrietta, almost never.</p>
+    <a href="visit.html" class="btn btn-primary">Plan your visit</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-tag">Eggs from hens<br>who know their names.</div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; opacity:0.6; text-transform:uppercase;">438 Willow Creek Rd · Putney, VT 05346</div>
+      </div>
+      <div><h4>Visit</h4><ul><li><a href="visit.html">Open Saturdays</a></li><li><a href="visit.html">Farm tours</a></li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="shop.html">Eggs</a></li><li><a href="shop.html">Pantry</a></li><li><a href="stockists.html">Stockists</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="story.html">Our story</a></li><li><a href="practices.html">Practices</a></li><li><a href="flock.html">Meet the flock</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 HappyDoods Farm · A small operation, on purpose.</div>
+      <div>Hand-built in Vermont. Mostly held together with good intentions.</div>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+(function() {
+  const PH = {"pasture_wide":"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80","hens_grass":"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80","hen_closeup":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=1000&q=80","eggs_brown":"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&q=80","eggs_basket":"https://images.unsplash.com/photo-1569127959161-2b1297b2d9a8?auto=format&fit=crop&w=1200&q=80","eggs_pastel":"https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?auto=format&fit=crop&w=1200&q=80","eggs_flat":"https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1200&q=80","eggs_carton":"https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&w=1200&q=80","eggs_blue":"https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&q=80","barn":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80","farmer":"https://images.unsplash.com/photo-1592982499091-5b71f7be930e?auto=format&fit=crop&w=1100&q=80","couple":"https://images.unsplash.com/photo-1578307556311-d97c5c1e22e1?auto=format&fit=crop&w=1100&q=80","pasta":"https://images.unsplash.com/photo-1551892589-865f69869476?auto=format&fit=crop&w=1100&q=80","pickled":"https://images.unsplash.com/photo-1599909533730-89d0e3aef91d?auto=format&fit=crop&w=1100&q=80","butter":"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=1100&q=80","market":"https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1100&q=80","compost":"https://images.unsplash.com/photo-1416664806563-bb6be3be8074?auto=format&fit=crop&w=1100&q=80","old_coop":"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1100&q=80","kid_chicken":"https://images.unsplash.com/photo-1559588981-6c5ec47bf4a3?auto=format&fit=crop&w=1100&q=80","hen_feet":"https://images.unsplash.com/photo-1608755728617-4cb3a6b87c91?auto=format&fit=crop&w=1100&q=80","truck":"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1100&q=80","aerial":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80","plymouth":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=900&q=80","buff":"https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80","welsummer":"https://images.unsplash.com/photo-1573593928259-37bf012015b1?auto=format&fit=crop&w=900&q=80","marans":"https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=900&q=80","ameraucana":"https://images.unsplash.com/photo-1583845112203-29329902332e?auto=format&fit=crop&w=900&q=80","easter":"https://images.unsplash.com/photo-1556909114-44e3e9399a2b?auto=format&fit=crop&w=900&q=80"};
+  const MAP = [
+    ["Marta + Joel", "couple"],
+    ["Marta · collecting", "farmer"],
+    ["Marta · golden", "farmer"],
+    ["Original coop", "old_coop"],
+    ["Wren w/ goslings", "kid_chicken"],
+    ["Joel · fixing fence", "farmer"],
+    ["hen feet on grass", "hen_feet"],
+    ["loaded for market", "truck"],
+    ["truck", "truck"],
+    ["Brown dozen", "eggs_brown"],
+    ["Brown eggs", "eggs_brown"],
+    ["brown eggs", "eggs_brown"],
+    ["Pastel mix", "eggs_pastel"],
+    ["pastel", "eggs_pastel"],
+    ["Half-flat", "eggs_carton"],
+    ["Half flat", "eggs_carton"],
+    ["18ct", "eggs_carton"],
+    ["Two dozens", "eggs_basket"],
+    ["Tiny eggs", "eggs_flat"],
+    ["pickled eggs", "pickled"],
+    ["Pickled", "pickled"],
+    ["Pasta noodles", "pasta"],
+    ["pasta", "pasta"],
+    ["golden ghee", "butter"],
+    ["butter", "butter"],
+    ["gift bundle", "market"],
+    ["wooden box", "market"],
+    ["Compost bucket", "compost"],
+    ["compost", "compost"],
+    ["Aerial", "aerial"],
+    ["aerial", "aerial"],
+    ["paddocks marked", "aerial"],
+    ["Plymouth Rock", "plymouth"],
+    ["Buff Orpington", "buff"],
+    ["Welsummer", "welsummer"],
+    ["Marans", "marans"],
+    ["Ameraucana", "ameraucana"],
+    ["Easter Egger", "easter"],
+  ];
+  document.querySelectorAll(".ph").forEach(ph => {
+    const labelEl = ph.querySelector(".ph-label");
+    if (!labelEl) return;
+    const txt = (labelEl.textContent || "").toLowerCase();
+    let url = null;
+    for (const [needle, key] of MAP) {
+      if (txt.includes(needle.toLowerCase()) && PH[key]) { url = PH[key]; break; }
+    }
+    if (!url) return;
+    // Preload — only commit on success
+    const img = new Image();
+    img.onload = () => {
+      ph.style.backgroundImage = "url('" + url + "')";
+      ph.classList.add("has-photo");
+    };
+    img.onerror = () => { /* leave placeholder visible */ };
+    img.src = url;
+  });
+})();
+</script>
+
+</body>
+</html>

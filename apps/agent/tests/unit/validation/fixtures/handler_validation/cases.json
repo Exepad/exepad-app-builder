@@ -1,0 +1,72 @@
+{
+  "cases": [
+    {
+      "id": "model_name_self_import_stripped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_model_name_self_import.tsx",
+      "context": {"model_names": ["order"]},
+      "expected_fix_substrings": ["Stripped model-name import: 'Order'"],
+      "expected_output_absent": ["from \"Order\""]
+    },
+    {
+      "id": "multiple_model_imports_all_stripped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_multiple_model_imports.tsx",
+      "context": {"model_names": ["order", "customer", "products"]},
+      "expected_fix_substrings": [
+        "Stripped model-name import: 'Order'",
+        "Stripped model-name import: 'customer'",
+        "Stripped model-name import: 'products'"
+      ],
+      "expected_output_absent": ["from \"Order\"", "from \"customer\"", "from \"products\""]
+    },
+    {
+      "id": "model_name_unrelated_import_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_model_name_unrelated_import.tsx",
+      "context": {"model_names": ["order"]}
+    },
+
+    {
+      "id": "react_default_and_named_imports_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_react_imports.tsx",
+      "expected_fix_substrings": ["Rewrote react imports → @exepad/sdk"],
+      "expected_output_contains": ["from '@exepad/sdk'"],
+      "expected_output_absent": ["from \"react\""]
+    },
+    {
+      "id": "framer_motion_import_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_framer_motion_import.tsx",
+      "expected_fix_substrings": ["Rewrote framer-motion → @exepad/sdk"],
+      "expected_output_absent": ["framer-motion"]
+    },
+    {
+      "id": "lucide_react_import_rewritten",
+      "kind": "broken",
+      "tsx_path": "examples/broken_lucide_react_import.tsx",
+      "expected_fix_substrings": ["Rewrote lucide-react → @exepad/sdk"],
+      "expected_output_absent": ["lucide-react"]
+    },
+
+    {
+      "id": "kitchen_sink_handler_all_branches",
+      "kind": "broken",
+      "tsx_path": "examples/broken_kitchen_sink_handler.tsx",
+      "context": {"model_names": ["order"]},
+      "expected_fix_substrings": [
+        "Stripped model-name import: 'Order'",
+        "Rewrote react imports → @exepad/sdk",
+        "Rewrote framer-motion → @exepad/sdk",
+        "Rewrote lucide-react → @exepad/sdk"
+      ]
+    },
+    {
+      "id": "clean_handler_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_clean_handler.tsx",
+      "context": {"model_names": ["order"]}
+    }
+  ]
+}

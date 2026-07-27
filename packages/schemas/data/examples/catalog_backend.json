@@ -1,0 +1,10 @@
+{
+  "backend-booking": "Booking system backend with services catalog and user bookings. Read handler for available time slots and write handler for creating bookings.",
+  "backend-crm": "CRM backend with contacts, deals pipeline, and task management models. Handlers for fetching contact deals and deals by pipeline stage.",
+  "backend-dashboard-analytics": "Dashboard analytics backend with sales and products models. Read handlers for fetching sales data, products, and aggregated dashboard statistics.",
+  "backend-ecommerce": "E-commerce backend with products catalog, orders, and order items models. Handlers for product category queries, order creation, and order history retrieval.",
+  "backend-helpdesk": "Helpdesk backend with support tickets and comments models. Read handler for filtering tickets by status and write handler for assigning tickets to agents.",
+  "backend-internal-tool": "Internal tool backend with user management and audit logging models. Read handler for audit logs and write handler for updating user roles.",
+  "backend-inventory": "Inventory management backend with products and stock movements models. Read handler for low stock items alert and write handler for recording stock movements.",
+  "backend-project-management": "Project management backend with projects and tasks models. Read handler for project tasks and write handler for moving tasks between kanban columns."
+}

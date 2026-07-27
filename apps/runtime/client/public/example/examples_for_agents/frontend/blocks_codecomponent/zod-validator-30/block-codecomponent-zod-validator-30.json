@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-zod-validator",
+  "alias": "codecomponent-zod-validator",
+  "name": "Interactive Zod Schema Validator",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Interactive Zod schema builder and validator CodeComponent. Features a schema definition panel where users add fields with name Input, type Select (string, number, boolean, email, url, enum, array), min/max constraints, required Checkbox, and custom error messages. Dynamically builds a z.object() schema from the configuration. Test data panel provides form Inputs matching the schema for live validation via safeParse, with green Alert on success and red Alert with per-field error details on failure. Includes schema code preview in Accordion, advanced options for custom messages, and toast on validation pass. Uses z, useForm, useAppState, toast, Input, Select, Checkbox, Button, Label, Alert, Card, Accordion, Badge, Separator, and Icons from the SDK.",
+  "shortSummary": "Interactive Zod schema builder with dynamic field configuration, live validation, and error display",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "SchemaValidator": {
+        "source": "frontend/components/SchemaValidator.tsx",
+        "compiled": "frontend/components/SchemaValidator.js",
+        "summary": "Interactive Zod schema builder with configurable fields, type selection, constraint inputs, dynamic z.object() construction, test data form, safeParse validation, and success/error alerts"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0c2635",
+        "primary": "#077f9c",
+        "primary-foreground": "#ffffff",
+        "secondary": "#ecfeff",
+        "secondary-foreground": "#0c2635",
+        "muted": "#f0fdfa",
+        "muted-foreground": "#6b7280",
+        "accent": "#ecfeff",
+        "accent-foreground": "#0c2635",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#a5f3fc",
+        "input": "#a5f3fc",
+        "ring": "#0891b2"
+      },
+      "dark": {
+        "background": "#06141d",
+        "foreground": "#ecfeff",
+        "primary": "#22d3ee",
+        "primary-foreground": "#06141d",
+        "secondary": "#0c2a3a",
+        "secondary-foreground": "#ecfeff",
+        "muted": "#0c2a3a",
+        "muted-foreground": "#94a3b8",
+        "accent": "#0c2a3a",
+        "accent-foreground": "#ecfeff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#ecfeff",
+        "border": "#164e63",
+        "input": "#164e63",
+        "ring": "#06b6d4"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-validator",
+        "title": "Schema Validator",
+        "slug": "/",
+        "summary": "Interactive Zod schema builder and validator with configurable fields and live validation.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "schema-validator-1",
+            "component": "SchemaValidator",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Zod schema builder with live validation and error display",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

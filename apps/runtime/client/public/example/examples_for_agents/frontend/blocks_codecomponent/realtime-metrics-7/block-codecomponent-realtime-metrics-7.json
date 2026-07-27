@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-realtime-metrics",
+  "alias": "codecomponent-realtime-metrics",
+  "name": "Live System Metrics Dashboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Simulated real-time system metrics dashboard with auto-updating AreaChart showing CPU usage over a rolling 60-second window, Progress bars for Memory, Disk, and Network utilization, KPI counters with Badge status indicators, and Skeleton loading states on initial render. Uses lodash _.throttle for update throttling and _.meanBy for CPU average computation.",
+  "shortSummary": "Live-updating system metrics dashboard with CPU chart and resource monitors",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "LiveMetrics": {
+        "source": "frontend/components/LiveMetrics.tsx",
+        "compiled": "frontend/components/LiveMetrics.js",
+        "summary": "Real-time system metrics dashboard with auto-updating AreaChart (CPU over 60s), Progress bars (memory, disk, network), KPI cards (requests/sec, connections, error rate), Badge status indicators, and Skeleton loading states"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#e11d48",
+        "primary-foreground": "#ffffff",
+        "secondary": "#ffe4e6",
+        "secondary-foreground": "#0f172a",
+        "muted": "#fff1f2",
+        "muted-foreground": "#64748b",
+        "accent": "#ffe4e6",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#e11d48"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#fb7185",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#f43f5e"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-main",
+        "title": "System Metrics",
+        "slug": "/",
+        "summary": "Live system metrics dashboard with CPU chart, resource utilization, and KPI counters.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "component-1",
+            "component": "LiveMetrics",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Real-time system monitoring with live charts and indicators",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

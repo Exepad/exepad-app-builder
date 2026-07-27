@@ -1,0 +1,828 @@
+{
+  "uuid": "apiary-insight",
+  "alias": "apiary-insight",
+  "name": "The Living Ledger",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Beekeeping management dashboard with hive monitoring, honey production tracking, and pest control",
+  "shortSummary": "Apiary management dashboard",
+  "lastUpdatedEpoch": 1742515200,
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "repo": {
+    "frontend": {
+      "components": {
+        "DashboardSidebar": {
+          "source": "frontend/code/components/DashboardSidebar.tsx",
+          "compiled": "frontend/compiled/components/DashboardSidebar.js",
+          "summary": "Fixed left sidebar with route-aware navigation: Overview, Hives, Honey Production, Pest Control, Settings. Includes app logo, status badge, Add Inspection CTA, Help/Logout links."
+        },
+        "OverviewContent": {
+          "source": "frontend/code/components/OverviewContent.tsx",
+          "compiled": "frontend/compiled/components/OverviewContent.js",
+          "summary": "Dashboard overview: KPI cards (total hives, honey yield, active alerts, inspections due), recent activity, hive health chart, upcoming tasks"
+        },
+        "HivesContent": {
+          "source": "frontend/code/components/HivesContent.tsx",
+          "compiled": "frontend/compiled/components/HivesContent.js",
+          "summary": "Hives grid: colony cards with health status, queen age, population indicators, filter/sort controls"
+        },
+        "HoneyContent": {
+          "source": "frontend/code/components/HoneyContent.tsx",
+          "compiled": "frontend/compiled/components/HoneyContent.js",
+          "summary": "Honey production: yield metrics, harvest timeline, quality grades, storage inventory"
+        },
+        "PestControlContent": {
+          "source": "frontend/code/components/PestControlContent.tsx",
+          "compiled": "frontend/compiled/components/PestControlContent.js",
+          "summary": "Pest control monitoring: varroa mite counts, treatment schedule, alert log, inspection checklist"
+        },
+        "SettingsContent": {
+          "source": "frontend/code/components/SettingsContent.tsx",
+          "compiled": "frontend/compiled/components/SettingsContent.js",
+          "summary": "Settings: apiary profile, notification preferences, team management, data export"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Material Symbols icon font class, base typography, Shadow DOM :host styles"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+        "https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-hives",
+        "name": "hives",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Hive display name, e.g. Hive Alpha, Hive Beta"
+          },
+          {
+            "name": "location",
+            "type": "text",
+            "summary": "Position within the apiary",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Health status: Thriving, Monitoring, or Alert",
+            "defaultValue": "Thriving"
+          },
+          {
+            "name": "queen_name",
+            "type": "text",
+            "summary": "Name of the queen bee, e.g. Isabella II",
+            "isNullable": true
+          },
+          {
+            "name": "queen_marking_color",
+            "type": "text",
+            "summary": "Queen marking color, e.g. Blue, White, Yellow",
+            "isNullable": true
+          },
+          {
+            "name": "temperature",
+            "type": "real",
+            "summary": "Current hive temperature in Celsius",
+            "isNullable": true
+          },
+          {
+            "name": "humidity",
+            "type": "integer",
+            "summary": "Current humidity percentage (0-100)",
+            "isNullable": true
+          },
+          {
+            "name": "activity_change",
+            "type": "integer",
+            "summary": "24-hour activity change percentage, e.g. +12 or -24",
+            "isNullable": true
+          },
+          {
+            "name": "population_density",
+            "type": "integer",
+            "summary": "Population density percentage (0-100)",
+            "isNullable": true
+          },
+          {
+            "name": "sound_status",
+            "type": "text",
+            "summary": "Acoustic status: Steady or Irregular",
+            "isNullable": true
+          },
+          {
+            "name": "installed_at",
+            "type": "text",
+            "summary": "ISO 8601 date when hive was installed",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_hives_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_hives_name",
+            "columns": [
+              "name"
+            ],
+            "unique": true
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-sensor-readings",
+        "name": "sensor_readings",
+        "columns": [
+          {
+            "name": "hive_id",
+            "type": "text",
+            "summary": "Reference to hives model ID"
+          },
+          {
+            "name": "temperature",
+            "type": "real",
+            "summary": "Temperature reading in Celsius",
+            "isNullable": true
+          },
+          {
+            "name": "humidity",
+            "type": "integer",
+            "summary": "Humidity percentage (0-100)",
+            "isNullable": true
+          },
+          {
+            "name": "activity_level",
+            "type": "integer",
+            "summary": "Activity level on 0-100 scale",
+            "isNullable": true
+          },
+          {
+            "name": "recorded_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp of the reading"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_sensor_hive_id",
+            "columns": [
+              "hive_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_sensor_recorded_at",
+            "columns": [
+              "recorded_at"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-harvest-logs",
+        "name": "harvest_logs",
+        "columns": [
+          {
+            "name": "hive_id",
+            "type": "text",
+            "summary": "Reference to hives model ID or hive code like #A-214"
+          },
+          {
+            "name": "quantity_kg",
+            "type": "real",
+            "summary": "Harvest quantity in kilograms"
+          },
+          {
+            "name": "quality_grade",
+            "type": "text",
+            "summary": "Quality grade: Grade A+, Grade A, or Grade B"
+          },
+          {
+            "name": "collector",
+            "type": "text",
+            "summary": "Name of the person who collected the harvest",
+            "isNullable": true
+          },
+          {
+            "name": "harvested_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp of the harvest"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_harvest_hive_id",
+            "columns": [
+              "hive_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_harvest_date",
+            "columns": [
+              "harvested_at"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-pest-alerts",
+        "name": "pest_alerts",
+        "columns": [
+          {
+            "name": "hive_id",
+            "type": "text",
+            "summary": "Reference to hives model ID"
+          },
+          {
+            "name": "pest_type",
+            "type": "text",
+            "summary": "Type of pest: Varroa Mites, Wax Moth, Small Hive Beetle, etc."
+          },
+          {
+            "name": "severity",
+            "type": "text",
+            "summary": "Alert severity: low, medium, high, or critical"
+          },
+          {
+            "name": "varroa_count",
+            "type": "real",
+            "summary": "Phoretic mite percentage, e.g. 3.4",
+            "isNullable": true
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Alert status: active, resolved, or monitoring",
+            "defaultValue": "active"
+          },
+          {
+            "name": "detected_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when pest was detected"
+          },
+          {
+            "name": "resolved_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when alert was resolved",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_pest_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_pest_hive_id",
+            "columns": [
+              "hive_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_pest_severity",
+            "columns": [
+              "severity"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-treatments",
+        "name": "treatments",
+        "columns": [
+          {
+            "name": "hive_id",
+            "type": "text",
+            "summary": "Reference to hives model ID"
+          },
+          {
+            "name": "pest_type",
+            "type": "text",
+            "summary": "Type of pest being treated"
+          },
+          {
+            "name": "treatment_name",
+            "type": "text",
+            "summary": "Treatment applied: Oxalic Acid Dribble, Oil Trap, Fumidil-B, B401 Biological Control"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Treatment status: Success, In Progress, or Failed",
+            "defaultValue": "In Progress"
+          },
+          {
+            "name": "applied_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when treatment was applied"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Additional notes about the treatment",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_treatment_hive_id",
+            "columns": [
+              "hive_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_treatment_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-inspections",
+        "name": "inspections",
+        "columns": [
+          {
+            "name": "hive_id",
+            "type": "text",
+            "summary": "Reference to hives model ID"
+          },
+          {
+            "name": "inspector_name",
+            "type": "text",
+            "summary": "Name of the inspector",
+            "isNullable": true
+          },
+          {
+            "name": "inspection_type",
+            "type": "text",
+            "summary": "Type: routine, emergency, or seasonal",
+            "defaultValue": "routine"
+          },
+          {
+            "name": "checklist",
+            "type": "text",
+            "summary": "JSON string of checklist items with completion status",
+            "isNullable": true
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Inspection notes and observations",
+            "isNullable": true
+          },
+          {
+            "name": "scheduled_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp for scheduled inspection"
+          },
+          {
+            "name": "completed_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when inspection was completed, null if pending",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_inspection_hive_id",
+            "columns": [
+              "hive_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_inspection_scheduled",
+            "columns": [
+              "scheduled_at"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-apiary-settings",
+        "name": "apiary_settings",
+        "columns": [
+          {
+            "name": "full_name",
+            "type": "text",
+            "summary": "Beekeeper's full name",
+            "isNullable": true
+          },
+          {
+            "name": "cert_id",
+            "type": "text",
+            "summary": "Certification ID, e.g. GOLD-88291-UK",
+            "isNullable": true
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "summary": "Contact email address",
+            "isNullable": true
+          },
+          {
+            "name": "location",
+            "type": "text",
+            "summary": "Apiary location, e.g. Cotswolds, UK",
+            "isNullable": true
+          },
+          {
+            "name": "active_hives_count",
+            "type": "integer",
+            "summary": "Number of active hives",
+            "isNullable": true
+          },
+          {
+            "name": "flora_type",
+            "type": "text",
+            "summary": "Primary flora: Mixed Wildflower, Lavender, Heather, or Clover",
+            "isNullable": true
+          },
+          {
+            "name": "weight_loss_alert_enabled",
+            "type": "integer",
+            "summary": "Weight loss warning toggle (1=on, 0=off)",
+            "defaultValue": "1"
+          },
+          {
+            "name": "temp_alert_threshold",
+            "type": "real",
+            "summary": "Critical temperature alert threshold in Celsius",
+            "defaultValue": "35.0"
+          }
+        ],
+        "indexes": [],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getDashboardOverview",
+        "name": "getDashboardOverview",
+        "method": "getDashboardOverview",
+        "authLevel": "authenticated",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "totalHives",
+            "type": "number",
+            "summary": "Total number of hives"
+          },
+          {
+            "name": "totalYield",
+            "type": "number",
+            "summary": "Total honey yield in kg this season"
+          },
+          {
+            "name": "activeAlerts",
+            "type": "number",
+            "summary": "Number of active pest alerts"
+          },
+          {
+            "name": "pendingInspections",
+            "type": "number",
+            "summary": "Number of inspections not yet completed"
+          },
+          {
+            "name": "honeyTargetPercent",
+            "type": "number",
+            "summary": "Percentage of season honey target achieved"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getHiveActivityData",
+        "name": "getHiveActivityData",
+        "method": "getHiveActivityData",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "hive_id",
+            "type": "string",
+            "required": true,
+            "summary": "ID of the hive to get activity data for"
+          },
+          {
+            "name": "hours",
+            "type": "number",
+            "required": false,
+            "summary": "Number of hours of data to return (default 24)"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "data",
+            "type": "array",
+            "summary": "Array of {hour, activity} objects for sparkline charts"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getProductionTrend",
+        "name": "getProductionTrend",
+        "method": "getProductionTrend",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "period",
+            "type": "string",
+            "required": false,
+            "summary": "Time period: 30d, 90d, or yearly (default 30d)"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "data",
+            "type": "array",
+            "summary": "Array of {label, volume} objects for area/bar charts"
+          },
+          {
+            "name": "totalYield",
+            "type": "number",
+            "summary": "Total yield for the period in kg"
+          },
+          {
+            "name": "avgPerHive",
+            "type": "number",
+            "summary": "Average yield per hive in kg"
+          },
+          {
+            "name": "yoyChange",
+            "type": "number",
+            "summary": "Year-over-year change percentage"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getMiteLoadTrend",
+        "name": "getMiteLoadTrend",
+        "method": "getMiteLoadTrend",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "months",
+            "type": "number",
+            "required": false,
+            "summary": "Number of months of data to return (default 6)"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "data",
+            "type": "array",
+            "summary": "Array of {month, load} objects for mite load chart"
+          },
+          {
+            "name": "currentLoad",
+            "type": "number",
+            "summary": "Current overall mite load percentage"
+          },
+          {
+            "name": "momChange",
+            "type": "number",
+            "summary": "Month-over-month change in mite load"
+          },
+          {
+            "name": "treatmentEfficacy",
+            "type": "number",
+            "summary": "Treatment efficacy percentage"
+          }
+        ]
+      },
+      {
+        "uuid": "h-completeInspection",
+        "name": "completeInspection",
+        "method": "completeInspection",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "inspection_id",
+            "type": "string",
+            "required": true,
+            "summary": "ID of the inspection to complete"
+          },
+          {
+            "name": "checklist",
+            "type": "json",
+            "required": false,
+            "summary": "Checklist completion data"
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "required": false,
+            "summary": "Inspection notes"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "success",
+            "type": "boolean",
+            "summary": "Whether the inspection was successfully completed"
+          }
+        ]
+      },
+      {
+        "uuid": "h-seedDemoData",
+        "name": "seedDemoData",
+        "method": "seedDemoData",
+        "authLevel": "admin",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "seeded",
+            "type": "boolean",
+            "summary": "Whether demo data was successfully inserted"
+          },
+          {
+            "name": "counts",
+            "type": "json",
+            "summary": "Number of records inserted per model"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "header": [],
+    "sidebar": [
+      {
+        "uuid": "sidebar-1",
+        "componentType": "CodeComponentProps",
+        "component": "DashboardSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-overview",
+        "pageType": "WebPageProps",
+        "title": "Overview",
+        "slug": "/",
+        "summary": "Dashboard overview with KPI cards, hive health, recent activity",
+        "content": [
+          {
+            "uuid": "c-overview",
+            "componentType": "CodeComponentProps",
+            "component": "OverviewContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-hives",
+        "pageType": "WebPageProps",
+        "title": "Hives",
+        "slug": "/hives",
+        "summary": "Hives grid with colony health status cards",
+        "content": [
+          {
+            "uuid": "c-hives",
+            "componentType": "CodeComponentProps",
+            "component": "HivesContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-honey",
+        "pageType": "WebPageProps",
+        "title": "Honey Production",
+        "slug": "/honey-production",
+        "summary": "Honey production metrics, harvest timeline, quality grades",
+        "content": [
+          {
+            "uuid": "c-honey",
+            "componentType": "CodeComponentProps",
+            "component": "HoneyContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-pest",
+        "pageType": "WebPageProps",
+        "title": "Pest Control",
+        "slug": "/pest-control",
+        "summary": "Pest control monitoring, varroa counts, treatment schedule",
+        "content": [
+          {
+            "uuid": "c-pest",
+            "componentType": "CodeComponentProps",
+            "component": "PestControlContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Apiary profile, notifications, team management, data export",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsContent"
+          }
+        ]
+      }
+    ]
+  }
+}

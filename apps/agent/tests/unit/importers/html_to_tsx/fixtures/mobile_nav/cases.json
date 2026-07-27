@@ -1,0 +1,72 @@
+{
+  "cases": [
+    {
+      "id": "header_with_nav_injects_scaffold",
+      "input_path": "examples/header_with_nav_injects_scaffold.html",
+      "context": {"component_role": "header", "page_slugs": ["/"]},
+      "expected_tsx_contains": [
+        "const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);",
+        "document.body.style.overflow",
+        "className=\"hidden lg:flex nav-links\"",
+        "<button className=\"p-2 lg:hidden\"",
+        "onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}",
+        "<Icons.Menu className=\"w-6 h-6\" />",
+        "<Icons.X className=\"w-6 h-6\" />",
+        "{isMobileMenuOpen && (",
+        "fixed inset-0 z-[60] bg-surface flex flex-col lg:hidden",
+        "import { React, LightDOMContainer, Icons, Link }"
+      ]
+    },
+    {
+      "id": "header_without_nav_no_scaffold",
+      "input_path": "examples/header_without_nav_no_scaffold.html",
+      "context": {"component_role": "header", "page_slugs": ["/"]},
+      "expected_tsx_absent": [
+        "isMobileMenuOpen",
+        "Icons.Menu",
+        "Icons.X"
+      ]
+    },
+    {
+      "id": "footer_with_nav_no_scaffold",
+      "input_path": "examples/footer_with_nav_no_scaffold.html",
+      "context": {"component_role": "footer"},
+      "expected_tsx_absent": [
+        "isMobileMenuOpen",
+        "Icons.Menu",
+        "hidden lg:flex"
+      ]
+    },
+    {
+      "id": "header_existing_lg_classes_preserved",
+      "input_path": "examples/header_existing_lg_classes.html",
+      "context": {"component_role": "header"},
+      "expected_tsx_contains": [
+        "className=\"hidden lg:flex lg:flex items-center gap-8\""
+      ]
+    },
+    {
+      "id": "header_no_classname_on_nav_adds_one",
+      "input_path": "examples/header_no_classname_on_nav.html",
+      "context": {"component_role": "header"},
+      "expected_tsx_contains": [
+        "<nav className=\"hidden lg:flex\">"
+      ]
+    },
+    {
+      "id": "header_strips_source_visibility_classes",
+      "input_path": "examples/header_strips_source_visibility_classes.html",
+      "context": {"component_role": "header"},
+      "expected_tsx_contains": [
+        "const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);",
+        "<nav className=\"hidden lg:flex justify-between items-center max-w-7xl mx-auto px-8 py-4\">",
+        "{isMobileMenuOpen && (",
+        "<div className=\"items-center space-x-10 font-serif text-lg tracking-tight\">"
+      ],
+      "expected_tsx_absent": [
+        "hidden lg:flex hidden md:flex",
+        "hidden lg:flex flex"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+.venv/
+venv_back/
+__pycache__/
+*.pyc
+*.db
+logs/
+config_generated/
+.adk/
+.git
+.gitignore
+.env
+.env.local
+deployment/secrets.yaml
+deployment/DB
+node_modules/
+
+# Human-only documentation — not consumed by ADK at runtime.
+# (Agent docs the LLM loads live under _vendor/schemas/data/agent_docs/.)
+CLAUDE.md

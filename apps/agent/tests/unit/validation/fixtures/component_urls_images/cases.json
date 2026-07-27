@@ -1,0 +1,370 @@
+{
+  "cases": [
+    {
+      "id": "icon_typo_close_match",
+      "kind": "broken",
+      "tsx_path": "examples/broken_icon_typo_close_match.tsx",
+      "expected_fix_substrings": ["Typo: Icons.HearttIcon"],
+      "expected_output_absent": ["Icons.HearttIcon"]
+    },
+    {
+      "id": "icon_unknown_falls_back_to_circle",
+      "kind": "broken",
+      "tsx_path": "examples/broken_icon_unknown_fallback.tsx",
+      "expected_fix_substrings": ["Unknown icon Icons.Zqxblargh"],
+      "expected_output_contains": ["Icons.Circle"],
+      "expected_output_absent": ["Icons.Zqxblargh"]
+    },
+    {
+      "id": "icon_valid_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_icon_valid.tsx"
+    },
+    {
+      "id": "icon_alias_suffix_stripped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_icon_alias_suffix.tsx",
+      "expected_fix_substrings": ["Alias-suffix: Icons.ShieldIcon → Icons.Shield"],
+      "expected_output_contains": ["Icons.Shield "],
+      "expected_output_absent": ["Icons.ShieldIcon"]
+    },
+    {
+      "id": "icon_semantic_alias",
+      "kind": "broken",
+      "tsx_path": "examples/broken_icon_semantic_alias.tsx",
+      "expected_fix_substrings": [
+        "Alias: Icons.Tool → Icons.Wrench",
+        "Alias: Icons.Email → Icons.Mail",
+        "Alias: Icons.Photo → Icons.Image"
+      ],
+      "expected_output_contains": [
+        "Icons.Wrench",
+        "Icons.Mail",
+        "Icons.Image"
+      ],
+      "expected_output_absent": [
+        "Icons.Tool ",
+        "Icons.Email",
+        "Icons.Photo"
+      ]
+    },
+
+    {
+      "id": "img_unsplash_replaced_with_placeholder",
+      "kind": "broken",
+      "tsx_path": "examples/broken_img_unsplash.tsx",
+      "expected_fix_substrings": [
+        "Replaced hallucinated URL from images.unsplash.com",
+        "Converted raw <img> to <ExepadImage>"
+      ],
+      "expected_output_contains": ["<ExepadImage", "keywords=\"hero"],
+      "expected_output_absent": ["unsplash.com", "<img"]
+    },
+    {
+      "id": "img_unknown_domain_replaced_with_placeholder",
+      "kind": "broken",
+      "tsx_path": "examples/broken_img_unknown_domain.tsx",
+      "expected_fix_substrings": [
+        "Replaced unknown external URL from weird-cdn.example.test"
+      ],
+      "expected_output_absent": ["weird-cdn.example.test"]
+    },
+    {
+      "id": "img_url_kept_when_no_provider",
+      "kind": "correct",
+      "tsx_path": "examples/keep_img_url_no_provider.tsx",
+      "context": { "stock_provider_configured": false },
+      "forbidden_fix_substrings": ["__PLACEHOLDER__", "Replaced hallucinated URL"],
+      "expected_output_contains": ["https://images.unsplash.com/photo-12345"],
+      "expected_output_absent": ["__PLACEHOLDER__"]
+    },
+    {
+      "id": "array_image_urls_kept_when_no_provider",
+      "kind": "correct",
+      "tsx_path": "examples/keep_array_image_no_provider.tsx",
+      "context": { "stock_provider_configured": false },
+      "forbidden_fix_substrings": ["__PLACEHOLDER__", "array image URL"],
+      "expected_output_contains": [
+        "https://images.unsplash.com/photo-aaa",
+        "https://images.pexels.com/photos/123/x.jpg"
+      ],
+      "expected_output_absent": ["__PLACEHOLDER__"]
+    },
+    {
+      "id": "style_url_kept_when_no_provider",
+      "kind": "correct",
+      "tsx_path": "examples/keep_style_url_no_provider.tsx",
+      "context": { "stock_provider_configured": false },
+      "forbidden_fix_substrings": ["__PLACEHOLDER__", "style URL", "Neutralized"],
+      "expected_output_contains": ["url('https://images.unsplash.com/photo-hero')"],
+      "expected_output_absent": ["__PLACEHOLDER__", "url('none')"]
+    },
+    {
+      "id": "static_img_url_in_map_kept_when_no_provider",
+      "kind": "correct",
+      "tsx_path": "examples/keep_static_img_in_map_no_provider.tsx",
+      "context": { "stock_provider_configured": false },
+      "forbidden_fix_substrings": ["__PLACEHOLDER__", "inside .map()"],
+      "expected_output_contains": ["https://images.unsplash.com/photo-123/real.jpg"],
+      "expected_output_absent": ["__PLACEHOLDER__", "item.image"]
+    },
+    {
+      "id": "img_allowed_gcs_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_img_allowed_gcs.tsx"
+    },
+
+    {
+      "id": "array_image_blocked_domains_replaced",
+      "kind": "broken",
+      "tsx_path": "examples/broken_array_image_blocked.tsx",
+      "expected_fix_substrings": [
+        "Replaced hallucinated array image URL from images.unsplash.com"
+      ],
+      "forbidden_fix_substrings": ["picsum.photos"],
+      "expected_output_contains": [
+        "image: \"__PLACEHOLDER__\"",
+        "https://picsum.photos/seed/beta/300/200"
+      ],
+      "expected_output_absent": ["unsplash.com"]
+    },
+    {
+      "id": "array_image_already_placeholder_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_array_image_allowed.tsx"
+    },
+
+    {
+      "id": "static_img_in_map_rewritten_to_param",
+      "kind": "broken",
+      "tsx_path": "examples/broken_static_img_in_map.tsx",
+      "expected_fix_substrings": [
+        "Replaced static <img src> inside .map() with src={feature.image}",
+        "Injected image: \"__PLACEHOLDER__\" into 2 object(s) of features data array"
+      ],
+      "expected_output_contains": [
+        "src={feature.image}",
+        "image: \"__PLACEHOLDER__\""
+      ],
+      "expected_output_absent": ["src=\"https://example.test/static.jpg\""]
+    },
+    {
+      "id": "dynamic_img_in_map_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_dynamic_img_in_map.tsx"
+    },
+    {
+      "id": "scope_blind_regression_outside_map_left_alone",
+      "kind": "broken",
+      "tsx_path": "examples/broken_static_img_outside_map_left_alone.tsx",
+      "expected_fix_substrings": [
+        "Replaced static <img src> inside .map() with src={feature.image}",
+        "Injected image: \"__PLACEHOLDER__\" into 2 object(s) of features data array"
+      ],
+      "expected_output_contains": [
+        "src={feature.image}",
+        "src=\"https://storage.googleapis.com/exepad-published/footer-logo.webp\"",
+        "alt=\"footer logo\""
+      ],
+      "expected_output_absent": [
+        "src=\"https://example.test/inside.jpg\"",
+        "feature.image} alt=\"footer logo\""
+      ]
+    },
+
+    {
+      "id": "style_url_unsplash_replaced",
+      "kind": "broken",
+      "tsx_path": "examples/broken_style_url_unsplash.tsx",
+      "expected_fix_substrings": [
+        "Replaced hallucinated style URL from images.unsplash.com",
+        "Neutralized inline-style url('__PLACEHOLDER__') → none"
+      ],
+      "expected_output_contains": ["backgroundImage: \"none\""],
+      "expected_output_absent": ["images.unsplash.com", "__PLACEHOLDER__"]
+    },
+    {
+      "id": "style_url_allowed_domain_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_style_url_allowed_domain.tsx"
+    },
+
+    {
+      "id": "baked_repo_asset_rewritten_to_placeholder",
+      "kind": "broken",
+      "tsx_path": "examples/broken_baked_repo_asset.tsx",
+      "expected_fix_substrings": [
+        "Rewrote baked /a/.../repo/assets/imports/hero.png URL"
+      ],
+      "expected_output_contains": ["__ASSET_IMG:assets/imports/hero.png__"],
+      "expected_output_absent": [
+        "/a/abc-123/repo/",
+        "vendor=\"design_import\""
+      ]
+    },
+
+    {
+      "id": "bare_slug_navigate_gets_leading_slash",
+      "kind": "broken",
+      "tsx_path": "examples/broken_bare_slug_navigate.tsx",
+      "expected_fix_substrings": [
+        "Prepended leading '/' to navigate() arg: 'products' → '/products'",
+        "Prepended leading '/' to navigate() arg: 'about' → '/about'"
+      ],
+      "expected_output_contains": ["navigate(\"/products\")", "navigate(\"/about\")"]
+    },
+    {
+      "id": "bare_slug_link_to_gets_leading_slash",
+      "kind": "broken",
+      "tsx_path": "examples/broken_bare_slug_link_to.tsx",
+      "expected_fix_substrings": [
+        "Prepended leading '/' to <Link to> prop: 'contact' → '/contact'",
+        "Prepended leading '/' to <Link to> prop: 'terms' → '/terms'"
+      ],
+      "expected_output_contains": ["to=\"/contact\"", "to=\"/terms\""]
+    },
+    {
+      "id": "bare_slug_href_attr_gets_leading_slash",
+      "kind": "broken",
+      "tsx_path": "examples/broken_bare_slug_href_attr.tsx",
+      "expected_fix_substrings": [
+        "Prepended leading '/' to bare-slug href attr: 'docs' → '/docs'",
+        "Prepended leading '/' to bare-slug href attr: 'changelog' → '/changelog'"
+      ],
+      "expected_output_contains": ["href=\"/docs\"", "href=\"/changelog\""]
+    },
+    {
+      "id": "external_and_anchor_links_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_external_link_unchanged.tsx"
+    },
+    {
+      "id": "bare_slug_href_object_property_gets_leading_slash",
+      "kind": "broken",
+      "tsx_path": "examples/broken_bare_slug_href_object_property.tsx",
+      "expected_fix_substrings": [
+        "Prepended leading '/' to bare-slug nav href: 'products' → '/products'",
+        "Prepended leading '/' to bare-slug nav href: 'pricing' → '/pricing'"
+      ],
+      "expected_output_contains": [
+        "href: \"/products\"",
+        "href: \"/pricing\"",
+        "href: \"https://github.com/exepad\"",
+        "href: \"/dashboard\""
+      ],
+      "forbidden_fix_substrings": [
+        "https://github.com/exepad",
+        "/dashboard"
+      ]
+    },
+
+    {
+      "id": "raw_img_placeholder_converted_to_exepad_image",
+      "kind": "broken",
+      "tsx_path": "examples/broken_raw_img_placeholder.tsx",
+      "expected_fix_substrings": [
+        "Converted raw <img> to <ExepadImage> (keywords: user portrait headshot)",
+        "Padded short ExepadImage keywords (3 words)"
+      ],
+      "expected_output_contains": [
+        "<ExepadImage",
+        "keywords=\"user portrait headshot with detailed scene and natural lighting\""
+      ],
+      "expected_output_absent": ["<img"]
+    },
+    {
+      "id": "existing_exepad_image_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_existing_exepad_image.tsx"
+    },
+
+    {
+      "id": "exepad_image_missing_keywords_filled_from_alt",
+      "kind": "broken",
+      "tsx_path": "examples/broken_exepad_image_missing_keywords.tsx",
+      "expected_fix_substrings": [
+        "Injected missing ExepadImage keywords from alt"
+      ],
+      "expected_output_contains": [
+        "keywords=\"modern minimalist office workspace bright\""
+      ]
+    },
+    {
+      "id": "exepad_image_oversized_dimensions_capped",
+      "kind": "broken",
+      "tsx_path": "examples/broken_exepad_image_oversized_dimensions.tsx",
+      "expected_fix_substrings": [
+        "Capped oversized ExepadImage width={4096}",
+        "Capped oversized ExepadImage height={2160}"
+      ],
+      "expected_output_contains": ["width={1200}", "height={1200}"],
+      "expected_output_absent": ["width={4096}", "height={2160}"]
+    },
+    {
+      "id": "exepad_image_jsx_keywords_normalized_to_string",
+      "kind": "broken",
+      "tsx_path": "examples/broken_exepad_image_jsx_keywords.tsx",
+      "expected_output_contains": [
+        "keywords=\"sleek city skyline night neon lights\""
+      ],
+      "expected_output_absent": ["keywords={\"sleek"]
+    },
+    {
+      "id": "exepad_image_fully_specified_unchanged",
+      "kind": "correct",
+      "tsx_path": "examples/correct_exepad_image_fully_specified.tsx"
+    },
+    {
+      "id": "exepad_image_spread_only_skipped",
+      "kind": "correct",
+      "tsx_path": "examples/correct_exepad_image_spread_only.tsx"
+    },
+
+    {
+      "id": "exepad_image_external_host_replaced_with_placeholder",
+      "kind": "broken",
+      "tsx_path": "examples/broken_exepad_image_external_host.tsx",
+      "expected_fix_substrings": [
+        "external URL from upload.wikimedia.org"
+      ],
+      "expected_output_contains": ["src=\"__PLACEHOLDER__\""],
+      "expected_output_absent": ["upload.wikimedia.org"]
+    },
+    {
+      "id": "array_logo_external_host_replaced_with_placeholder",
+      "kind": "broken",
+      "tsx_path": "examples/broken_array_logo_external_host.tsx",
+      "expected_fix_substrings": [
+        "array image URL from upload.wikimedia.org"
+      ],
+      "expected_output_contains": ["logo: \"__PLACEHOLDER__\""],
+      "expected_output_absent": ["upload.wikimedia.org"]
+    },
+
+    {
+      "id": "kitchen_sink_multi_branch_all_fire",
+      "kind": "broken",
+      "tsx_path": "examples/broken_kitchen_sink_multi_branch.tsx",
+      "expected_fix_substrings": [
+        "Typo: Icons.HearttIcon",
+        "Replaced hallucinated URL from images.unsplash.com",
+        "Prepended leading '/' to navigate() arg: 'about' → '/about'",
+        "Converted raw <img> to <ExepadImage>",
+        "Injected missing ExepadImage keywords from alt: cozy reading nook"
+      ],
+      "expected_output_contains": [
+        "Icons.Heart",
+        "navigate(\"/about\")",
+        "<ExepadImage",
+        "keywords=\"modern minimalist office workspace bright\"",
+        "keywords=\"cozy reading nook with warm lamp light\""
+      ],
+      "expected_output_absent": [
+        "Icons.HearttIcon",
+        "images.unsplash.com",
+        "navigate(\"about\")",
+        "<img"
+      ]
+    }
+  ]
+}

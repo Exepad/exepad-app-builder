@@ -1,0 +1,14 @@
+# Every PR gets a maintainer review request, as CONTRIBUTING.md promises.
+# Later rules win, so the paths below are the high-blast-radius ones that must
+# never merge without a maintainer: CI/release automation, the install one-liners,
+# the packaged installers, the container image, and the deploy templates.
+*                       @ucinar
+
+/.github/workflows/     @ucinar
+/install.sh             @ucinar
+/install.ps1            @ucinar
+/packaging/             @ucinar
+/Dockerfile             @ucinar
+/deploy/                @ucinar
+/docker-compose.yml     @ucinar
+/render.yaml            @ucinar

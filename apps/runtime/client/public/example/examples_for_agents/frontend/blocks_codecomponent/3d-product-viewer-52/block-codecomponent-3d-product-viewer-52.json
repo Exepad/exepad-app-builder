@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-3d-product-viewer",
+  "alias": "codecomponent-3d-product-viewer",
+  "name": "3D Product Viewer with Three.js",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Interactive 3D product viewer CodeComponent using Three.js extension for WebGL rendering. Features Three.PerspectiveCamera, Three.WebGLRenderer with shadow maps, Three.OrbitControls for rotation/zoom, procedural product geometry (BoxGeometry + SphereGeometry + CylinderGeometry), Three.MeshPhysicalMaterial with configurable properties. Controls: material Select (metallic/matte/glass), color RadioGroup with swatches, lighting Slider, screenshot Button. Uses useAppState for material/color/light config, useTheme for scene background synced with platform theme.",
+  "shortSummary": "3D product viewer with Three.js, material/color controls, orbit, and screenshot",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ProductViewer3D": {
+        "source": "frontend/components/ProductViewer3D.tsx",
+        "compiled": "frontend/components/ProductViewer3D.js",
+        "summary": "Three.js 3D product viewer with orbit controls, configurable materials and colors, lighting slider, and screenshot export"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#3f3f46",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f4f4f5",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f4f4f5",
+        "muted-foreground": "#71717a",
+        "accent": "#f4f4f5",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e4e4e7",
+        "input": "#e4e4e7",
+        "ring": "#3f3f46"
+      },
+      "dark": {
+        "background": "#18181b",
+        "foreground": "#fafafa",
+        "primary": "#a1a1aa",
+        "primary-foreground": "#18181b",
+        "secondary": "#27272a",
+        "secondary-foreground": "#fafafa",
+        "muted": "#27272a",
+        "muted-foreground": "#a1a1aa",
+        "accent": "#27272a",
+        "accent-foreground": "#fafafa",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fafafa",
+        "border": "#27272a",
+        "input": "#27272a",
+        "ring": "#a1a1aa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-product-viewer",
+        "title": "Product Viewer",
+        "slug": "/",
+        "summary": "Interactive 3D product viewer with material and color customization.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "product-viewer-3d-1",
+            "component": "ProductViewer3D",
+            "extensions": [
+              "three"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "3D product viewer with Three.js and customization controls",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,96 @@
+/* ==========================================================================
+   MindMatch — Code Focus Theme
+   Memory card game: flip animations, game cards, amber/orange accents
+   ========================================================================== */
+
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.game-card {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.game-card-inner {
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.game-card.flipped .game-card-inner {
+  transform: rotateY(180deg);
+}
+
+.game-card-front, .game-card-back {
+  backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+}
+
+.game-card-back {
+  transform: rotateY(180deg);
+}
+
+.game-card.matched .game-card-inner {
+  transform: rotateY(180deg);
+}
+
+.game-card.matched .game-card-back {
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.difficulty-card {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.difficulty-card:hover {
+  transform: translateY(-2px);
+}
+
+.nav-item {
+  transition: all 0.15s ease;
+}
+
+.leaderboard-row {
+  transition: background-color 0.1s ease;
+}
+
+.leaderboard-row:hover {
+  background-color: rgba(245, 158, 11, 0.06);
+}
+
+.achievement-badge {
+  transition: transform 0.2s ease;
+}
+
+.achievement-badge:hover {
+  transform: scale(1.05);
+}
+
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.celebrate {
+  animation: celebrate 0.6s ease-in-out;
+}

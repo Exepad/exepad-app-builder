@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-resizable-editor",
+  "alias": "codecomponent-resizable-editor",
+  "name": "Resizable Code Editor with Code Component",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "IDE-like layout using ResizablePanelGroup with three resizable panels: file tree explorer, tabbed code viewer, and preview/console output. Demonstrates ResizablePanel, ResizableHandle, ScrollArea, Tabs, and useAppState for editor state management. No backend required — uses embedded demo file contents.",
+  "shortSummary": "IDE-style resizable panel editor with file tree, code tabs, and preview",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "CodeEditor": {
+        "source": "frontend/components/CodeEditor.tsx",
+        "compiled": "frontend/components/CodeEditor.js",
+        "summary": "IDE-like layout with resizable file tree, tabbed code viewer, and preview/console panels using ResizablePanelGroup"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#fafafa",
+        "foreground": "#18181b",
+        "primary": "#3f3f46",
+        "primary-foreground": "#fafafa",
+        "secondary": "#f4f4f5",
+        "secondary-foreground": "#18181b",
+        "muted": "#f4f4f5",
+        "muted-foreground": "#71717a",
+        "accent": "#f4f4f5",
+        "accent-foreground": "#18181b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e4e4e7",
+        "input": "#e4e4e7",
+        "ring": "#3f3f46"
+      },
+      "dark": {
+        "background": "#09090b",
+        "foreground": "#fafafa",
+        "primary": "#a1a1aa",
+        "primary-foreground": "#18181b",
+        "secondary": "#27272a",
+        "secondary-foreground": "#fafafa",
+        "muted": "#27272a",
+        "muted-foreground": "#a1a1aa",
+        "accent": "#27272a",
+        "accent-foreground": "#fafafa",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fafafa",
+        "border": "#27272a",
+        "input": "#27272a",
+        "ring": "#a1a1aa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-editor",
+        "title": "Code Editor",
+        "slug": "/",
+        "summary": "IDE-like code editor with resizable panels for file tree, code, and preview.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "code-editor-1",
+            "component": "CodeEditor",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "IDE-like resizable code editor with file tree and preview",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

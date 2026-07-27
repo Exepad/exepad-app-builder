@@ -1,0 +1,1240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Taskflow — Board</title>
+<meta name="viewport" content="width=1440" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Paper theme (default) */
+    --bg:        #F6F4EF;
+    --panel:     #FBFAF6;
+    --card:      #FFFFFF;
+    --ink:       #17171A;
+    --ink-2:     #3A3A40;
+    --muted:     #6E6E76;
+    --faint:     #9A9AA2;
+    --line:      #E6E2D8;
+    --line-2:    #EFECE3;
+    --chip:      #F0EDE4;
+    --accent:    #3E3BE0;        /* deep indigo */
+    --accent-2:  #6C63FF;
+    --accent-ink:#1B1974;
+    --good:      #2F7D4F;
+    --warn:      #B4662A;
+    --bad:       #B42F3F;
+    --high:      #D28E3F;
+    --col-backlog: #8F8A7F;
+    --col-todo:    #3E3BE0;
+    --col-progress:#D28E3F;
+    --col-done:    #2F7D4F;
+
+    --r-lg: 14px;
+    --r-md: 10px;
+    --r-sm: 6px;
+    --shadow-1: 0 1px 0 rgba(23,23,26,.04), 0 1px 2px rgba(23,23,26,.04);
+    --shadow-2: 0 1px 0 rgba(23,23,26,.05), 0 2px 6px rgba(23,23,26,.05), 0 12px 28px -16px rgba(23,23,26,.15);
+
+    --density-pad: 14px;
+    --density-row: 10px;
+  }
+
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter Tight", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-feature-settings:"ss01","cv11";
+    letter-spacing:-0.005em;
+    -webkit-font-smoothing:antialiased;
+  }
+  *{box-sizing:border-box}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;letter-spacing:inherit}
+  .mono{font-family:"JetBrains Mono", ui-monospace, Menlo, monospace; font-feature-settings:"ss01"; letter-spacing:-0.01em}
+
+  /* ---------------- APP SHELL ---------------- */
+  .app{
+    min-height:100vh;
+    display:grid;
+    grid-template-columns: 248px 1fr;
+    grid-template-rows: 56px 1fr;
+    grid-template-areas:
+      "brand topbar"
+      "side  main";
+  }
+  .brand{
+    grid-area:brand;
+    display:flex;align-items:center;gap:10px;
+    padding:0 18px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+  }
+  .brand .logo{
+    width:26px;height:26px;border-radius:7px;
+    background:
+      radial-gradient(120% 120% at 20% 10%, #6C63FF 0%, #3E3BE0 55%, #1B1974 100%);
+    position:relative;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.12), 0 2px 6px rgba(62,59,224,.35);
+  }
+  .brand .logo::after{
+    content:""; position:absolute; inset:5px;
+    background:
+      linear-gradient(90deg, transparent 46%, #fff 46%, #fff 54%, transparent 54%),
+      linear-gradient(0deg,  transparent 46%, #fff 46%, #fff 54%, transparent 54%);
+    opacity:.9; border-radius:2px;
+  }
+  .brand .name{font-weight:700;font-size:15.5px;letter-spacing:-0.02em}
+  .brand .org{font-size:11px;color:var(--muted);margin-top:1px}
+  .brand .chev{margin-left:auto;color:var(--faint)}
+
+  /* ---------------- TOP BAR ---------------- */
+  .topbar{
+    grid-area:topbar;
+    display:flex; align-items:center; gap:14px;
+    padding:0 22px 0 22px;
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+  }
+  .crumbs{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+  .crumbs .sep{color:var(--faint)}
+  .crumbs .now{color:var(--ink);font-weight:600}
+  .crumbs .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:3px 8px; border-radius:999px;
+    background:rgba(62,59,224,.08); color:var(--accent-ink);
+    font-size:11px; font-weight:600; letter-spacing:.02em;
+  }
+  .crumbs .pill .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  .views{
+    margin-left:14px;display:flex;align-items:center;gap:2px;
+    padding:3px; border:1px solid var(--line); border-radius:10px; background:var(--card);
+  }
+  .views button{
+    padding:5px 10px; font-size:12.5px; color:var(--muted);
+    border-radius:7px; font-weight:500;
+  }
+  .views button.on{background:var(--ink); color:#fff}
+  .views button svg{vertical-align:-2px;margin-right:5px}
+  .topbar .spacer{flex:1}
+  .top-action{
+    width:32px;height:32px;border-radius:9px;border:1px solid var(--line);
+    background:var(--card); color:var(--ink-2);
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .top-action:hover{border-color:#cfc9bb}
+  .cmdk{
+    display:flex;align-items:center;gap:8px;
+    padding:0 10px 0 12px; height:32px;
+    border:1px solid var(--line); border-radius:9px; background:var(--card);
+    color:var(--muted); font-size:13px; min-width:220px;
+  }
+  .cmdk .kbd{
+    margin-left:auto; font-size:10.5px; color:var(--faint);
+    padding:2px 6px; border:1px solid var(--line); border-radius:5px;
+    background:var(--panel);
+  }
+  .share{
+    height:32px;padding:0 12px;border-radius:9px;background:var(--ink);color:#fff;
+    font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;
+  }
+  .me{
+    width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,#D8C8A8,#9A7A55);
+    color:#fff;font-weight:600;font-size:12px;
+    display:inline-flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px var(--panel), 0 0 0 1px var(--line);
+  }
+
+  /* ---------------- SIDEBAR ---------------- */
+  .side{
+    grid-area:side;
+    border-right:1px solid var(--line);
+    background:var(--panel);
+    display:flex;flex-direction:column;
+    padding:14px 10px;
+    gap:14px;
+    min-height:0;
+  }
+  .side .grp-title{
+    font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--faint); padding:0 10px; margin-bottom:6px; font-weight:600;
+  }
+  .nav{display:flex;flex-direction:column;gap:1px}
+  .nav a{
+    display:flex;align-items:center;gap:10px;
+    padding:7px 10px;border-radius:8px;
+    color:var(--ink-2); font-size:13.5px; font-weight:500;
+    text-decoration:none;
+  }
+  .nav a .badge{
+    margin-left:auto; font-size:10.5px; color:var(--muted);
+    padding:1px 6px; background:var(--chip); border-radius:999px;
+    font-family:"JetBrains Mono",monospace;
+  }
+  .nav a.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-1); border:1px solid var(--line)}
+  .nav a.on .badge{background:rgba(62,59,224,.1);color:var(--accent-ink)}
+  .nav a:hover:not(.on){background:#F0ECE1}
+
+  .sprint{
+    margin:2px 4px 0 4px;
+    background:var(--card); border:1px solid var(--line);
+    border-radius:12px; padding:12px 13px;
+    box-shadow:var(--shadow-1);
+  }
+  .sprint .sprint-label{
+    font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--faint); font-weight:600; display:flex; align-items:center; justify-content:space-between;
+  }
+  .sprint .sprint-label .live{
+    color:var(--good); display:inline-flex; align-items:center; gap:5px;
+    text-transform:none; letter-spacing:0; font-size:10.5px; font-weight:600;
+  }
+  .sprint .sprint-label .live::before{
+    content:""; width:6px;height:6px;border-radius:50%;
+    background:var(--good); box-shadow:0 0 0 3px rgba(47,125,79,.18);
+  }
+  .sprint h3{
+    font-size:13.5px; margin:6px 0 10px 0; font-weight:600; letter-spacing:-.01em;
+    line-height:1.3;
+  }
+  .spark{ width:100%; height:34px; display:block; }
+  .sprint-meta{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-top:8px; font-size:11.5px; color:var(--muted);
+  }
+  .sprint-meta .pts{color:var(--ink);font-weight:600}
+
+  .teammates{display:flex;flex-direction:column;gap:1px;padding:0 2px}
+  .teammate{
+    display:flex;align-items:center;gap:10px;
+    padding:6px 8px;border-radius:8px; cursor:pointer;
+  }
+  .teammate:hover{background:#F0ECE1}
+  .tm-av{
+    width:24px;height:24px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:600;font-size:10.5px;flex:none;
+  }
+  .tm-name{font-size:13px;font-weight:500;line-height:1.1}
+  .tm-role{font-size:10.5px;color:var(--muted);margin-top:2px}
+  .tm-load{
+    margin-left:auto; font-family:"JetBrains Mono",monospace;
+    font-size:10.5px; color:var(--muted);
+    padding:1px 6px; border-radius:999px; border:1px solid var(--line);
+  }
+  .tm-load.hi{color:var(--bad);border-color:rgba(180,47,63,.25);background:rgba(180,47,63,.04)}
+
+  .side .bottom{margin-top:auto}
+  .me-row{
+    display:flex;align-items:center;gap:10px;
+    padding:8px 10px;border-radius:10px;
+    border:1px solid var(--line); background:var(--card);
+  }
+  .me-row .av{
+    width:30px;height:30px;border-radius:50%;
+    background:linear-gradient(135deg,#D8C8A8,#9A7A55);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:600;
+  }
+
+  /* ---------------- MAIN ---------------- */
+  .main{grid-area:main;display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--bg)}
+  .toolbar{
+    display:flex; align-items:center; gap:10px;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    background:var(--bg);
+  }
+  .search{
+    flex:0 1 380px;
+    height:34px;border-radius:10px;border:1px solid var(--line);
+    background:var(--card);
+    display:flex;align-items:center;gap:8px; padding:0 12px;
+    font-size:13px; color:var(--muted);
+  }
+  .search svg{flex:none}
+  .search input{
+    border:0;outline:0;background:transparent;flex:1;color:var(--ink);font:inherit;
+  }
+  .filter{
+    height:34px; padding:0 10px; border-radius:10px; border:1px solid var(--line);
+    background:var(--card); display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; color:var(--ink-2); font-weight:500;
+  }
+  .filter .dotgrp{display:inline-flex;margin-right:2px}
+  .filter .dotgrp .d{
+    width:18px;height:18px;border-radius:50%;
+    box-shadow:inset 0 0 0 2px var(--card);
+    margin-left:-6px; color:#fff; font-size:9.5px; font-weight:600;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .filter .dotgrp .d:first-child{margin-left:0}
+  .filter .caret{color:var(--faint)}
+  .filter .count{
+    padding:0 6px; height:16px; border-radius:4px;
+    background:rgba(62,59,224,.1); color:var(--accent-ink);
+    font-size:10.5px; font-weight:600;
+    display:inline-flex; align-items:center;
+    font-family:"JetBrains Mono",monospace;
+  }
+  .toolbar .grow{flex:1}
+  .toolbar .result{font-size:12px;color:var(--muted); font-family:"JetBrains Mono",monospace}
+  .tb-group{display:inline-flex; gap:0; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:3px}
+  .tb-group button{
+    height:26px; padding:0 8px; border-radius:7px; color:var(--muted);
+    font-size:11.5px; font-weight:600; letter-spacing:.02em;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .tb-group button.on{background:var(--ink); color:#fff}
+
+  .board-wrap{
+    flex:1; overflow:auto; padding:18px 22px 24px;
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(62,59,224,.04), transparent 60%),
+      var(--bg);
+  }
+  .board{
+    display:grid;
+    grid-template-columns: repeat(4, minmax(296px, 1fr));
+    gap:16px;
+    min-width: max-content;
+  }
+
+  /* ---------------- COLUMN ---------------- */
+  .col{
+    display:flex;flex-direction:column;
+    border-radius:var(--r-lg);
+    background:transparent;
+    min-width:296px;
+  }
+  .col-head{
+    display:flex; align-items:center; gap:10px;
+    padding:6px 10px 10px;
+  }
+  .col-head .swatch{
+    width:8px;height:8px;border-radius:50%;
+    box-shadow:0 0 0 3px currentColor;
+    opacity:.15;
+  }
+  .col-head .swatch i{ display:block; width:8px; height:8px; border-radius:50%; background:currentColor;}
+  .col-title{
+    font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink);
+  }
+  .col-count{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px; color:var(--muted);
+    padding:1px 6px; border-radius:5px; background:var(--chip);
+  }
+  .col-meta{
+    margin-left:auto; display:flex; align-items:center; gap:4px;
+  }
+  .col-meta .pts{
+    font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--muted);
+  }
+  .col-meta button{
+    width:24px;height:24px;border-radius:6px;color:var(--muted);
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .col-meta button:hover{background:var(--line-2);color:var(--ink)}
+
+  .cap{
+    height:3px; border-radius:2px; background:var(--line-2);
+    margin:0 10px 10px; overflow:hidden; position:relative;
+  }
+  .cap i{
+    position:absolute; left:0; top:0; bottom:0;
+    background:currentColor; border-radius:2px;
+  }
+
+  .drop{
+    display:flex;flex-direction:column;gap:10px;
+    padding:2px 10px 10px;
+    min-height:100px;
+  }
+
+  /* accent colors scoped per-column */
+  .col.backlog  { color:var(--col-backlog) }
+  .col.todo     { color:var(--col-todo) }
+  .col.progress { color:var(--col-progress) }
+  .col.done     { color:var(--col-done) }
+
+  /* ---------------- CARD ---------------- */
+  .card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--r-md);
+    padding:var(--density-pad);
+    box-shadow:var(--shadow-1);
+    transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+    cursor:grab;
+  }
+  .card:hover{
+    box-shadow:var(--shadow-2);
+    border-color:#dbd6c6;
+    transform:translateY(-1px);
+  }
+  .card::before{
+    /* priority rail */
+    content:""; position:absolute; left:0; top:10px; bottom:10px;
+    width:3px; border-radius:0 3px 3px 0;
+  }
+  .card.p-urgent::before{ background:var(--bad) }
+  .card.p-high::before  { background:var(--high) }
+  .card.p-med::before   { background:var(--accent) }
+  .card.p-low::before   { background:#BDBAAE }
+
+  .card-top{
+    display:flex; align-items:center; gap:8px;
+    font-size:11px; color:var(--muted);
+    margin-bottom:8px;
+  }
+  .id{font-family:"JetBrains Mono",monospace; font-size:10.5px; color:var(--muted); letter-spacing:-.01em}
+  .type{
+    width:14px;height:14px;border-radius:4px;flex:none;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .type.bug{background:rgba(180,47,63,.12); color:var(--bad)}
+  .type.task{background:rgba(62,59,224,.1); color:var(--accent-ink)}
+  .type.story{background:rgba(47,125,79,.12); color:var(--good)}
+  .type.chore{background:var(--chip); color:var(--muted)}
+  .pts{
+    margin-left:auto; font-family:"JetBrains Mono",monospace;
+    font-size:10.5px; color:var(--ink-2); font-weight:500;
+    padding:1px 6px; border-radius:5px; background:var(--chip);
+  }
+  .title{
+    font-size:13.5px; font-weight:550; line-height:1.35;
+    color:var(--ink); letter-spacing:-.005em;
+    text-wrap:pretty;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .tags{display:flex; flex-wrap:wrap; gap:4px; margin-top:10px}
+  .tag{
+    font-size:10.5px; padding:2px 7px; border-radius:999px;
+    background:var(--chip); color:var(--ink-2); font-weight:500;
+    letter-spacing:.01em;
+  }
+  .tag.accent{background:rgba(62,59,224,.08); color:var(--accent-ink)}
+  .tag.warn  {background:rgba(180,102,42,.1); color:var(--warn)}
+  .tag.bad   {background:rgba(180,47,63,.09); color:var(--bad)}
+  .tag.good  {background:rgba(47,125,79,.09); color:var(--good)}
+
+  .checklist{
+    margin-top:10px; display:flex; align-items:center; gap:8px;
+    font-size:11px; color:var(--muted);
+  }
+  .checklist .bar{
+    flex:1; height:3px; background:var(--line-2); border-radius:2px; overflow:hidden;
+  }
+  .checklist .bar i{display:block; height:100%; background:var(--accent); border-radius:2px}
+  .checklist.done .bar i{background:var(--good)}
+
+  .card-foot{
+    margin-top:11px; display:flex; align-items:center; gap:8px;
+  }
+  .stack{display:inline-flex}
+  .stack .av{
+    width:22px;height:22px;border-radius:50%; margin-left:-5px;
+    box-shadow:0 0 0 2px var(--card);
+    color:#fff;font-weight:600;font-size:9.5px;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .stack .av:first-child{margin-left:0}
+  .meta{
+    margin-left:auto; display:inline-flex; align-items:center; gap:10px;
+    font-size:11px; color:var(--muted);
+  }
+  .meta .m{display:inline-flex;align-items:center;gap:4px}
+  .due{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; font-family:"JetBrains Mono",monospace;
+    padding:2px 7px; border-radius:5px;
+    background:var(--chip); color:var(--ink-2);
+  }
+  .due.today{background:rgba(210,142,63,.1); color:var(--high)}
+  .due.overdue{background:rgba(180,47,63,.1); color:var(--bad)}
+  .due.done{background:rgba(47,125,79,.1); color:var(--good)}
+  .due svg{flex:none}
+
+  /* "add task" ghost */
+  .add-card{
+    border:1px dashed #D7D1C2;
+    color:var(--muted);
+    background:transparent;
+    border-radius:var(--r-md);
+    padding:11px 14px;
+    font-size:12.5px; font-weight:500;
+    display:flex; align-items:center; gap:8px;
+    transition:all .15s ease;
+  }
+  .add-card:hover{border-color:#b9b1a0; color:var(--ink); background:var(--panel)}
+
+  /* avatar colors */
+  .c-maya  {background:linear-gradient(135deg,#E2B07A,#9F6A3A)}
+  .c-jordan{background:linear-gradient(135deg,#8AB1D9,#3E6AA6)}
+  .c-priya {background:linear-gradient(135deg,#C78FCB,#7B3F87)}
+  .c-tomas {background:linear-gradient(135deg,#7FBFA3,#37805D)}
+  .c-ari   {background:linear-gradient(135deg,#D9888D,#93343C)}
+
+  /* density compact */
+  body.compact{ --density-pad: 10px 12px; }
+  body.compact .card-top{margin-bottom:6px}
+  body.compact .tags{margin-top:8px}
+  body.compact .card-foot{margin-top:9px}
+  body.compact .title{font-size:13px}
+
+  /* ============ DARK ============ */
+  body.dark{
+    --bg:#0D0D10;
+    --panel:#131319;
+    --card:#181820;
+    --ink:#ECECEF;
+    --ink-2:#CCCCD3;
+    --muted:#8D8D97;
+    --faint:#5F5F69;
+    --line:#232330;
+    --line-2:#1F1F2A;
+    --chip:#20202C;
+    --accent:#8B86FF;
+    --accent-2:#A9A4FF;
+    --accent-ink:#C9C5FF;
+    --good:#6EE09A;
+    --warn:#E5B478;
+    --bad:#F58A98;
+    --high:#E5B478;
+  }
+  body.dark .share{background:#fff;color:#111}
+  body.dark .brand .logo{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08), 0 2px 6px rgba(62,59,224,.25)}
+
+  /* ============ TWEAKS PANEL ============ */
+  .tweaks{
+    position:fixed; right:18px; bottom:18px;
+    width:260px; background:var(--card); color:var(--ink);
+    border:1px solid var(--line); border-radius:14px;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,.3), 0 0 0 1px rgba(0,0,0,.02);
+    padding:14px; z-index:50; display:none;
+    font-size:12.5px;
+  }
+  .tweaks.open{display:block}
+  .tweaks h4{margin:0 0 8px; font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--muted); font-weight:600}
+  .tweaks .row{display:flex; gap:6px; margin-bottom:12px}
+  .tweaks .seg{flex:1; padding:7px 8px; border:1px solid var(--line); background:var(--panel); border-radius:8px; font-size:12px; color:var(--ink-2); font-weight:500}
+  .tweaks .seg.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+  .tweaks .hues{display:flex; gap:6px}
+  .tweaks .hue{
+    width:24px;height:24px;border-radius:50%; border:2px solid transparent; cursor:pointer;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
+  }
+  .tweaks .hue.on{border-color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- BRAND -->
+  <header class="brand">
+    <div class="logo"></div>
+    <div>
+      <div class="name">Taskflow</div>
+      <div class="org">Acme · McClain team</div>
+    </div>
+    <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </header>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="crumbs">
+      <span>Workspace</span>
+      <span class="sep">/</span>
+      <span>Platform</span>
+      <span class="sep">/</span>
+      <span class="now">Q2 Overhaul</span>
+      <span class="pill"><span class="dot"></span>Sprint 12 · Live</span>
+    </div>
+
+    <div class="views">
+      <button class="on">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="10" y="4" width="5" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="4" width="4" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
+        Board
+      </button>
+      <button>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        List
+      </button>
+      <button>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="7" r="1.5" fill="currentColor"/><circle cx="14" cy="12" r="1.5" fill="currentColor"/><circle cx="11" cy="17" r="1.5" fill="currentColor"/></svg>
+        Timeline
+      </button>
+      <button>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 12c3-6 15-6 18 0-3 6-15 6-18 0Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg>
+        Insights
+      </button>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="cmdk">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.8"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input placeholder="Search tasks, sprints, people…" />
+      <span class="kbd mono">⌘K</span>
+    </div>
+    <button class="top-action" title="Notifications">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 1 1 12 0c0 4 2 6 2 6H4s2-2 2-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 19a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <button class="share">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 4v12m0-12-4 4m4-4 4 4M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Share
+    </button>
+    <div class="me">MS</div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div>
+      <div class="grp-title">Workspace</div>
+      <nav class="nav">
+        <a class="on" href="#">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="10" y="4" width="5" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="4" width="4" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
+          Board <span class="badge">43</span>
+        </a>
+        <a href="#">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          My tasks <span class="badge">11</span>
+        </a>
+        <a href="#">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16M9 3v4M15 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Sprints <span class="badge">17</span>
+        </a>
+        <a href="#">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20V10m6 10V4m6 16v-6m6 6V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Analytics
+        </a>
+        <a href="#">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 8V4m0 16v-4m4-4h4M4 12h4m8.5-5.5 3-3m-15 15 3-3m0-9-3-3m15 15-3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Automations
+        </a>
+        <a href="#">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2m0 16v2m10-10h-2M4 12H2m15.5-7.5-1.4 1.4m-8.2 8.2-1.4 1.4m11-1.4-1.4-1.4M7.9 7.9 6.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Settings
+        </a>
+      </nav>
+    </div>
+
+    <div class="sprint">
+      <div class="sprint-label">
+        <span>Current sprint</span>
+        <span class="live">Day 7 of 10</span>
+      </div>
+      <h3>Onboarding overhaul · platform hardening</h3>
+      <svg class="spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="lg" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#3E3BE0" stop-opacity=".22"/>
+            <stop offset="1" stop-color="#3E3BE0" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- ideal line -->
+        <path d="M0 4 L200 30" stroke="#D7D1C2" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
+        <!-- actual -->
+        <path d="M0 4 L20 6 L40 9 L60 10 L80 15 L100 16 L120 19 L140 22" stroke="#3E3BE0" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M0 4 L20 6 L40 9 L60 10 L80 15 L100 16 L120 19 L140 22 L140 34 L0 34 Z" fill="url(#lg)"/>
+        <circle cx="140" cy="22" r="2.5" fill="#3E3BE0"/>
+      </svg>
+      <div class="sprint-meta">
+        <span><span class="pts">58</span> / 94 pts</span>
+        <span>3 days left</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="grp-title">Teammates</div>
+      <div class="teammates">
+        <div class="teammate"><span class="tm-av c-maya">MS</span><div><div class="tm-name">Maya Schuster</div><div class="tm-role">Product manager</div></div><span class="tm-load">6</span></div>
+        <div class="teammate"><span class="tm-av c-jordan">JR</span><div><div class="tm-name">Jordan Rivera</div><div class="tm-role">Designer</div></div><span class="tm-load">5</span></div>
+        <div class="teammate"><span class="tm-av c-priya">PA</span><div><div class="tm-name">Priya Aziz</div><div class="tm-role">Eng, platform</div></div><span class="tm-load hi">9</span></div>
+        <div class="teammate"><span class="tm-av c-tomas">TD</span><div><div class="tm-name">Tomás Dubois</div><div class="tm-role">Eng, front-end</div></div><span class="tm-load">4</span></div>
+        <div class="teammate"><span class="tm-av c-ari">AK</span><div><div class="tm-name">Ari Kowalski</div><div class="tm-role">Eng, infra</div></div><span class="tm-load">3</span></div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="me-row">
+        <div class="av">MS</div>
+        <div style="flex:1">
+          <div class="tm-name">Maya Schuster</div>
+          <div class="tm-role">Workspace owner</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="toolbar">
+      <div class="search">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.8"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input placeholder="Filter by title, id, label, assignee…"/>
+      </div>
+      <button class="filter">
+        <span class="dotgrp">
+          <span class="d c-maya">M</span><span class="d c-jordan">J</span><span class="d c-priya">P</span><span class="d c-tomas">T</span>
+        </span>
+        <span>Assignee</span>
+        <span class="count">4</span>
+        <svg class="caret" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="filter">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.2 1.4 6L12 16.9 6.5 19.4l1.4-6L3.3 9.2l6.1-.6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        Priority
+        <svg class="caret" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="filter">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16" stroke="currentColor" stroke-width="1.6"/></svg>
+        Sprint · S12
+        <svg class="caret" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="filter">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 4h7l9 9-7 7-9-9V4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/></svg>
+        Label
+        <svg class="caret" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="filter">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        Group · Status
+      </button>
+
+      <div class="grow"></div>
+      <span class="result">43 / 43 tasks · 168 pts</span>
+      <div class="tb-group">
+        <button class="on">Group</button>
+        <button>Swimlanes</button>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <div class="board" id="board">
+
+        <!-- ============== BACKLOG ============== -->
+        <section class="col backlog">
+          <header class="col-head">
+            <span class="swatch"><i></i></span>
+            <span class="col-title" style="color:var(--ink)">Backlog</span>
+            <span class="col-count">15</span>
+            <span class="col-meta">
+              <span class="pts">38 pts</span>
+              <button title="Add"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button title="More"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="18" cy="12" r="1.5" fill="currentColor"/></svg></button>
+            </span>
+          </header>
+          <div class="cap"><i style="width:42%"></i></div>
+          <div class="drop">
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type task"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+                <span class="id">TSK-0312</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Q2 dashboard redesign — discovery &amp; quant research</div>
+              <div class="tags"><span class="tag accent">research</span><span class="tag">design</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-jordan">JR</span></span>
+                <span class="meta">
+                  <span class="m"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M21 15a4 4 0 0 1-4 4H8l-5 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" stroke="currentColor" stroke-width="1.7"/></svg>4</span>
+                  <span class="m"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a9 9 0 1 0-17.8 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M21 21v-5h-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>2</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="card p-high">
+              <div class="card-top">
+                <span class="type story"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path d="M4 4h10l6 6v10H4V4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+                <span class="id">TSK-0410</span>
+                <span class="pts">8</span>
+              </div>
+              <div class="title">Pricing refresh — launch plan &amp; narrative</div>
+              <div class="tags"><span class="tag warn">pricing</span><span class="tag">launch</span><span class="tag">gtm</span></div>
+              <div class="checklist">
+                <span>Subtasks</span>
+                <span class="bar"><i style="width:35%"></i></span>
+                <span class="mono">3/9</span>
+              </div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-maya">MS</span><span class="av c-jordan">JR</span></span>
+                <span class="meta"><span class="due">May 04</span></span>
+              </div>
+            </article>
+
+            <article class="card p-low">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0226</span>
+                <span class="pts">3</span>
+              </div>
+              <div class="title">Research competitor pricing tiers &amp; seat models</div>
+              <div class="tags"><span class="tag">research</span><span class="tag">pricing</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-maya">MS</span></span>
+                <span class="meta"><span class="m"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v12H4z" stroke="currentColor" stroke-width="1.7"/><path d="M4 11l8 5 8-5" stroke="currentColor" stroke-width="1.7"/></svg>12</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0418</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Explore alternate queue backend: NATS vs Redis Streams</div>
+              <div class="tags"><span class="tag">infra</span><span class="tag accent">spike</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-ari">AK</span><span class="av c-tomas">TD</span></span>
+                <span class="meta"><span class="m"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 4l8 4-8 4-8-4 8-4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M4 12l8 4 8-4M4 16l8 4 8-4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>3</span></span>
+              </div>
+            </article>
+
+            <article class="card p-low">
+              <div class="card-top">
+                <span class="type chore"></span>
+                <span class="id">TSK-0332</span>
+                <span class="pts">2</span>
+              </div>
+              <div class="title">Investigate webhook rate-limit policy for partners</div>
+              <div class="tags"><span class="tag">api</span><span class="tag">policy</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-tomas">TD</span></span>
+              </div>
+            </article>
+
+            <button class="add-card">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Add task
+            </button>
+          </div>
+        </section>
+
+        <!-- ============== TODO ============== -->
+        <section class="col todo">
+          <header class="col-head">
+            <span class="swatch"><i></i></span>
+            <span class="col-title">Todo</span>
+            <span class="col-count">9</span>
+            <span class="col-meta">
+              <span class="pts">32 pts</span>
+              <button><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="18" cy="12" r="1.5" fill="currentColor"/></svg></button>
+            </span>
+          </header>
+          <div class="cap"><i style="width:28%"></i></div>
+          <div class="drop">
+
+            <article class="card p-urgent">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0428</span>
+                <span class="pts">3</span>
+              </div>
+              <div class="title">Draft Q2 launch proposal for exec review</div>
+              <div class="tags"><span class="tag accent">launch</span><span class="tag">planning</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-maya">MS</span></span>
+                <span class="meta"><span class="due overdue"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Apr 22 · late</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type story"></span>
+                <span class="id">TSK-0433</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Customer interview: Globex onboarding pain points</div>
+              <div class="tags"><span class="tag accent">customer</span><span class="tag">research</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-jordan">JR</span><span class="av c-maya">MS</span></span>
+                <span class="meta"><span class="due today">Today · 3p</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type chore"></span>
+                <span class="id">TSK-0427</span>
+                <span class="pts">2</span>
+              </div>
+              <div class="title">Customer support: triage backlog (week 16)</div>
+              <div class="tags"><span class="tag">support</span><span class="tag">ops</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-priya">PA</span></span>
+                <span class="meta"><span class="due">Apr 24</span></span>
+              </div>
+            </article>
+
+            <article class="card p-low">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0421</span>
+                <span class="pts">3</span>
+              </div>
+              <div class="title">Cut 1.4 release notes &amp; marketing blurb</div>
+              <div class="tags"><span class="tag">release</span><span class="tag">comms</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-maya">MS</span></span>
+                <span class="meta"><span class="due">Apr 26</span></span>
+              </div>
+            </article>
+
+            <article class="card p-high">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0425</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Command palette v1 — keyboard grammar</div>
+              <div class="tags"><span class="tag">ui</span><span class="tag accent">productivity</span></div>
+              <div class="checklist"><span>Subtasks</span><span class="bar"><i style="width:0"></i></span><span class="mono">0/7</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-jordan">JR</span><span class="av c-tomas">TD</span></span>
+                <span class="meta"><span class="due">Apr 27</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type chore"></span>
+                <span class="id">TSK-0436</span>
+                <span class="pts">3</span>
+              </div>
+              <div class="title">Migrate worker template to Bun runtime</div>
+              <div class="tags"><span class="tag">infra</span><span class="tag warn">perf</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-tomas">TD</span><span class="av c-ari">AK</span></span>
+              </div>
+            </article>
+
+            <button class="add-card"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add task</button>
+          </div>
+        </section>
+
+        <!-- ============== IN PROGRESS ============== -->
+        <section class="col progress">
+          <header class="col-head">
+            <span class="swatch"><i></i></span>
+            <span class="col-title">In progress</span>
+            <span class="col-count">7</span>
+            <span class="col-meta">
+              <span class="pts">26 pts</span>
+              <button><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="18" cy="12" r="1.5" fill="currentColor"/></svg></button>
+            </span>
+          </header>
+          <div class="cap"><i style="width:70%"></i></div>
+          <div class="drop">
+
+            <article class="card p-urgent">
+              <div class="card-top">
+                <span class="type bug"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 3v3M4 8l3 2M4 16l3-2M20 8l-3 2M20 16l-3-2M12 21v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+                <span class="id">TSK-0440</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Webhook timeouts on large payloads (&gt;4MB, region eu‑west)</div>
+              <div class="tags"><span class="tag bad">bug</span><span class="tag warn">p1</span><span class="tag">infra</span></div>
+              <div class="checklist"><span>Subtasks</span><span class="bar"><i style="width:60%"></i></span><span class="mono">3/5</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-priya">PA</span><span class="av c-ari">AK</span></span>
+                <span class="meta"><span class="due today"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>EOD</span></span>
+              </div>
+            </article>
+
+            <article class="card p-high">
+              <div class="card-top">
+                <span class="type story"></span>
+                <span class="id">TSK-0393</span>
+                <span class="pts">8</span>
+              </div>
+              <div class="title">Onboarding: redesign welcome screen</div>
+              <div class="tags"><span class="tag accent">onboarding</span><span class="tag">ui</span></div>
+              <div class="checklist"><span>Subtasks</span><span class="bar"><i style="width:78%"></i></span><span class="mono">7/9</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-jordan">JR</span></span>
+                <span class="meta"><span class="due today">Today</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type story"></span>
+                <span class="id">TSK-0414</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Onboarding: interactive checklist widget</div>
+              <div class="tags"><span class="tag accent">onboarding</span><span class="tag">ui</span></div>
+              <div class="checklist"><span>Subtasks</span><span class="bar"><i style="width:45%"></i></span><span class="mono">4/9</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-jordan">JR</span><span class="av c-tomas">TD</span></span>
+                <span class="meta"><span class="due">Apr 23</span></span>
+              </div>
+            </article>
+
+            <article class="card p-high">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0407</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Platform hardening: per‑app D1 retries &amp; circuit breaker</div>
+              <div class="tags"><span class="tag">infra</span><span class="tag good">reliability</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-ari">AK</span><span class="av c-tomas">TD</span></span>
+                <span class="meta"><span class="due">Apr 25</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0437</span>
+                <span class="pts">3</span>
+              </div>
+              <div class="title">Write RFC for notification preferences v2</div>
+              <div class="tags"><span class="tag">rfc</span><span class="tag">notifications</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-maya">MS</span><span class="av c-priya">PA</span></span>
+                <span class="meta"><span class="due">Apr 28</span></span>
+              </div>
+            </article>
+
+            <article class="card p-urgent">
+              <div class="card-top">
+                <span class="type bug"></span>
+                <span class="id">TSK-0419</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Ship dark‑mode v2 across all pages (a11y pass pending)</div>
+              <div class="tags"><span class="tag">ui</span><span class="tag bad">tech‑debt</span></div>
+              <div class="checklist"><span>Subtasks</span><span class="bar"><i style="width:30%"></i></span><span class="mono">2/7</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-jordan">JR</span></span>
+                <span class="meta"><span class="due overdue">Apr 18</span></span>
+              </div>
+            </article>
+
+            <button class="add-card"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add task</button>
+          </div>
+        </section>
+
+        <!-- ============== DONE ============== -->
+        <section class="col done">
+          <header class="col-head">
+            <span class="swatch"><i></i></span>
+            <span class="col-title">Done</span>
+            <span class="col-count">12</span>
+            <span class="col-meta">
+              <span class="pts">72 pts · this sprint</span>
+              <button><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="18" cy="12" r="1.5" fill="currentColor"/></svg></button>
+            </span>
+          </header>
+          <div class="cap"><i style="width:100%"></i></div>
+          <div class="drop">
+
+            <article class="card p-urgent">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0402</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">SOC 2 gap: session token rotation</div>
+              <div class="tags"><span class="tag bad">security</span><span class="tag">compliance</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-priya">PA</span></span>
+                <span class="meta"><span class="due done"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Apr 15</span></span>
+              </div>
+            </article>
+
+            <article class="card p-high">
+              <div class="card-top">
+                <span class="type bug"></span>
+                <span class="id">TSK-0446</span>
+                <span class="pts">3</span>
+              </div>
+              <div class="title">Fix edge case in billing webhook idempotency</div>
+              <div class="tags"><span class="tag bad">bug</span><span class="tag">billing</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-priya">PA</span></span>
+                <span class="meta"><span class="due done">Apr 16</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type chore"></span>
+                <span class="id">TSK-0403</span>
+                <span class="pts">2</span>
+              </div>
+              <div class="title">Renew SSL cert for staging cluster</div>
+              <div class="tags"><span class="tag">infra</span><span class="tag">ops</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-ari">AK</span></span>
+                <span class="meta"><span class="due done">Apr 15</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type story"></span>
+                <span class="id">TSK-0467</span>
+                <span class="pts">8</span>
+              </div>
+              <div class="title">Customer interview: Acme Corp (North America)</div>
+              <div class="tags"><span class="tag accent">customer</span><span class="tag">research</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-maya">MS</span><span class="av c-jordan">JR</span></span>
+                <span class="meta"><span class="due done">Apr 14</span></span>
+              </div>
+            </article>
+
+            <article class="card p-low">
+              <div class="card-top">
+                <span class="type chore"></span>
+                <span class="id">TSK-0409</span>
+                <span class="pts">3</span>
+              </div>
+              <div class="title">Profile cold‑start of worker template</div>
+              <div class="tags"><span class="tag warn">perf</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-tomas">TD</span></span>
+                <span class="meta"><span class="due done">Apr 14</span></span>
+              </div>
+            </article>
+
+            <article class="card p-low">
+              <div class="card-top">
+                <span class="type task"></span>
+                <span class="id">TSK-0461</span>
+                <span class="pts">2</span>
+              </div>
+              <div class="title">Ship v1.4 release notes</div>
+              <div class="tags"><span class="tag">release</span><span class="tag">comms</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-maya">MS</span></span>
+                <span class="meta"><span class="due done">Apr 12</span></span>
+              </div>
+            </article>
+
+            <article class="card p-med">
+              <div class="card-top">
+                <span class="type story"></span>
+                <span class="id">TSK-0405</span>
+                <span class="pts">5</span>
+              </div>
+              <div class="title">Design review: notifications 2.0</div>
+              <div class="tags"><span class="tag accent">design</span></div>
+              <div class="card-foot">
+                <span class="stack"><span class="av c-jordan">JR</span></span>
+                <span class="meta"><span class="due done">Apr 11</span></span>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- TWEAKS -->
+<div class="tweaks" id="tweaks">
+  <h4>Theme</h4>
+  <div class="row">
+    <button class="seg on" data-theme="paper">Paper</button>
+    <button class="seg" data-theme="light">Light</button>
+    <button class="seg" data-theme="dark">Dark</button>
+  </div>
+  <h4>Density</h4>
+  <div class="row">
+    <button class="seg on" data-density="cozy">Cozy</button>
+    <button class="seg" data-density="compact">Compact</button>
+  </div>
+  <h4>Accent</h4>
+  <div class="hues" id="hues">
+    <button class="hue on" data-hue="indigo" style="background:#3E3BE0"></button>
+    <button class="hue"    data-hue="teal"   style="background:#0E8C84"></button>
+    <button class="hue"    data-hue="amber"  style="background:#C07A1A"></button>
+    <button class="hue"    data-hue="rose"   style="background:#B43A5B"></button>
+    <button class="hue"    data-hue="graphite" style="background:#2A2A33"></button>
+  </div>
+</div>
+
+<script>
+  /* Persisted tweakable defaults */
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "paper",
+    "density": "compact",
+    "hue": "rose"
+  }/*EDITMODE-END*/;
+
+  const HUES = {
+    indigo:   {accent:"#3E3BE0", accent2:"#6C63FF", accentInk:"#1B1974"},
+    teal:     {accent:"#0E8C84", accent2:"#1FB3A9", accentInk:"#044E4A"},
+    amber:    {accent:"#C07A1A", accent2:"#E19A3C", accentInk:"#6C3F06"},
+    rose:     {accent:"#B43A5B", accent2:"#D86580", accentInk:"#69142A"},
+    graphite: {accent:"#2A2A33", accent2:"#4F4F5C", accentInk:"#0F0F14"},
+  };
+  const THEMES = {
+    paper: { "--bg":"#F6F4EF","--panel":"#FBFAF6","--card":"#FFFFFF" },
+    light: { "--bg":"#F3F4F7","--panel":"#FFFFFF","--card":"#FFFFFF" },
+  };
+
+  let state = { ...TWEAK_DEFAULTS };
+
+  function applyTweaks(s){
+    const body = document.body;
+    body.classList.toggle("dark", s.theme === "dark");
+    body.classList.toggle("compact", s.density === "compact");
+    // theme vars
+    const root = document.documentElement;
+    if(s.theme !== "dark"){
+      const t = THEMES[s.theme] || THEMES.paper;
+      Object.entries(t).forEach(([k,v]) => root.style.setProperty(k,v));
+    } else {
+      ["--bg","--panel","--card"].forEach(k => root.style.removeProperty(k));
+    }
+    // accent hue
+    const h = HUES[s.hue] || HUES.indigo;
+    root.style.setProperty("--accent", h.accent);
+    root.style.setProperty("--accent-2", h.accent2);
+    root.style.setProperty("--accent-ink", h.accentInk);
+    root.style.setProperty("--col-todo", h.accent);
+
+    // update tweak UI
+    document.querySelectorAll("[data-theme]").forEach(b => b.classList.toggle("on", b.dataset.theme===s.theme));
+    document.querySelectorAll("[data-density]").forEach(b => b.classList.toggle("on", b.dataset.density===s.density));
+    document.querySelectorAll("[data-hue]").forEach(b => b.classList.toggle("on", b.dataset.hue===s.hue));
+  }
+
+  function setTweak(key, value){
+    state = { ...state, [key]: value };
+    applyTweaks(state);
+    window.parent.postMessage({type:"__edit_mode_set_keys", edits:{[key]: value}}, "*");
+  }
+
+  document.querySelectorAll("[data-theme]").forEach(b => b.addEventListener("click", () => setTweak("theme", b.dataset.theme)));
+  document.querySelectorAll("[data-density]").forEach(b => b.addEventListener("click", () => setTweak("density", b.dataset.density)));
+  document.querySelectorAll("[data-hue]").forEach(b => b.addEventListener("click", () => setTweak("hue", b.dataset.hue)));
+
+  applyTweaks(state);
+
+  /* Edit-mode host integration */
+  window.addEventListener("message", (e) => {
+    const d = e.data || {};
+    if(d.type === "__activate_edit_mode")   document.getElementById("tweaks").classList.add("open");
+    if(d.type === "__deactivate_edit_mode") document.getElementById("tweaks").classList.remove("open");
+  });
+  window.parent.postMessage({type:"__edit_mode_available"}, "*");
+</script>
+</body>
+</html>

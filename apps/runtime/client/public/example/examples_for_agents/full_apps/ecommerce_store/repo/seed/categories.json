@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Electronics",
+    "slug": "electronics",
+    "description": "Phones, laptops, accessories, and gadgets",
+    "image_url": null
+  },
+  {
+    "name": "Clothing",
+    "slug": "clothing",
+    "description": "Men's and women's apparel, shoes, and accessories",
+    "image_url": null
+  },
+  {
+    "name": "Home",
+    "slug": "home",
+    "description": "Furniture, decor, kitchen, and home essentials",
+    "image_url": null
+  },
+  {
+    "name": "Sports",
+    "slug": "sports",
+    "description": "Fitness equipment, outdoor gear, and sportswear",
+    "image_url": null
+  },
+  {
+    "name": "Books",
+    "slug": "books",
+    "description": "Fiction, non-fiction, textbooks, and audiobooks",
+    "image_url": null
+  }
+]

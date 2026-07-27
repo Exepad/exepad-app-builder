@@ -1,0 +1,64 @@
+/* ==========================================================================
+   FitPulse — Code Focus Theme
+   Fitness tracker: progress rings, macro bars, workout cards for Shadow DOM
+   ========================================================================== */
+
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.progress-ring {
+  width: 80px;
+  height: 80px;
+}
+
+.progress-ring circle {
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.workout-card {
+  transition: background-color 0.15s ease;
+}
+
+.macro-bar {
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.streak-badge {
+  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+}
+
+.kpi-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.goal-card {
+  transition: transform 0.2s ease;
+}
+
+.goal-card:hover {
+  transform: translateY(-1px);
+}
+
+.nav-item {
+  transition: all 0.15s ease;
+}
+
+.meal-row {
+  transition: background-color 0.1s ease;
+}
+
+.meal-row:hover {
+  background-color: rgba(22, 163, 74, 0.04);
+}

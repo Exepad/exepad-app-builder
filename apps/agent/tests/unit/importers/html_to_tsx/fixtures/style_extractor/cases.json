@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "id": "style_in_body_drops_to_sidecar",
+      "input_path": "examples/style_in_body_drops_to_sidecar.html",
+      "expected_styles_contains": [".hero { color: red; }"],
+      "expected_tsx_absent": ["<style>"]
+    },
+    {
+      "id": "style_with_data_uri",
+      "input_path": "examples/style_with_data_uri.html",
+      "expected_styles_contains": ["data:image/svg+xml"],
+      "expected_tsx_absent": ["<style>"]
+    },
+    {
+      "id": "style_with_keyframes",
+      "input_path": "examples/style_with_keyframes.html",
+      "expected_styles_contains": ["@keyframes pulse"],
+      "expected_tsx_absent": ["<style>"]
+    }
+  ]
+}

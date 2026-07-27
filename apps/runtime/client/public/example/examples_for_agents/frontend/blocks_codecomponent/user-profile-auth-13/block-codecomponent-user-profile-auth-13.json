@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-user-profile-auth",
+  "alias": "codecomponent-user-profile-auth",
+  "name": "User Profile Auth Card",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "User profile card using CodeComponentProps that adapts based on authentication state. Demonstrates useCurrentUser for user data, useNavigation for page links, useTheme for theme display, useAppState for auth toggle, and SDK UI primitives (Avatar, Badge, Button, Card, Separator). Includes a demo toggle to simulate authenticated and unauthenticated states. No backend required — uses embedded demo data with useCurrentUser fallback.",
+  "shortSummary": "User profile card with auth state toggle using useCurrentUser and useNavigation",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "UserProfileCard": {
+        "source": "frontend/components/UserProfileCard.tsx",
+        "compiled": "frontend/components/UserProfileCard.js",
+        "summary": "User profile card showing avatar with initials, role badges, theme mode, quick navigation actions, and auth state toggle"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#04855d",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdf4",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f0fdf4",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#059669"
+      },
+      "dark": {
+        "background": "#0a0f0d",
+        "foreground": "#f8fafc",
+        "primary": "#34d399",
+        "primary-foreground": "#0a0f0d",
+        "secondary": "#112019",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#112019",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#34d399"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-profile",
+        "title": "Profile",
+        "slug": "/",
+        "summary": "User profile page with auth-adaptive card component.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "user-profile-card-1",
+            "component": "UserProfileCard",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "User profile page with auth-adaptive card",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

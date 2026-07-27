@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-multistep-form",
+  "alias": "codecomponent-multistep-form",
+  "name": "Multi-Step Registration Form",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Multi-step registration form CodeComponent with 3 steps: personal info (Zod-validated name, email, country Select), preferences (Checkbox interests, RadioGroup experience, Textarea bio), and review/confirm. Uses Progress bar as step indicator, react-hook-form with Controller for Select fields, Zod schemas per step, useAppState for current step tracking, and toast on completion. No backend required.",
+  "shortSummary": "Multi-step form with Zod validation, useAppState step tracking, and toast feedback",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "MultiStepForm": {
+        "source": "frontend/components/MultiStepForm.tsx",
+        "compiled": "frontend/components/MultiStepForm.js",
+        "summary": "3-step registration form with Zod validation per step, Progress indicator, Checkbox/RadioGroup/Select fields, useAppState for step tracking, toast on submit"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f5f3ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#f5f3ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e7eb",
+        "input": "#e5e7eb",
+        "ring": "#7c3aed"
+      },
+      "dark": {
+        "background": "#0f0b1a",
+        "foreground": "#f8fafc",
+        "primary": "#a78bfa",
+        "primary-foreground": "#0f0b1a",
+        "secondary": "#1e1530",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e1530",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e1530",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e1530",
+        "input": "#1e1530",
+        "ring": "#a78bfa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-register",
+        "title": "Register",
+        "slug": "/",
+        "summary": "Registration page with multi-step form wizard.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "multistep-form-1",
+            "component": "MultiStepForm",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Registration page with multi-step form wizard",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

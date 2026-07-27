@@ -1,0 +1,17 @@
+[
+  { "course_id": 1, "title": "TypeScript Foundations", "sort_order": 1, "description": "Core TypeScript concepts including types, interfaces, generics, and utility types" },
+  { "course_id": 1, "title": "React with TypeScript", "sort_order": 2, "description": "Building React components, hooks, and context with full type safety" },
+  { "course_id": 2, "title": "Design Principles", "sort_order": 1, "description": "Color theory, typography, layout grids, and visual hierarchy" },
+  { "course_id": 2, "title": "Wireframing & Prototyping", "sort_order": 2, "description": "Low-fi wireframes to high-fidelity interactive prototypes in Figma" },
+  { "course_id": 3, "title": "Python Basics for Data", "sort_order": 1, "description": "Python syntax, data structures, and environment setup for data science" },
+  { "course_id": 3, "title": "Data Analysis with Pandas", "sort_order": 2, "description": "DataFrames, cleaning, aggregation, and visualization" },
+  { "course_id": 3, "title": "Machine Learning Intro", "sort_order": 3, "description": "Supervised and unsupervised learning with scikit-learn" },
+  { "course_id": 4, "title": "SEO & Content Strategy", "sort_order": 1, "description": "Keyword research, on-page SEO, and content planning" },
+  { "course_id": 4, "title": "Paid Advertising", "sort_order": 2, "description": "Google Ads, Facebook Ads, and campaign optimization" },
+  { "course_id": 5, "title": "Business Model Design", "sort_order": 1, "description": "Lean canvas, value proposition, and market validation" },
+  { "course_id": 5, "title": "Fundraising & Finance", "sort_order": 2, "description": "Pitch decks, angel investors, VCs, and financial projections" },
+  { "course_id": 6, "title": "Deep Learning Foundations", "sort_order": 1, "description": "Neural network architectures, backpropagation, and optimization" },
+  { "course_id": 6, "title": "NLP & Computer Vision", "sort_order": 2, "description": "Transformers, CNNs, and practical applications" },
+  { "course_id": 7, "title": "Backend with Express", "sort_order": 1, "description": "REST APIs, middleware, authentication, and database integration" },
+  { "course_id": 8, "title": "Animation Fundamentals", "sort_order": 1, "description": "Keyframing, easing, timing, and the 12 principles of animation" }
+]

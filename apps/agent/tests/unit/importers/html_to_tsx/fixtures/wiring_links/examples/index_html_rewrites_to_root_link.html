@@ -1,0 +1,14 @@
+<!-- Source bundles (Claude Design, Stitch) emit `href="index.html"` for
+     home links. The canonical home slug is `/` — without the special
+     case in wiring/links.py:101, this becomes `/index` which neither
+     matches the slug nor falls through cleanly. dchu7mzs (2026-05-17)
+     shipped with MainHeader brand + Home nav both as `<a href="/index">`
+     for this exact reason.
+
+     Note: this fixture only exercises `index.html` → `/`. Non-index
+     `.html` suffixes (e.g. `shop.html`) are stripped by the auto-fixer
+     downstream, not by the walker — they stay as `<a>` here. -->
+<nav>
+  <a class="brand" href="index.html">HappyDoods</a>
+  <a href="index.html">Home</a>
+</nav>

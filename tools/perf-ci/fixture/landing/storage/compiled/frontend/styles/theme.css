@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@source "./components";
+
+@layer exepad-app {
+  @theme {
+    --color-primary: #2d6a4f;
+    --color-on-primary: #FFFFFF;
+    --color-primary-container: #b6cbc1;
+    --color-on-primary-container: #1C1B1F;
+    --color-secondary: #52b788;
+    --color-on-secondary: #1C1B1F;
+    --color-secondary-container: #c2e6d5;
+    --color-on-secondary-container: #1C1B1F;
+    --color-surface: #fefae0;
+    --color-on-surface: #1C1B1F;
+    --color-surface-variant: #fdf7cd;
+    --color-on-surface-variant: #1C1B1F;
+    --color-surface-dim: #fdf3b2;
+    --color-surface-bright: #fefbe9;
+    --color-surface-container-lowest: #fefcee;
+    --color-surface-container-low: #fef9d7;
+    --color-surface-container: #fdf7cd;
+    --color-surface-container-high: #fdf6c4;
+    --color-surface-container-highest: #fdf4bb;
+    --color-error: #dc2626;
+    --color-on-error: #FFFFFF;
+    --color-error-container: #f3b3b3;
+    --color-on-error-container: #1C1B1F;
+    --color-outline: #f8dc27;
+    --color-outline-variant: #fbea7a;
+    --color-background: #fefae0;
+    --color-on-background: #1C1B1F;
+    --color-inverse-surface: #1f1b01;
+    --color-inverse-on-surface: #FFFFFF;
+    --color-inverse-primary: #81a695;
+    --font-headline: "Fraunces", serif;
+    --font-body: "Inter", sans-serif;
+    --font-heading: "Fraunces", serif;
+    --font-sans: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+  }
+  :root {
+    --background: 52 94% 94%;
+    --foreground: 255 7% 12%;
+    --primary: 152 40% 30%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 150 40% 52%;
+    --secondary-foreground: 255 7% 12%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --muted: 50 92% 90%;
+    --muted-foreground: 255 7% 12%;
+    --accent: 150 40% 83%;
+    --accent-foreground: 255 7% 12%;
+    --card: 50 95% 92%;
+    --card-foreground: 255 7% 12%;
+    --border: 52 94% 73%;
+    --input: 52 94% 73%;
+    --ring: 152 40% 30%;
+    --radius: 0.5rem;
+    --popover: 52 94% 94%;
+    --popover-foreground: 255 7% 12%;
+    --sidebar-background: 50 95% 92%;
+    --sidebar-foreground: 255 7% 12%;
+    --sidebar-primary: 152 40% 30%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 150 40% 83%;
+    --sidebar-accent-foreground: 255 7% 12%;
+    --sidebar-border: 52 94% 73%;
+    --sidebar-ring: 152 40% 30%;
+    --animation-duration: 150ms;
+    --animation-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-scale-enter: 0.98;
+    --animation-slide-enter: 4px;
+  }
+  [data-state=open] {
+    animation-duration: var(--animation-duration, 200ms) !important;
+    animation-timing-function: var(--animation-ease) !important;
+  }
+  [data-state=closed] {
+    animation-duration: var(--animation-duration, 200ms) !important;
+    animation-timing-function: var(--animation-ease) !important;
+  }
+}

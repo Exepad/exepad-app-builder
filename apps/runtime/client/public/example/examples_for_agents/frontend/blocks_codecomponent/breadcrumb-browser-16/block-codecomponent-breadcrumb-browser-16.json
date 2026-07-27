@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-breadcrumb-browser",
+  "alias": "codecomponent-breadcrumb-browser",
+  "name": "Document Browser with Breadcrumbs",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Document and file browser with breadcrumb navigation, NavigationMenu sections with quick-access grids, folder/file listing using Item components (ItemMedia, ItemContent, ItemActions, ItemGroup, ItemSeparator, ItemTitle, ItemDescription), BreadcrumbEllipsis with DropdownMenu for deep paths, file action buttons (download, share, delete), and folder click-to-navigate that updates breadcrumbs dynamically. Uses useAppState for current path and useNavigation for section switching.",
+  "shortSummary": "File browser with breadcrumb navigation, folder tree, NavigationMenu sections, and Item-based file listings",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DocumentBrowser": {
+        "source": "frontend/components/DocumentBrowser.tsx",
+        "compiled": "frontend/components/DocumentBrowser.js",
+        "summary": "Document browser with breadcrumb trail, navigation menu sections, folder/file items with actions, and drill-down navigation"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0c4a6e",
+        "primary": "#017ab9",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0f9ff",
+        "secondary-foreground": "#0c4a6e",
+        "muted": "#f0f9ff",
+        "muted-foreground": "#64748b",
+        "accent": "#e0f2fe",
+        "accent-foreground": "#0c4a6e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e0f2fe",
+        "input": "#e0f2fe",
+        "ring": "#0284c7"
+      },
+      "dark": {
+        "background": "#0c4a6e",
+        "foreground": "#f0f9ff",
+        "primary": "#45c1f8",
+        "primary-foreground": "#0c4a6e",
+        "secondary": "#164e63",
+        "secondary-foreground": "#f0f9ff",
+        "muted": "#164e63",
+        "muted-foreground": "#7dd3fc",
+        "accent": "#164e63",
+        "accent-foreground": "#f0f9ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f0f9ff",
+        "border": "#164e63",
+        "input": "#164e63",
+        "ring": "#38bdf8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-browser",
+        "title": "Files",
+        "slug": "/",
+        "summary": "Document browser page with breadcrumb navigation and file listing.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "document-browser-1",
+            "component": "DocumentBrowser",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "File browser with breadcrumb navigation and folder drill-down",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-dnd-kanban-board",
+  "alias": "codecomponent-dnd-kanban-board",
+  "name": "DnD Kanban Board",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Drag-and-drop Kanban board CodeComponent powered by dnd-kit extension. Features DndKit.DndContext with closestCenter collision detection, 3 columns (To Do, In Progress, Done) each with DndKit.SortableContext and DndKit.useDroppable, DndKit.useSortable on each task card for drag behavior with transform styles, DndKit.DragOverlay for drag preview, DndKit.PointerSensor and DndKit.KeyboardSensor with sortableKeyboardCoordinates, DndKit.arrayMove for reordering within columns, cross-column drag and drop via handleDragOver, Add task Dialog per column with Input, Textarea, Select for priority, Badge for priority colors, Avatar with AvatarFallback for assignee initials, 9 demo tasks across 3 columns, useAppState for column data persistence, and toast on task move/add. Uses dnd-kit extension for drag-and-drop.",
+  "shortSummary": "Drag-and-drop Kanban board with dnd-kit sortable columns, task cards, drag overlay, and add task dialog",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DndKanbanBoard": {
+        "source": "frontend/components/DndKanbanBoard.tsx",
+        "compiled": "frontend/components/DndKanbanBoard.js",
+        "summary": "Drag-and-drop Kanban board with dnd-kit DndContext, SortableContext, useSortable, DragOverlay, cross-column drag, add task dialog, and 9 demo tasks"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0a1a2e",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eff6ff",
+        "secondary-foreground": "#0a1a2e",
+        "muted": "#eff6ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#dbeafe",
+        "accent-foreground": "#0a1a2e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#bfdbfe",
+        "input": "#bfdbfe",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#050f1a",
+        "foreground": "#eff6ff",
+        "primary": "#60a5fa",
+        "primary-foreground": "#050f1a",
+        "secondary": "#0a1e3a",
+        "secondary-foreground": "#eff6ff",
+        "muted": "#0a1e3a",
+        "muted-foreground": "#93c5fd",
+        "accent": "#0a1e3a",
+        "accent-foreground": "#eff6ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#eff6ff",
+        "border": "#1e3a5f",
+        "input": "#1e3a5f",
+        "ring": "#3b82f6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-kanban",
+        "title": "Kanban",
+        "slug": "/",
+        "summary": "Drag-and-drop Kanban board with 3 columns and task management.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "dnd-kanban-board-1",
+            "component": "DndKanbanBoard",
+            "extensions": [
+              "dnd-kit"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "DnD Kanban board with task management",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

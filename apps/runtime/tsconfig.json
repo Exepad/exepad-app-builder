@@ -1,0 +1,7 @@
+{
+  "references": [
+    { "path": "./client" },
+    { "path": "./worker" }
+  ],
+  "files": []
+}

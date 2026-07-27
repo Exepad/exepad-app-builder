@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Wireless Bluetooth Headphones",
+    "description": "Premium noise-cancelling over-ear headphones with 30-hour battery life and USB-C charging",
+    "price": 79.99,
+    "category": "Electronics",
+    "image_url": null,
+    "stock": 45,
+    "rating": 4.5,
+    "is_active": 1
+  },
+  {
+    "name": "Smartphone Stand & Charger",
+    "description": "Adjustable aluminum stand with built-in 15W wireless charging pad",
+    "price": 34.99,
+    "category": "Electronics",
+    "image_url": null,
+    "stock": 120,
+    "rating": 4.2,
+    "is_active": 1
+  },
+  {
+    "name": "USB-C Hub Adapter",
+    "description": "7-in-1 USB-C hub with HDMI 4K, SD card reader, USB 3.0 ports, and PD charging",
+    "price": 49.99,
+    "category": "Electronics",
+    "image_url": null,
+    "stock": 78,
+    "rating": 4.7,
+    "is_active": 1
+  },
+  {
+    "name": "Classic Denim Jacket",
+    "description": "Timeless medium-wash denim jacket with brass buttons and chest pockets",
+    "price": 64.99,
+    "category": "Clothing",
+    "image_url": null,
+    "stock": 30,
+    "rating": 4.3,
+    "is_active": 1
+  },
+  {
+    "name": "Cotton Crew Neck T-Shirt",
+    "description": "Soft 100% organic cotton t-shirt available in multiple colors",
+    "price": 24.99,
+    "category": "Clothing",
+    "image_url": null,
+    "stock": 200,
+    "rating": 4.6,
+    "is_active": 1
+  },
+  {
+    "name": "Ceramic Pour-Over Coffee Set",
+    "description": "Handcrafted ceramic dripper with thermal carafe and reusable filter",
+    "price": 42.00,
+    "category": "Home",
+    "image_url": null,
+    "stock": 55,
+    "rating": 4.8,
+    "is_active": 1
+  },
+  {
+    "name": "Minimalist Desk Lamp",
+    "description": "Adjustable LED desk lamp with 3 color temperatures and touch dimmer",
+    "price": 38.50,
+    "category": "Home",
+    "image_url": null,
+    "stock": 90,
+    "rating": 4.4,
+    "is_active": 1
+  },
+  {
+    "name": "Yoga Mat Premium",
+    "description": "Non-slip 6mm thick TPE yoga mat with alignment lines and carry strap",
+    "price": 29.99,
+    "category": "Sports",
+    "image_url": null,
+    "stock": 150,
+    "rating": 4.6,
+    "is_active": 1
+  },
+  {
+    "name": "Resistance Band Set",
+    "description": "5-piece resistance band set with door anchor, handles, and carry bag",
+    "price": 19.99,
+    "category": "Sports",
+    "image_url": null,
+    "stock": 180,
+    "rating": 4.3,
+    "is_active": 1
+  },
+  {
+    "name": "Stainless Steel Water Bottle",
+    "description": "Double-wall vacuum insulated 32oz bottle — keeps drinks cold 24h or hot 12h",
+    "price": 27.50,
+    "category": "Sports",
+    "image_url": null,
+    "stock": 95,
+    "rating": 4.7,
+    "is_active": 1
+  },
+  {
+    "name": "The Design of Everyday Things",
+    "description": "Revised and expanded edition of Don Norman's classic on human-centered design",
+    "price": 16.99,
+    "category": "Books",
+    "image_url": null,
+    "stock": 60,
+    "rating": 4.8,
+    "is_active": 1
+  },
+  {
+    "name": "Clean Code",
+    "description": "A handbook of agile software craftsmanship by Robert C. Martin",
+    "price": 34.99,
+    "category": "Books",
+    "image_url": null,
+    "stock": 40,
+    "rating": 4.5,
+    "is_active": 1
+  }
+]

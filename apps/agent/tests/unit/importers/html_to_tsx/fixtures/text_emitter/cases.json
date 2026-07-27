@@ -1,0 +1,69 @@
+{
+  "cases": [
+    {
+      "id": "nbsp_decoded",
+      "input_path": "examples/nbsp_decoded.html",
+      "expected_tsx_contains": ["We build the AI systems"]
+    },
+    {
+      "id": "entities_decoded",
+      "input_path": "examples/entities_decoded.html",
+      "expected_tsx_contains": ["R&D"],
+      "expected_tsx_absent": ["&amp;", "&quot;"]
+    },
+    {
+      "id": "numeric_entities",
+      "input_path": "examples/numeric_entities.html",
+      "expected_tsx_contains": ["em-dash—hex—done"],
+      "expected_tsx_absent": ["&#8212;", "&#x2014;"]
+    },
+    {
+      "id": "jsx_braces_in_text",
+      "input_path": "examples/jsx_braces_in_text.html",
+      "expected_tsx_contains": ["open {'{'} brace and close {'}'} brace"]
+    },
+    {
+      "id": "inline_whitespace_siblings",
+      "input_path": "examples/inline_whitespace_siblings.html",
+      "expected_tsx_contains": [
+        "<span>One</span>",
+        "<span>Two</span>",
+        "<span>Three</span>"
+      ]
+    },
+    {
+      "id": "mixed_content_children",
+      "input_path": "examples/mixed_content_children.html",
+      "expected_tsx_contains": [
+        "Hello <strong>bold</strong>",
+        "world <em>emph</em>"
+      ]
+    },
+    {
+      "id": "unicode_passthrough",
+      "input_path": "examples/unicode_passthrough.html",
+      "expected_tsx_contains": ["Arrow ↗ middot · degree °"]
+    },
+    {
+      "id": "apostrophe_in_text",
+      "input_path": "examples/apostrophe_in_text.html",
+      "expected_tsx_contains": ["Don't say it ain't so"]
+    },
+    {
+      "id": "empty_text_node",
+      "input_path": "examples/empty_text_node.html",
+      "expected_tsx_contains": ["<span></span>"]
+    },
+    {
+      "id": "deeply_nested_text",
+      "input_path": "examples/deeply_nested_text.html",
+      "expected_tsx_contains": [
+        "<article>",
+        "<section>",
+        "<header>",
+        "<h1>Title</h1>",
+        "Body <em>text</em>"
+      ]
+    }
+  ]
+}

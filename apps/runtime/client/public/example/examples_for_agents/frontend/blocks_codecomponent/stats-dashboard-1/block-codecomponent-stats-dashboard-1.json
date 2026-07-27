@@ -1,0 +1,102 @@
+{
+  "uuid": "cc-example-stats-dashboard",
+  "alias": "codecomponent-stats-dashboard",
+  "name": "Stats Dashboard with Code Components",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Dashboard page using CodeComponentProps to render a custom stats widget and a chart. Demonstrates repo-based component references with useAppState for data, SDK UI primitives (Card, Badge, Tabs), and Charts namespace. No backend required — components use embedded demo data.",
+  "shortSummary": "Stats dashboard using repo-based CodeComponents with embedded demo data",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "MetricsOverview": {
+        "source": "frontend/components/MetricsOverview.tsx",
+        "compiled": "frontend/components/MetricsOverview.js",
+        "summary": "KPI cards showing revenue, users, orders, and conversion rate with trend indicators"
+      },
+      "SalesChart": {
+        "source": "frontend/components/SalesChart.tsx",
+        "compiled": "frontend/components/SalesChart.js",
+        "summary": "Bar chart showing monthly sales data using Charts namespace from SDK"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#3b82f6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-dashboard",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Main dashboard page with KPI metrics and sales chart.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "metrics-overview-1",
+            "component": "MetricsOverview",
+            "classes": "w-full"
+          },
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "sales-chart-1",
+            "component": "SalesChart",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Dashboard with KPI metrics and sales chart",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

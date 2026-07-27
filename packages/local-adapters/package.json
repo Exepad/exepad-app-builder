@@ -1,0 +1,41 @@
+{
+  "name": "@exepad/local-adapters",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts"
+    },
+    "./storage": {
+      "types": "./dist/storage/index.d.ts",
+      "import": "./src/storage/index.ts"
+    },
+    "./db": {
+      "types": "./dist/db/index.d.ts",
+      "import": "./src/db/index.ts"
+    },
+    "./cache": {
+      "types": "./dist/cache/index.d.ts",
+      "import": "./src/cache/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^24.10.1",
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "license": "AGPL-3.0-only"
+}

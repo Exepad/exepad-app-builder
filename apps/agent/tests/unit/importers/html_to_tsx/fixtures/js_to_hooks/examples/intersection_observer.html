@@ -1,0 +1,7 @@
+<div class="reveal">x</div>
+<script>
+const io = new IntersectionObserver((ents) => {
+  ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>

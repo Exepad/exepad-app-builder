@@ -1,0 +1,510 @@
+{
+  "title": "Exepad Example Gallery",
+  "description": "Browse all example apps and components",
+  "total": 95,
+  "sections": [
+    {
+      "title": "Full Apps",
+      "description": "Complete multi-page apps with code components, backend models, handlers, themes, and navigation — ready-to-deploy reference implementations",
+      "count": 17,
+      "items": [
+        {
+          "label": "E-Commerce Store",
+          "name": "ecommerce-store",
+          "href": "/example/examples_for_agents/full_apps/ecommerce_store"
+        },
+        {
+          "label": "Project Management",
+          "name": "project-management",
+          "href": "/example/examples_for_agents/full_apps/project_management"
+        },
+        {
+          "label": "CRM Customer",
+          "name": "crm-customer",
+          "href": "/example/examples_for_agents/full_apps/crm_customer"
+        },
+        {
+          "label": "Restaurant Ordering",
+          "name": "restaurant-ordering",
+          "href": "/example/examples_for_agents/full_apps/restaurant_ordering"
+        },
+        {
+          "label": "Fitness Tracker",
+          "name": "fitness-tracker",
+          "href": "/example/examples_for_agents/full_apps/fitness_tracker"
+        },
+        {
+          "label": "Real Estate Listings",
+          "name": "real-estate",
+          "href": "/example/examples_for_agents/full_apps/real_estate"
+        },
+        {
+          "label": "Learning Management System",
+          "name": "lms-platform",
+          "href": "/example/examples_for_agents/full_apps/lms_platform"
+        },
+        {
+          "label": "Event Booking",
+          "name": "event-booking",
+          "href": "/example/examples_for_agents/full_apps/event_booking"
+        },
+        {
+          "label": "Blog Platform",
+          "name": "blog-platform",
+          "href": "/example/examples_for_agents/full_apps/blog_platform"
+        },
+        {
+          "label": "Analytics Dashboard",
+          "name": "analytics-dashboard",
+          "href": "/example/examples_for_agents/full_apps/analytics_dashboard"
+        },
+        {
+          "label": "Company Website",
+          "name": "company-website",
+          "href": "/example/examples_for_agents/full_apps/company_website"
+        },
+        {
+          "label": "Landing Page",
+          "name": "landing-page",
+          "href": "/example/examples_for_agents/full_apps/landing_page"
+        },
+        {
+          "label": "Form Builder",
+          "name": "form-builder",
+          "href": "/example/examples_for_agents/full_apps/form_builder"
+        },
+        {
+          "label": "Memory Game",
+          "name": "memory-game",
+          "href": "/example/examples_for_agents/full_apps/memory_game"
+        },
+        {
+          "label": "Habit Quest",
+          "name": "habit-quest",
+          "href": "/example/examples_for_agents/full_apps/habit_quest"
+        },
+        {
+          "label": "Quiz Master",
+          "name": "quiz-master",
+          "href": "/example/examples_for_agents/full_apps/quiz_master"
+        },
+        {
+          "label": "Survey Hub",
+          "name": "survey-hub",
+          "href": "/example/examples_for_agents/full_apps/survey_hub"
+        }
+      ]
+    },
+    {
+      "title": "Backend Examples",
+      "description": "Full-stack app configs with CRUD models, handlers, and seed data",
+      "count": 8,
+      "items": [
+        {
+          "label": "Booking",
+          "name": "backend-booking",
+          "href": "/example/examples_for_agents/backend/backend-booking"
+        },
+        {
+          "label": "Crm",
+          "name": "backend-crm",
+          "href": "/example/examples_for_agents/backend/backend-crm"
+        },
+        {
+          "label": "Dashboard Analytics",
+          "name": "backend-dashboard-analytics",
+          "href": "/example/examples_for_agents/backend/backend-dashboard-analytics"
+        },
+        {
+          "label": "Ecommerce",
+          "name": "backend-ecommerce",
+          "href": "/example/examples_for_agents/backend/backend-ecommerce"
+        },
+        {
+          "label": "Helpdesk",
+          "name": "backend-helpdesk",
+          "href": "/example/examples_for_agents/backend/backend-helpdesk"
+        },
+        {
+          "label": "Internal Tool",
+          "name": "backend-internal-tool",
+          "href": "/example/examples_for_agents/backend/backend-internal-tool"
+        },
+        {
+          "label": "Inventory",
+          "name": "backend-inventory",
+          "href": "/example/examples_for_agents/backend/backend-inventory"
+        },
+        {
+          "label": "Project Management",
+          "name": "backend-project-management",
+          "href": "/example/examples_for_agents/backend/backend-project-management"
+        }
+      ]
+    },
+    {
+      "title": "HTML Imported Apps",
+      "description": "Multi-page apps imported from HTML designs with TSX code components and custom themes",
+      "count": 3,
+      "items": [
+        {
+          "label": "Apiary Dashboard",
+          "name": "dashboard-1",
+          "href": "/example/examples_for_agents/html_imported/dashboard-1"
+        },
+        {
+          "label": "SEO SaaS Platform",
+          "name": "saas-1",
+          "href": "/example/examples_for_agents/html_imported/saas-1"
+        },
+        {
+          "label": "Farm Website",
+          "name": "website-1",
+          "href": "/example/examples_for_agents/html_imported/website-1"
+        }
+      ]
+    },
+    {
+      "title": "Component Blocks",
+      "description": "Individual code components showcasing UI patterns and interactions",
+      "count": 67,
+      "items": [
+        {
+          "label": "3D Product Viewer",
+          "name": "3d-product-viewer-52",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/3d-product-viewer-52"
+        },
+        {
+          "label": "Activity Feed",
+          "name": "activity-feed-25",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/activity-feed-25"
+        },
+        {
+          "label": "Admin Dashboard",
+          "name": "admin-dashboard-33",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/admin-dashboard-33"
+        },
+        {
+          "label": "Animated Pricing",
+          "name": "animated-pricing-3",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/animated-pricing-3"
+        },
+        {
+          "label": "Audio Synth Keyboard",
+          "name": "audio-synth-keyboard-59",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/audio-synth-keyboard-59"
+        },
+        {
+          "label": "Audio Waveform Player",
+          "name": "audio-waveform-player-57",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/audio-waveform-player-57"
+        },
+        {
+          "label": "Barcode Inventory",
+          "name": "barcode-inventory-66",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/barcode-inventory-66"
+        },
+        {
+          "label": "Breadcrumb Browser",
+          "name": "breadcrumb-browser-16",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/breadcrumb-browser-16"
+        },
+        {
+          "label": "Canvas Design Tool",
+          "name": "canvas-design-tool-44",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/canvas-design-tool-44"
+        },
+        {
+          "label": "Checkout Flow",
+          "name": "checkout-flow-32",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/checkout-flow-32"
+        },
+        {
+          "label": "Chess Game",
+          "name": "chess-game-67",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/chess-game-67"
+        },
+        {
+          "label": "Code Playground",
+          "name": "code-playground-37",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/code-playground-37"
+        },
+        {
+          "label": "Code Snippet Gallery",
+          "name": "code-snippet-gallery-40",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/code-snippet-gallery-40"
+        },
+        {
+          "label": "Collaborative Editor",
+          "name": "collaborative-editor-38",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/collaborative-editor-38"
+        },
+        {
+          "label": "Crud Table",
+          "name": "crud-table-11",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/crud-table-11"
+        },
+        {
+          "label": "Danger Zone",
+          "name": "danger-zone-21",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/danger-zone-21"
+        },
+        {
+          "label": "Delivery Tracker",
+          "name": "delivery-tracker-51",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/delivery-tracker-51"
+        },
+        {
+          "label": "Diagram From Text",
+          "name": "diagram-from-text-55",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/diagram-from-text-55"
+        },
+        {
+          "label": "Dnd Kanban Board",
+          "name": "dnd-kanban-board-49",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/dnd-kanban-board-49"
+        },
+        {
+          "label": "Document Composer",
+          "name": "document-composer-42",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/document-composer-42"
+        },
+        {
+          "label": "Documentation Viewer",
+          "name": "documentation-viewer-39",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/documentation-viewer-39"
+        },
+        {
+          "label": "Enterprise Data Grid",
+          "name": "enterprise-data-grid-61",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/enterprise-data-grid-61"
+        },
+        {
+          "label": "Event Calendar",
+          "name": "event-calendar-26",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/event-calendar-26"
+        },
+        {
+          "label": "Fabric Image Editor",
+          "name": "fabric-image-editor-45",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/fabric-image-editor-45"
+        },
+        {
+          "label": "File Manager",
+          "name": "file-manager-22",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/file-manager-22"
+        },
+        {
+          "label": "File Upload Gallery",
+          "name": "file-upload-gallery-14",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/file-upload-gallery-14"
+        },
+        {
+          "label": "Filter Bar",
+          "name": "filter-bar-20",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/filter-bar-20"
+        },
+        {
+          "label": "Force Graph Explorer",
+          "name": "force-graph-explorer-34",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/force-graph-explorer-34"
+        },
+        {
+          "label": "Full Event Calendar",
+          "name": "full-event-calendar-62",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/full-event-calendar-62"
+        },
+        {
+          "label": "Handler Search",
+          "name": "handler-search-12",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/handler-search-12"
+        },
+        {
+          "label": "Headless Data Table",
+          "name": "headless-data-table-63",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/headless-data-table-63"
+        },
+        {
+          "label": "Image Crop Upload",
+          "name": "image-crop-upload-48",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/image-crop-upload-48"
+        },
+        {
+          "label": "Interactive Tabs",
+          "name": "interactive-tabs-2",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/interactive-tabs-2"
+        },
+        {
+          "label": "Inventory Table",
+          "name": "inventory-table-23",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/inventory-table-23"
+        },
+        {
+          "label": "Kanban Board",
+          "name": "kanban-board-31",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/kanban-board-31"
+        },
+        {
+          "label": "Line Area Analytics",
+          "name": "line-area-analytics-4",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/line-area-analytics-4"
+        },
+        {
+          "label": "Lodash Transforms",
+          "name": "lodash-transforms-29",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/lodash-transforms-29"
+        },
+        {
+          "label": "Lottie Animation Showcase",
+          "name": "lottie-animation-showcase-60",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/lottie-animation-showcase-60"
+        },
+        {
+          "label": "Motion Portfolio",
+          "name": "motion-portfolio-28",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/motion-portfolio-28"
+        },
+        {
+          "label": "Multistep Form",
+          "name": "multistep-form-8",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/multistep-form-8"
+        },
+        {
+          "label": "Network Topology Viewer",
+          "name": "network-topology-viewer-36",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/network-topology-viewer-36"
+        },
+        {
+          "label": "Notification Hub",
+          "name": "notification-hub-19",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/notification-hub-19"
+        },
+        {
+          "label": "Otp Verification",
+          "name": "otp-verification-10",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/otp-verification-10"
+        },
+        {
+          "label": "Page Navigator",
+          "name": "page-navigator-18",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/page-navigator-18"
+        },
+        {
+          "label": "Particle Effects Studio",
+          "name": "particle-effects-studio-53",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/particle-effects-studio-53"
+        },
+        {
+          "label": "Pdf Document Viewer",
+          "name": "pdf-document-viewer-56",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/pdf-document-viewer-56"
+        },
+        {
+          "label": "Pie Radar Overview",
+          "name": "pie-radar-overview-5",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/pie-radar-overview-5"
+        },
+        {
+          "label": "Qr Code Generator",
+          "name": "qr-code-generator-65",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/qr-code-generator-65"
+        },
+        {
+          "label": "Realtime Metrics",
+          "name": "realtime-metrics-7",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/realtime-metrics-7"
+        },
+        {
+          "label": "Resizable Editor",
+          "name": "resizable-editor-17",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/resizable-editor-17"
+        },
+        {
+          "label": "Rich Text Notes",
+          "name": "rich-text-notes-41",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/rich-text-notes-41"
+        },
+        {
+          "label": "Scatter Composed Chart",
+          "name": "scatter-composed-chart-6",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/scatter-composed-chart-6"
+        },
+        {
+          "label": "Scientific Chart Dashboard",
+          "name": "scientific-chart-dashboard-35",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/scientific-chart-dashboard-35"
+        },
+        {
+          "label": "Settings Panel",
+          "name": "settings-panel-9",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/settings-panel-9"
+        },
+        {
+          "label": "Sidebar App",
+          "name": "sidebar-app-15",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/sidebar-app-15"
+        },
+        {
+          "label": "Signature Capture",
+          "name": "signature-capture-47",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/signature-capture-47"
+        },
+        {
+          "label": "Stats Dashboard",
+          "name": "stats-dashboard-1",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/stats-dashboard-1"
+        },
+        {
+          "label": "Store Locator",
+          "name": "store-locator-50",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/store-locator-50"
+        },
+        {
+          "label": "Terminal Emulator",
+          "name": "terminal-emulator-64",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/terminal-emulator-64"
+        },
+        {
+          "label": "Testimonial Carousel",
+          "name": "testimonial-carousel-24",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/testimonial-carousel-24"
+        },
+        {
+          "label": "Theme Showcase",
+          "name": "theme-showcase-27",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/theme-showcase-27"
+        },
+        {
+          "label": "User Profile Auth",
+          "name": "user-profile-auth-13",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/user-profile-auth-13"
+        },
+        {
+          "label": "Video Course Player",
+          "name": "video-course-player-58",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/video-course-player-58"
+        },
+        {
+          "label": "Whiteboard App",
+          "name": "whiteboard-app-46",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/whiteboard-app-46"
+        },
+        {
+          "label": "Wiki Editor",
+          "name": "wiki-editor-43",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/wiki-editor-43"
+        },
+        {
+          "label": "Workflow Builder",
+          "name": "workflow-builder-54",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/workflow-builder-54"
+        },
+        {
+          "label": "Zod Validator",
+          "name": "zod-validator-30",
+          "href": "/example/examples_for_agents/frontend/blocks_codecomponent/zod-validator-30"
+        }
+      ]
+    }
+  ]
+}

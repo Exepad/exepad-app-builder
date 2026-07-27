@@ -1,0 +1,59 @@
+/* ==========================================================================
+   FormFlow — Code Focus Theme
+   Form builder: form cards, star ratings, status badges for Shadow DOM
+   ========================================================================== */
+
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.form-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.star-rating {
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.star-rating:hover {
+  transform: scale(1.1);
+}
+
+.status-badge {
+  transition: opacity 0.2s ease;
+}
+
+.kpi-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.submission-row {
+  transition: background-color 0.1s ease;
+}
+
+.submission-row:hover {
+  background-color: rgba(5, 150, 105, 0.04);
+}
+
+.nav-item {
+  transition: all 0.15s ease;
+}
+
+.form-field {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}

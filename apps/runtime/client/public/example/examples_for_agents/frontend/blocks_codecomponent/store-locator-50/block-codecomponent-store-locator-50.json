@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-store-locator",
+  "alias": "codecomponent-store-locator",
+  "name": "Store Locator with Mapbox",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Interactive store locator CodeComponent using Mapbox GL extension for map rendering. Split layout with map (60%) and scrollable store list (40%). Features Mapbox.Map with NavigationControl, Marker for 10 demo stores, Popup on click, ToggleGroup for map style switching (streets/satellite), Input search filtering, and fly-to-location on store selection. Uses useAppState for selected store and viewport, useHandler for search, useTheme for marker colors.",
+  "shortSummary": "Store locator with Mapbox map, markers, popups, and searchable store list",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "StoreLocator": {
+        "source": "frontend/components/StoreLocator.tsx",
+        "compiled": "frontend/components/StoreLocator.js",
+        "summary": "Mapbox-powered store locator with split map/list layout, marker popups, search filtering, and map style toggling"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#12873d",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdf4",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f0fdf4",
+        "muted-foreground": "#64748b",
+        "accent": "#f0fdf4",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#16a34a"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#4ade80",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#4ade80"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-store-locator",
+        "title": "Store Locator",
+        "slug": "/",
+        "summary": "Interactive store locator with map and filterable store list.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "store-locator-1",
+            "component": "StoreLocator",
+            "extensions": [
+              "mapbox"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Store locator with Mapbox map and store list",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

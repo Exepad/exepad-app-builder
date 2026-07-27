@@ -1,0 +1,47 @@
+# Image-based compose for self-host app stores (Coolify, Portainer, Dokploy) and
+# generic VPS one-click. Unlike the repo-root docker-compose.yml (which BUILDS the
+# image from source), this PULLS the published image. Provide EXEPAD_LLM_API_KEY
+# via the platform's environment UI (or a .env next to this file).
+#
+# TLS: the studio serves plain HTTP on :8080 here and expects the platform's own
+# reverse proxy to terminate HTTPS in front of it (hence EXEPAD_HTTPS_DISABLE=1
+# below). Do not expose :8080 straight to the internet — it is cleartext.
+#
+# Pin the image to a released version for production (replace :latest).
+services:
+  exepad:
+    image: ghcr.io/exepad/exepad-app-builder:latest
+    container_name: exepad
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # This template publishes the studio's PLAIN-HTTP port, so keep the in-image
+      # Caddy off. Left on, it would terminate TLS on the container's :443 (not
+      # published here) and mark session cookies Secure — which a browser then
+      # refuses to store over http://<host>:8080, so login silently fails. Put the
+      # platform's own reverse proxy / TLS in front of :8080 instead; the runtime
+      # picks up X-Forwarded-Proto and issues Secure cookies again behind it.
+      - EXEPAD_HTTPS_DISABLE=1
+      - EXEPAD_LLM_API_KEY=${EXEPAD_LLM_API_KEY:?set your LLM API key}
+      - EXEPAD_LLM_PROVIDER=${EXEPAD_LLM_PROVIDER:-gemini}
+      # Optional: seed the operator account so first run needs no browser setup.
+      - EXEPAD_ADMIN_EMAIL=${EXEPAD_ADMIN_EMAIL:-}
+      - EXEPAD_ADMIN_PASSWORD=${EXEPAD_ADMIN_PASSWORD:-}
+    volumes:
+      - exepad-data:/data        # ALL state — back this up; never put it on NFS
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/auth/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+    # Bound container logs so an always-on studio can't fill the disk (Docker's
+    # default json-file driver never rotates unless configured).
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  exepad-data:

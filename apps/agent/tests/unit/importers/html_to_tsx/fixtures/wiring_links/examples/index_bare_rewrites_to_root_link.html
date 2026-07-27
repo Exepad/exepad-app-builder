@@ -1,0 +1,8 @@
+<!-- Some upstream code paths strip the `.html` suffix before the link
+     rewriter sees the href — so we also accept the bare `index`
+     basename (and the `/index` absolute form, both forms canonicalize
+     to the home slug `/`). -->
+<nav>
+  <a href="index">Home</a>
+  <a href="/index">Home Again</a>
+</nav>

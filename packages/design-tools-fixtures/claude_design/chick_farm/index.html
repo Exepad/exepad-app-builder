@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HappyDoods · Pasture-raised eggs from a small farm in the hills</title>
+<meta name="description" content="A small family farm raising heritage hens on real pasture. Eggs, stories, and a standing invitation to come say hi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ---------- Home: animated hero ---------- */
+  .hero {
+    position: relative;
+    background: var(--cream);
+    overflow: hidden;
+    padding: 64px 0 0;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 48px;
+    align-items: end;
+    min-height: 720px;
+  }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; min-height: auto; gap: 32px; }
+  }
+  .hero-copy { padding: 32px 0 96px; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--sans); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--moss);
+    box-shadow: 0 0 0 4px rgba(123,139,92,0.18);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(123,139,92,0.18); }
+    50% { box-shadow: 0 0 0 8px rgba(123,139,92,0.05); }
+  }
+  .hero h1 {
+    font-size: clamp(56px, 8vw, 112px);
+    line-height: 0.96;
+    margin-bottom: 28px;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 450;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--barn);
+    font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 400;
+  }
+  .hero-lede {
+    font-size: 19px;
+    line-height: 1.55;
+    max-width: 44ch;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* Stage on the right side: layered scene with animated chickens */
+  .hero-stage {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    align-self: stretch;
+  }
+  .hero-card {
+    position: absolute;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px -28px rgba(42, 31, 23, 0.35), 0 2px 4px rgba(42,31,23,0.04);
+    border: 1px solid var(--line);
+  }
+  .hero-card.big {
+    inset: 0;
+    background: var(--moss);
+  }
+  .hero-card.float-1 {
+    width: 38%;
+    aspect-ratio: 3/4;
+    bottom: -32px; left: -36px;
+    background: var(--paper);
+    transform: rotate(-3deg);
+    z-index: 2;
+  }
+  .hero-card.float-2 {
+    width: 30%;
+    aspect-ratio: 1/1;
+    top: -24px; right: -28px;
+    background: var(--cream-deep);
+    transform: rotate(4deg);
+    z-index: 2;
+  }
+
+  /* Sky + scene inside the big card */
+  .scene {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, #E8DEC6 0%, #DCC9A2 55%, #C2A878 56%, #B89968 100%);
+    overflow: hidden;
+  }
+  .scene .sun {
+    position: absolute; top: 14%; right: 18%;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: var(--butter);
+    box-shadow: 0 0 0 16px rgba(232, 184, 80, 0.18), 0 0 0 32px rgba(232, 184, 80, 0.08);
+  }
+  .scene .hill {
+    position: absolute; left: -10%; right: -10%; bottom: 30%;
+    height: 50%;
+    background: var(--moss-dark);
+    border-radius: 50% 50% 0 0 / 80% 80% 0 0;
+    transform: scaleX(1.4);
+  }
+  .scene .hill-2 {
+    position: absolute; left: 40%; right: -20%; bottom: 32%;
+    height: 38%;
+    background: var(--moss);
+    border-radius: 50% 50% 0 0 / 80% 80% 0 0;
+    transform: scaleX(1.2);
+    opacity: 0.85;
+  }
+  .scene .ground {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 36%;
+    background:
+      repeating-linear-gradient(to bottom,
+        #8D6E3F 0px, #8D6E3F 2px, #9B7B4A 2px, #9B7B4A 4px);
+  }
+  .scene .barn {
+    position: absolute; left: 12%; bottom: 30%;
+    width: 110px; height: 80px;
+  }
+  .scene .barn .body { position: absolute; bottom: 0; left: 0; right: 0; height: 60%; background: var(--barn); border: 2px solid var(--ink); }
+  .scene .barn .roof { position: absolute; top: 0; left: -6px; right: -6px; height: 50%; background: var(--ink); clip-path: polygon(0 100%, 50% 0, 100% 100%); }
+  .scene .barn .door { position: absolute; bottom: 0; left: 40%; width: 24%; height: 60%; background: var(--ink); }
+  .scene .barn .x1, .scene .barn .x2 { position: absolute; bottom: 8%; height: 2px; background: var(--cream); }
+  .scene .barn .x1 { left: 8%; right: 42%; transform: rotate(20deg); transform-origin: left; }
+  .scene .barn .x2 { left: 8%; right: 42%; transform: rotate(-20deg); transform-origin: left; bottom: 30%; }
+
+  /* Animated chickens (pure CSS — geometric silhouettes) */
+  .chick {
+    position: absolute;
+    width: 64px;
+    height: 48px;
+  }
+  .chick .body {
+    position: absolute;
+    inset: 18% 0 0 0;
+    background: var(--ink);
+    border-radius: 50% 60% 50% 40% / 60% 50% 50% 40%;
+  }
+  .chick .head {
+    position: absolute;
+    top: 0; left: 50%;
+    width: 40%; aspect-ratio: 1/1;
+    background: var(--ink);
+    border-radius: 50%;
+  }
+  .chick .comb {
+    position: absolute;
+    top: -6px; left: 56%;
+    width: 16px; height: 12px;
+    background: var(--barn);
+    clip-path: polygon(0 100%, 25% 30%, 50% 100%, 75% 30%, 100% 100%);
+  }
+  .chick .beak {
+    position: absolute;
+    top: 14px; left: 86%;
+    width: 8px; height: 5px;
+    background: var(--butter);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+  .chick .leg-1, .chick .leg-2 {
+    position: absolute;
+    bottom: -8px;
+    width: 2px; height: 10px;
+    background: var(--ink);
+    transform-origin: top;
+  }
+  .chick .leg-1 { left: 38%; animation: peck-leg-1 1.2s ease-in-out infinite; }
+  .chick .leg-2 { left: 52%; animation: peck-leg-2 1.2s ease-in-out infinite; }
+  .chick.flip { transform: scaleX(-1); }
+
+  @keyframes peck-leg-1 {
+    0%, 100% { transform: rotate(8deg); }
+    50% { transform: rotate(-8deg); }
+  }
+  @keyframes peck-leg-2 {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+  }
+
+  /* Pecking head animation */
+  .chick.pecking .head {
+    animation: peck 2.6s ease-in-out infinite;
+    transform-origin: 30% 80%;
+  }
+  @keyframes peck {
+    0%, 60%, 100% { transform: rotate(0deg); }
+    70% { transform: rotate(35deg) translate(2px, 4px); }
+    80% { transform: rotate(0deg); }
+  }
+
+  /* Walking chicken bobs across */
+  .chick.walking {
+    animation: walk 14s linear infinite;
+  }
+  @keyframes walk {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(calc(100% + 100px)); }
+  }
+  .chick.bob .body { animation: bob 0.9s ease-in-out infinite; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+
+  /* Pecks of grain that drop */
+  .grain {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: var(--butter);
+    border-radius: 50%;
+  }
+
+  /* Floating egg in the small card */
+  .egg {
+    position: absolute;
+    width: 80%;
+    aspect-ratio: 3/4;
+    top: 10%; left: 10%;
+    background: linear-gradient(to bottom, #FBF6E8, #EDE0BD);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: inset -8px -10px 20px rgba(168,71,42,0.08), 0 4px 12px rgba(42,31,23,0.08);
+    animation: egg-spin 12s ease-in-out infinite;
+  }
+  .egg::before {
+    content: "";
+    position: absolute;
+    top: 10%; left: 22%;
+    width: 18%; height: 14%;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+  @keyframes egg-spin {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+  }
+
+  /* Caption strip on big card */
+  .scene-caption {
+    position: absolute;
+    left: 16px; right: 16px; bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 5;
+  }
+  .scene-caption .live::before {
+    content: "●";
+    color: #FF6B4A;
+    margin-right: 6px;
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Float card content */
+  .float-card-inner {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .float-card-inner .stat-num {
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    color: var(--ink);
+  }
+  .float-card-inner .stat-lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  /* Hero ticker */
+  .hero-ticker {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    overflow: hidden;
+    margin-top: 96px;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-flex;
+    gap: 64px;
+    padding: 18px 0;
+    animation: ticker 40s linear infinite;
+  }
+  .ticker-track > span {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 48, "SOFT" 80;
+  }
+  .ticker-track > span::after {
+    content: "✦";
+    color: var(--barn);
+    margin-left: 64px;
+    font-style: normal;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ---------- Pillars ---------- */
+  .pillars {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  @media (max-width: 760px) { .pillars-grid { grid-template-columns: 1fr; } }
+  .pillar {
+    padding: 48px 32px;
+    border-right: 1px solid var(--line);
+  }
+  .pillar:last-child { border-right: none; }
+  @media (max-width: 760px) {
+    .pillar { border-right: none; border-bottom: 1px solid var(--line); }
+    .pillar:last-child { border-bottom: none; }
+  }
+  .pillar-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--barn);
+    margin-bottom: 24px;
+  }
+  .pillar h3 {
+    font-style: italic;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 72, "SOFT" 80, "wght" 450;
+  }
+  .pillar p { color: var(--ink-soft); font-size: 15px; }
+
+  /* ---------- Products section ---------- */
+  .products {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  @media (max-width: 900px) { .products { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .products { grid-template-columns: 1fr; } }
+
+  .product {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+    cursor: pointer;
+  }
+  .product:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(42,31,23,0.18); }
+  .product-img {
+    aspect-ratio: 4/3;
+    position: relative;
+  }
+  .product-img .ph-label { position: absolute; top: 14px; left: 14px; }
+  .product-info { padding: 20px 22px 24px; }
+  .product-name {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-variation-settings: "opsz" 48, "SOFT" 80;
+    margin-bottom: 4px;
+  }
+  .product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 12px;
+  }
+  .product-price { font-weight: 600; color: var(--barn); }
+
+  /* ---------- Story strip ---------- */
+  .story-strip {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 900px) { .story-strip { grid-template-columns: 1fr; gap: 32px; } }
+
+  .story-img {
+    aspect-ratio: 4/5;
+    background-color: var(--cream-deep);
+    border-radius: 6px;
+    position: relative;
+  }
+  .story-img .ph-label { position: absolute; top: 16px; left: 16px; }
+  .story-img .scribble-note {
+    position: absolute;
+    bottom: -16px; right: -16px;
+    background: var(--paper);
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-family: var(--hand);
+    font-size: 22px;
+    color: var(--barn);
+    transform: rotate(-3deg);
+    box-shadow: 0 8px 24px -8px rgba(42,31,23,0.18);
+  }
+
+  .story-copy h2 {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 400;
+    margin-bottom: 24px;
+  }
+  .story-copy p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+    max-width: 50ch;
+  }
+  .story-copy .signature {
+    margin-top: 24px;
+    font-family: var(--hand);
+    font-size: 28px;
+    color: var(--barn);
+  }
+
+  /* Promise grid */
+  .promise {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .promise h2 { color: var(--paper); font-style: italic; max-width: 18ch; }
+  .promise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-top: 48px;
+  }
+  @media (max-width: 900px) { .promise-grid { grid-template-columns: 1fr; } }
+  .promise-list { display: grid; gap: 8px; }
+  .promise-row {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 16px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-top: 1px solid rgba(245,239,226,0.14);
+  }
+  .promise-row:last-child { border-bottom: 1px solid rgba(245,239,226,0.14); }
+  .promise-row .num { font-family: var(--mono); color: var(--butter); font-size: 13px; }
+  .promise-row .label { font-family: var(--serif); font-size: 22px; font-variation-settings: "opsz" 48, "SOFT" 80; }
+  .promise-row .desc { color: rgba(245,239,226,0.7); font-size: 14px; margin-top: 4px; }
+
+  /* CTA banner */
+  .cta-banner {
+    text-align: center;
+    background:
+      radial-gradient(ellipse at center, var(--cream) 0%, var(--cream-deep) 100%);
+    padding: 120px 32px;
+    border-top: 1px solid var(--line);
+  }
+  .cta-banner h2 {
+    font-size: clamp(40px, 6vw, 80px);
+    font-style: italic;
+    max-width: 18ch;
+    margin: 0 auto 24px;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 400;
+  }
+  .cta-banner p {
+    max-width: 50ch;
+    margin: 0 auto 32px;
+    color: var(--ink-soft);
+    font-size: 17px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <ellipse cx="22" cy="24" rx="13" ry="10" fill="#A8472A"/>
+        <circle cx="11" cy="17" r="6" fill="#A8472A"/>
+        <path d="M7 12 L9 7 L11 11 L13 7 L14 12 Z" fill="#A8472A"/>
+        <circle cx="9.5" cy="16.5" r="1" fill="#F5EFE2"/>
+        <path d="M5 18 L7.5 17.5 L7 19 Z" fill="#E8B850"/>
+        <path d="M16 33 L18 36 M22 33 L24 36" stroke="#A8472A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Happy<span class="brand-em">Doods</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="flock.html">The Flock</a></li>
+      <li><a href="practices.html">Practices</a></li>
+      <li><a href="visit.html">Visit</a></li>
+      <li><a href="stockists.html">Stockists</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="visit.html">Plan a Visit →</a>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="hero-eyebrow"><span class="dot"></span> Pasture-raised · Hatched in 2014</div>
+        <h1>Eggs from <em>hens</em> who know their names.</h1>
+        <p class="hero-lede">
+          A small family farm tucked into the Willow Creek hills, raising 412 heritage hens on real grass, real bugs, and a strict no-nonsense policy on factory feed.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="shop.html">See what's in the basket →</a>
+          <a class="btn btn-outline" href="story.html">Read our story</a>
+        </div>
+        <div style="margin-top:48px; display:flex; gap:32px; flex-wrap:wrap;">
+          <div>
+            <div style="font-family:var(--serif); font-size:32px; font-variation-settings:'opsz' 96, 'SOFT' 80;">412</div>
+            <div class="tiny muted" style="text-transform:uppercase; letter-spacing:0.12em;">Happy hens</div>
+          </div>
+          <div>
+            <div style="font-family:var(--serif); font-size:32px; font-variation-settings:'opsz' 96, 'SOFT' 80;">7 acres</div>
+            <div class="tiny muted" style="text-transform:uppercase; letter-spacing:0.12em;">Of open pasture</div>
+          </div>
+          <div>
+            <div style="font-family:var(--serif); font-size:32px; font-variation-settings:'opsz' 96, 'SOFT' 80;">0</div>
+            <div class="tiny muted" style="text-transform:uppercase; letter-spacing:0.12em;">Cages, ever</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANIMATED STAGE -->
+      <div class="hero-stage" aria-label="Illustrated farm scene with animated chickens">
+        <div class="hero-card big">
+          <div class="scene">
+            <div class="sun"></div>
+            <div class="hill-2"></div>
+            <div class="hill"></div>
+            <div class="barn">
+              <div class="roof"></div>
+              <div class="body">
+                <div class="x1"></div>
+                <div class="x2"></div>
+                <div class="door"></div>
+              </div>
+            </div>
+            <div class="ground"></div>
+
+            <!-- Pecking chicken (stationary) -->
+            <div class="chick pecking" style="bottom: 8%; left: 18%;">
+              <div class="body"></div>
+              <div class="head"></div>
+              <div class="comb"></div>
+              <div class="beak"></div>
+              <div class="leg-1"></div>
+              <div class="leg-2"></div>
+            </div>
+
+            <!-- Walking chicken (parade) -->
+            <div style="position:absolute; bottom: 12%; left: 0; right: 0; height: 50px;">
+              <div class="chick walking bob" style="position:absolute; top:0;">
+                <div class="body"></div>
+                <div class="head"></div>
+                <div class="comb"></div>
+                <div class="beak"></div>
+                <div class="leg-1"></div>
+                <div class="leg-2"></div>
+              </div>
+            </div>
+
+            <!-- Second pecking chicken further back -->
+            <div class="chick pecking flip" style="bottom: 6%; right: 22%; transform: scale(0.8) scaleX(-1);">
+              <div class="body"></div>
+              <div class="head"></div>
+              <div class="comb"></div>
+              <div class="beak"></div>
+              <div class="leg-1"></div>
+              <div class="leg-2"></div>
+            </div>
+
+            <div class="scene-caption">
+              <span class="live">Live from the coop</span>
+              <span>HC-001 / 06:42 AM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating egg card -->
+        <div class="hero-card float-2">
+          <div class="egg"></div>
+        </div>
+
+        <!-- Floating stat card -->
+        <div class="hero-card float-1">
+          <div class="float-card-inner">
+            <div>
+              <div class="tiny muted" style="text-transform:uppercase; letter-spacing:0.12em;">Yesterday's count</div>
+              <div class="stat-num">348</div>
+              <div class="stat-lbl">Eggs collected</div>
+            </div>
+            <div class="hand" style="font-size:22px; line-height:1.1;">
+              good girls.<br>
+              <span style="color:var(--ink-soft); font-size:14px; font-family:var(--mono); letter-spacing:0.08em; text-transform:uppercase;">— Marta, 4/24</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="hero-ticker">
+    <div class="ticker-track">
+      <span>Pasture-raised</span>
+      <span>Heritage breeds</span>
+      <span>Soy-free feed</span>
+      <span>Family-run since 2014</span>
+      <span>Willow Creek, Vermont</span>
+      <span>Visitors always welcome</span>
+      <span>Pasture-raised</span>
+      <span>Heritage breeds</span>
+      <span>Soy-free feed</span>
+      <span>Family-run since 2014</span>
+      <span>Willow Creek, Vermont</span>
+      <span>Visitors always welcome</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== PILLARS ===================== -->
+<section class="pillars" style="padding: 0;">
+  <div class="pillars-grid">
+    <div class="pillar">
+      <div class="pillar-num">01 / Real pasture</div>
+      <h3>Grass under foot, sky overhead.</h3>
+      <p>Our hens spend every daylight hour outside on rotating paddocks. We move them weekly so the land — and the bugs — keep up.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02 / Heritage breeds</div>
+      <h3>Plymouth Rocks, Welsummers, Buff Orpingtons.</h3>
+      <p>We raise the old breeds — slower-growing, prettier eggs, and built for actually living outside in a real Vermont winter.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03 / Open door</div>
+      <h3>Come see for yourself.</h3>
+      <p>Every Saturday is open-coop day. Bring kids, bring questions. We'll hand you a basket and a cup of coffee.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRODUCTS ===================== -->
+<section>
+  <div class="wrap">
+    <div style="display:flex; align-items:end; justify-content:space-between; gap:32px; flex-wrap:wrap;">
+      <div>
+        <div class="eyebrow" style="margin-bottom:16px;">In the basket</div>
+        <h2 style="max-width:18ch;"><em style="font-style:italic; color:var(--barn);">Eggs</em>, mostly. A few good extras.</h2>
+      </div>
+      <a href="shop.html" class="btn btn-outline">Shop everything →</a>
+    </div>
+
+    <div class="products">
+      <a href="shop.html" class="product">
+        <div class="product-img ph">
+          <span class="ph-label">Brown eggs · ¾ ratio</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">The Standard Dozen</div>
+          <div class="muted tiny">Mixed brown eggs from the whole flock</div>
+          <div class="product-meta">
+            <span class="tag"><span class="tag-dot"></span>In stock</span>
+            <span class="product-price">$8 / dozen</span>
+          </div>
+        </div>
+      </a>
+      <a href="shop.html" class="product">
+        <div class="product-img ph ph-moss">
+          <span class="ph-label">Pastel mix · top-down flat lay</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">The Rainbow Dozen</div>
+          <div class="muted tiny">Blues, greens, browns, the occasional pink</div>
+          <div class="product-meta">
+            <span class="tag"><span class="tag-dot"></span>In stock</span>
+            <span class="product-price">$11 / dozen</span>
+          </div>
+        </div>
+      </a>
+      <a href="shop.html" class="product">
+        <div class="product-img ph ph-barn">
+          <span class="ph-label">Half flat · 18 eggs in carton</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">The Big Flat (18ct)</div>
+          <div class="muted tiny">For households where eggs vanish quickly</div>
+          <div class="product-meta">
+            <span class="tag"><span class="tag-dot" style="background:var(--butter)"></span>2 left this week</span>
+            <span class="product-price">$13</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STORY STRIP ===================== -->
+<section style="background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="story-strip">
+      <div class="story-img ph">
+        <span class="ph-label">Marta + Joel · golden hour, w/ basket</span>
+        <div class="scribble-note">that's us!</div>
+      </div>
+      <div class="story-copy">
+        <div class="eyebrow" style="margin-bottom:16px;">Our story</div>
+        <h2>We started with <span class="scribble">six hens</span> and a borrowed coop.</h2>
+        <p>
+          That was 2014. Marta wanted better eggs than the grocery store could provide. Joel built a chicken tractor out of pallets. The first egg arrived on a Tuesday and we ate it together standing over the kitchen sink.
+        </p>
+        <p>
+          Twelve years later we're up to four hundred and change. We still know which hen lays which egg. We still eat the first one of each new pullet's life standing over the sink.
+        </p>
+        <a href="story.html" class="btn btn-outline" style="margin-top:8px;">Read the whole thing →</a>
+        <div class="signature">— Marta &amp; Joel</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROMISE ===================== -->
+<section class="promise">
+  <div class="wrap">
+    <div class="promise-grid">
+      <div>
+        <div class="eyebrow" style="color:var(--butter); margin-bottom:16px;">Our promise</div>
+        <h2 style="font-style:italic;">Eight things we'll never compromise on.</h2>
+        <p style="color:rgba(245,239,226,0.7); margin-top:24px; max-width: 40ch; font-size:15px;">
+          We're a small farm. We can't compete on price, and we don't try to. Here's what you're paying for instead.
+        </p>
+      </div>
+      <div class="promise-list">
+        <div class="promise-row">
+          <div class="num">01</div>
+          <div>
+            <div class="label">Outdoor every daylight hour</div>
+            <div class="desc">Even in winter. They've got coats.</div>
+          </div>
+        </div>
+        <div class="promise-row">
+          <div class="num">02</div>
+          <div>
+            <div class="label">Soy-free, GMO-free feed</div>
+            <div class="desc">Locally milled in Brattleboro.</div>
+          </div>
+        </div>
+        <div class="promise-row">
+          <div class="num">03</div>
+          <div>
+            <div class="label">Rotational paddocks</div>
+            <div class="desc">Moved weekly. The grass thanks us.</div>
+          </div>
+        </div>
+        <div class="promise-row">
+          <div class="num">04</div>
+          <div>
+            <div class="label">Heritage breeds only</div>
+            <div class="desc">No production hybrids. No exceptions.</div>
+          </div>
+        </div>
+        <div class="promise-row">
+          <div class="num">05</div>
+          <div>
+            <div class="label">Hand-collected, twice daily</div>
+            <div class="desc">Marta in the morning, Joel at dusk.</div>
+          </div>
+        </div>
+        <div class="promise-row">
+          <div class="num">06</div>
+          <div>
+            <div class="label">Never washed in chlorine</div>
+            <div class="desc">A dry brush is plenty.</div>
+          </div>
+        </div>
+        <div class="promise-row">
+          <div class="num">07</div>
+          <div>
+            <div class="label">Retired, not culled</div>
+            <div class="desc">Old hens live out their days here.</div>
+          </div>
+        </div>
+        <div class="promise-row">
+          <div class="num">08</div>
+          <div>
+            <div class="label">Door always open</div>
+            <div class="desc">Visit any Saturday. Really.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="cta-banner" style="padding:120px 0;">
+  <div class="wrap-narrow">
+    <div class="hand" style="font-size:32px; margin-bottom: 16px;">come on by ↓</div>
+    <h2>The coffee is on. The hens are out. We'd love to meet you.</h2>
+    <p>Open Saturdays, 9am–2pm. No appointment needed. Boots recommended.</p>
+    <div class="row" style="justify-content:center;">
+      <a href="visit.html" class="btn btn-primary">Plan your visit</a>
+      <a href="contact.html" class="btn btn-outline">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-tag">Eggs from hens<br>who know their names.</div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; opacity:0.6; text-transform:uppercase;">
+          438 Willow Creek Rd · Putney, VT 05346
+        </div>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="visit.html">Open Saturdays</a></li>
+          <li><a href="visit.html">Farm tours</a></li>
+          <li><a href="visit.html">Directions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">Eggs</a></li>
+          <li><a href="shop.html">Pantry</a></li>
+          <li><a href="stockists.html">Stockists</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>About</h4>
+        <ul>
+          <li><a href="story.html">Our story</a></li>
+          <li><a href="practices.html">Practices</a></li>
+          <li><a href="flock.html">Meet the flock</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 HappyDoods Farm · A small operation, on purpose.</div>
+      <div>Hand-built in Vermont. Mostly held together with good intentions.</div>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+(function() {
+  const PH = {"pasture_wide":"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80","hens_grass":"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80","hen_closeup":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=1000&q=80","eggs_brown":"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&q=80","eggs_basket":"https://images.unsplash.com/photo-1569127959161-2b1297b2d9a8?auto=format&fit=crop&w=1200&q=80","eggs_pastel":"https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?auto=format&fit=crop&w=1200&q=80","eggs_flat":"https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1200&q=80","eggs_carton":"https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&w=1200&q=80","eggs_blue":"https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&q=80","barn":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80","farmer":"https://images.unsplash.com/photo-1592982499091-5b71f7be930e?auto=format&fit=crop&w=1100&q=80","couple":"https://images.unsplash.com/photo-1578307556311-d97c5c1e22e1?auto=format&fit=crop&w=1100&q=80","pasta":"https://images.unsplash.com/photo-1551892589-865f69869476?auto=format&fit=crop&w=1100&q=80","pickled":"https://images.unsplash.com/photo-1599909533730-89d0e3aef91d?auto=format&fit=crop&w=1100&q=80","butter":"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=1100&q=80","market":"https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1100&q=80","compost":"https://images.unsplash.com/photo-1416664806563-bb6be3be8074?auto=format&fit=crop&w=1100&q=80","old_coop":"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1100&q=80","kid_chicken":"https://images.unsplash.com/photo-1559588981-6c5ec47bf4a3?auto=format&fit=crop&w=1100&q=80","hen_feet":"https://images.unsplash.com/photo-1608755728617-4cb3a6b87c91?auto=format&fit=crop&w=1100&q=80","truck":"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1100&q=80","aerial":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80","plymouth":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=900&q=80","buff":"https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80","welsummer":"https://images.unsplash.com/photo-1573593928259-37bf012015b1?auto=format&fit=crop&w=900&q=80","marans":"https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=900&q=80","ameraucana":"https://images.unsplash.com/photo-1583845112203-29329902332e?auto=format&fit=crop&w=900&q=80","easter":"https://images.unsplash.com/photo-1556909114-44e3e9399a2b?auto=format&fit=crop&w=900&q=80"};
+  const MAP = [
+    ["Marta + Joel", "couple"],
+    ["Marta · collecting", "farmer"],
+    ["Marta · golden", "farmer"],
+    ["Original coop", "old_coop"],
+    ["Wren w/ goslings", "kid_chicken"],
+    ["Joel · fixing fence", "farmer"],
+    ["hen feet on grass", "hen_feet"],
+    ["loaded for market", "truck"],
+    ["truck", "truck"],
+    ["Brown dozen", "eggs_brown"],
+    ["Brown eggs", "eggs_brown"],
+    ["brown eggs", "eggs_brown"],
+    ["Pastel mix", "eggs_pastel"],
+    ["pastel", "eggs_pastel"],
+    ["Half-flat", "eggs_carton"],
+    ["Half flat", "eggs_carton"],
+    ["18ct", "eggs_carton"],
+    ["Two dozens", "eggs_basket"],
+    ["Tiny eggs", "eggs_flat"],
+    ["pickled eggs", "pickled"],
+    ["Pickled", "pickled"],
+    ["Pasta noodles", "pasta"],
+    ["pasta", "pasta"],
+    ["golden ghee", "butter"],
+    ["butter", "butter"],
+    ["gift bundle", "market"],
+    ["wooden box", "market"],
+    ["Compost bucket", "compost"],
+    ["compost", "compost"],
+    ["Aerial", "aerial"],
+    ["aerial", "aerial"],
+    ["paddocks marked", "aerial"],
+    ["Plymouth Rock", "plymouth"],
+    ["Buff Orpington", "buff"],
+    ["Welsummer", "welsummer"],
+    ["Marans", "marans"],
+    ["Ameraucana", "ameraucana"],
+    ["Easter Egger", "easter"],
+  ];
+  document.querySelectorAll(".ph").forEach(ph => {
+    const labelEl = ph.querySelector(".ph-label");
+    if (!labelEl) return;
+    const txt = (labelEl.textContent || "").toLowerCase();
+    let url = null;
+    for (const [needle, key] of MAP) {
+      if (txt.includes(needle.toLowerCase()) && PH[key]) { url = PH[key]; break; }
+    }
+    if (!url) return;
+    // Preload — only commit on success
+    const img = new Image();
+    img.onload = () => {
+      ph.style.backgroundImage = "url('" + url + "')";
+      ph.classList.add("has-photo");
+    };
+    img.onerror = () => { /* leave placeholder visible */ };
+    img.src = url;
+  });
+})();
+</script>
+
+</body>
+</html>

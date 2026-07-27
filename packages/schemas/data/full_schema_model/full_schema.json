@@ -1,0 +1,2682 @@
+{
+  "$ref": "#/definitions/WebAppProps",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AccessLevel": {
+      "description": "Access level for pages, handlers, and CRUD operations.\n- `'public'`: anyone can access\n- `'authenticated'`: any logged-in user\n- `'role:${string}'`: user must have the specified role (or a role that inherits it)\n- `'owner'`: only the record owner (valid only in crudPolicy)\n- `'none'`: permanently blocked (valid only in crudPolicy)",
+      "type": "string"
+    },
+    "AccordionDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "style": {
+          "enum": [
+            "default",
+            "flush"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AnimationEasing": {
+      "description": "Animation easing options.",
+      "enum": [
+        "ease",
+        "easeIn",
+        "easeOut",
+        "easeInOut",
+        "linear",
+        "spring"
+      ],
+      "type": "string"
+    },
+    "AnimationPreset": {
+      "description": "Animation preset types that map to Framer Motion variants. These match the existing TransitionType pattern from transitions.ts.",
+      "enum": [
+        "none",
+        "fadeIn",
+        "slideUp",
+        "slideDown",
+        "slideLeft",
+        "slideRight",
+        "scale",
+        "zoom",
+        "flip"
+      ],
+      "type": "string"
+    },
+    "AnimationProps": {
+      "additionalProperties": false,
+      "description": "Base animation configuration for any component. Can be applied to individual components via the `animation` prop.",
+      "properties": {
+        "delay": {
+          "default": 0,
+          "description": "Delay before animation starts in milliseconds.",
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/AnimationEasing",
+          "default": "easeOut",
+          "description": "Easing function for the animation."
+        },
+        "enter": {
+          "$ref": "#/definitions/AnimationPreset",
+          "default": "fadeIn",
+          "description": "The enter animation preset to use."
+        },
+        "exit": {
+          "$ref": "#/definitions/AnimationPreset",
+          "description": "The exit animation preset to use. If not specified, uses the reverse of enter animation."
+        },
+        "layout": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "const": "position",
+              "type": "string"
+            },
+            {
+              "const": "size",
+              "type": "string"
+            }
+          ],
+          "default": false,
+          "description": "Animate layout changes (position, size). Set to true for smooth filtering/reordering animations.\n- true: animate both position and size\n- 'position': only animate position changes\n- 'size': only animate size changes"
+        },
+        "once": {
+          "default": true,
+          "description": "Only animate once when scrolling into view. Only applies when whileInView is true.",
+          "type": "boolean"
+        },
+        "respectReducedMotion": {
+          "default": true,
+          "description": "Respect user's reduced motion preference. When true, animations are disabled if user prefers reduced motion.",
+          "type": "boolean"
+        },
+        "timing": {
+          "$ref": "#/definitions/AnimationTiming",
+          "default": "normal",
+          "description": "Animation speed preset."
+        },
+        "whileInView": {
+          "default": false,
+          "description": "Trigger animation when element enters viewport. Useful for scroll-triggered animations.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "AnimationTiming": {
+      "description": "Animation timing presets matching TransitionTiming.",
+      "enum": [
+        "fast",
+        "normal",
+        "slow"
+      ],
+      "type": "string"
+    },
+    "AppSecondaryTypeOption": {
+      "enum": [
+        "website",
+        "form",
+        "dataapp",
+        "custom"
+      ],
+      "type": "string"
+    },
+    "AppTypeOption": {
+      "const": "WebAppProps",
+      "description": "app type options for web applications",
+      "type": "string"
+    },
+    "AuthProviderProps": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "provider": {
+              "const": "email",
+              "type": "string"
+            }
+          },
+          "required": [
+            "provider"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "provider": {
+              "const": "google",
+              "type": "string"
+            }
+          },
+          "required": [
+            "provider"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "provider": {
+              "const": "exepad",
+              "type": "string"
+            }
+          },
+          "required": [
+            "provider"
+          ],
+          "type": "object"
+        }
+      ],
+      "description": "Configures a single authentication provider for per-app user auth (Mode B)."
+    },
+    "BackendProps": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/StaticBackend"
+        },
+        {
+          "$ref": "#/definitions/DynamicBackend"
+        },
+        {
+          "$ref": "#/definitions/NoneBackend"
+        }
+      ],
+      "description": "Backend configuration is a discriminated union on `mode`:\n- \"static\"  → Self-contained JSON artifact. No server, no D1, no Workers.\n- \"dynamic\" → Deployed application with full infrastructure (D1, Workers, etc.)\n- \"none\"    → Explicitly no backend. Frontend-only app."
+    },
+    "ButtonDefaultProps": {
+      "additionalProperties": false,
+      "description": "Subset of ButtonProps.variant — excludes 'destructive' and 'link' which are semantic/contextual and should not be set as global defaults.",
+      "properties": {
+        "radius": {
+          "enum": [
+            "none",
+            "sm",
+            "md",
+            "lg",
+            "full"
+          ],
+          "type": "string"
+        },
+        "variant": {
+          "enum": [
+            "default",
+            "outline",
+            "ghost",
+            "secondary"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CacheModelProps": {
+      "additionalProperties": false,
+      "description": "Configures offline caching behavior for a specific backend model.",
+      "properties": {
+        "maxItems": {
+          "description": "Maximum number of records to store in the local cache for this model.",
+          "type": "number"
+        },
+        "model": {
+          "description": "The backend model name to cache (must match a name in backend.models).",
+          "type": "string"
+        },
+        "ownerOnly": {
+          "default": false,
+          "description": "If true, only the current user's records (matching owner_id) are cached.",
+          "type": "boolean"
+        },
+        "strategy": {
+          "description": "The caching strategy: 'cache-first' (fast, may be stale), 'network-first' (fresh, slower), or 'stale-while-revalidate'.",
+          "enum": [
+            "cache-first",
+            "network-first",
+            "stale-while-revalidate"
+          ],
+          "type": "string"
+        },
+        "ttlSeconds": {
+          "description": "Cache time-to-live in seconds.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "model",
+        "strategy"
+      ],
+      "type": "object"
+    },
+    "CachingProps": {
+      "additionalProperties": false,
+      "description": "Configures Service Worker caching behavior for static assets and API responses.",
+      "properties": {
+        "apiResponses": {
+          "default": false,
+          "description": "If true, API responses are cached for offline access.",
+          "type": "boolean"
+        },
+        "maxAgeSeconds": {
+          "description": "Maximum time in seconds that cached API responses are valid.",
+          "type": "number"
+        },
+        "precacheRoutes": {
+          "description": "List of route paths to precache during Service Worker installation (e.g., ['/', '/dashboard']).",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "staticAssets": {
+          "default": true,
+          "description": "If true, static assets (JS, CSS, images) are cached by the Service Worker.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "CardDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "elevation": {
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "number"
+        },
+        "hoverEffect": {
+          "enum": [
+            "none",
+            "lift",
+            "glow",
+            "border-glow",
+            "scale"
+          ],
+          "type": "string"
+        },
+        "radius": {
+          "enum": [
+            "none",
+            "sm",
+            "md",
+            "lg",
+            "full"
+          ],
+          "type": "string"
+        },
+        "variant": {
+          "enum": [
+            "default",
+            "outlined",
+            "filled",
+            "elevated",
+            "glass"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ChartPaletteProps": {
+      "additionalProperties": false,
+      "description": "Defines up to five series colors for charts and data visualizations, using HEX format (e.g., '#3b82f6').",
+      "properties": {
+        "chart-1": {
+          "description": "Color for the first data series in charts.",
+          "type": "string"
+        },
+        "chart-2": {
+          "description": "Color for the second data series in charts.",
+          "type": "string"
+        },
+        "chart-3": {
+          "description": "Color for the third data series in charts.",
+          "type": "string"
+        },
+        "chart-4": {
+          "description": "Color for the fourth data series in charts.",
+          "type": "string"
+        },
+        "chart-5": {
+          "description": "Color for the fifth data series in charts.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CodeComponentProps": {
+      "additionalProperties": false,
+      "description": "Code component props Now strictly structural. Content is \"baked in\" to the compiled module.\n\nCan be used in two ways: 1. Direct URL: { compiled_module_url: \"https://...\" } 2. Repo reference: { component: \"StatsWidget\" } - resolves from repo.components",
+      "properties": {
+        "animation": {
+          "$ref": "#/definitions/AnimationProps",
+          "description": "Optional animation configuration for enter/exit and layout animations."
+        },
+        "classes": {
+          "description": "Tailwind CSS utility classes applied to this component's wrapper element (e.g., 'p-4 bg-muted rounded-lg').",
+          "type": "string"
+        },
+        "code_component_source": {
+          "$ref": "#/definitions/CodeComponentSourceProps",
+          "description": "* Source code details (Optional). Used only for debugging or \"Click to Edit\" features in the platform."
+        },
+        "compiled_module_url": {
+          "description": "* The absolute URL to the compiled ES module (for external components).",
+          "examples": [
+            "https://cdn.exepad.com/slots/v1/hero_section.js"
+          ],
+          "type": "string"
+        },
+        "component": {
+          "description": "* Reference to a component in repo.frontend.components. When provided, the URL is resolved from the app's repo.frontend.components configuration.",
+          "examples": [
+            "StatsWidget"
+          ],
+          "type": "string"
+        },
+        "componentType": {
+          "description": "The component type discriminator matching the interface name (e.g., 'CodeComponentProps'), used by DynamicRenderer to resolve the React component.",
+          "type": "string"
+        },
+        "extensions": {
+          "description": "* Extensions required by this component (e.g., [\"d3\", \"dnd-kit\"]). Auto-detected from",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "inlineStyle": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Inline CSS styles applied to this component's wrapper element. Use as a last resort — prefer typed props and `classes` for standard styling. Named `inlineStyle` (not `style`) to avoid collision with component-specific `style` variant selectors.",
+          "type": "object"
+        },
+        "lastUpdatedEpoch": {
+          "description": "Last updated timestamp in epoch seconds, managed by the backend.",
+          "type": "number"
+        },
+        "reserved_min_height": {
+          "description": "* CLS guard: a reserved minimum height for this component's slot, held during async load and as a floor once mounted, so the skeleton→content swap does not shift siblings below it. Stamped by the agent at codegen for above-the-fold/large sections. Accepts a CSS length (e.g. \"60svh\", \"640px\") or a number (interpreted as px). Omitted ⇒ no reservation (existing apps render exactly as before).",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "showWhen": {
+          "description": "Conditional visibility — hides component when it evaluates to false. Accepts a boolean or a $expression string (e.g., \"$isLoggedIn\", \"$items.length > 0\").",
+          "type": [
+            "boolean",
+            "string"
+          ]
+        },
+        "signature": {
+          "description": "An internal integrity hash for change-detection, managed automatically — do not set manually.",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "A UUID v4 that uniquely identifies this component instance within the app config.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "componentType",
+        "uuid"
+      ],
+      "type": "object"
+    },
+    "CodeComponentSourceProps": {
+      "additionalProperties": false,
+      "properties": {
+        "source_code_hash": {
+          "description": "* Integrity hash.",
+          "examples": [
+            "sha256:1234567890"
+          ],
+          "type": "string"
+        },
+        "source_code_url": {
+          "description": "* The absolute URL to the source code.",
+          "examples": [
+            "https://cdn.exepad.com/slots/v1/hero_section.tsx"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_code_url",
+        "source_code_hash"
+      ],
+      "type": "object"
+    },
+    "ColorPaletteProps": {
+      "additionalProperties": false,
+      "description": "Defines the color palette for a theme mode (light or dark). Values can be hex ('#3f3f46') or bare HSL ('222.2 47.4% 11.2%'). Hex is auto-converted to HSL at runtime by DynamicTheme.",
+      "properties": {
+        "accent": {
+          "description": "The accent color for hover states, highlights, and selection indicators.",
+          "type": "string"
+        },
+        "accent-foreground": {
+          "description": "The text color rendered on accent-colored backgrounds.",
+          "type": "string"
+        },
+        "background": {
+          "description": "The main page background color.",
+          "type": "string"
+        },
+        "border": {
+          "description": "The color for borders on cards, dividers, and separators.",
+          "type": "string"
+        },
+        "card": {
+          "description": "The background color for Card components.",
+          "type": "string"
+        },
+        "card-foreground": {
+          "description": "The text color rendered on Card backgrounds.",
+          "type": "string"
+        },
+        "destructive": {
+          "description": "The color for destructive actions such as delete buttons and error states.",
+          "type": "string"
+        },
+        "destructive-foreground": {
+          "description": "The text color rendered on destructive-colored backgrounds.",
+          "type": "string"
+        },
+        "foreground": {
+          "description": "The default text color rendered on the background.",
+          "type": "string"
+        },
+        "input": {
+          "description": "The border color specifically for form input fields.",
+          "type": "string"
+        },
+        "muted": {
+          "description": "The muted background color for subtle UI areas such as disabled states and badges.",
+          "type": "string"
+        },
+        "muted-foreground": {
+          "description": "The text color rendered on muted backgrounds (e.g., placeholder text, help text).",
+          "type": "string"
+        },
+        "popover": {
+          "description": "The background color for Popover, Dropdown, and Tooltip overlays.",
+          "type": "string"
+        },
+        "popover-foreground": {
+          "description": "The text color rendered on Popover backgrounds.",
+          "type": "string"
+        },
+        "primary": {
+          "description": "The primary brand color used for buttons, links, and active elements.",
+          "type": "string"
+        },
+        "primary-foreground": {
+          "description": "The text color rendered on primary-colored backgrounds.",
+          "type": "string"
+        },
+        "ring": {
+          "description": "The focus ring color shown around focused interactive elements.",
+          "type": "string"
+        },
+        "secondary": {
+          "description": "The secondary color used for less prominent interactive elements.",
+          "type": "string"
+        },
+        "secondary-foreground": {
+          "description": "The text color rendered on secondary-colored backgrounds.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ColumnProps": {
+      "additionalProperties": false,
+      "description": "Configures a single column within a data model, including its type, constraints, and default value.",
+      "properties": {
+        "defaultValue": {
+          "description": "The default value inserted when no value is provided, must match the column type."
+        },
+        "enumValues": {
+          "description": "Closed vocabulary for text columns (status, priority, tier, category). When set, seed data must use exactly these values and UI must render every entry.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "isNullable": {
+          "default": false,
+          "description": "If true, the column accepts NULL values.",
+          "type": "boolean"
+        },
+        "isPrimary": {
+          "default": false,
+          "description": "If true, this column is the table's primary key. Only one per model.",
+          "type": "boolean"
+        },
+        "isUnique": {
+          "default": false,
+          "description": "If true, a UNIQUE constraint is added to this column.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "The SQL column name, must match [a-zA-Z_][a-zA-Z0-9_]* pattern (e.g., 'first_name', 'created_at').",
+          "type": "string"
+        },
+        "references": {
+          "$ref": "#/definitions/ForeignKeyRef",
+          "description": "Foreign key reference linking this column to another model's column."
+        },
+        "summary": {
+          "description": "Plain-English description of this column's purpose, used by the LLM for context.",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/ColumnType",
+          "description": "The D1/SQLite storage type for this column."
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "ColumnType": {
+      "enum": [
+        "text",
+        "integer",
+        "real",
+        "blob",
+        "json"
+      ],
+      "type": "string"
+    },
+    "ComponentDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "accordion": {
+          "$ref": "#/definitions/AccordionDefaultProps"
+        },
+        "animated": {
+          "type": "boolean"
+        },
+        "button": {
+          "$ref": "#/definitions/ButtonDefaultProps"
+        },
+        "card": {
+          "$ref": "#/definitions/CardDefaultProps"
+        },
+        "dataTable": {
+          "$ref": "#/definitions/DataTableDefaultProps"
+        },
+        "form": {
+          "$ref": "#/definitions/FormLayoutDefaultProps"
+        },
+        "heading": {
+          "$ref": "#/definitions/HeadingDefaultProps"
+        },
+        "input": {
+          "$ref": "#/definitions/InputDefaultProps"
+        },
+        "section": {
+          "$ref": "#/definitions/SectionDefaultProps"
+        },
+        "stepper": {
+          "$ref": "#/definitions/StepperDefaultProps"
+        },
+        "tab": {
+          "$ref": "#/definitions/TabDefaultProps"
+        },
+        "text": {
+          "$ref": "#/definitions/TextDefaultProps"
+        }
+      },
+      "type": "object"
+    },
+    "ComponentProps": {
+      "additionalProperties": false,
+      "description": "Base interface for all renderable UI components, providing identification, conditional visibility, and animation.",
+      "properties": {
+        "animation": {
+          "$ref": "#/definitions/AnimationProps",
+          "description": "Optional animation configuration for enter/exit and layout animations."
+        },
+        "classes": {
+          "description": "Tailwind CSS utility classes applied to this component's wrapper element (e.g., 'p-4 bg-muted rounded-lg').",
+          "type": "string"
+        },
+        "componentType": {
+          "description": "The component type discriminator matching the interface name (e.g., 'CodeComponentProps'), used by DynamicRenderer to resolve the React component.",
+          "type": "string"
+        },
+        "inlineStyle": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Inline CSS styles applied to this component's wrapper element. Use as a last resort — prefer typed props and `classes` for standard styling. Named `inlineStyle` (not `style`) to avoid collision with component-specific `style` variant selectors.",
+          "type": "object"
+        },
+        "lastUpdatedEpoch": {
+          "description": "Last updated timestamp in epoch seconds, managed by the backend.",
+          "type": "number"
+        },
+        "showWhen": {
+          "description": "Conditional visibility — hides component when it evaluates to false. Accepts a boolean or a $expression string (e.g., \"$isLoggedIn\", \"$items.length > 0\").",
+          "type": [
+            "boolean",
+            "string"
+          ]
+        },
+        "signature": {
+          "description": "An internal integrity hash for change-detection, managed automatically — do not set manually.",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "A UUID v4 that uniquely identifies this component instance within the app config.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uuid",
+        "componentType"
+      ],
+      "type": "object"
+    },
+    "CrudPolicyProps": {
+      "additionalProperties": false,
+      "description": "Configures the required access level for each CRUD operation on a model.",
+      "properties": {
+        "create": {
+          "$ref": "#/definitions/AccessLevel",
+          "default": "authenticated",
+          "description": "Access level required to create new records."
+        },
+        "delete": {
+          "$ref": "#/definitions/AccessLevel",
+          "default": "authenticated",
+          "description": "Access level required to delete records."
+        },
+        "list": {
+          "$ref": "#/definitions/AccessLevel",
+          "default": "authenticated",
+          "description": "Access level required to list/query multiple records."
+        },
+        "read": {
+          "$ref": "#/definitions/AccessLevel",
+          "default": "authenticated",
+          "description": "Access level required to read a single record by ID."
+        },
+        "update": {
+          "$ref": "#/definitions/AccessLevel",
+          "default": "authenticated",
+          "description": "Access level required to update existing records."
+        }
+      },
+      "type": "object"
+    },
+    "CustomMethodProps": {
+      "additionalProperties": false,
+      "description": "Defines a custom code file for backend handlers, tasks, pipelines, etc.",
+      "properties": {
+        "compiled": {
+          "description": "Relative path to the compiled JavaScript file (e.g., 'backend/compiled/handlers/getDashboard.js'). Generated by the compile step.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Relative path to the TypeScript source file within the app repo (e.g., 'backend/code/handlers/getDashboard.tsx').",
+          "type": "string"
+        },
+        "source_hash": {
+          "description": "Content hash of the source file (e.g., 'sha256:d41d8cd98f00'). Optional for backward compat with pre-deploy configs.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Plain-English description of what this method does, used by the LLM for context.",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/MethodType",
+          "description": "Method category for organization and routing."
+        }
+      },
+      "required": [
+        "source",
+        "compiled"
+      ],
+      "type": "object"
+    },
+    "DataTableDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "compact": {
+          "type": "boolean"
+        },
+        "hoverable": {
+          "type": "boolean"
+        },
+        "striped": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "DatasetSchemaProps": {
+      "additionalProperties": false,
+      "description": "Defines the structure of a dataset, including field definitions and the primary key.",
+      "properties": {
+        "fields": {
+          "description": "Ordered list of field definitions describing each column in the dataset.",
+          "items": {
+            "$ref": "#/definitions/FieldDefProps"
+          },
+          "type": "array"
+        },
+        "primaryKey": {
+          "default": "id",
+          "description": "The field name used as the primary key for record identification.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fields"
+      ],
+      "type": "object"
+    },
+    "DynamicBackend": {
+      "additionalProperties": false,
+      "properties": {
+        "handlers": {
+          "description": "Custom JavaScript handlers for complex logic",
+          "items": {
+            "$ref": "#/definitions/HandlerProps"
+          },
+          "type": "array"
+        },
+        "mode": {
+          "const": "dynamic",
+          "type": "string"
+        },
+        "models": {
+          "description": "Data models with automatic CRUD endpoints",
+          "items": {
+            "$ref": "#/definitions/ModelProps"
+          },
+          "type": "array"
+        },
+        "pipelines": {
+          "items": {},
+          "type": "array"
+        },
+        "queues": {
+          "items": {},
+          "type": "array"
+        },
+        "realtime": {},
+        "sources": {
+          "additionalProperties": {},
+          "type": "object"
+        },
+        "storage": {},
+        "tasks": {
+          "items": {},
+          "type": "array"
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "type": "object"
+    },
+    "FieldDefProps": {
+      "additionalProperties": false,
+      "description": "Defines a single field within a dataset schema, including its type and display properties.",
+      "properties": {
+        "format": {
+          "description": "Format string for display rendering (e.g., 'YYYY-MM-DD' for dates, '$0,0.00' for currency).",
+          "type": "string"
+        },
+        "label": {
+          "description": "Display label shown in table headers and form labels. Defaults to the titleCase of the field name.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The field name matching the key in each data record (e.g., 'email', 'created_at').",
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "description": "If true, the field is required when generating forms from this schema.",
+          "type": "boolean"
+        },
+        "type": {
+          "description": "The data type, used for formatting and input generation.",
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "date",
+            "url",
+            "email",
+            "currency"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "FontProps": {
+      "additionalProperties": false,
+      "description": "Configures a font family with its weight variant and optional remote source URL.",
+      "properties": {
+        "family": {
+          "description": "CSS font-family name (e.g., 'Inter', 'Playfair Display').",
+          "type": "string"
+        },
+        "url": {
+          "description": "URL to load the font from (e.g., Google Fonts CSS URL). If omitted, the font is assumed to be locally available.",
+          "type": "string"
+        },
+        "variant": {
+          "description": "Font weight and style variant (e.g., 'regular', 'italic', '400' for regular, '700' for bold, '400italic' for italic).",
+          "enum": [
+            "regular",
+            "italic",
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900",
+            "100italic",
+            "200italic",
+            "300italic",
+            "400italic",
+            "500italic",
+            "600italic",
+            "700italic",
+            "800italic",
+            "900italic"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "family",
+        "variant"
+      ],
+      "type": "object"
+    },
+    "ForeignKeyRef": {
+      "additionalProperties": false,
+      "description": "Configures a foreign key reference from one column to another model's column.",
+      "properties": {
+        "column": {
+          "description": "The column name in the referenced model to match against (typically 'id').",
+          "type": "string"
+        },
+        "model": {
+          "description": "The name of the referenced model (table).",
+          "type": "string"
+        },
+        "onDelete": {
+          "$ref": "#/definitions/OnDeleteAction",
+          "default": "cascade",
+          "description": "The action to perform when the referenced row is deleted."
+        }
+      },
+      "required": [
+        "model",
+        "column"
+      ],
+      "type": "object"
+    },
+    "FormLayoutDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "fieldSetVariant": {
+          "enum": [
+            "default",
+            "card",
+            "borderless",
+            "highlighted"
+          ],
+          "type": "string"
+        },
+        "fieldSpacing": {
+          "enum": [
+            "tight",
+            "default",
+            "relaxed"
+          ],
+          "type": "string"
+        },
+        "labelPosition": {
+          "enum": [
+            "top",
+            "left"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "FrontendProps": {
+      "additionalProperties": false,
+      "description": "Configures all frontend UI and client-side behavior settings for a web application.",
+      "properties": {
+        "cssUrls": {
+          "description": "URLs of compiled CSS files for Code Focus components. Fetched once at app init and injected into the document head.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "footer": {
+          "description": "Component trees rendered in the global footer below every page.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/ComponentProps"
+              },
+              {
+                "$ref": "#/definitions/CodeComponentProps"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "headTags": {
+          "description": "External resources to inject into `<head>`. Used for Code Focus designs that need custom stylesheets (icon fonts, typography), scripts (Tailwind CDN), or inline config (Tailwind config). Rendered in order.",
+          "items": {
+            "$ref": "#/definitions/HeadTagProps"
+          },
+          "type": "array"
+        },
+        "header": {
+          "description": "Component trees rendered in the global header above every page.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/ComponentProps"
+              },
+              {
+                "$ref": "#/definitions/CodeComponentProps"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "headerScrollBehavior": {
+          "description": "Override scroll behavior for the header. Useful when header is a CodeComponent instead of NavbarProps (which carries its own scrollBehavior).",
+          "enum": [
+            "static",
+            "fixed",
+            "sticky",
+            "hide",
+            "shrink"
+          ],
+          "type": "string"
+        },
+        "languages": {
+          "description": "List of supported languages for internationalization. At least one must have isDefault set to true.",
+          "items": {
+            "$ref": "#/definitions/LanguageOptionProps"
+          },
+          "type": "array"
+        },
+        "layout": {
+          "$ref": "#/definitions/LayoutOption",
+          "description": "Content width strategy: 'boxed' (centered max-width), 'wide' (larger max-width), 'narrow' (compact), or 'full-width' (edge to edge)."
+        },
+        "logic": {
+          "$ref": "#/definitions/LogicProps",
+          "description": "Client-side state and logic configuration"
+        },
+        "menuPosition": {
+          "$ref": "#/definitions/MenuPosition",
+          "description": "Primary navigation placement: 'HeaderMenuTop' for horizontal navbar, 'SidebarMenuLeft' for vertical sidebar."
+        },
+        "metadata": {
+          "$ref": "#/definitions/MetadataProps",
+          "description": "Site-wide default metadata for SEO and social sharing, overridden per-page if set."
+        },
+        "offline": {
+          "$ref": "#/definitions/OfflineProps",
+          "description": "Offline support configuration. Enables Service Worker, IndexedDB caching, and background sync."
+        },
+        "pages": {
+          "description": "Ordered list of pages in the application, each defining a route and content tree.",
+          "items": {
+            "$ref": "#/definitions/WebPageProps"
+          },
+          "type": "array"
+        },
+        "sidebar": {
+          "description": "Component trees rendered in the global sidebar (only visible when menuPosition is 'SidebarMenuLeft').",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/ComponentProps"
+              },
+              {
+                "$ref": "#/definitions/CodeComponentProps"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "theme": {
+          "$ref": "#/definitions/ThemeProps",
+          "description": "Theme configuration including color palettes, fonts, spacing, and border radius."
+        },
+        "transitions": {
+          "$ref": "#/definitions/TransitionProps",
+          "description": "Global page transition animations applied when navigating between pages."
+        }
+      },
+      "required": [
+        "layout",
+        "menuPosition",
+        "theme",
+        "languages",
+        "pages",
+        "header",
+        "sidebar",
+        "footer"
+      ],
+      "type": "object"
+    },
+    "HandlerProps": {
+      "additionalProperties": false,
+      "description": "Defines a custom backend handler function with its inputs, outputs, access control, and compiled method reference.",
+      "properties": {
+        "allowedSources": {
+          "description": "Names of internal data sources (from backend.sources) this handler is allowed to access.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "authLevel": {
+          "$ref": "#/definitions/AccessLevel",
+          "description": "The minimum access level required to invoke this handler."
+        },
+        "handlerType": {
+          "description": "Whether this handler performs reads or writes (default: 'write'). Read handlers respect the declared authLevel as-is (e.g., 'public' allows unauthenticated access). Write handlers always require authentication regardless of authLevel, to prevent empty owner_id on INSERTs (H8 guard).",
+          "enum": [
+            "read",
+            "write"
+          ],
+          "type": "string"
+        },
+        "inputs": {
+          "description": "The list of input parameters this handler accepts, validated before execution.",
+          "items": {
+            "$ref": "#/definitions/InputProps"
+          },
+          "type": "array"
+        },
+        "method": {
+          "description": "The name of the compiled method in repo.backend.handlers that implements this handler.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The handler name, used as the API route segment: POST /api/{appId}/{name}.",
+          "type": "string"
+        },
+        "outputs": {
+          "description": "The list of fields returned in the handler's response object.",
+          "items": {
+            "$ref": "#/definitions/OutputProps"
+          },
+          "type": "array"
+        },
+        "summary": {
+          "description": "Plain-English description of what this handler does, used by the LLM for context.",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "Unique identifier (UUID v4) for this handler.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uuid",
+        "name",
+        "authLevel",
+        "inputs",
+        "outputs",
+        "method"
+      ],
+      "type": "object"
+    },
+    "HeadTagProps": {
+      "additionalProperties": false,
+      "description": "A resource to inject into the document `<head>`. Supports external stylesheets, external scripts, inline styles, and inline scripts. Used by Code Focus designs to load custom Tailwind configs, icon fonts, and typography.",
+      "properties": {
+        "content": {
+          "description": "Inline content for `<style>` or `<script>` blocks.",
+          "type": "string"
+        },
+        "src": {
+          "description": "URL for external resources (`<link href>` or `<script src>`).",
+          "type": "string"
+        },
+        "type": {
+          "description": "Tag type to render:\n- 'stylesheet': renders `<link rel=\"stylesheet\" href=\"src\">`\n- 'script': renders `<script src=\"src\">` or inline `<script>content</script>`\n- 'style': renders `<style>content</style>` (sanitized)",
+          "enum": [
+            "stylesheet",
+            "script",
+            "style"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "HeadingDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "decoration": {
+          "enum": [
+            "none",
+            "underline-accent",
+            "gradient"
+          ],
+          "type": "string"
+        },
+        "weight": {
+          "enum": [
+            "light",
+            "normal",
+            "medium",
+            "semibold",
+            "bold",
+            "extrabold"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ImageAssetRepoProps": {
+      "additionalProperties": false,
+      "description": "Describes a stock image asset downloaded during app generation. Agent uploads to GCS; backend copies to R2 and sets `url` at deploy time.",
+      "properties": {
+        "content_type": {
+          "description": "MIME type (e.g., \"image/jpeg\").",
+          "type": "string"
+        },
+        "gcs_url": {
+          "description": "GCS source URL (e.g., \"gs://exepad-agent-outputs/{uuid}/assets/images/...\").",
+          "type": "string"
+        },
+        "keywords": {
+          "description": "Search keywords used to find this image.",
+          "type": "string"
+        },
+        "provider": {
+          "description": "Stock provider name (e.g., \"pexels\", \"pixabay\", \"unsplash\", \"openverse\").",
+          "type": "string"
+        },
+        "provider_asset_id": {
+          "description": "Provider-specific resource/asset ID.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Relative path to image file (e.g., \"assets/images/modern-barbershop-interior-pexels-12345.jpg\").",
+          "type": "string"
+        },
+        "source_hash": {
+          "description": "Content hash of the image file (e.g., \"sha256:a1b2c3d4e5f6\").",
+          "type": "string"
+        },
+        "url": {
+          "description": "Resolved serve URL (set by backend after GCS→R2 copy).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "source_hash",
+        "content_type",
+        "keywords",
+        "provider",
+        "provider_asset_id"
+      ],
+      "type": "object"
+    },
+    "IndexProps": {
+      "additionalProperties": false,
+      "description": "Configures a database index on one or more columns for query optimization.",
+      "properties": {
+        "columns": {
+          "description": "The column names included in the index, in order.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "The index name, used in generated SQL CREATE INDEX statements.",
+          "type": "string"
+        },
+        "unique": {
+          "default": false,
+          "description": "If true, the index enforces uniqueness across the column combination.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "columns"
+      ],
+      "type": "object"
+    },
+    "InputDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "radius": {
+          "enum": [
+            "none",
+            "sm",
+            "md",
+            "lg",
+            "full"
+          ],
+          "type": "string"
+        },
+        "size": {
+          "enum": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "type": "string"
+        },
+        "variant": {
+          "enum": [
+            "default",
+            "underlined",
+            "filled",
+            "bordered"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "InputProps": {
+      "additionalProperties": false,
+      "description": "Defines a single input parameter accepted by a custom handler.",
+      "properties": {
+        "name": {
+          "description": "The parameter name, used as the key in ctx.params.",
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "description": "If true, the handler will reject requests missing this parameter.",
+          "type": "boolean"
+        },
+        "summary": {
+          "description": "Plain-English description of this parameter's purpose, used by the LLM for context.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The expected data type for this input, used for validation before the handler runs.",
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "json"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "LanguageOptionProps": {
+      "additionalProperties": false,
+      "description": "Configures a supported language for internationalization (i18n).",
+      "properties": {
+        "code": {
+          "description": "BCP 47 language code (e.g., 'en', 'tr', 'fr-FR').",
+          "type": "string"
+        },
+        "isDefault": {
+          "description": "If true, this is the app's default language. Only one language should be marked as default.",
+          "type": "boolean"
+        },
+        "nameEnglish": {
+          "description": "Language name in English (e.g., 'Turkish', 'French').",
+          "type": "string"
+        },
+        "nameNative": {
+          "description": "Language name in its native script (e.g., 'Turkce', 'Francais').",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "nameEnglish",
+        "nameNative",
+        "isDefault"
+      ],
+      "type": "object"
+    },
+    "LayoutOption": {
+      "enum": [
+        "boxed",
+        "wide",
+        "narrow",
+        "full-width"
+      ],
+      "type": "string"
+    },
+    "LogicProps": {
+      "additionalProperties": false,
+      "description": "Logic configuration for client-side reactivity",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/StateSchema",
+          "description": "Reactive state variables",
+          "examples": [
+            {
+              "cartItems": [],
+              "currentStep": 0,
+              "isLoading": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "type": "object"
+    },
+    "MenuPosition": {
+      "description": "Layout options for web applications",
+      "enum": [
+        "HeaderMenuTop",
+        "SidebarMenuLeft"
+      ],
+      "type": "string"
+    },
+    "MetadataProps": {
+      "additionalProperties": false,
+      "description": "Defines the SEO and social sharing metadata for a page or the entire site.",
+      "properties": {
+        "description": {
+          "description": "The description of the page or the site.",
+          "type": "string"
+        },
+        "favicon": {
+          "description": "Site favicon as an inline SVG string (e.g. \"<svg xmlns='...' viewBox='0 0 32 32'>...</svg>\") or a URL.",
+          "type": "string"
+        },
+        "keywords": {
+          "description": "Comma-separated keywords.",
+          "type": "string"
+        },
+        "openGraph": {
+          "additionalProperties": false,
+          "description": "Open Graph metadata for social sharing.",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "description": "Open Graph type for social media cards. Common values: 'website' for homepages, 'article' for blog posts.",
+              "enum": [
+                "website",
+                "article",
+                "profile",
+                "book",
+                "music.song",
+                "music.album",
+                "video.movie",
+                "video.episode"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "title": {
+          "description": "The title of the page or the site.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MethodType": {
+      "description": "Method types for categorization.",
+      "enum": [
+        "handler",
+        "task",
+        "realtime",
+        "source",
+        "pipeline"
+      ],
+      "type": "string"
+    },
+    "MigrationPolicy": {
+      "enum": [
+        "safe",
+        "destructive",
+        "reset"
+      ],
+      "type": "string"
+    },
+    "ModelProps": {
+      "additionalProperties": false,
+      "description": "Defines a data model (database table) with its columns, indexes, access policies, and migration settings.",
+      "properties": {
+        "autoExpandFKs": {
+          "default": true,
+          "description": "Whether `sys_list` should auto-expand foreign-key columns into joined sub-objects. When `true` (default), every FK column whose name ends in `_id` and whose `references.model` exists in the app's model list gets a sibling object on each row (alias = column name minus `_id`). Set `false` to suppress for cost-sensitive or privacy-sensitive parent models.",
+          "type": "boolean"
+        },
+        "columns": {
+          "description": "The columns that make up this table's schema. System columns (id, owner_id, created_at, updated_at) are added automatically.",
+          "items": {
+            "$ref": "#/definitions/ColumnProps"
+          },
+          "type": "array"
+        },
+        "crudPolicy": {
+          "$ref": "#/definitions/CrudPolicyProps",
+          "description": "Per-operation authentication requirements for auto-CRUD endpoints."
+        },
+        "expandSelect": {
+          "description": "When this model is auto-expanded into a parent row, only return these columns. Useful for sensitive joined models that shouldn't expose every field through joins. Omit to expose all columns. Always implicitly includes the primary key.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "indexes": {
+          "description": "Additional database indexes for optimizing queries on this model.",
+          "items": {
+            "$ref": "#/definitions/IndexProps"
+          },
+          "type": "array"
+        },
+        "migrationPolicy": {
+          "$ref": "#/definitions/MigrationPolicy",
+          "default": "safe",
+          "description": "Controls how schema migrations are handled: 'safe' (additive only), 'destructive' (allows drops), 'reset' (full rebuild)."
+        },
+        "name": {
+          "description": "The table name in D1, must match [a-zA-Z_][a-zA-Z0-9_]* pattern (e.g., 'books', 'loan_records').",
+          "type": "string"
+        },
+        "ownerScope": {
+          "$ref": "#/definitions/OwnerScope",
+          "description": "Owner scoping mode (default: 'user').\n- 'user': all queries filter by owner_id — each user sees only their own data\n- 'shared': reads/lists return all records; writes still set owner_id for audit"
+        },
+        "softDelete": {
+          "default": false,
+          "description": "If true, deletes set a deleted_at timestamp instead of removing the row. Auto-adds a deleted_at column during schema generation.",
+          "type": "boolean"
+        },
+        "summary": {
+          "description": "Plain-English description of this model's purpose, used by the LLM for context.",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "Unique identifier (UUID v4) for this model, used for migration tracking.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uuid",
+        "name",
+        "columns"
+      ],
+      "type": "object"
+    },
+    "NoneBackend": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "none",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "type": "object"
+    },
+    "OfflineProps": {
+      "additionalProperties": false,
+      "description": "Configures Progressive Web App offline support including Service Worker, IndexedDB caching, and background sync.",
+      "properties": {
+        "cacheModels": {
+          "description": "Model-level caching rules for offline access to backend data.",
+          "items": {
+            "$ref": "#/definitions/CacheModelProps"
+          },
+          "type": "array"
+        },
+        "caching": {
+          "$ref": "#/definitions/CachingProps",
+          "description": "Service Worker caching options for static assets and API responses."
+        },
+        "conflictResolution": {
+          "description": "Conflict resolution when offline changes clash with server data: 'client-wins', 'server-wins', or 'manual' (user picks).",
+          "enum": [
+            "client-wins",
+            "server-wins",
+            "manual"
+          ],
+          "type": "string"
+        },
+        "enabled": {
+          "description": "If true, registers a Service Worker and enables offline capabilities.",
+          "type": "boolean"
+        },
+        "persistState": {
+          "description": "List of state keys (from frontend.logic.state) to persist to IndexedDB for offline access.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "syncStrategy": {
+          "description": "Sync strategy: 'eager' (sync immediately when online), 'lazy' (sync on next request), or 'manual' (user-triggered).",
+          "enum": [
+            "eager",
+            "lazy",
+            "manual"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled"
+      ],
+      "type": "object"
+    },
+    "OnDeleteAction": {
+      "enum": [
+        "cascade",
+        "set_null",
+        "restrict",
+        "no_action"
+      ],
+      "type": "string"
+    },
+    "OutputProps": {
+      "additionalProperties": false,
+      "description": "Defines a single field in a custom handler's response object.",
+      "properties": {
+        "items": {
+          "description": "When type is 'array', describes the item type within the array (e.g., 'string', 'json').",
+          "type": "string"
+        },
+        "name": {
+          "description": "The field name in the handler's response object.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Plain-English description of this output field's contents, used by the LLM for context.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The data type of this output field, used for documentation and client-side type hints.",
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "json",
+            "array"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "OwnerScope": {
+      "description": "Controls how owner_id filtering is applied to CRUD queries",
+      "enum": [
+        "user",
+        "shared"
+      ],
+      "type": "string"
+    },
+    "PageTransitionProps": {
+      "additionalProperties": false,
+      "description": "Defines the transition settings for a specific page, allowing for overrides. This allows for customizing or disabling transitions for individual pages.",
+      "properties": {
+        "disabled": {
+          "description": "If true, transitions are disabled for this specific page, ignoring the global `enabled` setting.",
+          "type": "boolean"
+        },
+        "easing": {
+          "description": "Overrides the default easing function for this page.",
+          "enum": [
+            "ease",
+            "easeIn",
+            "easeOut",
+            "easeInOut",
+            "linear"
+          ],
+          "type": "string"
+        },
+        "preferNative": {
+          "description": "Override to use or not use the native View Transitions API for this page.",
+          "type": "boolean"
+        },
+        "timing": {
+          "$ref": "#/definitions/TransitionTiming",
+          "description": "Overrides the default transition speed for this page."
+        },
+        "type": {
+          "$ref": "#/definitions/TransitionType",
+          "description": "Overrides the default transition effect for this page."
+        },
+        "viewTransitionName": {
+          "description": "Override the CSS view-transition-name for this specific page.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PageType": {
+      "const": "WebPageProps",
+      "type": "string"
+    },
+    "RepoComponentProps": {
+      "additionalProperties": false,
+      "description": "Defines a custom component code file that can be loaded dynamically via CodeComponentProps.",
+      "properties": {
+        "bundle_hash": {
+          "description": "Babel-shell deploy-invalidation hash. Computed by the agent as sha256(entry_source_hash + \"|\" + sorted_module_source_hashes). The entry's `source` path embeds this hash (instead of the bare source content hash) when `supporting_modules` is non-empty — so any module change bumps the path and the backend treats it as a fresh source needing re-bundle. Absent for entries without supporting modules (their `source` path uses the content hash directly, no bundle indirection).",
+          "type": "string"
+        },
+        "compiled": {
+          "description": "Relative path to the compiled JavaScript file. Generated by the compile step.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Relative path to the TypeScript/TSX source file within the app repo.",
+          "type": "string"
+        },
+        "source_hash": {
+          "description": "Content hash of the source file (e.g., 'sha256:3ea3918fb19e35af'). Set by GcsOutputService after upload.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Plain-English description of what this component renders, used by the LLM for context.",
+          "type": "string"
+        },
+        "supporting_modules": {
+          "description": "Babel-shell per-module: names of supporting modules this entry component imports from via ES `import { X } from \"./Module\"`. Each entry corresponds to a `codefocus_module:<Name>.tsx` artifact bundled into this component at deploy time (esbuild --bundle=true). Empty / absent for non-Babel-shell components and for single-file Babel-shell exports.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "type": {
+          "const": "code_component",
+          "description": "Component type discriminator. Used by GcsOutputService to identify code components.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "compiled"
+      ],
+      "type": "object"
+    },
+    "RepoModuleProps": {
+      "additionalProperties": false,
+      "description": "Babel-shell supporting module — a TSX file imported by an entry component via cross-file ES `import { X } from \"./<Name>\"`. Bundled into the entry's compiled JS at deploy time (esbuild\n--bundle=true). Has no `compiled` field of its own because the runtime never fetches modules directly — they exist only as bundle inputs alongside the entry.",
+      "properties": {
+        "source": {
+          "description": "Relative path to the TSX source file in the app repo (versioned).",
+          "type": "string"
+        },
+        "source_hash": {
+          "description": "Content hash of the source file (e.g., 'sha256:3ea3918fb19e35af').",
+          "type": "string"
+        },
+        "type": {
+          "const": "code_module",
+          "description": "Module type discriminator.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "type": "object"
+    },
+    "RepoProps": {
+      "additionalProperties": false,
+      "description": "Repository configuration for all custom code files used by the application.\n\nLayout: `repo.frontend.components`, `repo.frontend.styles`, `repo.backend.handlers`",
+      "properties": {
+        "assets": {
+          "additionalProperties": false,
+          "description": "Static assets (images, etc.) managed by the platform.",
+          "properties": {
+            "images": {
+              "additionalProperties": {
+                "$ref": "#/definitions/ImageAssetRepoProps"
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "backend": {
+          "additionalProperties": false,
+          "description": "Backend code: server-side handlers, tasks, pipelines.",
+          "properties": {
+            "handlers": {
+              "additionalProperties": {
+                "$ref": "#/definitions/CustomMethodProps"
+              },
+              "description": "Server-side handlers keyed by method name.",
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "frontend": {
+          "additionalProperties": false,
+          "description": "Frontend code: components and styles.",
+          "properties": {
+            "components": {
+              "additionalProperties": {
+                "$ref": "#/definitions/RepoComponentProps"
+              },
+              "description": "Custom components keyed by name, referenced in CodeComponentProps.",
+              "type": "object"
+            },
+            "fonts": {
+              "description": "External font stylesheet URLs loaded at page level (Google Fonts, etc.).",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "modules": {
+              "additionalProperties": {
+                "$ref": "#/definitions/RepoModuleProps"
+              },
+              "description": "Babel-shell supporting modules keyed by name. Each entry's `source` is the versioned R2 path; the deploy-time esbuild step stages these next to the entry component and bundles them via cross-file ES `import { X } from \"./<Name>\"`. Modules are NOT loaded directly by the runtime (no `compiled` path) — they exist only as bundle inputs. Populated by GcsOutputService when an entry component declares `supporting_modules`.",
+              "type": "object"
+            },
+            "styles": {
+              "additionalProperties": {
+                "$ref": "#/definitions/RepoStyleProps"
+              },
+              "description": "Compiled CSS files injected into the document head (theme, Tailwind output, etc.). Each entry has `compiled` path resolved via `basePath + /repo/ + compiled`.",
+              "type": "object"
+            },
+            "tailwindConfig": {
+              "description": "Path to the Tailwind config file in repo (e.g., 'frontend/code/styles/tailwind.config.js').",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "seed": {
+          "additionalProperties": {
+            "$ref": "#/definitions/SeedRepoProps"
+          },
+          "description": "Seed data (CSV/JSON) — universal descriptor for both static and D1 targets.",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "RepoStyleProps": {
+      "additionalProperties": false,
+      "description": "Defines a compiled CSS file for Code Focus components, injected into the document head.",
+      "properties": {
+        "compiled": {
+          "description": "Relative path to the compiled CSS file (e.g., 'frontend/compiled/styles/theme.css').",
+          "type": "string"
+        },
+        "source": {
+          "description": "Relative path to the source CSS/config file (e.g., 'frontend/code/styles/theme.css').",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Description for documentation.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "compiled"
+      ],
+      "type": "object"
+    },
+    "SecretProps": {
+      "additionalProperties": false,
+      "description": "Declares a secret value (API key, token, etc.) stored securely in KV.",
+      "properties": {
+        "name": {
+          "description": "The secret name, used as the KV key (e.g., 'STRIPE_API_KEY').",
+          "type": "string"
+        },
+        "required": {
+          "description": "If true, deployment fails when this secret is missing.",
+          "type": "boolean"
+        },
+        "summary": {
+          "description": "Description of what this secret is used for.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "SectionDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "elevation": {
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "number"
+        },
+        "radius": {
+          "enum": [
+            "none",
+            "sm",
+            "md",
+            "lg"
+          ],
+          "type": "string"
+        },
+        "variant": {
+          "enum": [
+            "default",
+            "card",
+            "glass",
+            "gradient"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SecurityProps": {
+      "additionalProperties": false,
+      "description": "Configures per-app authentication, session behavior, and login UX.",
+      "properties": {
+        "allowSignup": {
+          "default": true,
+          "description": "If true, new users can self-register.",
+          "type": "boolean"
+        },
+        "authProviders": {
+          "description": "Which login methods to enable for end-users.",
+          "items": {
+            "$ref": "#/definitions/AuthProviderProps"
+          },
+          "type": "array"
+        },
+        "defaultAccess": {
+          "$ref": "#/definitions/AccessLevel",
+          "default": "public",
+          "description": "Default access level for pages and handlers without an explicit `access` field."
+        },
+        "defaultRole": {
+          "default": "first non-admin role, or 'user'",
+          "description": "Role assigned to new users on signup.",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Master kill-switch for app authentication. When `false`, the runtime treats the app as fully public regardless of `authProviders`, `defaultAccess`, or per-page access settings. Toggled from the admin console's Auth Settings page.",
+          "type": "boolean"
+        },
+        "loginPage": {
+          "default": "/login",
+          "description": "Route for the login page.",
+          "type": "string"
+        },
+        "passwordPolicy": {
+          "additionalProperties": false,
+          "description": "Password strength requirements (email provider).",
+          "properties": {
+            "minLength": {
+              "default": 8,
+              "description": "Minimum password length.",
+              "type": "number"
+            },
+            "requireNumber": {
+              "description": "Require at least one digit.",
+              "type": "boolean"
+            },
+            "requireUppercase": {
+              "description": "Require at least one uppercase letter.",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "redirectAfterLogin": {
+          "default": "/",
+          "description": "Route to redirect to after successful login.",
+          "type": "string"
+        },
+        "redirectAfterLogout": {
+          "default": "/login",
+          "description": "Route to redirect to after logout.",
+          "type": "string"
+        },
+        "requireVerification": {
+          "default": false,
+          "description": "If true, users must verify their email before gaining authenticated access.",
+          "type": "boolean"
+        },
+        "roleHierarchy": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "description": "Role inheritance map. Each key's value lists the roles it inherits (e.g., { admin: ['editor'], editor: ['viewer'] }).",
+          "type": "object"
+        },
+        "roles": {
+          "description": "Custom role names used by this app (e.g., ['admin', 'editor', 'viewer']).",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sessionDuration": {
+          "default": "604800 (7 days)",
+          "description": "Session timeout duration in seconds.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "SeedRepoProps": {
+      "additionalProperties": false,
+      "description": "Describes a seed data file (CSV or JSON) stored in the app repo.",
+      "properties": {
+        "batch_id": {
+          "description": "Per-batch identifier for `'append'` mode. Recorded on the seed entry for telemetry/debugging; the seeder does NOT use it to scope DELETE statements (see the re-deploy caveat on `mode`).\n\nRequired when `mode === 'append'`. Ignored when `mode === 'replace'`.",
+          "type": "string"
+        },
+        "format": {
+          "description": "File format.",
+          "enum": [
+            "csv",
+            "json"
+          ],
+          "type": "string"
+        },
+        "mode": {
+          "description": "Seed application strategy.\n\n- `'replace'` (default, unchanged behavior): DELETE all rows for the   platform seed owner_id, then INSERT this seed. Idempotent re-deploys   simply re-replace the seed batch.\n- `'append'`: skip DELETE; rows land under the same platform seed   owner_id as `'replace'` so the logged-in user can still see them.   Prior seed batches (the original `'replace'` seed and any earlier   append batches) are preserved. Used by the DataIngester edit-mode   flow when the user uploads a new spreadsheet that adds to an   existing dataset.\n\n  **Re-deploy caveat:** append mode is not idempotent — re-deploying   the same turn re-inserts the rows (duplicates). Treat each   `batch_id` as a single-use deploy token.\n\nAbsent ⇒ treated as `'replace'`.",
+          "enum": [
+            "replace",
+            "append"
+          ],
+          "type": "string"
+        },
+        "model": {
+          "description": "Target dataset or model name.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Relative path to seed file in repo/ (e.g., 'repo/seed/contacts_a1b2c3d4e5f6.csv').",
+          "type": "string"
+        },
+        "source_hash": {
+          "description": "Content hash of the seed file (e.g., 'sha256:a1b2c3d4e5f6').",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "source_hash",
+        "format",
+        "model"
+      ],
+      "type": "object"
+    },
+    "StateSchema": {
+      "additionalProperties": {},
+      "description": "Defines the initial state of an app as a key-value map where types are inferred from the initial values.",
+      "examples": [
+        {
+          "cartItems": [],
+          "currentStep": 0,
+          "isLoading": false,
+          "selectedService": null,
+          "theme": {
+            "$persist": true,
+            "initial": "light"
+          }
+        }
+      ],
+      "type": "object"
+    },
+    "StaticBackend": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "description": "Inline data layer",
+          "properties": {
+            "datasets": {
+              "additionalProperties": {
+                "$ref": "#/definitions/StaticDatasetProps"
+              },
+              "description": "Map of dataset names to static dataset definitions. Components reference via 'dataset.' prefix.",
+              "type": "object"
+            }
+          },
+          "required": [
+            "datasets"
+          ],
+          "type": "object"
+        },
+        "mode": {
+          "const": "static",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "data"
+      ],
+      "type": "object"
+    },
+    "StaticDatasetProps": {
+      "additionalProperties": false,
+      "description": "Defines a static dataset with data embedded directly in the app config. Used by StaticBackend.data.datasets.",
+      "properties": {
+        "_meta": {
+          "additionalProperties": false,
+          "description": "Metadata for truncated datasets that are too large to embed fully.",
+          "properties": {
+            "sourceHint": {
+              "description": "Description of where the full dataset can be retrieved.",
+              "type": "string"
+            },
+            "totalCount": {
+              "description": "Total number of records in the full dataset.",
+              "type": "number"
+            },
+            "truncated": {
+              "description": "If true, the records array does not contain all available data.",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "generated": {
+          "default": false,
+          "description": "If true, the records were AI-generated and a \"sample data\" banner is shown in the UI.",
+          "type": "boolean"
+        },
+        "generationHint": {
+          "description": "Descriptive hint for AI data generation (e.g., 'e-commerce products with price and category').",
+          "type": "string"
+        },
+        "records": {
+          "description": "Array of data objects, each should include a field matching the schema's primaryKey.",
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "schema": {
+          "$ref": "#/definitions/DatasetSchemaProps",
+          "description": "Optional schema to help the LLM and components understand the data structure."
+        },
+        "type": {
+          "const": "static",
+          "description": "Dataset type discriminator, always 'static' for inline data.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "records"
+      ],
+      "type": "object"
+    },
+    "StepperDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "enum": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "type": "string"
+        },
+        "variant": {
+          "enum": [
+            "circles",
+            "dots",
+            "line",
+            "numbered"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "StyleVariableProps": {
+      "additionalProperties": false,
+      "description": "Configures global CSS custom properties for shadows and transitions.",
+      "properties": {
+        "shadow": {
+          "description": "Default box-shadow value.",
+          "type": "string"
+        },
+        "shadow2xl": {
+          "description": "2XL box-shadow value.",
+          "type": "string"
+        },
+        "shadowInner": {
+          "description": "Inset box-shadow value.",
+          "type": "string"
+        },
+        "shadowLg": {
+          "description": "Large box-shadow value.",
+          "type": "string"
+        },
+        "shadowMd": {
+          "description": "Medium box-shadow value.",
+          "type": "string"
+        },
+        "shadowSm": {
+          "description": "Small box-shadow value (e.g., '0 1px 2px 0 rgb(0 0 0 / 0.05)').",
+          "type": "string"
+        },
+        "shadowXl": {
+          "description": "Extra-large box-shadow value.",
+          "type": "string"
+        },
+        "transitionDuration": {
+          "description": "Default CSS transition duration (e.g., '150ms', '300ms').",
+          "type": "string"
+        },
+        "transitionTimingFunction": {
+          "description": "Default CSS transition timing function (e.g., 'ease', 'cubic-bezier(0.4, 0, 0.2, 1)').",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TabDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "enum": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "type": "string"
+        },
+        "variant": {
+          "enum": [
+            "default",
+            "underline",
+            "pill",
+            "boxed",
+            "minimal"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TextDefaultProps": {
+      "additionalProperties": false,
+      "properties": {
+        "weight": {
+          "enum": [
+            "light",
+            "normal",
+            "medium",
+            "semibold",
+            "bold"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ThemeProps": {
+      "additionalProperties": false,
+      "description": "Defines all customizable theme properties for a WebApp.",
+      "properties": {
+        "charts": {
+          "$ref": "#/definitions/ChartPaletteProps",
+          "description": "Color palette for chart/data-visualization series (chart-1 through chart-5)."
+        },
+        "dark": {
+          "$ref": "#/definitions/ColorPaletteProps",
+          "description": "Color palette applied when the user is in dark mode."
+        },
+        "defaultTheme": {
+          "description": "Which color mode to render by default. Omit for light.",
+          "enum": [
+            "light",
+            "dark"
+          ],
+          "type": "string"
+        },
+        "defaults": {
+          "$ref": "#/definitions/ComponentDefaultProps",
+          "description": "Global component variant defaults. Resolution order: component prop > form-scoped override > theme.defaults > built-in default."
+        },
+        "fontSizes": {
+          "additionalProperties": false,
+          "description": "Defines the font size for different typographic scale steps.",
+          "properties": {
+            "2xl": {
+              "type": "string"
+            },
+            "3xl": {
+              "type": "string"
+            },
+            "4xl": {
+              "type": "string"
+            },
+            "5xl": {
+              "type": "string"
+            },
+            "6xl": {
+              "type": "string"
+            },
+            "7xl": {
+              "type": "string"
+            },
+            "8xl": {
+              "type": "string"
+            },
+            "9xl": {
+              "type": "string"
+            },
+            "base": {
+              "type": "string"
+            },
+            "lg": {
+              "type": "string"
+            },
+            "sm": {
+              "type": "string"
+            },
+            "xl": {
+              "type": "string"
+            },
+            "xs": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "fonts": {
+          "additionalProperties": false,
+          "description": "Font configurations for body text and headings.",
+          "properties": {
+            "body": {
+              "$ref": "#/definitions/FontProps",
+              "description": "Font used for body text, paragraphs, and general content."
+            },
+            "heading": {
+              "$ref": "#/definitions/FontProps",
+              "description": "Font used for headings (h1-h6) and display text."
+            }
+          },
+          "type": "object"
+        },
+        "layout": {
+          "additionalProperties": false,
+          "description": "Layout dimension overrides for the main content container.",
+          "properties": {
+            "containerWidth": {
+              "description": "Maximum width of the content container (e.g., '1280px', '80rem').",
+              "type": "string"
+            },
+            "contentPadding": {
+              "description": "Horizontal padding inside the content container (e.g., '1rem', '2rem').",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "light": {
+          "$ref": "#/definitions/ColorPaletteProps",
+          "description": "Color palette applied when the user is in light mode."
+        },
+        "radius": {
+          "default": "0.5",
+          "description": "Global border-radius in rem (e.g., '0.5').",
+          "type": "string"
+        },
+        "spacing": {
+          "additionalProperties": false,
+          "description": "Global spacing values applied to page sections.",
+          "properties": {
+            "x": {
+              "description": "Horizontal content padding as Tailwind spacing value (e.g., '4', '6').",
+              "type": "string"
+            },
+            "y": {
+              "description": "Vertical section padding as Tailwind spacing value (e.g., '8', '12').",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "styles": {
+          "$ref": "#/definitions/StyleVariableProps",
+          "description": "Global CSS custom properties for shadows and transitions."
+        }
+      },
+      "type": "object"
+    },
+    "TransitionProps": {
+      "additionalProperties": false,
+      "description": "Defines the global configuration for all page transitions in the application. This is typically set once in the main application configuration.",
+      "properties": {
+        "easing": {
+          "default": "easeInOut",
+          "description": "The easing function to apply to the animation, controlling its acceleration curve. These correspond to standard CSS/Framer Motion easing functions.",
+          "enum": [
+            "ease",
+            "easeIn",
+            "easeOut",
+            "easeInOut",
+            "linear"
+          ],
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Enables or disables all page transitions globally.",
+          "type": "boolean"
+        },
+        "preferNative": {
+          "default": true,
+          "description": "When true, prefers the native View Transitions API when available. Falls back to Framer Motion for unsupported browsers.",
+          "type": "boolean"
+        },
+        "respectReducedMotion": {
+          "default": true,
+          "description": "If true, animations will be disabled if the user has requested reduced motion in their operating system settings.",
+          "type": "boolean"
+        },
+        "timing": {
+          "$ref": "#/definitions/TransitionTiming",
+          "default": "normal",
+          "description": "The default speed of the transition."
+        },
+        "type": {
+          "$ref": "#/definitions/TransitionType",
+          "default": "slideFade",
+          "description": "The default transition effect to use for all pages. This can be overridden on a per-page basis."
+        },
+        "viewTransitionName": {
+          "default": "page-content",
+          "description": "The CSS view-transition-name for the animated element. Used for targeting specific elements with View Transitions API.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled",
+        "type",
+        "timing"
+      ],
+      "type": "object"
+    },
+    "TransitionTiming": {
+      "description": "Defines preset transition speed options.",
+      "enum": [
+        "fast",
+        "normal",
+        "slow"
+      ],
+      "type": "string"
+    },
+    "TransitionType": {
+      "description": "Defines the available visual effects for page navigation.",
+      "enum": [
+        "none",
+        "fade",
+        "slide",
+        "slideUp",
+        "slideDown",
+        "scale",
+        "slideFade",
+        "zoom",
+        "flip"
+      ],
+      "type": "string"
+    },
+    "WebAppProps": {
+      "additionalProperties": false,
+      "description": "WebAppProps - Root configuration schema for Exepad web applications\n\nExtends AppProps with web-specific configuration:\n- frontend: All UI configuration (theme, pages, logic, etc.)\n- backend: All server configuration (models, handlers, etc.)\n- repo: Custom code registry (Tier 2 methods)",
+      "properties": {
+        "alias": {
+          "description": "The URL-friendly subdomain alias (e.g., 'my-crm-app'), used in the deployment URL: {alias}.exepad.com.",
+          "type": "string"
+        },
+        "appSecondaryType": {
+          "$ref": "#/definitions/AppSecondaryTypeOption",
+          "description": "Application secondary type that categorizes the app by its primary purpose (e.g., 'website', 'dataapp')."
+        },
+        "appType": {
+          "$ref": "#/definitions/AppTypeOption",
+          "description": "Application Type discriminator that determines which interface to use for parsing."
+        },
+        "backend": {
+          "$ref": "#/definitions/BackendProps",
+          "description": "Backend config. Omit for frontend-only (static) apps."
+        },
+        "frontend": {
+          "$ref": "#/definitions/FrontendProps",
+          "description": "Frontend config. Omit for backend-only apps."
+        },
+        "lastUpdatedEpoch": {
+          "description": "Last modified timestamp in epoch seconds.",
+          "type": "number"
+        },
+        "name": {
+          "description": "Human-readable display name shown in the admin panel and browser tab.",
+          "type": "string"
+        },
+        "repo": {
+          "$ref": "#/definitions/RepoProps",
+          "description": "Central registry for all custom code files (Tier 2). All handlers, tasks, computed functions, actions, etc. reference methods by name."
+        },
+        "secrets": {
+          "description": "Required secrets (API keys, tokens) stored in KV.",
+          "items": {
+            "$ref": "#/definitions/SecretProps"
+          },
+          "type": "array"
+        },
+        "security": {
+          "$ref": "#/definitions/SecurityProps",
+          "description": "Authentication and authorization configuration."
+        },
+        "shortSummary": {
+          "description": "One-line summary for listings and search results.",
+          "type": "string"
+        },
+        "signature": {
+          "description": "An internal integrity hash for change-detection, managed automatically -- do not set manually.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Detailed description of the application's purpose and features.",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "Unique identifier (UUID v4) for this application.",
+          "type": "string"
+        },
+        "version": {
+          "description": "The semantic version of the app config (e.g., '1.0.0').",
+          "type": "string"
+        }
+      },
+      "required": [
+        "alias",
+        "appSecondaryType",
+        "appType",
+        "lastUpdatedEpoch",
+        "name",
+        "shortSummary",
+        "summary",
+        "uuid",
+        "version"
+      ],
+      "type": "object"
+    },
+    "WebPageProps": {
+      "additionalProperties": false,
+      "description": "A standard web page. This interface extends PageProps without additional properties, serving as a distinct type in the PageType discriminated union.",
+      "properties": {
+        "access": {
+          "$ref": "#/definitions/AccessLevel",
+          "default": "security.defaultAccess or 'public'",
+          "description": "Access control for this page. Determines who can view it."
+        },
+        "classes": {
+          "description": "Additional CSS class names to apply to the page wrapper element.",
+          "type": "string"
+        },
+        "content": {
+          "description": "The ordered list of component trees that make up the page body.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/ComponentProps"
+              },
+              {
+                "$ref": "#/definitions/CodeComponentProps"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "lastUpdatedEpoch": {
+          "description": "Last updated timestamp in epoch seconds, managed by the backend.",
+          "type": "number"
+        },
+        "layout": {
+          "$ref": "#/definitions/LayoutOption",
+          "description": "Content width strategy for this page, overrides the app-level layout setting."
+        },
+        "menuPosition": {
+          "$ref": "#/definitions/MenuPosition",
+          "default": "inherited from frontend.menuPosition",
+          "description": "Override the app-level menuPosition for this page. When set, this page uses the corresponding nav shell (header or sidebar) instead of the app-level default."
+        },
+        "metadata": {
+          "$ref": "#/definitions/MetadataProps",
+          "description": "Page-specific SEO and social sharing metadata that overrides site-wide defaults."
+        },
+        "pageType": {
+          "$ref": "#/definitions/PageType",
+          "description": "The page type discriminator that determines which page interface to use."
+        },
+        "shortSummary": {
+          "description": "Short one-sentence summary of the page, visible to the user. This is not the SEO description.",
+          "type": "string"
+        },
+        "signature": {
+          "description": "An internal integrity hash for change-detection, managed automatically -- do not set manually.",
+          "type": "string"
+        },
+        "slug": {
+          "description": "URL path starting with '/' (e.g., '/', '/about', '/products/:id'). Dynamic segments use ':paramName' syntax.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Comprehensive summary of the page, visible to the user. This is not the SEO description.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Human-readable page title displayed in the navigation and browser tab.",
+          "type": "string"
+        },
+        "transitions": {
+          "$ref": "#/definitions/PageTransitionProps",
+          "description": "Page-specific entrance/exit transition animation overrides."
+        },
+        "uuid": {
+          "description": "Unique identifier (UUID v4) for this page instance.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "pageType",
+        "slug",
+        "title",
+        "uuid"
+      ],
+      "type": "object"
+    }
+  }
+}
