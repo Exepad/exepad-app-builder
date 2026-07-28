@@ -14,6 +14,20 @@ current docs or install paths.
 
 ## [Unreleased]
 
+### Fixed
+
+- **The GitHub Release job is now idempotent.** Re-running the release workflow
+  is the documented recovery when a later job fails, but `gh release create`
+  hard-fails with *"a release with the same tag name already exists"* — so the
+  re-run intended to fix npm instead took the release job down and skipped the
+  MSI with it, for a release that was already complete. It now updates the notes
+  and re-uploads assets when the release exists. That is also how a release which
+  shipped without an npm section gets one after a manual publish, since the notes
+  are conditional on whether npm published.
+- **`container-smoke` workflow** — real-container coverage on hosted macOS
+  (Colima) and a measured Windows verdict, so the pull-start-serve half of the
+  product is no longer proven on Linux alone.
+
 ## [1.0.1] - 2026-07-28
 
 **The release that makes 1.0.0 installable.** `v1.0.0` published its image and
