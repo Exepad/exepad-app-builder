@@ -24,9 +24,36 @@ current docs or install paths.
   and re-uploads assets when the release exists. That is also how a release which
   shipped without an npm section gets one after a manual publish, since the notes
   are conditional on whether npm published.
+- **`install.sh` now says how to get the Compose v2 plugin on macOS.** The check
+  itself was right, but *"Docker Compose v2 plugin is required (got
+  legacy/none)"* left the user with nothing to act on — and it is a common real
+  setup, not an edge case: `brew install docker` ships the CLI alone, Homebrew's
+  `docker-compose` is a separate formula, and Homebrew does not register it as a
+  CLI plugin. So `docker-compose` works while `docker compose` does not, and the
+  installer reads as *"I installed Docker and it still says Docker is missing."*
+  Docker Desktop and OrbStack bundle the plugin, which is why this stayed
+  invisible. macOS now gets the exact commands including the `cli-plugins`
+  symlink; other platforms get the plugin-package hint.
+
+### Added
+
 - **`container-smoke` workflow** — real-container coverage on hosted macOS
-  (Colima) and a measured Windows verdict, so the pull-start-serve half of the
-  product is no longer proven on Linux alone.
+  (Colima on the Intel image) and Windows (Docker Engine inside WSL2, driven by
+  the Windows `docker` CLI), so the pull-start-serve half of the product is no
+  longer proven on Linux alone. This is what surfaced the Compose-plugin message
+  above.
+- **The image is built on pull requests.** Previously the only workflow that
+  built the `Dockerfile` triggered on a tag, so a base-image bump could merge
+  unverified and fail mid-release. Dependabot's first batch made that concrete
+  with `node 22→26` and `python 3.12→3.14`, both major and both with no checks
+  at all. `packaging-ci` now builds amd64 (no push, cached) whenever the image
+  actually changes.
+- **npm provenance on the launcher.** The images have been cosign-signed since
+  1.0.0 but the npm package carried no attestation, which is the wrong way round
+  — the launcher is what pulls and runs a container on someone's machine.
+  `--provenance` is applied on the trusted-publishing path only, because it is
+  generated from the Actions OIDC token and passing it on the `NPM_TOKEN`
+  fallback would fail the publish outright.
 
 ## [1.0.1] - 2026-07-28
 
