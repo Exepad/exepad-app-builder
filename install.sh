@@ -258,7 +258,29 @@ preflight() {
     fi
   fi
 
-  docker compose version >/dev/null 2>&1 || die "Docker Compose v2 plugin is required (got legacy/none)."
+  # Compose v2 is a CLI *plugin*, not the standalone `docker-compose` binary, and
+  # it is genuinely absent on a common macOS setup: `brew install docker` ships
+  # the CLI alone, and Homebrew's separate docker-compose formula is not
+  # registered as a plugin — so `docker compose` fails while `docker-compose`
+  # works. Bare "plugin is required" leaves that user with nothing to act on, so
+  # say what to run. (Docker Desktop and OrbStack both bundle it already.)
+  if ! docker compose version >/dev/null 2>&1; then
+    warn "Docker Compose v2 plugin is required (got legacy/none)."
+    if [ "$OS_NAME" = "Darwin" ] && command -v brew >/dev/null 2>&1; then
+      say ""
+      say "  Homebrew's docker formula does not include it. Add it with:"
+      say "    brew install docker-compose"
+      say "    mkdir -p ~/.docker/cli-plugins"
+      say "    ln -sfn \"\$(brew --prefix)/opt/docker-compose/bin/docker-compose\" ~/.docker/cli-plugins/docker-compose"
+      say ""
+      say "  Then re-run this installer. (Docker Desktop and OrbStack ship it already.)"
+    else
+      say ""
+      say "  Install the plugin (Debian/Ubuntu: 'docker-compose-plugin'), or reinstall"
+      say "  Docker from https://get.docker.com which includes it, then re-run."
+    fi
+    die "Docker Compose v2 plugin not found"
+  fi
   if ! docker info >/dev/null 2>&1; then
     if [ "$OS_NAME" = "Darwin" ]; then
       warn "Docker is installed but its engine is not running."
