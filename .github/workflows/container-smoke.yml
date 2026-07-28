@@ -38,6 +38,92 @@ on:
         default: 'false'
 
 jobs:
+  # ── linux/arm64 under QEMU ───────────────────────────────────────────────────
+  # The arm64 half of the manifest is built and cosign-signed on every release
+  # but had never been STARTED anywhere: this project's CI is all amd64, and a
+  # multi-arch manifest proves only that a build produced an arm64 layer set, not
+  # that it boots. Every Apple Silicon and ARM-server user was relying on that.
+  #
+  # Emulation is not native coverage — it will not catch timing, performance or
+  # arch-specific native-module faults — but it does catch the big one: an image
+  # that does not start at all. Free, on an ubuntu runner, in minutes.
+  arm64:
+    name: linux/arm64 — does the image actually boot?
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      IMG: ghcr.io/exepad/exepad-app-builder
+      VER: ${{ inputs.version || 'latest' }}
+    steps:
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+        with:
+          platforms: arm64
+
+      # Load-bearing: without it, a missing/ignored --platform silently runs the
+      # amd64 image and the whole job passes while proving nothing about arm64.
+      - name: Prove we are really running aarch64, not silently falling back
+        run: |
+          set -euo pipefail
+          ARCH=$(docker run --rm --platform linux/arm64 "$IMG:$VER" uname -m)
+          echo "container reports: $ARCH"
+          [ "$ARCH" = "aarch64" ] \
+            || { echo "::error::expected aarch64, got $ARCH — emulation not in effect, this job would prove nothing"; exit 1; }
+
+      - name: Boot the studio on arm64 and serve a request
+        run: |
+          set -euo pipefail
+          docker run -d --name exepad-arm64 --platform linux/arm64 \
+            -p 8097:8080 -e EXEPAD_HTTPS_DISABLE=1 -v exepad-arm64-data:/data \
+            "$IMG:$VER"
+          # QEMU is slow: the studio is Node + a Python agent, and start-up that
+          # takes ~10s natively can take minutes emulated. Be patient, but fail
+          # loudly rather than hanging to the job timeout.
+          code=""
+          for _ in $(seq 1 120); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://localhost:8097/auth/status || true)
+            [ "$code" = "200" ] && break
+            if [ "$(docker inspect -f '{{.State.Running}}' exepad-arm64)" != "true" ]; then
+              echo "::error::the arm64 container EXITED during start-up"; docker logs exepad-arm64 2>&1 | tail -60; exit 1
+            fi
+            sleep 5
+          done
+          [ "$code" = "200" ] \
+            || { echo "::error::arm64 studio never answered (last: ${code:-none})"; docker logs exepad-arm64 2>&1 | tail -60; exit 1; }
+          echo "arm64 studio answered 200 on /auth/status"
+
+      - name: The things a first-run user depends on
+        run: |
+          set -euo pipefail
+          # AGPL s13 source offer must work on this arch too.
+          SRC=$(curl -s -o /dev/null -w '%{redirect_url}' --max-time 15 http://localhost:8097/source || true)
+          case "$SRC" in *exepad-app-builder*) echo "GET /source -> $SRC";; *) echo "::error::/source did not redirect to the repo (got: ${SRC:-none})"; exit 1;; esac
+
+          # The setup token is minted by the entrypoint; if that path is broken on
+          # arm64 nobody can complete first-run setup on an ARM box.
+          docker logs exepad-arm64 2>&1 | sed -n '/FIRST-RUN SETUP TOKEN/,$p' | grep -Eoq '[0-9a-f]{64}' \
+            || { echo "::error::no first-run setup token in the arm64 container's logs"; docker logs exepad-arm64 2>&1 | tail -40; exit 1; }
+          echo "first-run setup token minted on arm64"
+
+          # And that the token is actually ACCEPTED — proves the auth/SQLite path
+          # works emulated, not just that a string was printed.
+          TOK=$(docker logs exepad-arm64 2>&1 | sed -n '/FIRST-RUN SETUP TOKEN/,$p' | grep -Eo '[0-9a-f]{64}' | head -1)
+          OUT=$(curl -s --max-time 60 -X POST http://localhost:8097/auth/setup \
+            -H 'Content-Type: application/json' \
+            -d "{\"email\":\"demo@exepad.local\",\"password\":\"Sup3rSecret!pw\",\"setupToken\":\"$TOK\"}" || true)
+          case "$OUT" in *'"success":true'*) echo "operator account created on arm64";; *) echo "::error::/auth/setup failed on arm64: $OUT"; exit 1;; esac
+
+      - name: Diagnostics on failure
+        if: failure()
+        run: |
+          docker ps -a || true
+          docker logs exepad-arm64 2>&1 | tail -80 || true
+
+      - name: Teardown
+        if: always()
+        run: |
+          docker rm -f exepad-arm64 >/dev/null 2>&1 || true
+          docker volume rm exepad-arm64-data >/dev/null 2>&1 || true
+
   macos:
     name: macOS — real container via Colima
     # INTEL, deliberately, and not macos-latest.
