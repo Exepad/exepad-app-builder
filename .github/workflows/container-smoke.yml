@@ -47,10 +47,18 @@ jobs:
     # Rosetta share", then vz failing for the real underlying reason.)
     #
     # Intel runners have the hypervisor, which is why the community
-    # setup-docker-macos actions support Intel images and refuse arm64. If GitHub
-    # retires this image, the fallback is a rented Apple-silicon host, or waiting
-    # for M3-class runners.
-    runs-on: macos-13
+    # setup-docker-macos actions support Intel images and refuse arm64.
+    #
+    # NOT macos-13: that image was RETIRED on 2025-12-04, and the label no longer
+    # resolves — a job requesting it queues forever with no runner and no error,
+    # which is exactly what happened here before this was tracked down.
+    # `macos-15-intel` is its replacement.
+    #
+    # EXPIRY, deliberately recorded: GitHub drops x86_64 macOS entirely after
+    # August 2027. When that lands, this job has to move to arm64 runners, which
+    # means it needs M3-class hardware (nested virt) to exist on GitHub's fleet —
+    # or the coverage moves to a rented Apple-silicon host.
+    runs-on: macos-15-intel
     timeout-minutes: 60
     steps:
       - name: Runner capability
