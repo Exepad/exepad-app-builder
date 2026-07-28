@@ -43,9 +43,19 @@ jobs:
         run: |
           set -euo pipefail
           brew install colima docker
-          # vz = Apple Virtualization (fast, arm64 runners); fall back to QEMU.
-          colima start --cpu 3 --memory 6 --disk 20 --vm-type=vz --vz-rosetta \
-            || colima start --cpu 3 --memory 6 --disk 20
+          # vz = Apple Virtualization, the native path on the arm64 runners.
+          #
+          # Explicitly NOT --vz-rosetta: Rosetta 2 is not preinstalled on GitHub's
+          # arm64 macOS images, so requesting the Rosetta share kills the VM at
+          # "Setting up Rosetta share". We do not need it — the studio image is
+          # multi-arch, so the runner pulls linux/arm64 natively.
+          if ! colima start --cpu 3 --memory 6 --disk 20 --vm-type=vz; then
+            # A failed start leaves a half-created instance behind, and a plain
+            # retry silently REUSES it ("Using the existing instance") and fails
+            # the same way. Delete before falling back to QEMU.
+            colima delete -f || true
+            colima start --cpu 3 --memory 6 --disk 20 --vm-type=qemu
+          fi
           docker version
           docker run --rm hello-world
 
@@ -93,39 +103,86 @@ jobs:
           cat install.log || true
           colima status || true
 
-  windows-probe:
-    name: Windows — nested-virtualisation probe (non-blocking)
-    runs-on: windows-latest
-    timeout-minutes: 30
-    # A hosted-runner limitation is not a product defect. This job reports what
-    # the runner can do so the decision to rent a VM is made on evidence.
+  windows:
+    name: Windows — install.ps1 against a real Linux daemon (WSL2)
+    runs-on: windows-2025
+    timeout-minutes: 60
+    # Non-blocking: this is exploratory infrastructure, and a hosted-runner
+    # limitation is not a product defect. It must never fail a release.
     continue-on-error: true
     steps:
-      - name: What can this runner actually do?
+      # Measured on 2026-07-28: HypervisorPresent=True on Windows Server 2025,
+      # docker CLI 29.1.5 preinstalled (windows/amd64 client). Nested
+      # virtualisation is what WSL2 needs, so the Linux-daemon route is open.
+      - name: Runner capability
         shell: pwsh
         run: |
-          $hv = (Get-CimInstance Win32_ComputerSystem).HypervisorPresent
-          Write-Host "HypervisorPresent : $hv"
+          Write-Host "HypervisorPresent : $((Get-CimInstance Win32_ComputerSystem).HypervisorPresent)"
           Write-Host "OS                : $((Get-CimInstance Win32_OperatingSystem).Caption)"
-          $docker = Get-Command docker -ErrorAction SilentlyContinue
-          if ($docker) {
-            Write-Host "docker CLI        : $($docker.Source)"
-            Write-Host "--- docker version ---"
-            docker version 2>&1 | Out-String | Write-Host
-            Write-Host "--- daemon OS/Arch (Windows containers cannot run our linux image) ---"
-            docker info --format '{{.OSType}}/{{.Architecture}}' 2>&1 | Out-String | Write-Host
-          } else {
-            Write-Host "docker CLI        : none"
-          }
-          Write-Host "--- WSL ---"
-          wsl --status 2>&1 | Out-String | Write-Host
-          wsl --list --verbose 2>&1 | Out-String | Write-Host
+          Write-Host "--- docker client ---"
+          docker version --format '{{.Client.Version}}' 2>&1 | Out-String | Write-Host
+          Write-Host "--- compose plugin (install.ps1 needs `docker compose`) ---"
+          docker compose version 2>&1 | Out-String | Write-Host
+          # Probe only: a non-zero exit here is information, not failure.
+          exit 0
 
-      - name: Can a Linux container run here at all?
+      - name: Install WSL2 + Ubuntu
         shell: pwsh
         continue-on-error: true
         run: |
-          # If the daemon is in Windows-container mode this fails immediately,
-          # which is the answer we are looking for.
-          docker run --rm hello-world 2>&1 | Out-String | Write-Host
-          Write-Host "exit: $LASTEXITCODE"
+          wsl --set-default-version 2 2>&1 | Out-String | Write-Host
+          wsl --install --no-launch -d Ubuntu-24.04 2>&1 | Out-String | Write-Host
+          wsl --list --verbose 2>&1 | Out-String | Write-Host
+          exit 0
+
+      - name: Docker Engine inside WSL, listening on TCP
+        id: wsld
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          # Engine in WSL + the Windows docker.exe pointed at it over TCP. That
+          # keeps install.ps1 running as a Windows script driving a Windows
+          # `docker`, which is the shape a Docker Desktop user has -- rather than
+          # testing a Linux script inside WSL, which proves nothing new.
+          wsl -d Ubuntu-24.04 -u root -- bash -lc "curl -fsSL https://get.docker.com | sh" 2>&1 | Out-String | Write-Host
+          wsl -d Ubuntu-24.04 -u root -- bash -lc "nohup dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock >/tmp/dockerd.log 2>&1 & sleep 12; docker -H tcp://127.0.0.1:2375 info --format '{{.OSType}}/{{.Architecture}}'" 2>&1 | Out-String | Write-Host
+          exit 0
+
+      - name: Install the studio with the RELEASE install.ps1
+        id: install
+        shell: pwsh
+        continue-on-error: true
+        env:
+          VER: ${{ inputs.version || 'latest' }}
+        run: |
+          # WSL2 forwards listening sockets to Windows localhost.
+          $env:DOCKER_HOST = 'tcp://localhost:2375'
+          docker info --format '{{.OSType}}/{{.Architecture}}' 2>&1 | Out-String | Write-Host
+          Invoke-WebRequest -UseBasicParsing https://get.exepad.com/install.ps1 -OutFile rel-install.ps1
+          # -NoNode forces the embedded bootstrap: the path the MSI and the
+          # one-click .bat take, and the one with no real-container coverage.
+          & .\rel-install.ps1 -Yes -NoNode -Version "$env:VER-lite" -Dir "$PWD\inst" -Port 8097 2>&1 | Tee-Object install.log | Write-Host
+          exit 0
+
+      - name: Verdict
+        shell: pwsh
+        run: |
+          $ok = $false
+          if (Test-Path install.log) {
+            $log = Get-Content install.log -Raw
+            for ($i = 0; $i -lt 60; $i++) {
+              try {
+                $r = Invoke-WebRequest -UseBasicParsing http://localhost:8097/ -TimeoutSec 5
+                if ($r.StatusCode -eq 200) { $ok = $true; break }
+              } catch { }
+              Start-Sleep -Seconds 5
+            }
+            Write-Host "studio answered 200 : $ok"
+            Write-Host "setup token shown   : $($log -match 'Setup token:')"
+          } else {
+            Write-Host "install.ps1 never produced a log — see the steps above for where it stopped"
+          }
+          Write-Host "wsl-docker step     : ${{ steps.wsld.outcome }}"
+          Write-Host "install step        : ${{ steps.install.outcome }}"
+          Write-Host ""
+          Write-Host "This job is exploratory; it reports and never fails the run."
