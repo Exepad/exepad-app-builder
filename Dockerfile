@@ -19,7 +19,7 @@
 # =============================================================================
 # Stage 1 — build the Node side (SPA + bundled server)
 # =============================================================================
-FROM node:22-bookworm-slim AS builder
+FROM node:26-bookworm-slim AS builder
 WORKDIR /repo
 RUN corepack enable
 
