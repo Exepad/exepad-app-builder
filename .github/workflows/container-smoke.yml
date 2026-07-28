@@ -74,9 +74,21 @@ jobs:
           set -euo pipefail
           # qemu is NOT implied by the colima formula, and its absence surfaces
           # only at start time as "cannot use vmType: 'qemu' … qemu-img not found".
-          brew install colima docker qemu
+          #
+          # docker-compose is a SEPARATE formula from docker, and Homebrew does
+          # not register it as a CLI plugin — so `docker compose` (the subcommand
+          # install.sh requires) is missing even though `docker-compose` exists.
+          # install.sh caught this correctly and refused with "Docker Compose v2
+          # plugin is required (got legacy/none)", which is the right behaviour
+          # and exactly what a Mac user installing Docker via Homebrew would hit.
+          brew install colima docker docker-compose qemu
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn "$(brew --prefix)/opt/docker-compose/bin/docker-compose" \
+                  ~/.docker/cli-plugins/docker-compose
+
           colima start --cpu 3 --memory 6 --disk 20
           docker version
+          docker compose version   # must be v2 — install.sh hard-requires it
           docker run --rm hello-world
 
       - name: Install the studio exactly as a macOS user would
