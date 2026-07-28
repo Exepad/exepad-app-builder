@@ -508,6 +508,42 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
 
+      # Windows PowerShell 5.1 is `powershell.exe` -- still the default shell on
+      # Windows, and NOT the pwsh 7 every other check in this repo uses. That is
+      # the exact shape of the macOS bash-3.2 trap this project already guards
+      # against: a construct that is fine in 7 (ternary, ??, ::new(), -Parallel)
+      # parses clean in CI and then fails on a real user's machine. install.ps1
+      # is currently 5.1-clean; this keeps it that way.
+      - name: install.ps1 is valid under Windows PowerShell 5.1
+        shell: powershell
+        run: |
+          Write-Host "PSVersion: $($PSVersionTable.PSVersion)"
+          if ($PSVersionTable.PSVersion.Major -ne 5) {
+            Write-Host "::error::expected Windows PowerShell 5.1, got $($PSVersionTable.PSVersion) - this check is not testing what it claims"
+            exit 1
+          }
+          $errs = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path .\install.ps1).Path, [ref]$null, [ref]$errs) | Out-Null
+          if ($errs) {
+            Write-Host "::error::install.ps1 does not parse under Windows PowerShell 5.1"
+            $errs | ForEach-Object { Write-Host "  $_" }
+            exit 1
+          }
+          Write-Host "parses under 5.1"
+
+          # Runtime pass too: a parameter or cmdlet that only exists in 7 parses
+          # fine and fails when executed. -DryRun changes nothing on disk.
+          $out = (& .\install.ps1 -DryRun -Yes -NoNode -Port 8097 2>&1 | Out-String)
+          Write-Host $out
+          # A stopped/absent Docker on the runner is an acceptable outcome; a
+          # PowerShell-level failure is not.
+          if ($out -match 'not recognized as|CommandNotFoundException|ParameterBindingException|Unexpected token') {
+            Write-Host "::error::install.ps1 hit a PowerShell 5.1 incompatibility at runtime"
+            exit 1
+          }
+          Write-Host "install.ps1 executes under 5.1"
+
       - name: Assemble MSI payload
         shell: bash
         run: |
