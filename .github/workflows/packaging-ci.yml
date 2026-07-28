@@ -303,37 +303,57 @@ jobs:
       # terminates the user's PowerShell WINDOW -- taking the error message with
       # it. Reported from a real Windows box as "it closed the powershell and
       # nothing happens". Wrapping in `& { }` or a function does not contain it;
-      # only never calling `exit` does. Both halves are asserted because the
-      # static check alone would pass if someone reintroduced `exit` via a
-      # different spelling, and the behavioural check alone is easy to misread.
+      # only never calling `exit` does.
       - name: install.ps1 must not kill the caller's shell under `irm | iex`
         shell: pwsh
         run: |
           $src = Get-Content install.ps1 -Raw
 
-          # 1. Static: exactly one `exit`, and it sits under the $PSCommandPath
-          #    guard (i.e. only when genuinely running as a .ps1 file).
-          $exits = [regex]::Matches($src, '(?m)^\s*exit\s') |
-                     ForEach-Object { $_.Value.Trim() }
+          # 1. Static: exactly one `exit`, sitting under the $PSCommandPath guard
+          #    (i.e. only when genuinely running as a .ps1 file).
+          $exits = [regex]::Matches($src, '(?m)^\s*exit\s')
           if ($exits.Count -ne 1) {
-            Write-Host "::error::install.ps1 has $($exits.Count) top-level 'exit' statements; expected exactly 1 (guarded by `$PSCommandPath)"
+            Write-Host "::error::install.ps1 has $($exits.Count) top-level 'exit' statements; expected exactly 1"
             exit 1
           }
           if ($src -notmatch '(?s)if \(\$PSCommandPath\)\s*\{[^}]*exit ') {
             Write-Host "::error::the surviving 'exit' is not guarded by `$PSCommandPath"
             exit 1
           }
+          Write-Host "static: one exit, guarded"
 
-          # 2. Behavioural: evaluate it the way `irm | iex` does, with no docker
-          #    present so it takes a failure path, and prove the host survives.
-          $env:USERPROFILE = (Join-Path ([System.IO.Path]::GetTempPath()) 'exepad-iex-test')
-          New-Item -ItemType Directory -Force -Path $env:USERPROFILE | Out-Null
-          Invoke-Expression $src
-          # Reaching this line at all is the assertion: an `exit` in the script
-          # would have terminated this process before it could run.
-          Write-Host "SHELL-SURVIVED marker reached; LASTEXITCODE=$LASTEXITCODE"
-          if ($LASTEXITCODE -eq 0) {
-            Write-Host "::error::expected a non-zero status from a docker-less run"
+          # 2. Behavioural, in a CHILD pwsh -Command process. Two reasons it
+          #    cannot run inline: Actions invokes pwsh steps as
+          #    `pwsh -command ". '{0}'"`, which DOT-SOURCES a file and therefore
+          #    leaves $PSCommandPath non-empty -- the guard would correctly fire
+          #    `exit` and kill this step before any assertion could run. And a
+          #    child process is what makes the assertion meaningful: if the
+          #    script kills its host, the marker simply never appears.
+          #
+          #    Docker is stubbed to report "engine down" because ubuntu runners
+          #    DO have a working Docker, so an unstubbed run takes the success
+          #    path and then blocks on the interactive LLM-key prompt.
+          $tmp  = [System.IO.Path]::GetTempPath()
+          $stub = Join-Path $tmp 'exepad-stub'
+          New-Item -ItemType Directory -Force -Path $stub | Out-Null
+          Set-Content -Path (Join-Path $stub 'docker') -Value "#!/bin/bash`nexit 1`n" -NoNewline
+          & chmod +x (Join-Path $stub 'docker')
+
+          $probe = @"
+          `$env:PATH = '$stub' + [IO.Path]::PathSeparator + `$env:PATH
+          `$env:USERPROFILE = '$tmp/exepad-iex-home'
+          New-Item -ItemType Directory -Force -Path `$env:USERPROFILE | Out-Null
+          Invoke-Expression (Get-Content '$PWD/install.ps1' -Raw)
+          Write-Host "SHELL-SURVIVED:`$LASTEXITCODE"
+          "@
+          $out = (& pwsh -NoProfile -Command $probe 2>&1 | Out-String)
+          Write-Host $out
+          if ($out -notmatch 'SHELL-SURVIVED:') {
+            Write-Host "::error::install.ps1 terminated its host under iex — the marker after it never ran"
+            exit 1
+          }
+          if ($out -notmatch 'SHELL-SURVIVED:1') {
+            Write-Host "::error::expected exit status 1 from an engine-down run"
             exit 1
           }
           Write-Host "install.ps1 is iex-safe (fails without killing the shell)"
