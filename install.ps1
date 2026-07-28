@@ -74,6 +74,46 @@ function Get-ImageRef {
   return "${ImageRepo}:$Version"
 }
 
+# ---- WSL state (Docker Desktop's Linux engine depends on it) -------------------
+# Docker Desktop's WSL2 backend runs `wsl.exe --version`, which exists only in
+# the MODERN (Store) WSL. On the older in-box WSL that call prints its usage text
+# and exits 1, and Docker Desktop surfaces it as an opaque dialog --
+# "There was a problem with WSL / DockerDesktop/Wsl/ExecError ... wsl.exe
+# --version: exit status 1" -- with no remedy in it. A user hit exactly that.
+#
+# Detect it here and name the command, because by the time that dialog appears
+# the person has left this installer behind and has nothing to act on.
+function Get-WslState {
+  if (-not (Get-Command wsl -ErrorAction SilentlyContinue)) { return 'missing' }
+  # Windows PowerShell 5.1 with EAP=Stop turns redirected native stderr into a
+  # terminating error, so relax it around the probe (same reason as Assert-Docker).
+  $prevEap = $ErrorActionPreference
+  $ErrorActionPreference = 'Continue'
+  try { & wsl.exe --version *> $null } catch { } finally { $ErrorActionPreference = $prevEap }
+  if ($LASTEXITCODE -eq 0) { return 'ok' }
+  return 'outdated'
+}
+
+function Show-WslGuidance {
+  $state = Get-WslState
+  if ($state -eq 'ok') { return }
+  Say ''
+  if ($state -eq 'missing') {
+    Warn2 'WSL is not installed. Docker Desktop needs it to run Linux containers.'
+    Say  '  In an ADMIN PowerShell:   wsl --install'
+  } else {
+    Warn2 'WSL is installed but too old for Docker Desktop.'
+    Say  '  Yours does not support "wsl --version", which is what Docker Desktop calls -'
+    Say  '  that is the "There was a problem with WSL" dialog.'
+    Say  '  In an ADMIN PowerShell:   wsl --update'
+  }
+  Say  '  Then REBOOT and check it took:   wsl --version'
+  Say  '  It must print version numbers, not the usage/help text.'
+  Say  ''
+  Say  '  On Windows Pro/Enterprise you can skip WSL entirely instead:'
+  Say  '  Docker Desktop > Settings > General > uncheck "Use the WSL 2 based engine".'
+}
+
 # ---- 1. Docker Desktop: detect-and-instruct (never silent-install) -------------
 function Assert-Docker {
   $docker = Get-Command docker -ErrorAction SilentlyContinue
@@ -92,16 +132,22 @@ function Assert-Docker {
   if ($docker -and -not $daemonUp) {
     Warn2 'Docker is installed but the engine is not running.'
     Say  '  Start Docker Desktop (whale icon), wait for "Engine running", then re-run this script.'
+    # The most common reason the engine never reaches "running" is a WSL that
+    # Docker Desktop cannot use, so say so here rather than let the user loop.
+    Show-WslGuidance
     Die  'Docker engine not reachable'
   }
 
   Warn2 'Docker Desktop is not installed. Exepad runs as a Docker container, so it is required.'
   Say  ''
   Say  'Install it (one time):'
-  Say  '  1. winget install Docker.DockerDesktop     (or download from the page we can open below)'
-  Say  '  2. If Windows asks to enable WSL 2: allow it (admin prompt) and REBOOT when told.'
+  Say  '  1. In an ADMIN PowerShell:  wsl --install     (then REBOOT if it asks)'
+  Say  '     Already have WSL? Update it:  wsl --update  - Docker Desktop needs a'
+  Say  '     version that supports "wsl --version".'
+  Say  '  2. winget install Docker.DockerDesktop     (or download from the page we can open below)'
   Say  '  3. Start Docker Desktop, accept its license, wait for "Engine running".'
   Say  '  4. Re-run this installer.'
+  Show-WslGuidance
   Say  ''
   if (-not $Yes) {
     $ans = Read-Host 'Open the Docker Desktop download page now? [Y/n]'
