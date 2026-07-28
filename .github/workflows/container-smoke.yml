@@ -6,13 +6,20 @@
 # that actually matters — pull the image, start the studio, answer 200, surface
 # the setup token — has only ever been proven on Linux.
 #
-#   macOS   : Colima (Lima + Apple Virtualization) gives the runner a real Linux
-#             Docker daemon. This works today and is the job to keep.
-#   Windows : Docker Desktop's WSL2 backend needs NESTED VIRTUALISATION, which
-#             hosted GitHub runners historically do not expose. That job is a
-#             capability PROBE — it measures the runner and reports, and is
-#             deliberately non-blocking, because a runner limitation is not a
-#             product defect and must never be reported as one.
+# Both routes were MEASURED on 2026-07-28 rather than assumed, and the common
+# assumption ("hosted runners can't do this") turned out to be half wrong:
+#
+#   macOS   : Colima needs a hypervisor, and GitHub's arm64 runners cannot
+#             provide one — they are themselves VMs on Apple Virtualization, M1
+#             has no nested-virt support in hardware, and Apple only added it on
+#             M3 + macOS 15. So this job runs on the INTEL image, which does.
+#   Windows : HypervisorPresent=True on Windows Server 2025, and WSL2 + Ubuntu
+#             install cleanly with Docker Engine 29.6.2 linux/amd64 inside. The
+#             daemon is exposed over TCP so the *Windows* docker.exe drives it,
+#             which is the shape a Docker Desktop user actually has.
+#
+# The Windows job stays non-blocking: it is exploratory infrastructure, and a
+# runner limitation is not a product defect and must never be reported as one.
 #
 # Uses the `-lite` tag (no bundled Chromium, ~1.4 GB smaller uncompressed): these
 # runners are slow enough that it is the difference between viable and not.
@@ -167,10 +174,40 @@ jobs:
           # Override the unit to ALSO listen on TCP. `ExecStart=` on its own line
           # is required: systemd appends to ExecStart otherwise, and a unit with
           # two ExecStart lines fails to load.
-          # Kept to ONE line and passed as a single argument: PowerShell mangles
-          # embedded newlines when handing a string to a native executable.
-          $tcp = 'mkdir -p /etc/systemd/system/docker.service.d && printf "[Service]\nExecStart=\nExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375\n" > /etc/systemd/system/docker.service.d/tcp.conf && systemctl daemon-reload && systemctl restart docker && sleep 8 && systemctl is-active docker && docker -H tcp://127.0.0.1:2375 info --format "{{.OSType}}/{{.Architecture}}"'
-          wsl -d Ubuntu-24.04 -u root -- bash -lc $tcp 2>&1 | Out-String | Write-Host
+          # Base64 the script rather than passing it as a command string. Both a
+          # multi-line here-string AND a single line packed with && , quotes and
+          # {{...}} were silently mangled between PowerShell and wsl.exe: the
+          # step produced NO output at all, which reads exactly like a step that
+          # did nothing. Base64 is a single argument of [A-Za-z0-9+/=] with no
+          # character either layer can reinterpret.
+          $script = @'
+          set -x
+          mkdir -p /etc/systemd/system/docker.service.d
+          printf '[Service]\nExecStart=\nExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375\n' > /etc/systemd/system/docker.service.d/tcp.conf
+          cat /etc/systemd/system/docker.service.d/tcp.conf
+          systemctl daemon-reload
+          systemctl restart docker
+          sleep 8
+          systemctl is-active docker || journalctl -u docker --no-pager -n 30
+          ss -ltn | grep 2375 || echo 'NOT LISTENING on 2375'
+          docker -H tcp://127.0.0.1:2375 info --format '{{.OSType}}/{{.Architecture}}'
+          '@ -replace "`r`n", "`n"
+          $b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($script))
+          wsl -d Ubuntu-24.04 -u root -- bash -c "echo $b64 | base64 -d | bash" 2>&1 | Out-String | Write-Host
+          exit 0
+
+      - name: Can Windows reach the WSL daemon?
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          $env:DOCKER_HOST = 'tcp://localhost:2375'
+          docker info --format '{{.OSType}}/{{.Architecture}}' 2>&1 | Out-String | Write-Host
+          # WSL2 localhost forwarding can lag; retry briefly before giving up.
+          for ($i = 0; $i -lt 12; $i++) {
+            $r = docker info --format '{{.OSType}}' 2>&1 | Out-String
+            if ($r -match 'linux') { Write-Host "reachable from Windows after $i retries"; break }
+            Start-Sleep -Seconds 5
+          }
           exit 0
 
       - name: Install the studio with the RELEASE install.ps1
