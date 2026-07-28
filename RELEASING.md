@@ -152,10 +152,28 @@ git push origin vX.Y.Z
 ```
 
 The workflow then: validates the tag → builds/pushes the multi-arch image →
-stamps `packages/exepad-cli` to `X.Y.Z`, runs typecheck/tests/build + a smoke
-test and a <256 KB tarball gate, checks the image tag it is about to point at
-actually exists, publishes to npm → creates the GitHub Release with the pinned
-`install.sh`. A failed npm publish no longer takes the release down with it.
+**smokes the arm64 image under QEMU** → stamps `packages/exepad-cli` to `X.Y.Z`,
+runs typecheck/tests/build + a smoke test and a <256 KB tarball gate, checks the
+image tag it is about to point at actually exists, publishes to npm → creates the
+GitHub Release with the pinned `install.sh`. A failed npm publish no longer takes
+the release down with it.
+
+The **arm64 smoke gates the GitHub Release**. A multi-arch manifest only proves a
+build emitted arm64 layers, not that they run — and this project's CI is
+otherwise entirely amd64, so before 1.0.1 every Apple Silicon and ARM-server user
+was the first person to execute that image. The job asserts it is genuinely on
+`aarch64` (a silently ignored `--platform` would otherwise run amd64 and prove
+nothing), then boots the studio, serves `/auth/status`, checks `GET /source`, and
+completes first-run setup — which exercises the auth and SQLite paths rather than
+just proving a string was printed. It skips cleanly on an amd64-only private
+build. Emulation will not catch timing or arch-specific native-module faults; it
+catches an image that does not start, which is the failure that would hit every
+ARM user identically.
+
+Deeper per-platform coverage lives in
+[container-smoke](.github/workflows/container-smoke.yml), run on demand: a real
+container on macOS via Colima, and an opt-in Windows/WSL2 job that does not
+currently pass (see the notes in that file).
 
 **Prereleases:** tag `vX.Y.Z-rc.1`-style. They publish under npm dist-tag
 `next`, do **not** move the image `:latest` tag, and are marked prerelease on
