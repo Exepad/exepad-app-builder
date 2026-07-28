@@ -14,6 +14,29 @@ current docs or install paths.
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-07-28
+
+### Fixed
+
+- **`irm https://get.exepad.com/install.ps1 | iex` no longer closes your
+  PowerShell window.** `Invoke-Expression` runs the script body in the *caller's*
+  session, so every `exit` in `install.ps1` terminated the user's entire
+  PowerShell host — taking the error message with it. Reported from a real
+  Windows machine as *"it closed the powershell and nothing happens"*: nothing
+  was actually wrong with the install logic, the diagnosis was just destroyed
+  before it could be read. Most likely it was the "Docker is installed but the
+  engine is not running" path, which is easy to hit right after installing Docker
+  Desktop for the first time.
+
+  Wrapping the body in `& { }` or in a function does **not** contain `exit` —
+  both were measured and both still kill the host. So the script no longer calls
+  `exit` at all: failures `throw`, the bottom catches and reports, and the single
+  remaining `exit` is guarded by `$PSCommandPath`, which is set when running as a
+  real `.ps1` (the one-click bundle and the MSI, where an exit code is wanted)
+  and empty under `iex`. `packaging-ci` now asserts both halves so it cannot come
+  back.
+
+
 ## [1.0.2] - 2026-07-28
 
 **A user-facing installer fix, and the platform coverage that found it.** The
@@ -517,7 +540,8 @@ begin existing here.
   `ghcr.io/exepad/exepad-app-builder` (was `ghcr.io/exepad/exepad`), matching
   `install.sh` and the deploy templates.
 
-[Unreleased]: https://github.com/Exepad/exepad-app-builder/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/Exepad/exepad-app-builder/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/Exepad/exepad-app-builder/releases/tag/v1.0.3
 [1.0.2]: https://github.com/Exepad/exepad-app-builder/releases/tag/v1.0.2
 [1.0.1]: https://github.com/Exepad/exepad-app-builder/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Exepad/exepad-app-builder/releases/tag/v1.0.0
