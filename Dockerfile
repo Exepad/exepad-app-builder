@@ -97,7 +97,7 @@ RUN mkdir -p /runtime-deps && cd /runtime-deps \
 # =============================================================================
 # Stage 2 — final runtime image (Python base + Node + build binaries)
 # =============================================================================
-FROM python:3.12-slim AS final
+FROM python:3.14-slim AS final
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
