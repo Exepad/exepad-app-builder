@@ -38,6 +38,24 @@ nothing is downloaded as an executable file):
 powershell -ExecutionPolicy Bypass -c "irm https://get.exepad.com/install.ps1 | iex"
 ```
 
+> [!IMPORTANT]
+> **Windows needs WSL first.** Docker Desktop runs Linux containers through WSL 2,
+> and it needs a *current* WSL — not the older one some Windows installs still
+> have. In an **Administrator** PowerShell:
+>
+> ```powershell
+> wsl --install     # already have WSL? use:  wsl --update
+> ```
+>
+> Reboot if it asks, then confirm with `wsl --version`. It must print version
+> numbers; if it prints usage/help text instead, WSL is still too old and Docker
+> Desktop will fail with *"There was a problem with WSL"*. The installer checks
+> this for you and prints the exact command, but doing it up front saves a round
+> trip.
+>
+> On Windows Pro/Enterprise you can avoid WSL entirely: Docker Desktop →
+> Settings → General → uncheck **"Use the WSL 2 based engine"**.
+
 **Via npm** (any OS, Node 18+):
 
 ```bash
