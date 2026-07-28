@@ -173,8 +173,10 @@ GitHub — `npx exepad-app-builder up` for regular users is unaffected.
 ## How changes reach the public repo
 
 The public repo is a **filtered snapshot** of this private canonical tree,
-produced by [scripts/publish-oss.sh](scripts/publish-oss.sh), which strips every
-path in `.publish-exclude` and force-pushes the result as one clean commit.
+produced by `scripts/publish-oss.sh` (an internal tool — it strips itself from
+the snapshot along with every other path in `.publish-exclude`) and force-pushed
+as one clean commit. That is why the public history is a single commit per
+release rather than the full development log.
 
 That model is now **limited to full re-snapshots taken immediately before a
 release tag**, and the script refuses to run while the public repo has open pull
