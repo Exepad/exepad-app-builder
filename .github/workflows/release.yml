@@ -274,11 +274,15 @@ jobs:
           npm --version
 
           # prepublishOnly re-runs typecheck+test+build as a final gate.
+          # Extra flags are forwarded, which is how --provenance is applied to the
+          # OIDC attempt only: provenance is generated from the Actions OIDC
+          # token, so a token-based publish cannot produce it and passing the flag
+          # there would fail the publish outright.
           publish() {
             if [ "${{ needs.version.outputs.prerelease }}" = "true" ]; then
-              npm publish --tag next
+              npm publish --tag next "$@"
             else
-              npm publish
+              npm publish "$@"
             fi
           }
 
@@ -288,8 +292,15 @@ jobs:
           #    credential: nothing long-lived to leak or rotate. Needs a trusted
           #    publisher on the package (Exepad / exepad-app-builder / release.yml);
           #    without one npm exits ENEEDAUTH without attempting the exchange.
-          if publish; then
-            echo "published via trusted publishing (OIDC)."
+          #    --provenance attaches a signed attestation binding this tarball to
+          #    THIS workflow run and commit, verifiable with `npm audit signatures`
+          #    and shown as a "Provenance" badge on npmjs.com. It costs nothing
+          #    here (id-token: write is already requested for the OIDC exchange)
+          #    and it is the npm-side counterpart to the cosign signatures the
+          #    image already carries — a launcher that pulls and runs a container
+          #    is exactly the artefact worth attesting.
+          if publish --provenance; then
+            echo "published via trusted publishing (OIDC), with provenance."
             exit 0
           fi
 
