@@ -102,10 +102,16 @@ function Show-WslGuidance {
     Warn2 'WSL is not installed. Docker Desktop needs it to run Linux containers.'
     Say  '  In an ADMIN PowerShell:   wsl --install'
   } else {
-    Warn2 'WSL is installed but too old for Docker Desktop.'
-    Say  '  Yours does not support "wsl --version", which is what Docker Desktop calls -'
+    # `wsl --version` failing means "too old" OR "feature present but not
+    # enabled", and the two are not reliably distinguishable from the exit code
+    # alone -- so name both commands rather than guess and send someone down the
+    # wrong one. --update fixes the old-version case, --install the not-enabled
+    # case, and running the wrong one first is harmless.
+    Warn2 'WSL is present but not usable by Docker Desktop.'
+    Say  '  It does not support "wsl --version", which is what Docker Desktop calls -'
     Say  '  that is the "There was a problem with WSL" dialog.'
     Say  '  In an ADMIN PowerShell:   wsl --update'
+    Say  '  If that reports WSL is not installed, run:   wsl --install'
   }
   Say  '  Then REBOOT and check it took:   wsl --version'
   Say  '  It must print version numbers, not the usage/help text.'
