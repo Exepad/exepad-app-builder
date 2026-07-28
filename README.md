@@ -36,9 +36,8 @@ Describe what you want, **in your own language**. An AI agent plans it, builds
 the interface, designs the database, sets up logins, and puts it online — all
 inside **one container on a machine you control**.
 
-It writes the app in the language you wrote to it in, so a Turkish prompt gives
-you a Turkish interface. No cloud account, no subscription, no lock-in — and your
-apps and their data never leave your machine.
+It writes the app in whatever language you wrote to it in. No cloud account, no
+subscription, no lock-in — and your apps and their data never leave your machine.
 
 <p align="center">
   <img src=".github/assets/exepad-demo.gif" alt="Creating an account, describing an app, and watching Exepad build it" width="820">
