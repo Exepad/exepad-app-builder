@@ -18,6 +18,16 @@ current docs or install paths.
 
 ### Fixed
 
+- **Windows: the installer now detects a WSL that Docker Desktop cannot use, and
+  names the fix.** Docker Desktop's Linux engine calls `wsl.exe --version`, which
+  only exists in the modern WSL. On the older in-box WSL that call prints its
+  usage text and exits 1, and Docker Desktop reports it as an opaque *"There was
+  a problem with WSL / DockerDesktop/Wsl/ExecError"* dialog containing no remedy.
+  Reported by a user who hit exactly that. `install.ps1` now probes WSL on both
+  Docker failure paths and prints `wsl --install` or `wsl --update` (plus the
+  Hyper-V alternative for Pro/Enterprise), and `INSTALL.md` states the
+  prerequisite up front instead of only in a troubleshooting table.
+
 - **`irm https://get.exepad.com/install.ps1 | iex` no longer closes your
   PowerShell window.** `Invoke-Expression` runs the script body in the *caller's*
   session, so every `exit` in `install.ps1` terminated the user's entire
