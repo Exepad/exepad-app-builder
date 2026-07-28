@@ -451,17 +451,41 @@ jobs:
               echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/v$VERSION/CHANGELOG.md) for what changed."
             } > release-notes.md
           fi
-          gh release create "v$VERSION" \
-            install.sh install.sh.sha256 install.ps1 install.ps1.sha256 \
-            dist/installers/Exepad-Installer-Windows.zip \
-            dist/installers/Exepad-Installer-Windows.zip.sha256 \
-            dist/installers/Exepad-Installer-macOS.zip \
-            dist/installers/Exepad-Installer-macOS.zip.sha256 \
-            dist/installers/Exepad-Installer-Linux.tar.gz \
-            dist/installers/Exepad-Installer-Linux.tar.gz.sha256 \
-            --title "Exepad $VERSION" \
-            --notes-file release-notes.md \
-            $EXTRA
+          ASSETS=(
+            install.sh install.sh.sha256 install.ps1 install.ps1.sha256
+            dist/installers/Exepad-Installer-Windows.zip
+            dist/installers/Exepad-Installer-Windows.zip.sha256
+            dist/installers/Exepad-Installer-macOS.zip
+            dist/installers/Exepad-Installer-macOS.zip.sha256
+            dist/installers/Exepad-Installer-Linux.tar.gz
+            dist/installers/Exepad-Installer-Linux.tar.gz.sha256
+          )
+
+          # Idempotent, for the same reason the npm job is. Re-running this
+          # workflow is the DOCUMENTED recovery when a later job fails, but
+          # `gh release create` hard-fails with "a release with the same tag name
+          # already exists" — so the re-run that was meant to fix npm instead
+          # took the release job down and skipped the MSI with it, for a release
+          # that was already complete and correct. Observed on v1.0.1.
+          #
+          # Updating also matters on its own: the notes are conditional on
+          # whether npm published, so a re-run after a manual publish is exactly
+          # how the npm section gets added to a release that shipped without it.
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "release v$VERSION already exists — updating notes and re-uploading assets."
+            PRE_FLAG="--prerelease=false"
+            [ "${{ needs.version.outputs.prerelease }}" = "true" ] && PRE_FLAG="--prerelease"
+            gh release edit "v$VERSION" \
+              --title "Exepad $VERSION" \
+              --notes-file release-notes.md \
+              $PRE_FLAG
+            gh release upload "v$VERSION" "${ASSETS[@]}" --clobber
+          else
+            gh release create "v$VERSION" "${ASSETS[@]}" \
+              --title "Exepad $VERSION" \
+              --notes-file release-notes.md \
+              $EXTRA
+          fi
 
   # ── 4. Windows MSI (built + smoke-tested on a real Windows runner) ──────────
   # Runs after the release exists and uploads into it. WiX pinned to 5.0.2
