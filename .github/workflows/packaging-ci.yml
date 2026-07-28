@@ -299,6 +299,45 @@ jobs:
           echo "one-click bundles OK"
       # pwsh is preinstalled on GitHub ubuntu runners; a parse (not execution)
       # catches syntax errors in the Windows front door without a Windows runner.
+      # `irm ... | iex` runs the body in the CALLER'S session, so any `exit`
+      # terminates the user's PowerShell WINDOW -- taking the error message with
+      # it. Reported from a real Windows box as "it closed the powershell and
+      # nothing happens". Wrapping in `& { }` or a function does not contain it;
+      # only never calling `exit` does. Both halves are asserted because the
+      # static check alone would pass if someone reintroduced `exit` via a
+      # different spelling, and the behavioural check alone is easy to misread.
+      - name: install.ps1 must not kill the caller's shell under `irm | iex`
+        shell: pwsh
+        run: |
+          $src = Get-Content install.ps1 -Raw
+
+          # 1. Static: exactly one `exit`, and it sits under the $PSCommandPath
+          #    guard (i.e. only when genuinely running as a .ps1 file).
+          $exits = [regex]::Matches($src, '(?m)^\s*exit\s') |
+                     ForEach-Object { $_.Value.Trim() }
+          if ($exits.Count -ne 1) {
+            Write-Host "::error::install.ps1 has $($exits.Count) top-level 'exit' statements; expected exactly 1 (guarded by `$PSCommandPath)"
+            exit 1
+          }
+          if ($src -notmatch '(?s)if \(\$PSCommandPath\)\s*\{[^}]*exit ') {
+            Write-Host "::error::the surviving 'exit' is not guarded by `$PSCommandPath"
+            exit 1
+          }
+
+          # 2. Behavioural: evaluate it the way `irm | iex` does, with no docker
+          #    present so it takes a failure path, and prove the host survives.
+          $env:USERPROFILE = (Join-Path ([System.IO.Path]::GetTempPath()) 'exepad-iex-test')
+          New-Item -ItemType Directory -Force -Path $env:USERPROFILE | Out-Null
+          Invoke-Expression $src
+          # Reaching this line at all is the assertion: an `exit` in the script
+          # would have terminated this process before it could run.
+          Write-Host "SHELL-SURVIVED marker reached; LASTEXITCODE=$LASTEXITCODE"
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "::error::expected a non-zero status from a docker-less run"
+            exit 1
+          }
+          Write-Host "install.ps1 is iex-safe (fails without killing the shell)"
+
       - name: Parse install.ps1
         shell: pwsh
         run: |
