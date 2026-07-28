@@ -1,0 +1,203 @@
+{
+  "cases": [
+    {
+      "id": "hash_only_stays",
+      "input_path": "examples/hash_only_stays.html",
+      "context": {"page_slugs": ["/", "/products"]},
+      "expected_tsx_contains": ["<a href=\"#\">click me</a>"],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "hash_anchor_stays",
+      "input_path": "examples/hash_anchor_stays.html",
+      "context": {"page_slugs": ["/", "/about"]},
+      "expected_tsx_contains": ["<a href=\"#about\">scroll</a>"],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "slug_match_to_link",
+      "input_path": "examples/slug_match_to_link.html",
+      "context": {"page_slugs": ["/", "/products"]},
+      "expected_tsx_contains": [
+        "<Link to=\"/products\">Products</Link>",
+        "import { React, LightDOMContainer, Link }"
+      ],
+      "expected_tsx_absent": ["<a href=\"/products\""]
+    },
+    {
+      "id": "slug_no_match_stays_a",
+      "input_path": "examples/slug_no_match_stays_a.html",
+      "context": {"page_slugs": ["/", "/products"]},
+      "expected_tsx_contains": ["href=\"/unknown-page\""],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "relative_path_normalized",
+      "input_path": "examples/relative_path_normalized.html",
+      "context": {"page_slugs": ["/", "/products"]},
+      "expected_tsx_contains": ["<Link to=\"/products\">"]
+    },
+    {
+      "id": "absolute_url_stays",
+      "input_path": "examples/absolute_url_stays.html",
+      "context": {"page_slugs": []},
+      "expected_tsx_contains": [
+        "href=\"https://example.com\"",
+        "target=\"_blank\"",
+        "rel=\"noopener noreferrer\""
+      ],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "absolute_url_target_blank_added",
+      "input_path": "examples/absolute_url_target_blank_added.html",
+      "context": {"page_slugs": []},
+      "expected_tsx_contains": [
+        "target=\"_blank\"",
+        "rel=\"noopener noreferrer\""
+      ]
+    },
+    {
+      "id": "href_never_removed",
+      "input_path": "examples/href_never_removed.html",
+      "context": {"page_slugs": ["/", "/about"]},
+      "expected_tsx_contains": [
+        "<Link to=\"/about\"",
+        "className=\"cta\""
+      ]
+    },
+    {
+      "id": "mailto_stays_a",
+      "input_path": "examples/mailto_stays_a.html",
+      "context": {"page_slugs": []},
+      "expected_tsx_contains": ["href=\"mailto:hello@example.com\""],
+      "expected_tsx_absent": ["<Link", "target=\"_blank\""]
+    },
+    {
+      "id": "chrome_hash_rewrites_to_link",
+      "input_path": "examples/chrome_hash_rewrites_to_link.html",
+      "context": {
+        "component_role": "sidebar",
+        "page_routes": [
+          ["/member-directory", "Member Directory"],
+          ["/resource-management", "Resource Management"]
+        ]
+      },
+      "expected_tsx_contains": [
+        "<Link to=\"/member-directory\">Members</Link>",
+        "<Link to=\"/resource-management\">Resources</Link>"
+      ],
+      "expected_tsx_absent": ["<a href=\"#\">"]
+    },
+    {
+      "id": "chrome_word_overlap_match",
+      "input_path": "examples/chrome_word_overlap_match.html",
+      "context": {
+        "component_role": "header",
+        "page_routes": [
+          ["/", "Occupancy Dashboard"],
+          ["/billing-invoices", "Billing and Invoices"]
+        ]
+      },
+      "expected_tsx_contains": ["<Link to=\"/\">Occupancy</Link>"],
+      "expected_tsx_absent": ["<a href=\"#\">"]
+    },
+    {
+      "id": "chrome_non_routable_label_stays",
+      "input_path": "examples/chrome_non_routable_label_stays.html",
+      "context": {
+        "component_role": "sidebar",
+        "page_routes": [["/", "Home"], ["/logout-page", "Logout Page"]]
+      },
+      "expected_tsx_contains": ["<a href=\"#\">Logout</a>"],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "chrome_unmatched_label_stays",
+      "input_path": "examples/chrome_unmatched_label_stays.html",
+      "context": {
+        "component_role": "sidebar",
+        "page_routes": [["/", "Home"], ["/products", "Products"]]
+      },
+      "expected_tsx_contains": ["<a href=\"#\">Random Label Goes Here</a>"],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "content_role_hash_stays",
+      "input_path": "examples/content_role_hash_stays.html",
+      "context": {
+        "component_role": "content",
+        "page_routes": [["/member-directory", "Member Directory"]]
+      },
+      "expected_tsx_contains": ["<a href=\"#\">Members</a>"],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "chrome_same_page_anchor_preserved",
+      "input_path": "examples/chrome_same_page_anchor_preserved.html",
+      "context": {
+        "component_role": "sidebar",
+        "page_routes": [["/member-directory", "Member Directory"]]
+      },
+      "expected_tsx_contains": ["<a href=\"#section-id\">Members</a>"],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "chrome_absolute_path_rewrites_to_link",
+      "input_path": "examples/chrome_absolute_path_to_link.html",
+      "context": {
+        "component_role": "header",
+        "page_slugs": ["/", "/shop", "/contact"]
+      },
+      "expected_tsx_contains": [
+        "<Link to=\"/shop\">Shop</Link>",
+        "<Link to=\"/contact\">Contact</Link>",
+        "<Link to=\"/\""
+      ],
+      "expected_tsx_absent": [
+        "<a href=\"/shop\"",
+        "<a href=\"/contact\"",
+        "<a href=\"/\""
+      ]
+    },
+    {
+      "id": "chrome_absolute_unknown_path_stays_a",
+      "input_path": "examples/chrome_absolute_unknown_path_stays_a.html",
+      "context": {
+        "component_role": "footer",
+        "page_slugs": ["/", "/shop"]
+      },
+      "expected_tsx_contains": ["<a href=\"/external-thing\""],
+      "expected_tsx_absent": ["<Link"]
+    },
+    {
+      "id": "index_html_rewrites_to_root_link",
+      "input_path": "examples/index_html_rewrites_to_root_link.html",
+      "context": {
+        "component_role": "header",
+        "page_slugs": ["/", "/shop"]
+      },
+      "expected_tsx_contains": [
+        "<Link to=\"/\""
+      ],
+      "expected_tsx_absent": [
+        "<Link to=\"/index\"",
+        "<a href=\"index.html\""
+      ]
+    },
+    {
+      "id": "index_bare_rewrites_to_root_link",
+      "input_path": "examples/index_bare_rewrites_to_root_link.html",
+      "context": {
+        "component_role": "header",
+        "page_slugs": ["/"]
+      },
+      "expected_tsx_contains": ["<Link to=\"/\""],
+      "expected_tsx_absent": [
+        "<Link to=\"/index\"",
+        "<a href=\"index\"",
+        "<a href=\"/index\""
+      ]
+    }
+  ]
+}

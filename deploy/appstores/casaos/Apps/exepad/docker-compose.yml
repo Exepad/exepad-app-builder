@@ -1,0 +1,66 @@
+# CasaOS / ZimaOS app manifest for Exepad (compose + x-casaos extension).
+# Self-published third-party store: users add this repo's store URL in the
+# CasaOS App Store settings ("add source"). Same file works for ZimaOS.
+# NOTE: validate against the current CasaOS AppStore CONTRIBUTING.md schema
+# before submitting to the OFFICIAL store (this shape targets the documented
+# x-casaos extension; the official store additionally requires on-device testing).
+name: exepad
+services:
+  exepad:
+    image: ghcr.io/exepad/exepad-app-builder:latest
+    container_name: exepad
+    restart: unless-stopped
+    ports:
+      - target: 8080
+        published: "8080"
+        protocol: tcp
+    environment:
+      # Behind CasaOS's own reverse proxy / LAN access, serve plain HTTP.
+      EXEPAD_HTTPS_DISABLE: "1"
+      EXEPAD_LLM_API_KEY: ""
+      EXEPAD_LLM_PROVIDER: gemini
+    volumes:
+      - type: volume
+        source: exepad-data
+        target: /data
+    x-casaos:
+      envs:
+        - container: EXEPAD_LLM_API_KEY
+          description:
+            en_us: LLM API key (required to build apps; can also be set later in the in-app /settings page)
+        - container: EXEPAD_LLM_PROVIDER
+          description:
+            en_us: "LLM provider: gemini | anthropic | openai | openrouter | custom (Ollama)"
+      ports:
+        - container: "8080"
+          description:
+            en_us: Studio web UI
+      volumes:
+        - container: /data
+          description:
+            en_us: ALL persistent state (apps, SQLite databases, uploads, secrets) — back this up
+volumes:
+  exepad-data:
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: exepad
+  author: Exepad
+  developer: Exepad
+  category: Developer
+  title:
+    en_us: Exepad
+  tagline:
+    en_us: Self-hosted AI app builder — prompt to deployed full-stack app
+  description:
+    en_us: >-
+      Exepad turns a prompt into a real, deployed web app. A multi-agent AI
+      builder plans the app, writes the React UI, models the data, and wires
+      it together — compiled, deployed, and served inside this one container.
+      Bring your own LLM key (Gemini, Anthropic, OpenAI, OpenRouter, or a
+      local model via Ollama). Needs >= 2 GB RAM; single instance only
+      (SQLite). All state lives in the /data volume.
+  icon: https://raw.githubusercontent.com/exepad/exepad-app-builder/main/.github/assets/exepad-logo-light.svg
+  index: /
+  port_map: "8080"

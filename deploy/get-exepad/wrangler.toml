@@ -1,0 +1,10 @@
+name = "exepad-get"
+main = "src/index.js"
+compatibility_date = "2026-07-27"
+workers_dev = false
+
+# custom_domain creates + manages the proxied DNS record for get.exepad.com
+# itself, so no separate DNS entry (and no placeholder origin) is needed.
+[[routes]]
+pattern = "get.exepad.com"
+custom_domain = true

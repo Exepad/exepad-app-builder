@@ -1,0 +1,250 @@
+/*
+ * studio-theme.css — operator/builder CHROME look-and-feel.
+ *
+ * Ports the paid "pro" frontend (../exepad-frontend/src/app/globals.css) design
+ * system into the OSS runtime client, confined to the platform chrome (Login,
+ * Apps, Settings, Studio builder, Admin). Imported by globals.css AFTER the
+ * @exepad/ui-core imports so these :root values win by source order.
+ *
+ * IMPORTANT CONTRACTS (see docs / plan):
+ *  - Tokens are HSL TRIPLETS, not oklch — the runtime's @theme indirection is
+ *    `--color-*: hsl(var(--*))` (ui-core/tailwind.css) and DynamicTheme.tsx
+ *    emits HSL triplets. Raw oklch tokens would break app theming.
+ *  - :root / .dark blocks are UNLAYERED (ui-core's are too); a layered block
+ *    would lose the cascade to ui-core's unlayered :root.
+ *  - Chrome routes never mount DynamicTheme, so these are the chrome defaults;
+ *    rendered-app routes overwrite :root at runtime (source order wins).
+ */
+
+/* NOTE: the @fontsource @font-face CSS is imported from main.tsx (NOT here).
+   A CSS `@import` of those packages gets inlined by the Tailwind PostCSS
+   importer, which leaves their relative `url(./files/*.woff2)` unresolved and
+   never emits the font assets. Importing them as JS modules runs them through
+   Vite's asset pipeline so the woff2 files are bundled + hashed correctly. */
+
+/* Tailwind v4 defaults `dark:` to prefers-color-scheme. The chrome toggles a
+   `.dark` class on <html>, so register the class-based variant or every `dark:`
+   utility in the ported components silently no-ops. */
+@custom-variant dark (&:is(.dark *));
+
+/* ui-core defines no --font-mono indirection, so a bare :root var won't create
+   the `font-mono` utility — declare it here. */
+@theme {
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* Warm, sophisticated light palette — Apple/ChatGPT inspired (oklch→hsl). */
+  --background: 44 46% 99%;
+  --foreground: 222 59% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 59% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 59% 4%;
+
+  --primary: 217 36% 8%;
+  --primary-foreground: 240 0% 97%;
+  --secondary: 44 17% 94%;
+  --secondary-foreground: 217 21% 14%;
+  --muted: 44 22% 96%;
+  --muted-foreground: 217 5% 39%;
+  --accent: 44 14% 89%;
+  --accent-foreground: 217 21% 14%;
+
+  --destructive: 357 100% 45%;
+  --destructive-foreground: 240 0% 97%; /* required by ui-core; absent from pro */
+
+  --border: 44 7% 87%;
+  --input: 44 9% 89%;
+  --ring: 217 12% 29%;
+
+  --chart-1: 209 56% 45%;
+  --chart-2: 183 84% 32%;
+  --chart-3: 236 23% 46%;
+  --chart-4: 28 62% 56%;
+  --chart-5: 8 44% 59%;
+
+  /* Sidebar — emit BOTH names: ui-core's @theme keys --color-sidebar off
+     --sidebar-background, so --sidebar alone falls back to the stale gray. */
+  --sidebar: 44 18% 98%;
+  --sidebar-background: 44 18% 98%;
+  --sidebar-foreground: 222 59% 4%;
+  --sidebar-primary: 217 36% 8%;
+  --sidebar-primary-foreground: 240 0% 97%;
+  --sidebar-accent: 44 14% 89%;
+  --sidebar-accent-foreground: 217 21% 14%;
+  --sidebar-border: 44 9% 89%;
+  --sidebar-ring: 217 12% 29%;
+
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+.dark {
+  /* Dark mode — warm, sophisticated like ChatGPT (oklch→hsl). */
+  --background: 222 52% 3%;
+  --foreground: 44 14% 93%;
+  --card: 217 35% 6%;
+  --card-foreground: 44 14% 93%;
+  --popover: 217 35% 6%;
+  --popover-foreground: 44 14% 93%;
+
+  --primary: 44 14% 93%;
+  --primary-foreground: 222 52% 3%;
+  --secondary: 217 23% 9%;
+  --secondary-foreground: 44 7% 87%;
+  --muted: 217 28% 7%;
+  --muted-foreground: 217 4% 51%;
+  --accent: 217 17% 13%;
+  --accent-foreground: 44 9% 89%;
+
+  --destructive: 359 100% 70%;
+  --destructive-foreground: 240 0% 97%;
+
+  --border: 217 11% 14%;
+  --input: 217 13% 11%;
+  --ring: 217 8% 51%;
+
+  --chart-1: 210 61% 58%;
+  --chart-2: 183 48% 48%;
+  --chart-3: 235 26% 58%;
+  --chart-4: 28 73% 63%;
+  --chart-5: 9 53% 66%;
+
+  --sidebar: 219 44% 4%;
+  --sidebar-background: 219 44% 4%;
+  --sidebar-foreground: 44 14% 93%;
+  --sidebar-primary: 44 14% 93%;
+  --sidebar-primary-foreground: 222 52% 3%;
+  --sidebar-accent: 217 17% 13%;
+  --sidebar-accent-foreground: 44 9% 89%;
+  --sidebar-border: 217 11% 14%;
+  --sidebar-ring: 217 8% 51%;
+}
+
+/* Typography refinements (ported from pro). ui-core already sets
+   `h1..h6 { font-family: var(--font-heading) }`, so don't duplicate that. */
+@layer base {
+  body {
+    font-feature-settings: "ss01", "ss02", "cv01";
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  h1 {
+    letter-spacing: -0.03em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Glass card effect — relative-color oklch(from …) rewritten for HSL tokens. */
+  .glass-card {
+    background: hsl(var(--card) / 0.7);
+    backdrop-filter: blur(24px);
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.02),
+      0 4px 16px -4px rgb(0 0 0 / 0.08),
+      0 16px 32px -8px rgb(0 0 0 / 0.04);
+  }
+
+  .dark .glass-card {
+    background: hsl(var(--card) / 0.6);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.03),
+      0 4px 16px -4px rgb(0 0 0 / 0.3),
+      0 16px 32px -8px rgb(0 0 0 / 0.2);
+  }
+
+  /* Subtle hover lift. */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 24px -8px rgb(0 0 0 / 0.12),
+      0 24px 48px -12px rgb(0 0 0 / 0.08);
+  }
+}
+
+/* ── Animations (ported from pro) ─────────────────────────────────────────── */
+
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.002);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes signal-beacon {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 6px 3px rgba(34, 197, 94, 0.4);
+  }
+}
+
+.animate-signal-beacon {
+  animation: signal-beacon 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in-delay-1 {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.animate-fade-in-delay-2 {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}

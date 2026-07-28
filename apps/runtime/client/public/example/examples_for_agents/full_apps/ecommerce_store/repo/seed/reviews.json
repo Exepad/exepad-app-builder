@@ -1,0 +1,107 @@
+[
+  {
+    "product_id": 1,
+    "rating": 5,
+    "comment": "Best headphones I've ever owned. The noise cancellation is incredible.",
+    "reviewer_name": "Alex Johnson",
+    "created_at": "2026-03-10T14:23:00Z"
+  },
+  {
+    "product_id": 1,
+    "rating": 4,
+    "comment": "Great sound quality. Wish the ear cups were a bit softer for longer sessions.",
+    "reviewer_name": "Maria Garcia",
+    "created_at": "2026-03-12T09:15:00Z"
+  },
+  {
+    "product_id": 2,
+    "rating": 5,
+    "comment": "Charges fast and looks sleek on my desk. Love the adjustable angle.",
+    "reviewer_name": "Chris Lee",
+    "created_at": "2026-03-08T16:45:00Z"
+  },
+  {
+    "product_id": 3,
+    "rating": 5,
+    "comment": "All the ports I need in one compact hub. HDMI output is flawless.",
+    "reviewer_name": "Sarah Kim",
+    "created_at": "2026-03-05T11:30:00Z"
+  },
+  {
+    "product_id": 3,
+    "rating": 4,
+    "comment": "Works great with my MacBook. Gets a little warm during heavy use.",
+    "reviewer_name": "David Chen",
+    "created_at": "2026-03-14T08:20:00Z"
+  },
+  {
+    "product_id": 4,
+    "rating": 4,
+    "comment": "Perfect fit and classic style. The denim is thick and durable.",
+    "reviewer_name": "Emma Wilson",
+    "created_at": "2026-03-09T13:10:00Z"
+  },
+  {
+    "product_id": 5,
+    "rating": 5,
+    "comment": "So comfortable! I ordered three more in different colors.",
+    "reviewer_name": "Ryan Martinez",
+    "created_at": "2026-03-11T10:05:00Z"
+  },
+  {
+    "product_id": 6,
+    "rating": 5,
+    "comment": "Makes the best pour-over coffee. Beautiful craftsmanship.",
+    "reviewer_name": "Lisa Thompson",
+    "created_at": "2026-03-07T07:30:00Z"
+  },
+  {
+    "product_id": 6,
+    "rating": 4,
+    "comment": "Great set, though the carafe is a bit small for a group.",
+    "reviewer_name": "James Brown",
+    "created_at": "2026-03-13T15:40:00Z"
+  },
+  {
+    "product_id": 8,
+    "rating": 5,
+    "comment": "Non-slip grip is excellent. The alignment lines really help with form.",
+    "reviewer_name": "Olivia Davis",
+    "created_at": "2026-03-06T18:00:00Z"
+  },
+  {
+    "product_id": 9,
+    "rating": 4,
+    "comment": "Good variety of resistance levels. Perfect for home workouts.",
+    "reviewer_name": "Daniel Harris",
+    "created_at": "2026-03-15T12:25:00Z"
+  },
+  {
+    "product_id": 10,
+    "rating": 5,
+    "comment": "Keeps ice water cold all day even in summer heat. Highly recommend.",
+    "reviewer_name": "Sophie Taylor",
+    "created_at": "2026-03-04T09:50:00Z"
+  },
+  {
+    "product_id": 11,
+    "rating": 5,
+    "comment": "Changed how I think about product design. A must-read.",
+    "reviewer_name": "Michael Reed",
+    "created_at": "2026-03-02T20:15:00Z"
+  },
+  {
+    "product_id": 12,
+    "rating": 4,
+    "comment": "Solid principles for writing maintainable code. Some examples feel dated.",
+    "reviewer_name": "Jennifer Lopez",
+    "created_at": "2026-03-10T17:35:00Z"
+  },
+  {
+    "product_id": 7,
+    "rating": 4,
+    "comment": "Elegant lamp with great light quality. The touch dimmer is very responsive.",
+    "reviewer_name": "Kevin Park",
+    "created_at": "2026-03-16T14:00:00Z"
+  }
+]

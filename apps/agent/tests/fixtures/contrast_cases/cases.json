@@ -1,0 +1,106 @@
+{
+  "cases": [
+    {
+      "id": "broken_header_primary_surface_text",
+      "kind": "broken",
+      "tsx_path": "examples/broken_header_primary_surface_text.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "required_warning_substrings": ["bg-primary", "text-on-primary", "resolved theme pair"],
+      "fixed_contains": ["bg-primary text-on-primary"],
+      "fixed_warning_substrings_absent": ["bg-primary"]
+    },
+    {
+      "id": "correct_header_primary_on_primary",
+      "kind": "correct",
+      "tsx_path": "examples/correct_header_primary_on_primary.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "broken_hero_orphan_on_primary",
+      "kind": "broken",
+      "tsx_path": "examples/broken_hero_orphan_on_primary.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "required_warning_substrings": ["reserved for bg-primary", "text-on-surface"]
+    },
+    {
+      "id": "correct_hero_surface_text",
+      "kind": "correct",
+      "tsx_path": "examples/correct_hero_surface_text.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "broken_inverse_text_on_light_card",
+      "kind": "broken",
+      "tsx_path": "examples/broken_inverse_text_on_light_card.tsx",
+      "theme_path": "themes/neutral_palette.css",
+      "required_warning_substrings": ["text-inverse-on-surface", "regular surfaces"],
+      "fixed_contains": ["bg-surface p-8 shadow-lg text-on-surface"],
+      "fixed_warning_substrings_absent": ["text-inverse-on-surface"]
+    },
+    {
+      "id": "correct_inverse_text_on_inverse_surface",
+      "kind": "correct",
+      "tsx_path": "examples/correct_inverse_text_on_inverse_surface.tsx",
+      "theme_path": "themes/neutral_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "correct_pale_cta_dark_text",
+      "kind": "correct",
+      "tsx_path": "examples/correct_pale_cta_dark_text.tsx",
+      "theme_path": "themes/neutral_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "broken_feature_band_wrong_muted_text",
+      "kind": "broken",
+      "tsx_path": "examples/broken_feature_band_wrong_muted_text.tsx",
+      "theme_path": "themes/dark_primary_palette.css",
+      "required_warning_substrings": ["bg-primary", "text-on-primary"]
+    },
+    {
+      "id": "correct_nested_light_card_in_dark_band",
+      "kind": "correct",
+      "tsx_path": "examples/correct_nested_light_card_in_dark_band.tsx",
+      "theme_path": "themes/dark_primary_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "correct_table_header_bg_secondary_children",
+      "kind": "correct",
+      "tsx_path": "examples/correct_table_header_bg_secondary_children.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "correct_dialog_bg_secondary_nested_children",
+      "kind": "correct",
+      "tsx_path": "examples/correct_dialog_bg_secondary_nested_children.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "correct_booking_form_container_tokens",
+      "kind": "correct",
+      "tsx_path": "examples/correct_booking_form_container_tokens.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "correct_safety_banner_bg_inverse_surface",
+      "kind": "correct",
+      "tsx_path": "examples/correct_safety_banner_bg_inverse_surface.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "expect_no_warnings": true
+    },
+    {
+      "id": "correct_sidebar_css_var_with_nav_children",
+      "kind": "correct",
+      "tsx_path": "examples/correct_sidebar_css_var_with_nav_children.tsx",
+      "theme_path": "themes/light_primary_palette.css",
+      "expect_no_warnings": true
+    }
+  ]
+}

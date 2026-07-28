@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-interactive-tabs",
+  "alias": "codecomponent-interactive-tabs",
+  "name": "Interactive Tabs with Code Component",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "summary": "Page with a CodeComponent that uses SDK UI primitives (Tabs, Card, Badge, Button, Dialog) and useAppState for local state management. Demonstrates how a single CodeComponent can compose multiple SDK components together with interactivity. No backend required.",
+  "shortSummary": "Interactive tabs CodeComponent using SDK UI primitives and useAppState",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ProjectBoard": {
+        "source": "frontend/components/ProjectBoard.tsx",
+        "compiled": "frontend/components/ProjectBoard.js",
+        "summary": "Tabbed project board with task cards, status badges, and add-task dialog using SDK primitives"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f5f3ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#f5f3ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e7eb",
+        "input": "#e5e7eb",
+        "ring": "#7c3aed"
+      },
+      "dark": {
+        "background": "#0f0b1a",
+        "foreground": "#f8fafc",
+        "primary": "#a78bfa",
+        "primary-foreground": "#0f0b1a",
+        "secondary": "#1e1530",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e1530",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e1530",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e1530",
+        "input": "#1e1530",
+        "ring": "#a78bfa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-board",
+        "title": "Project Board",
+        "slug": "/",
+        "summary": "Project board with tabbed task categories.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "project-board-1",
+            "component": "ProjectBoard",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Project board with tabbed task categories",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

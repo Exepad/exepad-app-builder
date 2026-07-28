@@ -1,0 +1,284 @@
+{
+  "uuid": "backend-internal-tool",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "Internal Tool",
+  "alias": "backend-internal-tool",
+  "summary": "Internal tool backend with user management and audit logging models. Read handler for audit logs and write handler for updating user roles.",
+  "shortSummary": "Internal tool backend with user management and au",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "roles": ["super_admin", "admin", "editor", "viewer"],
+    "roleHierarchy": {
+      "super_admin": ["admin"],
+      "admin": ["editor"],
+      "editor": ["viewer"]
+    },
+    "defaultRole": "viewer",
+    "defaultAccess": "authenticated",
+    "allowSignup": false
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-users",
+        "name": "users",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Full name of the user"
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "summary": "Email address used for login and notifications"
+          },
+          {
+            "name": "role",
+            "type": "text",
+            "summary": "User role determining permissions: viewer, editor, admin, super_admin",
+            "defaultValue": "viewer"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Account status: active, suspended, deactivated",
+            "defaultValue": "active"
+          },
+          {
+            "name": "last_login",
+            "type": "text",
+            "summary": "ISO 8601 timestamp of the user's most recent login",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_users_email",
+            "columns": [
+              "email"
+            ],
+            "unique": true
+          },
+          {
+            "name": "idx_users_role",
+            "columns": [
+              "role"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_users_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "role:admin",
+          "read": "authenticated",
+          "update": "role:admin",
+          "delete": "role:admin"
+        }
+      },
+      {
+        "uuid": "model-audit_logs",
+        "name": "audit_logs",
+        "columns": [
+          {
+            "name": "user_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the user who performed the action",
+            "references": {
+              "model": "users",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "action",
+            "type": "text",
+            "summary": "Type of action performed: login, logout, create, update, delete, role_change"
+          },
+          {
+            "name": "resource",
+            "type": "text",
+            "summary": "Name of the resource or entity affected by the action"
+          },
+          {
+            "name": "details",
+            "type": "text",
+            "summary": "JSON-encoded additional details about the action",
+            "isNullable": true
+          },
+          {
+            "name": "ip_address",
+            "type": "text",
+            "summary": "IP address from which the action was performed",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_audit_logs_user_id",
+            "columns": [
+              "user_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_audit_logs_action",
+            "columns": [
+              "action"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "role:admin",
+          "update": "role:admin",
+          "delete": "role:admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getAuditLogs",
+        "name": "getAuditLogs",
+        "method": "getAuditLogs",
+        "authLevel": "role:admin",
+        "inputs": [
+          {
+            "name": "user_id",
+            "type": "number",
+            "required": false,
+            "summary": "Filter audit logs by specific user ID"
+          },
+          {
+            "name": "action",
+            "type": "string",
+            "required": false,
+            "summary": "Filter by action type: login, logout, create, update, delete, role_change"
+          },
+          {
+            "name": "startDate",
+            "type": "string",
+            "required": false,
+            "summary": "Start date for filtering logs in YYYY-MM-DD format"
+          },
+          {
+            "name": "endDate",
+            "type": "string",
+            "required": false,
+            "summary": "End date for filtering logs in YYYY-MM-DD format"
+          },
+          {
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "summary": "Maximum number of log entries to return"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "logs",
+            "type": "array",
+            "summary": "List of audit log entries matching the filter criteria"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of matching log entries"
+          }
+        ]
+      },
+      {
+        "uuid": "h-updateUserRole",
+        "name": "updateUserRole",
+        "method": "updateUserRole",
+        "authLevel": "role:admin",
+        "inputs": [
+          {
+            "name": "user_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the user whose role is being updated"
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "required": true,
+            "summary": "New role to assign: viewer, editor, admin, super_admin"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "success",
+            "type": "boolean",
+            "summary": "Whether the role update was successful"
+          },
+          {
+            "name": "user",
+            "type": "json",
+            "summary": "Updated user object with the new role"
+          },
+          {
+            "name": "previousRole",
+            "type": "string",
+            "summary": "The role the user had before the update"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

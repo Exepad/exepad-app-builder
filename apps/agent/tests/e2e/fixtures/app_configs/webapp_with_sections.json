@@ -1,0 +1,147 @@
+{
+  "appType": "WebAppProps",
+  "version": "1.0.0",
+  "uuid": "app-sections-001",
+  "appSecondaryType": "website",
+  "name": "App with Sections",
+  "alias": "app-with-sections",
+  "summary": "A test application with sections for E2E testing",
+  "shortSummary": "App with sections",
+  "lastUpdatedEpoch": 1730764800,
+  "frontend": {
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#1d4ed8",
+        "primary-foreground": "#ffffff",
+        "secondary": "#475569",
+        "secondary-foreground": "#ffffff",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#dc2626",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#1d4ed8"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#3b82f6",
+        "primary-foreground": "#0f172a",
+        "secondary": "#64748b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#3b82f6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "layout": "boxed",
+    "menuPosition": "HeaderMenuTop",
+    "sidebar": [],
+    "header": [
+      {
+        "uuid": "navbar-001",
+        "componentType": "NavbarProps",
+        "logo": {
+          "uuid": "logo-001",
+          "componentType": "NavbarLogoProps",
+          "text": "TestApp"
+        },
+        "content": [
+          {
+            "uuid": "nav-home-001",
+            "componentType": "MenuLinkItemProps",
+            "label": "Home",
+            "href": {
+              "uuid": "link-home-001",
+              "componentType": "LinkProps",
+              "href": "/",
+              "text": "Home"
+            }
+          }
+        ]
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-home-001",
+        "slug": "/",
+        "title": "Home",
+        "pageType": "WebPageProps",
+        "content": [
+          {
+            "uuid": "section-hero-001",
+            "componentType": "SectionProps",
+            "sectionSlug": "hero",
+            "content": [
+              {
+                "uuid": "heading-main-001",
+                "componentType": "HeadingProps",
+                "text": "Welcome to Our Website",
+                "level": "h1"
+              },
+              {
+                "uuid": "text-intro-001",
+                "componentType": "TextProps",
+                "text": "We build amazing web applications."
+              },
+              {
+                "uuid": "button-cta-001",
+                "componentType": "ButtonProps",
+                "text": "Get Started",
+                "variant": "primary"
+              }
+            ]
+          },
+          {
+            "uuid": "section-features-001",
+            "componentType": "SectionProps",
+            "sectionSlug": "features",
+            "content": [
+              {
+                "uuid": "heading-features-001",
+                "componentType": "HeadingProps",
+                "text": "Features",
+                "level": "h2"
+              }
+            ]
+          }
+        ],
+        "summary": "Home page with hero section",
+        "shortSummary": "Home page",
+        "lastUpdatedEpoch": 1730764800
+      }
+    ],
+    "footer": [
+      {
+        "uuid": "footer-section-001",
+        "componentType": "SectionProps",
+        "content": [
+          {
+            "uuid": "footer-text-001",
+            "componentType": "TextProps",
+            "text": "© 2024 Test App. All rights reserved."
+          }
+        ]
+      }
+    ]
+  }
+}

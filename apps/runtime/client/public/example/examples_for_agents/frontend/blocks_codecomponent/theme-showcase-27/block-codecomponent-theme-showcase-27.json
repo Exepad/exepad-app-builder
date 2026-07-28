@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-theme-showcase",
+  "alias": "codecomponent-theme-showcase",
+  "name": "Theme Showcase with useTheme",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "summary": "Interactive theme inspector using a CodeComponent that leverages the useTheme hook to display all theme tokens. Renders color swatches for light and dark palettes with a Switch toggle, typography scale with fontFamily and headingFontFamily, border-radius visualization boxes, mode indicator badge, all Button variants in a grid, and themed Input examples. Uses Card, Badge, Separator, Label, and Icons from the SDK.",
+  "shortSummary": "Theme inspector showcasing useTheme hook with color palettes, typography, and component variants",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ThemeShowcase": {
+        "source": "frontend/components/ThemeShowcase.tsx",
+        "compiled": "frontend/components/ThemeShowcase.js",
+        "summary": "Full theme inspector showing color swatches, typography scale, border radius visualization, button variants, and themed inputs with light/dark palette toggle"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#3b82f6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-theme",
+        "title": "Theme Showcase",
+        "slug": "/",
+        "summary": "Interactive theme inspector with color palette, typography, border radius, and component variant showcase.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "theme-showcase-1",
+            "component": "ThemeShowcase",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Interactive theme inspector with all tokens and variants",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-scientific-chart-dashboard",
+  "alias": "codecomponent-scientific-chart-dashboard",
+  "name": "Scientific Chart Dashboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Interactive scientific chart CodeComponent using the Plotly extension library. Features a Plotly scatter plot with hover tooltips and lasso selection, a heatmap showing a correlation matrix across 4 numeric variables, and a 3D surface plot. Tabs switch between Scatter, Heatmap, and 3D Surface views. Select dropdowns for X and Y axis variable selection. Uses useHandler pattern for loading datasets, useAppState for chart configuration (axis selection, chart type), useTheme for Plotly layout colors, and toast on data export. Demo data: 50 data points with temperature, pressure, humidity, and wind speed variables.",
+  "shortSummary": "Plotly scatter, heatmap, and 3D surface charts with axis selection and data export",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ScientificChartPanel": {
+        "source": "frontend/components/ScientificChartPanel.tsx",
+        "compiled": "frontend/components/ScientificChartPanel.js",
+        "summary": "Interactive Plotly charts with scatter, heatmap, and 3D surface views, axis selection, and correlation matrix"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e293b",
+        "primary": "#0a7bae",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0f9ff",
+        "secondary-foreground": "#1e293b",
+        "muted": "#f8fafc",
+        "muted-foreground": "#64748b",
+        "accent": "#f0f9ff",
+        "accent-foreground": "#1e293b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0ea5e9"
+      },
+      "dark": {
+        "background": "#0c1222",
+        "foreground": "#e2e8f0",
+        "primary": "#38bdf8",
+        "primary-foreground": "#0c1222",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#e2e8f0",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#e2e8f0",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#e2e8f0",
+        "border": "#334155",
+        "input": "#334155",
+        "ring": "#38bdf8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-charts",
+        "title": "Charts",
+        "slug": "/",
+        "summary": "Interactive scientific chart dashboard with scatter, heatmap, and 3D surface visualizations.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-chart-panel-1",
+            "component": "ScientificChartPanel",
+            "extensions": [
+              "plotly"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Plotly scatter, heatmap, and 3D surface charts",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

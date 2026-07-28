@@ -1,0 +1,58 @@
+[
+  {
+    "name": "First Step",
+    "description": "Complete your very first habit",
+    "icon": "Footprints",
+    "xp_required": 10,
+    "badge_type": "bronze"
+  },
+  {
+    "name": "Streak Starter",
+    "description": "Maintain a 3-day streak",
+    "icon": "Flame",
+    "xp_required": 50,
+    "badge_type": "bronze"
+  },
+  {
+    "name": "Week Warrior",
+    "description": "Maintain a 7-day streak without missing a day",
+    "icon": "Shield",
+    "xp_required": 150,
+    "badge_type": "silver"
+  },
+  {
+    "name": "Century Club",
+    "description": "Earn a total of 100 XP across all habits",
+    "icon": "Star",
+    "xp_required": 100,
+    "badge_type": "silver"
+  },
+  {
+    "name": "Habit Master",
+    "description": "Complete 50 total habit check-ins",
+    "icon": "Crown",
+    "xp_required": 500,
+    "badge_type": "gold"
+  },
+  {
+    "name": "XP Hunter",
+    "description": "Accumulate 1,000 XP points",
+    "icon": "Zap",
+    "xp_required": 1000,
+    "badge_type": "gold"
+  },
+  {
+    "name": "Consistency King",
+    "description": "Maintain a 30-day streak",
+    "icon": "Trophy",
+    "xp_required": 2000,
+    "badge_type": "platinum"
+  },
+  {
+    "name": "Legendary",
+    "description": "Reach Level 10 and unlock all other achievements",
+    "icon": "Gem",
+    "xp_required": 5000,
+    "badge_type": "platinum"
+  }
+]

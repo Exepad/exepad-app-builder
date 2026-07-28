@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-event-calendar",
+  "alias": "codecomponent-event-calendar",
+  "name": "Event Calendar with Date Selection and Management",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Calendar-based event manager CodeComponent using Calendar with custom DayButton for event dot indicators. Selected date shows event list with Popover for detail view and delete action. Add event Dialog with title Input, time Select, and category Select. Badge for event categories (Meeting=blue, Deadline=red, Social=green, Task=yellow). Date formatting with date-fns format(). useAppState for selected date, useArrayState with append/remove for events, toast on add/delete. 12 demo events spread across the current month. No backend required.",
+  "shortSummary": "Calendar event manager with date selection, event list, add/delete dialogs, and category badges",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "EventCalendar": {
+        "source": "frontend/components/EventCalendar.tsx",
+        "compiled": "frontend/components/EventCalendar.js",
+        "summary": "Calendar-based event manager with date selection, custom day buttons with event dots, event list with popovers, and add event dialog with category/time selects"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#c94b0a",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fff7ed",
+        "secondary-foreground": "#0f172a",
+        "muted": "#fff7ed",
+        "muted-foreground": "#64748b",
+        "accent": "#fff7ed",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#ea580c"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#fb923c",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#fb923c"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-calendar",
+        "title": "Calendar",
+        "slug": "/",
+        "summary": "Event calendar page with date picker, event list, and add/delete event management.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "event-calendar-1",
+            "component": "EventCalendar",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Event calendar with date picker and event management",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

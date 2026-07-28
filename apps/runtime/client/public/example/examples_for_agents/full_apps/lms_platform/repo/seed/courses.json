@@ -1,0 +1,90 @@
+[
+  {
+    "title": "React & TypeScript Masterclass",
+    "description": "Build production-ready React applications with TypeScript. Covers hooks, context, state management with Zustand, testing with Vitest, and deployment strategies.",
+    "instructor": "Dr. Sarah Chen",
+    "category": "programming",
+    "level": "intermediate",
+    "duration_hours": 42.5,
+    "price": 89.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  },
+  {
+    "title": "UI/UX Design Fundamentals",
+    "description": "Learn the principles of user interface and user experience design. From wireframing to high-fidelity prototypes using Figma. Includes accessibility and design systems.",
+    "instructor": "Maria Lopez",
+    "category": "design",
+    "level": "beginner",
+    "duration_hours": 28.0,
+    "price": 69.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  },
+  {
+    "title": "Python for Data Science",
+    "description": "Comprehensive introduction to data science with Python. Covers NumPy, Pandas, Matplotlib, scikit-learn, and real-world data analysis projects.",
+    "instructor": "Prof. James Wright",
+    "category": "data-science",
+    "level": "beginner",
+    "duration_hours": 56.0,
+    "price": 99.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  },
+  {
+    "title": "Digital Marketing Strategy",
+    "description": "Master digital marketing channels including SEO, SEM, social media, email marketing, and analytics. Build a complete marketing plan from scratch.",
+    "instructor": "Emily Zhang",
+    "category": "marketing",
+    "level": "intermediate",
+    "duration_hours": 32.0,
+    "price": 79.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  },
+  {
+    "title": "Startup Business Essentials",
+    "description": "Everything you need to launch and grow a startup. Covers business models, fundraising, lean methodology, financial planning, and scaling strategies.",
+    "instructor": "Michael Torres",
+    "category": "business",
+    "level": "beginner",
+    "duration_hours": 24.0,
+    "price": 59.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  },
+  {
+    "title": "Advanced Machine Learning",
+    "description": "Deep dive into neural networks, NLP, computer vision, and reinforcement learning. Hands-on projects with TensorFlow and PyTorch.",
+    "instructor": "Prof. James Wright",
+    "category": "data-science",
+    "level": "advanced",
+    "duration_hours": 64.0,
+    "price": 149.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  },
+  {
+    "title": "Full-Stack Node.js Development",
+    "description": "Build complete web applications with Node.js, Express, PostgreSQL, and React. Covers authentication, REST APIs, WebSockets, and cloud deployment.",
+    "instructor": "David Kim",
+    "category": "programming",
+    "level": "advanced",
+    "duration_hours": 48.0,
+    "price": 119.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  },
+  {
+    "title": "Motion Design with After Effects",
+    "description": "Create stunning motion graphics and animations for web and video. Learn keyframing, expressions, character animation, and export for multiple platforms.",
+    "instructor": "Maria Lopez",
+    "category": "design",
+    "level": "intermediate",
+    "duration_hours": 36.0,
+    "price": 89.99,
+    "thumbnail_url": null,
+    "is_published": 1
+  }
+]

@@ -1,0 +1,128 @@
+[
+  {
+    "date": "2026-03-27",
+    "meal_type": "breakfast",
+    "name": "Oatmeal with Berries",
+    "calories": 350,
+    "protein": 12,
+    "carbs": 58,
+    "fat": 8
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "breakfast",
+    "name": "Scrambled Eggs (3)",
+    "calories": 220,
+    "protein": 18,
+    "carbs": 2,
+    "fat": 15
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "snack",
+    "name": "Protein Shake",
+    "calories": 180,
+    "protein": 30,
+    "carbs": 8,
+    "fat": 3
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "lunch",
+    "name": "Grilled Chicken Salad",
+    "calories": 420,
+    "protein": 38,
+    "carbs": 18,
+    "fat": 22
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "lunch",
+    "name": "Brown Rice",
+    "calories": 215,
+    "protein": 5,
+    "carbs": 45,
+    "fat": 2
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "snack",
+    "name": "Greek Yogurt with Honey",
+    "calories": 160,
+    "protein": 15,
+    "carbs": 20,
+    "fat": 4
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "snack",
+    "name": "Almonds (1 oz)",
+    "calories": 165,
+    "protein": 6,
+    "carbs": 6,
+    "fat": 14
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "dinner",
+    "name": "Salmon Fillet",
+    "calories": 380,
+    "protein": 34,
+    "carbs": 0,
+    "fat": 24
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "dinner",
+    "name": "Roasted Sweet Potatoes",
+    "calories": 180,
+    "protein": 3,
+    "carbs": 42,
+    "fat": 1
+  },
+  {
+    "date": "2026-03-27",
+    "meal_type": "dinner",
+    "name": "Steamed Broccoli",
+    "calories": 55,
+    "protein": 4,
+    "carbs": 10,
+    "fat": 0.5
+  },
+  {
+    "date": "2026-03-26",
+    "meal_type": "breakfast",
+    "name": "Avocado Toast with Egg",
+    "calories": 380,
+    "protein": 15,
+    "carbs": 32,
+    "fat": 22
+  },
+  {
+    "date": "2026-03-26",
+    "meal_type": "lunch",
+    "name": "Turkey Wrap",
+    "calories": 450,
+    "protein": 32,
+    "carbs": 38,
+    "fat": 18
+  },
+  {
+    "date": "2026-03-26",
+    "meal_type": "dinner",
+    "name": "Lean Ground Beef Stir Fry",
+    "calories": 520,
+    "protein": 40,
+    "carbs": 35,
+    "fat": 22
+  },
+  {
+    "date": "2026-03-26",
+    "meal_type": "snack",
+    "name": "Banana with Peanut Butter",
+    "calories": 290,
+    "protein": 8,
+    "carbs": 38,
+    "fat": 16
+  }
+]

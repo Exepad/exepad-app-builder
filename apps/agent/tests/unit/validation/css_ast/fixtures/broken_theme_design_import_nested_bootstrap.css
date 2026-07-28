@@ -1,0 +1,68 @@
+@layer exepad-app {
+  @import "tailwindcss";
+  @import "tw-animate-css";
+  @source "./components";
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+@theme {
+  --color-primary: #7a5900;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #f4b400;
+  --color-on-primary-container: #654800;
+
+  --color-secondary: #47664b;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #c8ecc9;
+  --color-on-secondary-container: #4c6c50;
+
+  --color-tertiary: #a03f29;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #ffa995;
+  --color-on-tertiary-container: #892f19;
+
+  --color-surface: #fcf9f3;
+  --color-on-surface: #1c1c18;
+  --color-surface-variant: #e5e2dc;
+  --color-on-surface-variant: #504533;
+  --color-surface-dim: #dcdad4;
+  --color-surface-bright: #fcf9f3;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f3ed;
+  --color-surface-container: #f0eee8;
+  --color-surface-container-high: #ebe8e2;
+  --color-surface-container-highest: #e5e2dc;
+
+  --color-background: #fcf9f3;
+  --color-on-background: #1c1c18;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-outline: #827560;
+  --color-outline-variant: #d4c4ac;
+  --color-inverse-surface: #31312d;
+  --color-inverse-on-surface: #f3f0ea;
+  --color-inverse-primary: #fdbc13;
+
+  --font-headline: "Noto Serif", serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-label: "Plus Jakarta Sans", sans-serif;
+
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+@layer base {
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    display: inline-block;
+    line-height: 1;
+  }
+}

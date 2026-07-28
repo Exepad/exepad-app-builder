@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pest Control Monitoring - The Golden Hive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f1f4fa",
+              "on-primary-fixed": "#2a1800",
+              "on-tertiary-fixed-variant": "#574500",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#643f00",
+              "on-tertiary-fixed": "#241a00",
+              "surface-container-high": "#e5e8ee",
+              "secondary-fixed-dim": "#88d982",
+              "on-surface": "#181c20",
+              "tertiary-fixed": "#ffe087",
+              "inverse-primary": "#ffb957",
+              "outline-variant": "#d7c3ae",
+              "primary": "#835400",
+              "on-primary-container": "#674100",
+              "on-secondary-fixed": "#002204",
+              "secondary": "#1b6d24",
+              "surface-tint": "#835400",
+              "on-error-container": "#93000a",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#ebc23e",
+              "surface-dim": "#d7dae0",
+              "secondary-container": "#a0f399",
+              "on-secondary-fixed-variant": "#005312",
+              "error": "#ba1a1a",
+              "surface": "#f7f9ff",
+              "tertiary": "#735c00",
+              "surface-container": "#ebeef4",
+              "surface-container-highest": "#dfe3e8",
+              "tertiary-container": "#dcb530",
+              "surface-variant": "#dfe3e8",
+              "on-background": "#181c20",
+              "inverse-surface": "#2d3135",
+              "on-secondary": "#ffffff",
+              "primary-fixed": "#ffddb5",
+              "on-tertiary-container": "#5a4700",
+              "secondary-fixed": "#a3f69c",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#eef1f7",
+              "surface-bright": "#f7f9ff",
+              "primary-fixed-dim": "#ffb957",
+              "primary-container": "#f9a825",
+              "background": "#f7f9ff",
+              "outline": "#857462",
+              "on-secondary-container": "#217128",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#524434"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "2xl": "1rem",
+              "3xl": "1.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .honeycomb-pattern {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%23835400' fill-opacity='0.05' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.91v12.68l10.99 6.34L25 30.59V17.91l-11.01-6.34L3 17.91zM0 15l12.98-7.5V0h2v7.5L28 15v1h-2v15h2v1L14.98 39.5V49h-2v-9.5L0 32V15z'/%3E%3C/svg%3E");
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-100 dark:border-slate-900 py-8 px-4 gap-2 z-50">
+<div class="mb-8 px-2">
+<h1 class="font-manrope font-black text-amber-700 dark:text-amber-500 text-2xl tracking-tighter">The Living Ledger</h1>
+<p class="text-xs font-inter font-medium tracking-wide text-slate-500 mt-1 uppercase">Hive Alpha Status: Thriving</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+                Hives
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">water_drop</span>
+                Honey Production
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-amber-800 dark:text-amber-200 font-bold border-r-4 border-amber-600 dark:border-amber-400 bg-amber-50/50 dark:bg-amber-900/20 duration-200 font-inter text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined">bug_report</span>
+                Pest Control
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all duration-200 font-inter text-sm font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 space-y-1">
+<button class="w-full bg-secondary-container text-on-secondary-container py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined">add</span>
+                Add Inspection
+            </button>
+<a class="flex items-center gap-3 px-3 py-2 mt-4 text-slate-600 dark:text-slate-400 hover:text-amber-600 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">help</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-error font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 min-h-screen honeycomb-pattern">
+<!-- TopAppBar (Shared Component) -->
+<header class="w-full sticky top-0 z-40 bg-slate-50/70 dark:bg-slate-900/70 backdrop-blur-md flex justify-between items-center px-6 py-3 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm dark:shadow-none">
+<div class="flex items-center gap-4">
+<span class="font-manrope font-extrabold text-xl text-amber-700 dark:text-amber-500 tracking-tight">The Golden Hive</span>
+<div class="hidden md:flex bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-1.5 items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-64 text-on-surface placeholder-slate-400" placeholder="Search apiary logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-slate-500">history</span>
+</button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border-2 border-amber-500/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNni2jRPwNIGyT0k1yYpEkACmqMUTbASQZO-oBHzk3AO_3CwR95-aTn2q4cNX2aKSUelKME26f0vJ9BWEL8zVusBjhEmQt5JhKCQfzJytQ_uzlBsM-rAAVSAAH2iI9MmAabgXa21hVD7dtdJ9WQ29jzpSB9eyTu1YZ4UsY-sHSE_E9nfh9-g7P5YvPFbpzsgnA-WV7nqNB3kCE5aS_3dR0P0qAV5MAyCHWgNdHB2bcbXf_caZmdv2d6LWerEigpkPkiGvmTFLzxr4Q"/>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="max-w-7xl mx-auto p-6 md:p-8 space-y-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline font-extrabold text-3xl md:text-4xl text-on-surface tracking-tight">Pest Control Monitoring</h2>
+<p class="font-body text-on-surface-variant mt-2 max-w-2xl">Real-time health ledger for hive colony integrity. Monitor active infestations and maintain biosecurity protocols.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-lowest text-primary border border-outline-variant/30 px-5 py-2.5 rounded-xl font-semibold shadow-sm hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Export Report
+                    </button>
+<button class="bg-primary text-on-primary px-5 py-2.5 rounded-xl font-semibold shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">medical_services</span>
+                        Log Treatment
+                    </button>
+</div>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column (Alerts & History) -->
+<div class="lg:col-span-8 space-y-6">
+<!-- 1. Critical Interventions Required -->
+<section class="bg-error-container/20 rounded-3xl p-6 border border-error/10 overflow-hidden relative">
+<div class="absolute top-0 right-0 p-8 opacity-5">
+<span class="material-symbols-outlined text-9xl text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<h3 class="font-headline font-bold text-xl text-on-error-container">Critical Interventions Required</h3>
+</div>
+<div class="space-y-4">
+<!-- Alert Item 1: Varroa -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border-l-4 border-error flex flex-col md:flex-row md:items-start justify-between gap-4">
+<div class="flex gap-4">
+<div class="bg-error-container text-error p-3 rounded-xl h-fit">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bug_report</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Varroa Destructor Outbreak</h4>
+<p class="text-on-surface-variant text-sm mt-1">Hive #A-214 • Density: 12% phoretic mites</p>
+<div class="flex gap-2 mt-3">
+<span class="bg-error/10 text-error text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Immediate Action</span>
+<span class="bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Detected 4h ago</span>
+</div>
+</div>
+</div>
+<button class="bg-error text-on-error px-4 py-2 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity whitespace-nowrap">Apply Formic Pro</button>
+</div>
+<!-- Alert Item 2: Wax Moth -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border-l-4 border-tertiary flex flex-col md:flex-row md:items-start justify-between gap-4">
+<div class="flex gap-4">
+<div class="bg-tertiary-container/30 text-tertiary p-3 rounded-xl h-fit">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_florist</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Wax Moth Activity</h4>
+<p class="text-on-surface-variant text-sm mt-1">Hive #C-009 • Secondary weak colony signature</p>
+<div class="flex gap-2 mt-3">
+<span class="bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Monitoring</span>
+<span class="bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Weekly Observation</span>
+</div>
+</div>
+</div>
+<button class="text-tertiary font-bold text-sm hover:underline py-2 px-4 border border-tertiary/20 rounded-lg whitespace-nowrap">Inspect Combs</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Recent Treatment History Table -->
+<section class="bg-surface-container-low rounded-3xl p-6">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline font-bold text-xl text-on-surface">Recent Treatment History</h3>
+<button class="text-primary text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">View All <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest border-b border-outline-variant/10">
+<th class="pb-4 px-2">Date</th>
+<th class="pb-4 px-2">Hive ID</th>
+<th class="pb-4 px-2">Pest Type</th>
+<th class="pb-4 px-2">Treatment</th>
+<th class="pb-4 px-2 text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="group hover:bg-surface-container-highest/30 transition-colors">
+<td class="py-4 px-2 font-medium text-sm">Oct 24, 2023</td>
+<td class="py-4 px-2 font-bold text-primary">#B-102</td>
+<td class="py-4 px-2 text-sm">Varroa Mites</td>
+<td class="py-4 px-2 text-sm italic">Oxalic Acid Dribble</td>
+<td class="py-4 px-2 text-right">
+<span class="bg-secondary-container/50 text-on-secondary-container text-xs px-2.5 py-1 rounded-full font-semibold">Success</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-highest/30 transition-colors">
+<td class="py-4 px-2 font-medium text-sm">Oct 21, 2023</td>
+<td class="py-4 px-2 font-bold text-primary">#A-045</td>
+<td class="py-4 px-2 text-sm">Small Hive Beetle</td>
+<td class="py-4 px-2 text-sm italic">Oil Trap Deployment</td>
+<td class="py-4 px-2 text-right">
+<span class="bg-tertiary-container/50 text-on-tertiary-container text-xs px-2.5 py-1 rounded-full font-semibold">In Progress</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-highest/30 transition-colors">
+<td class="py-4 px-2 font-medium text-sm">Oct 15, 2023</td>
+<td class="py-4 px-2 font-bold text-primary">#D-221</td>
+<td class="py-4 px-2 text-sm">Nosema</td>
+<td class="py-4 px-2 text-sm italic">Fumidil-B Syrup</td>
+<td class="py-4 px-2 text-right">
+<span class="bg-secondary-container/50 text-on-secondary-container text-xs px-2.5 py-1 rounded-full font-semibold">Success</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-highest/30 transition-colors">
+<td class="py-4 px-2 font-medium text-sm">Oct 08, 2023</td>
+<td class="py-4 px-2 font-bold text-primary">#B-114</td>
+<td class="py-4 px-2 text-sm">Wax Moth</td>
+<td class="py-4 px-2 text-sm italic">B401 Biological Control</td>
+<td class="py-4 px-2 text-right">
+<span class="bg-error-container/50 text-on-error-container text-xs px-2.5 py-1 rounded-full font-semibold">Failed</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Right Column (Biosecurity Checklist) -->
+<div class="lg:col-span-4 space-y-6">
+<section class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant/20 h-full">
+<div class="flex items-center gap-2 mb-6">
+<div class="w-10 h-10 bg-secondary-fixed text-on-secondary-fixed rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">checklist</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface">Biosecurity Checklist</h3>
+</div>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-widest mb-4">Inspection Protocol v4.2</p>
+<div class="space-y-3">
+<!-- Checklist Item 1 -->
+<label class="flex items-start gap-3 p-4 rounded-2xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<input class="mt-1 w-5 h-5 rounded text-secondary focus:ring-secondary border-outline-variant" type="checkbox"/>
+<div>
+<span class="block font-bold text-on-surface group-hover:text-secondary transition-colors">Equipment Sanitization</span>
+<p class="text-xs text-on-surface-variant mt-1">Tools torched or soaked in 10% bleach solution between hive stands.</p>
+</div>
+</label>
+<!-- Checklist Item 2 -->
+<label class="flex items-start gap-3 p-4 rounded-2xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<input class="mt-1 w-5 h-5 rounded text-secondary focus:ring-secondary border-outline-variant" type="checkbox"/>
+<div>
+<span class="block font-bold text-on-surface group-hover:text-secondary transition-colors">Entrance Hygiene</span>
+<p class="text-xs text-on-surface-variant mt-1">Cleared dead bees and debris from landing boards to prevent disease spread.</p>
+</div>
+</label>
+<!-- Checklist Item 3 -->
+<label class="flex items-start gap-3 p-4 rounded-2xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<input checked="" class="mt-1 w-5 h-5 rounded text-secondary focus:ring-secondary border-outline-variant" type="checkbox"/>
+<div>
+<span class="block font-bold text-on-surface group-hover:text-secondary transition-colors">Brood Pattern Check</span>
+<p class="text-xs text-on-surface-variant mt-1">Inspected for sunken cappings or foul odor (AFB/EFB screen).</p>
+</div>
+</label>
+<!-- Checklist Item 4 -->
+<label class="flex items-start gap-3 p-4 rounded-2xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<input class="mt-1 w-5 h-5 rounded text-secondary focus:ring-secondary border-outline-variant" type="checkbox"/>
+<div>
+<span class="block font-bold text-on-surface group-hover:text-secondary transition-colors">Robbing Prevention</span>
+<p class="text-xs text-on-surface-variant mt-1">Confirmed entrance reducers are installed on weaker colonies.</p>
+</div>
+</label>
+<!-- Checklist Item 5 -->
+<label class="flex items-start gap-3 p-4 rounded-2xl hover:bg-surface-container-low transition-colors cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<input checked="" class="mt-1 w-5 h-5 rounded text-secondary focus:ring-secondary border-outline-variant" type="checkbox"/>
+<div>
+<span class="block font-bold text-on-surface group-hover:text-secondary transition-colors">Drone Monitoring</span>
+<p class="text-xs text-on-surface-variant mt-1">Assessed drone brood for excessive mite concentration.</p>
+</div>
+</label>
+</div>
+<div class="mt-8 p-4 bg-primary-fixed/20 rounded-2xl border border-primary-fixed-dim">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm">info</span>
+<span class="text-xs font-bold text-on-primary-fixed uppercase tracking-tight">Apiary Note</span>
+</div>
+<p class="text-xs text-on-primary-fixed-variant leading-relaxed italic">
+                                "The hive is a mirror. If the beekeeper is chaotic, the bees will reflect it. Stay vigilant, stay clean."
+                            </p>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer Stats / Insights Summary -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-highest/50 p-6 rounded-3xl backdrop-blur-sm border border-outline-variant/10">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Total Mite Load</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-black text-on-surface">3.4%</span>
+<span class="text-secondary text-xs font-bold">(-0.8% MoM)</span>
+</div>
+</div>
+<div class="bg-surface-container-highest/50 p-6 rounded-3xl backdrop-blur-sm border border-outline-variant/10">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Treatment Efficacy</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-black text-on-surface">92%</span>
+<span class="text-secondary text-xs font-bold">(High Quality)</span>
+</div>
+</div>
+<div class="bg-surface-container-highest/50 p-6 rounded-3xl backdrop-blur-sm border border-outline-variant/10">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Intervention Index</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-black text-on-surface">2</span>
+<span class="text-error text-xs font-bold">(Action Needed)</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component - Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-50/90 backdrop-blur-md flex justify-around items-center py-3 px-6 z-50 border-t border-slate-200">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Overview</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-[10px] font-bold">Hives</span>
+</button>
+<div class="-mt-8">
+<button class="bg-primary text-on-primary p-4 rounded-full shadow-lg active:scale-95 duration-150">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-amber-700">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bug_report</span>
+<span class="text-[10px] font-bold">Pests</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold">Settings</span>
+</button>
+</nav>
+</body></html>

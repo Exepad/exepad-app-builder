@@ -1,0 +1,78 @@
+{
+  "cases": [
+    {
+      "id": "broken_plans_features_json_column",
+      "kind": "broken",
+      "tsx_path": "examples/broken_plans_features.tsx",
+      "context": {
+        "models": [
+          {
+            "name": "plans",
+            "columns": [
+              {"name": "name", "type": "text"},
+              {"name": "features", "type": "json"}
+            ]
+          }
+        ]
+      },
+      "expected_fix_substrings": [
+        "Removed redundant JSON.parse on 1 json-typed column reference"
+      ],
+      "expected_output_contains": [
+        "typeof plan.features === \"object\"",
+        "Object.values(plan.features)"
+      ],
+      "expected_output_absent": [
+        "JSON.parse(plan.features || \"[]\")"
+      ]
+    },
+    {
+      "id": "correct_no_json_parse_pattern",
+      "kind": "correct",
+      "tsx_path": "examples/correct_no_json_parse.tsx",
+      "context": {
+        "models": [
+          {
+            "name": "plans",
+            "columns": [
+              {"name": "name", "type": "text"},
+              {"name": "features", "type": "json"}
+            ]
+          }
+        ]
+      },
+      "expect_no_fixes": true
+    },
+    {
+      "id": "correct_json_parse_on_text_column_left_alone",
+      "kind": "correct",
+      "tsx_path": "examples/correct_json_parse_on_text_column.tsx",
+      "context": {
+        "models": [
+          {
+            "name": "posts",
+            "columns": [
+              {"name": "notes", "type": "text"}
+            ]
+          }
+        ]
+      },
+      "expect_no_fixes": true,
+      "expected_output_contains": [
+        "JSON.parse(post.notes || \"[]\")"
+      ]
+    },
+    {
+      "id": "correct_no_models_declared",
+      "kind": "correct",
+      "tsx_path": "examples/broken_plans_features.tsx",
+      "context": {
+        "models": []
+      },
+      "expect_no_fixes": true,
+      "expected_output_contains": [
+        "JSON.parse(plan.features || \"[]\")"
+      ]
+    }
+  ]
+}

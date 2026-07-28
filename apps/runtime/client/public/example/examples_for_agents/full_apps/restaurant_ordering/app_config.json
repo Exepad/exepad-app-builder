@@ -1,0 +1,689 @@
+{
+  "uuid": "restaurant-ordering",
+  "alias": "restaurant-ordering",
+  "name": "Savora Kitchen",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "version": "1.0.0",
+  "summary": "Restaurant and food ordering app with menu browsing, online ordering, table reservations, and customer reviews",
+  "shortSummary": "Restaurant ordering and reservations",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "RestaurantHeader": {
+          "source": "frontend/code/components/RestaurantHeader.tsx",
+          "compiled": "frontend/compiled/components/RestaurantHeader.js",
+          "summary": "Fixed top header with logo, nav links (Home, Menu, Order, Reservations, Reviews), Reserve a Table CTA, cart icon with order count badge, backdrop-blur glass effect"
+        },
+        "RestaurantFooter": {
+          "source": "frontend/code/components/RestaurantFooter.tsx",
+          "compiled": "frontend/compiled/components/RestaurantFooter.js",
+          "summary": "3-column footer with About description, Hours (Mon-Sun schedule), Contact (address, phone, email), social icons row, copyright"
+        },
+        "RestaurantHome": {
+          "source": "frontend/code/components/RestaurantHome.tsx",
+          "compiled": "frontend/compiled/components/RestaurantHome.js",
+          "summary": "Home page: hero with heading and dual CTAs, featured dishes section with 3 cards, about section with stats, testimonials section with 3 review cards"
+        },
+        "MenuPage": {
+          "source": "frontend/code/components/MenuPage.tsx",
+          "compiled": "frontend/compiled/components/MenuPage.js",
+          "summary": "Menu page: category tabs (All, Appetizers, Mains, Pasta, Seafood, Desserts, Drinks), grid of 20+ menu item cards with spice indicators, search input, Add to Order button"
+        },
+        "OrderPage": {
+          "source": "frontend/code/components/OrderPage.tsx",
+          "compiled": "frontend/compiled/components/OrderPage.js",
+          "summary": "Order page: cart items list with quantity adjust, delivery/pickup toggle, address fields, order summary with subtotal/tax/total, Place Order button, empty state"
+        },
+        "ReservationPage": {
+          "source": "frontend/code/components/ReservationPage.tsx",
+          "compiled": "frontend/compiled/components/ReservationPage.js",
+          "summary": "Reservation page: date picker, time slot grid (11:00 AM - 9:00 PM), party size selector, contact form, Book Table button, confirmation state"
+        },
+        "ReviewsPage": {
+          "source": "frontend/code/components/ReviewsPage.tsx",
+          "compiled": "frontend/compiled/components/ReviewsPage.js",
+          "summary": "Reviews page: overall rating display (4.7/5), rating distribution bars, 10+ review cards with stars/name/date/comment, Write a Review dialog with star selector"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font, menu card hover transitions, spice level dot indicators, hero gradient"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "menu_categories": {
+        "source": "repo/seed/menu_categories.json",
+        "format": "json",
+        "model": "menu_categories",
+        "source_hash": "sha256:cbb2bba056110e7206a862752bc6c34d85260a11935b63b2fc6cd6ee4f093afa"
+      },
+      "menu_items": {
+        "source": "repo/seed/menu_items.json",
+        "format": "json",
+        "model": "menu_items",
+        "source_hash": "sha256:5fc061ef4ccae6b0043d4f26f0b9e8ff0ab5fa78901ed09bb68781acb00299f7"
+      },
+      "reviews": {
+        "source": "repo/seed/reviews.json",
+        "format": "json",
+        "model": "reviews",
+        "source_hash": "sha256:d98bb1269051dea58e0f560864117508cbf85d25771b6b2d3211a31c641c5fa1"
+      }
+    }
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-menu-categories",
+        "name": "menu_categories",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Category display name"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Short category description",
+            "isNullable": true
+          },
+          {
+            "name": "sort_order",
+            "type": "integer",
+            "summary": "Display sort order"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_categories_sort",
+            "columns": [
+              "sort_order"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_categories_name",
+            "columns": [
+              "name"
+            ],
+            "unique": true
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-menu-items",
+        "name": "menu_items",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Dish name"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Dish description"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Price in dollars"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Category: appetizers, mains, pasta, seafood, desserts, drinks"
+          },
+          {
+            "name": "image_url",
+            "type": "text",
+            "summary": "URL to dish image",
+            "isNullable": true
+          },
+          {
+            "name": "is_available",
+            "type": "integer",
+            "summary": "Availability flag (1=available, 0=unavailable)",
+            "defaultValue": "1"
+          },
+          {
+            "name": "spice_level",
+            "type": "text",
+            "summary": "Spice level: mild, medium, hot, extra_hot",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_menu_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_menu_available",
+            "columns": [
+              "is_available"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-orders",
+        "name": "orders",
+        "columns": [
+          {
+            "name": "items_json",
+            "type": "text",
+            "summary": "JSON string of ordered items with quantities and prices"
+          },
+          {
+            "name": "total",
+            "type": "real",
+            "summary": "Order total amount in dollars"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Order status: pending, preparing, ready, delivered",
+            "defaultValue": "pending"
+          },
+          {
+            "name": "order_type",
+            "type": "text",
+            "summary": "Order type: delivery or pickup"
+          },
+          {
+            "name": "special_instructions",
+            "type": "text",
+            "summary": "Special instructions for the order",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when order was placed"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_orders_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_orders_created",
+            "columns": [
+              "created_at"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-reservations",
+        "name": "reservations",
+        "columns": [
+          {
+            "name": "date",
+            "type": "text",
+            "summary": "Reservation date in YYYY-MM-DD format"
+          },
+          {
+            "name": "time_slot",
+            "type": "text",
+            "summary": "Reservation time slot, e.g. 7:00 PM"
+          },
+          {
+            "name": "party_size",
+            "type": "integer",
+            "summary": "Number of guests (1-12)"
+          },
+          {
+            "name": "customer_name",
+            "type": "text",
+            "summary": "Customer name for the reservation"
+          },
+          {
+            "name": "customer_phone",
+            "type": "text",
+            "summary": "Customer phone number"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Reservation status: pending, confirmed, cancelled",
+            "defaultValue": "pending"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Additional notes or special requests",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_reservations_date",
+            "columns": [
+              "date"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_reservations_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-reviews",
+        "name": "reviews",
+        "columns": [
+          {
+            "name": "rating",
+            "type": "integer",
+            "summary": "Star rating 1-5"
+          },
+          {
+            "name": "comment",
+            "type": "text",
+            "summary": "Review text"
+          },
+          {
+            "name": "customer_name",
+            "type": "text",
+            "summary": "Reviewer display name"
+          },
+          {
+            "name": "menu_item_id",
+            "type": "text",
+            "summary": "FK to menu_items, nullable for general reviews",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when review was posted"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_reviews_rating",
+            "columns": [
+              "rating"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_reviews_item",
+            "columns": [
+              "menu_item_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "public",
+          "update": "owner",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getMenuByCategory",
+        "name": "getMenuByCategory",
+        "method": "getMenuByCategory",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "category",
+            "type": "string",
+            "required": true,
+            "summary": "Menu category to filter by"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "items",
+            "type": "array",
+            "summary": "Array of menu items in the given category"
+          }
+        ]
+      },
+      {
+        "uuid": "h-createReservation",
+        "name": "createReservation",
+        "method": "createReservation",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "date",
+            "type": "string",
+            "required": true,
+            "summary": "Reservation date YYYY-MM-DD"
+          },
+          {
+            "name": "time_slot",
+            "type": "string",
+            "required": true,
+            "summary": "Reservation time slot"
+          },
+          {
+            "name": "party_size",
+            "type": "number",
+            "required": true,
+            "summary": "Number of guests"
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "required": false,
+            "summary": "Special requests or notes"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "reservation_id",
+            "type": "string",
+            "summary": "Created reservation ID"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "summary": "Reservation status"
+          }
+        ]
+      },
+      {
+        "uuid": "h-getAvailableSlots",
+        "name": "getAvailableSlots",
+        "method": "getAvailableSlots",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "date",
+            "type": "string",
+            "required": true,
+            "summary": "Date to check availability"
+          },
+          {
+            "name": "party_size",
+            "type": "number",
+            "required": true,
+            "summary": "Party size to check capacity"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "slots",
+            "type": "array",
+            "summary": "Array of available time slot strings"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "headerScrollBehavior": "fixed",
+    "transitions": {
+      "enabled": true,
+      "type": "fade",
+      "timing": "normal"
+    },
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1c1917",
+        "primary": "#c2410c",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fff7ed",
+        "secondary-foreground": "#1c1917",
+        "muted": "#f5f5f4",
+        "muted-foreground": "#78716c",
+        "accent": "#fff7ed",
+        "accent-foreground": "#1c1917",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e7e5e4",
+        "input": "#e7e5e4",
+        "ring": "#ea580c",
+        "card": "#ffffff",
+        "card-foreground": "#1c1917",
+        "popover": "#ffffff",
+        "popover-foreground": "#1c1917"
+      },
+      "dark": {
+        "background": "#1c1917",
+        "foreground": "#fafaf9",
+        "primary": "#fb923c",
+        "primary-foreground": "#1c1917",
+        "secondary": "#292524",
+        "secondary-foreground": "#fafaf9",
+        "muted": "#292524",
+        "muted-foreground": "#a8a29e",
+        "accent": "#292524",
+        "accent-foreground": "#fafaf9",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#44403c",
+        "input": "#44403c",
+        "ring": "#fb923c",
+        "card": "#1c1917",
+        "card-foreground": "#fafaf9",
+        "popover": "#1c1917",
+        "popover-foreground": "#fafaf9"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "orderItems": {
+          "$persist": true,
+          "initial": []
+        },
+        "selectedCategory": "all",
+        "reservationDate": null
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-1",
+        "componentType": "CodeComponentProps",
+        "component": "RestaurantHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [
+      {
+        "uuid": "ftr-1",
+        "componentType": "CodeComponentProps",
+        "component": "RestaurantFooter"
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Landing page with hero, featured dishes, about stats, and testimonials",
+        "content": [
+          {
+            "uuid": "c-home",
+            "componentType": "CodeComponentProps",
+            "component": "RestaurantHome"
+          }
+        ]
+      },
+      {
+        "uuid": "p-menu",
+        "pageType": "WebPageProps",
+        "title": "Menu",
+        "slug": "/menu",
+        "summary": "Full menu with category filtering, search, spice indicators, and add-to-order",
+        "content": [
+          {
+            "uuid": "c-menu",
+            "componentType": "CodeComponentProps",
+            "component": "MenuPage"
+          }
+        ]
+      },
+      {
+        "uuid": "p-order",
+        "pageType": "WebPageProps",
+        "title": "Order",
+        "slug": "/order",
+        "summary": "Order cart with quantity controls, delivery/pickup toggle, and checkout",
+        "content": [
+          {
+            "uuid": "c-order",
+            "componentType": "CodeComponentProps",
+            "component": "OrderPage"
+          }
+        ]
+      },
+      {
+        "uuid": "p-reservations",
+        "pageType": "WebPageProps",
+        "title": "Reservations",
+        "slug": "/reservations",
+        "summary": "Table reservation with date, time slot, party size, and contact form",
+        "content": [
+          {
+            "uuid": "c-reservations",
+            "componentType": "CodeComponentProps",
+            "component": "ReservationPage"
+          }
+        ]
+      },
+      {
+        "uuid": "p-reviews",
+        "pageType": "WebPageProps",
+        "title": "Reviews",
+        "slug": "/reviews",
+        "summary": "Customer reviews with ratings, distribution bars, and write-a-review dialog",
+        "content": [
+          {
+            "uuid": "c-reviews",
+            "componentType": "CodeComponentProps",
+            "component": "ReviewsPage"
+          }
+        ]
+      },
+      {
+        "name": "Profile",
+        "slug": "profile",
+        "access": "authenticated",
+        "sections": [
+          {
+            "components": [
+              {
+                "type": "code",
+                "componentName": "ProfilePage"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Settings",
+        "slug": "settings",
+        "access": "authenticated",
+        "sections": [
+          {
+            "components": [
+              {
+                "type": "code",
+                "componentName": "SettingsPage"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

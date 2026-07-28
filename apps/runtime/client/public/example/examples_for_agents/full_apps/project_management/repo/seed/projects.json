@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Website Redesign",
+    "description": "Complete overhaul of the company marketing website with new branding, responsive layouts, and improved performance",
+    "status": "active",
+    "start_date": "2026-02-01",
+    "end_date": "2026-04-30"
+  },
+  {
+    "name": "Mobile App v2",
+    "description": "Second major release of the mobile application with offline support, push notifications, and redesigned onboarding flow",
+    "status": "active",
+    "start_date": "2026-01-15",
+    "end_date": "2026-05-15"
+  },
+  {
+    "name": "API Platform",
+    "description": "Build a public REST and GraphQL API platform with developer portal, rate limiting, and usage analytics",
+    "status": "planning",
+    "start_date": "2026-04-01",
+    "end_date": "2026-07-31"
+  }
+]

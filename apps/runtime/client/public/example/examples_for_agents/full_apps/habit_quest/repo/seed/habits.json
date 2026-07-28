@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Exercise",
+    "description": "30 minutes of physical activity — running, gym, or yoga",
+    "frequency": "daily",
+    "xp_reward": 20,
+    "icon": "Dumbbell",
+    "is_active": 1,
+    "color": "#ef4444"
+  },
+  {
+    "name": "Read",
+    "description": "Read at least 20 pages of a book",
+    "frequency": "daily",
+    "xp_reward": 15,
+    "icon": "BookOpen",
+    "is_active": 1,
+    "color": "#3b82f6"
+  },
+  {
+    "name": "Meditate",
+    "description": "10 minutes of mindfulness meditation",
+    "frequency": "daily",
+    "xp_reward": 10,
+    "icon": "Brain",
+    "is_active": 1,
+    "color": "#8b5cf6"
+  },
+  {
+    "name": "Drink Water",
+    "description": "Drink at least 8 glasses of water throughout the day",
+    "frequency": "daily",
+    "xp_reward": 10,
+    "icon": "Droplets",
+    "is_active": 1,
+    "color": "#06b6d4"
+  },
+  {
+    "name": "Journal",
+    "description": "Write a journal entry reflecting on the day",
+    "frequency": "daily",
+    "xp_reward": 15,
+    "icon": "PenLine",
+    "is_active": 1,
+    "color": "#f59e0b"
+  },
+  {
+    "name": "Learn Language",
+    "description": "Complete one language lesson or practice for 15 minutes",
+    "frequency": "weekly",
+    "xp_reward": 50,
+    "icon": "Languages",
+    "is_active": 1,
+    "color": "#10b981"
+  }
+]

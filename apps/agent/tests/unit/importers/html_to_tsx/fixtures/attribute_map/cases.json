@@ -1,0 +1,167 @@
+{
+  "cases": [
+    {
+      "id": "class_to_classname",
+      "input_path": "examples/class_to_classname.html",
+      "expected_tsx_contains": ["className=\"hero-title text-white\""],
+      "expected_tsx_absent": ["class=\""]
+    },
+    {
+      "id": "for_to_htmlfor",
+      "input_path": "examples/for_to_htmlfor.html",
+      "expected_tsx_contains": ["htmlFor=\"email-input\""],
+      "expected_tsx_absent": ["for=\""]
+    },
+    {
+      "id": "tabindex_colspan_kebab",
+      "input_path": "examples/tabindex_colspan_kebab.html",
+      "expected_tsx_contains": [
+        "tabIndex=\"0\"",
+        "colSpan=\"2\"",
+        "rowSpan=\"3\""
+      ],
+      "expected_tsx_absent": ["tabindex=", "colspan=", "rowspan="]
+    },
+    {
+      "id": "form_attrs_camelcase",
+      "input_path": "examples/form_attrs_camelcase.html",
+      "expected_tsx_contains": [
+        "autoComplete=\"email\"",
+        "encType=\"multipart/form-data\"",
+        "noValidate={true}"
+      ],
+      "expected_tsx_absent": ["autocomplete=", "enctype=", "novalidate="]
+    },
+    {
+      "id": "svg_kebab_to_camel",
+      "input_path": "examples/svg_kebab_to_camel.html",
+      "expected_tsx_contains": [
+        "strokeWidth=\"1.4\"",
+        "strokeLinecap=\"round\"",
+        "fillOpacity=\"0.5\"",
+        "stopColor=\"#4DA3FF\""
+      ],
+      "expected_tsx_absent": [
+        "stroke-width=",
+        "stroke-linecap=",
+        "fill-opacity=",
+        "stop-color="
+      ]
+    },
+    {
+      "id": "svg_already_camel",
+      "input_path": "examples/svg_already_camel.html",
+      "expected_tsx_contains": [
+        "viewBox=\"0 0 14 14\"",
+        "baseFrequency=\"0.9\"",
+        "numOctaves=\"2\"",
+        "stitchTiles=\"stitch\""
+      ],
+      "expected_tsx_absent": [
+        "viewbox=",
+        "basefrequency=",
+        "numoctaves=",
+        "stitchtiles="
+      ]
+    },
+    {
+      "id": "svg_xlink_href",
+      "input_path": "examples/svg_xlink_href.html",
+      "expected_tsx_contains": ["xlinkHref=\"#sym\""],
+      "expected_tsx_absent": ["xlink:href="]
+    },
+    {
+      "id": "boolean_attrs_with_value",
+      "input_path": "examples/boolean_attrs.html",
+      "expected_tsx_contains": [
+        "disabled={true}",
+        "required={true}",
+        "readOnly={true}",
+        "autoFocus={true}",
+        "defaultChecked={true}"
+      ],
+      "expected_tsx_absent": [
+        "disabled=\"\"",
+        "required=\"\"",
+        "readonly=",
+        "checked=\"checked\""
+      ]
+    },
+    {
+      "id": "boolean_no_value",
+      "input_path": "examples/boolean_no_value.html",
+      "expected_tsx_contains": [
+        "<input type=\"text\" disabled={true} />",
+        "<option value=\"a\" selected={true}>"
+      ],
+      "expected_tsx_absent": ["selected=\"selected\""]
+    },
+    {
+      "id": "data_attrs_passthrough",
+      "input_path": "examples/data_attrs_passthrough.html",
+      "expected_tsx_contains": [
+        "data-theme=\"dark\"",
+        "data-tracking-id=\"xyz\"",
+        "src=\"__ASSET_IMG:assets/imports/abc.webp__\"",
+        "vendor=\"design_import\""
+      ],
+      "expected_tsx_absent": [
+        "data-asset-relpath="
+      ]
+    },
+    {
+      "id": "aria_attrs_passthrough",
+      "input_path": "examples/aria_attrs_passthrough.html",
+      "expected_tsx_contains": [
+        "aria-label=\"Toggle menu\"",
+        "aria-hidden=\"true\"",
+        "aria-describedby=\"hint-1\""
+      ]
+    },
+    {
+      "id": "value_to_defaultvalue",
+      "input_path": "examples/value_to_defaultvalue.html",
+      "expected_tsx_contains": ["defaultValue=\"hello\""],
+      "expected_tsx_absent": ["value=\"hello\""]
+    },
+    {
+      "id": "checked_to_defaultchecked",
+      "input_path": "examples/checked_to_defaultchecked.html",
+      "expected_tsx_contains": ["defaultChecked={true}"],
+      "expected_tsx_absent": ["checked=\""]
+    },
+    {
+      "id": "input_with_onchange_keeps_value",
+      "input_path": "examples/input_with_onchange.html",
+      "expected_tsx_contains": ["value=\"hello\""],
+      "expected_tsx_absent": ["defaultValue=", "onChange="]
+    },
+    {
+      "id": "unknown_attr_passthrough",
+      "input_path": "examples/unknown_attr.html",
+      "expected_tsx_contains": ["customattr=\"foo\""]
+    },
+    {
+      "id": "multiple_attrs_per_element",
+      "input_path": "examples/multiple_attrs_per_element.html",
+      "expected_tsx_contains": [
+        "id=\"hero\"",
+        "className=\"big bold\"",
+        "data-theme=\"dark\"",
+        "tabIndex=\"0\""
+      ]
+    },
+    {
+      "id": "attr_value_with_quotes",
+      "input_path": "examples/attr_value_with_quotes.html",
+      "expected_tsx_contains": ["title='He said \"hi\"'"]
+    },
+    {
+      "id": "attr_value_with_special_chars",
+      "input_path": "examples/attr_value_with_special_chars.html",
+      "expected_tsx_contains": [
+        "aria-label=\"N 51°30' / W 0°07'\""
+      ]
+    }
+  ]
+}

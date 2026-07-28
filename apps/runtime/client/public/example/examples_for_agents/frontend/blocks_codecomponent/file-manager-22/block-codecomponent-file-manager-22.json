@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-file-manager",
+  "alias": "codecomponent-file-manager",
+  "name": "Desktop File Manager with Code Component",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Desktop-style file manager CodeComponent with ContextMenu on file items featuring sub-menus for Open With options (Editor, Preview, Terminal), Cut/Copy/Paste with keyboard shortcut hints, Rename, Delete, and Properties. ButtonGroup toolbar switches between grid, list, and details view modes. Toggle buttons control hidden file visibility and sort order. Supports click-to-select and shift-click multi-select. Uses useArrayState for files, useAppState for view state, and toast for file operation feedback.",
+  "shortSummary": "File manager with ContextMenu sub-menus, ButtonGroup toolbar, and multi-view modes",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "FileManager": {
+        "source": "frontend/components/FileManager.tsx",
+        "compiled": "frontend/components/FileManager.js",
+        "summary": "Desktop file manager with ContextMenu actions, ButtonGroup view switcher, Toggle filters, grid/list/details views, and clipboard operations"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#af6004",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fffbeb",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f8f5f0",
+        "muted-foreground": "#6b7280",
+        "accent": "#fffbeb",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e2dc",
+        "input": "#e5e2dc",
+        "ring": "#d97706"
+      },
+      "dark": {
+        "background": "#12100a",
+        "foreground": "#f8fafc",
+        "primary": "#fbbf24",
+        "primary-foreground": "#12100a",
+        "secondary": "#292214",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#221e14",
+        "muted-foreground": "#94a3b8",
+        "accent": "#292214",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#292214",
+        "input": "#292214",
+        "ring": "#fbbf24"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-files",
+        "title": "File Manager",
+        "slug": "/",
+        "summary": "Desktop-style file manager with context menus and multiple view modes.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "file-manager-1",
+            "component": "FileManager",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "File manager with context menus and grid/list/details views",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "uuid": "kinetic-seo",
+  "alias": "kinetic-seo",
+  "name": "KINETIC SEO",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "AI-powered SEO command center with dashboard analytics, keyword research, landing page, and pricing tiers",
+  "shortSummary": "AI SEO command center",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "KineticHeader": {
+          "source": "frontend/code/components/KineticHeader.tsx",
+          "compiled": "frontend/compiled/components/KineticHeader.js",
+          "summary": "Fixed top navbar for marketing pages: KINETIC branding, route-aware nav links (Features, Solutions, Pricing, Resources), Login button, Get Started gradient CTA. Dark glassmorphism with purple glow."
+        },
+        "KineticSidebar": {
+          "source": "frontend/code/components/KineticSidebar.tsx",
+          "compiled": "frontend/compiled/components/KineticSidebar.js",
+          "summary": "Fixed left sidebar with KINETIC branding, gradient bolt icon, project info, route-aware nav (Overview, Keywords, Landing, Pricing, Backlinks, Competitors, Settings), New Audit CTA, Support/Documentation footer links. Dark theme (#131313 bg)."
+        },
+        "OverviewContent": {
+          "source": "frontend/code/components/OverviewContent.tsx",
+          "compiled": "frontend/compiled/components/OverviewContent.js",
+          "summary": "Dashboard overview: header with avatars and date filter, 3 KPI glass cards (Site Health 94%, Keywords Ranked 1,284, Organic Traffic 42.5k) with SVG mini-charts, AI Kinetic Insights panel with actionable recommendations, Competitor Pulse sidebar, System Status card, minimal footer."
+        },
+        "KeywordsContent": {
+          "source": "frontend/code/components/KeywordsContent.tsx",
+          "compiled": "frontend/compiled/components/KeywordsContent.js",
+          "summary": "Keyword research: sticky search/filter header, 3 hero metric cards (Rank #4, Volume 842.5K, CPC $12.40), keyword analytics data table with difficulty bars and trend sparklines, pagination, floating AI assistant button, footer."
+        },
+        "LandingContent": {
+          "source": "frontend/code/components/LandingContent.tsx",
+          "compiled": "frontend/compiled/components/LandingContent.js",
+          "summary": "Marketing landing page: hero with gradient text and CTAs, glass interface preview with SVG chart, Neural Infrastructure 3-feature bento grid, CTA section with radial gradient, 4-column footer."
+        },
+        "PricingContent": {
+          "source": "frontend/code/components/PricingContent.tsx",
+          "compiled": "frontend/compiled/components/PricingContent.js",
+          "summary": "Pricing page: hero header, 3-tier pricing grid (Basic $49, Pro $149 featured with glow, Enterprise $499) with glass cards, trust section with brand logos, 4-column footer."
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Material Symbols icon font class, glass-card and glow-border utility classes with pseudo-element gradient borders, dark theme :host styles, Manrope headline overrides"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+        "https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800;900&family=Inter:wght@400;500;600&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    }
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "headerScrollBehavior": "fixed",
+    "headTags": [
+      {
+        "type": "style",
+        "content": ".material-symbols-outlined{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-weight:normal;font-style:normal;font-size:24px;display:inline-block;line-height:1;text-transform:none;letter-spacing:normal;word-wrap:normal;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}.glass-card{background:rgba(26,25,25,0.9);backdrop-filter:blur(16px);position:relative}.glass-card::before{content:\"\";position:absolute;inset:0;padding:1px;border-radius:inherit;background:linear-gradient(135deg,rgba(204,151,255,0.4) 0%,transparent 40%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}.ambient-glow{box-shadow:0 0 60px 0 rgba(204,151,255,0.08)}.featured-glow{box-shadow:0 0 40px rgba(204,151,255,0.15)}.glow-border{border-top:1px solid rgba(204,151,255,0.4);border-left:1px solid rgba(204,151,255,0.2)}"
+      }
+    ],
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0e0e0e",
+        "primary": "#cc97ff",
+        "primary-foreground": "#0e0e0e",
+        "secondary": "#f5f5f5",
+        "secondary-foreground": "#0e0e0e",
+        "muted": "#f5f5f5",
+        "muted-foreground": "#737373",
+        "accent": "#f5f5f5",
+        "accent-foreground": "#0e0e0e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e5e5",
+        "input": "#e5e5e5",
+        "ring": "#cc97ff"
+      },
+      "dark": {
+        "background": "#0e0e0e",
+        "foreground": "#ffffff",
+        "primary": "#cc97ff",
+        "primary-foreground": "#0e0e0e",
+        "secondary": "#1a1919",
+        "secondary-foreground": "#ffffff",
+        "muted": "#1a1919",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#1a1919",
+        "accent-foreground": "#ffffff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#ffffff",
+        "border": "#262626",
+        "input": "#262626",
+        "ring": "#cc97ff"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "header": [
+      {
+        "uuid": "header-1",
+        "componentType": "CodeComponentProps",
+        "component": "KineticHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sidebar-1",
+        "componentType": "CodeComponentProps",
+        "component": "KineticSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-overview",
+        "pageType": "WebPageProps",
+        "title": "Overview",
+        "slug": "/",
+        "summary": "SEO command center with KPI cards, AI insights, competitor pulse",
+        "content": [
+          {
+            "uuid": "c-overview",
+            "componentType": "CodeComponentProps",
+            "component": "OverviewContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-keywords",
+        "pageType": "WebPageProps",
+        "title": "Keywords",
+        "slug": "/keywords",
+        "summary": "Keyword research with search, filters, analytics table, hero metrics",
+        "content": [
+          {
+            "uuid": "c-keywords",
+            "componentType": "CodeComponentProps",
+            "component": "KeywordsContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-landing",
+        "pageType": "WebPageProps",
+        "title": "Landing",
+        "slug": "/landing",
+        "menuPosition": "HeaderMenuTop",
+        "summary": "Marketing landing page with hero, features grid, CTA",
+        "content": [
+          {
+            "uuid": "c-landing",
+            "componentType": "CodeComponentProps",
+            "component": "LandingContent"
+          }
+        ]
+      },
+      {
+        "uuid": "p-pricing",
+        "pageType": "WebPageProps",
+        "title": "Pricing",
+        "slug": "/pricing",
+        "menuPosition": "HeaderMenuTop",
+        "summary": "3-tier pricing with glass cards, trust section",
+        "content": [
+          {
+            "uuid": "c-pricing",
+            "componentType": "CodeComponentProps",
+            "component": "PricingContent"
+          }
+        ]
+      }
+    ]
+  }
+}

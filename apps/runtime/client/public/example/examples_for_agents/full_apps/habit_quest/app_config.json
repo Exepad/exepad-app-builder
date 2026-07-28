@@ -1,0 +1,452 @@
+{
+  "uuid": "habit-quest",
+  "alias": "habit-quest",
+  "name": "HabitQuest",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Gamified habit tracker with XP, levels, badges, streaks, and achievement system",
+  "shortSummary": "Gamified habit tracker with XP, levels, and achievements",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "QuestHeader": {
+          "source": "frontend/code/components/QuestHeader.tsx",
+          "compiled": "frontend/compiled/components/QuestHeader.js",
+          "summary": "Top bar with HabitQuest logo (Flame icon), XP progress bar to next level, level badge, streak fire icon with count, user avatar"
+        },
+        "QuestSidebar": {
+          "source": "frontend/code/components/QuestSidebar.tsx",
+          "compiled": "frontend/compiled/components/QuestSidebar.js",
+          "summary": "Left nav with Dashboard, My Habits, Achievements, Profile links. Active state with primary color. Bottom: current level info"
+        },
+        "QuestDashboard": {
+          "source": "frontend/code/components/QuestDashboard.tsx",
+          "compiled": "frontend/compiled/components/QuestDashboard.js",
+          "summary": "Today's quests with checkboxes, XP rewards, stats row (streak, XP, level, completions), weekly heatmap, XP progress bar"
+        },
+        "HabitManager": {
+          "source": "frontend/code/components/HabitManager.tsx",
+          "compiled": "frontend/compiled/components/HabitManager.js",
+          "summary": "Add/edit habits with name, description, frequency, XP reward, color picker. List habits as cards with toggle active/inactive"
+        },
+        "AchievementsPage": {
+          "source": "frontend/code/components/AchievementsPage.tsx",
+          "compiled": "frontend/compiled/components/AchievementsPage.js",
+          "summary": "Grid of achievement badges with bronze/silver/gold/platinum tiers, lock overlay for unearned, glow for unlocked, progress bars"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User info card, level progress with big level number, stats grid, activity timeline, level milestones"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification toggles, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font, XP bar animations, achievement glow, habit card transitions, streak badge gradient, level-up pulse"
+        }
+      }
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "habits": {
+        "source": "repo/seed/habits.json",
+        "format": "json",
+        "model": "habits",
+        "source_hash": "sha256:91569c501fd62c90bd6281fe5b685723d039ff347c35efdc3664f6b2b7c2521b"
+      },
+      "achievements": {
+        "source": "repo/seed/achievements.json",
+        "format": "json",
+        "model": "achievements",
+        "source_hash": "sha256:0d77d0724891ef327f15b03a7ea987f0c974bc8625c04fa3bf9a6a72c55611bb"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-habits",
+        "name": "habits",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Habit name, e.g. Exercise, Read, Meditate"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Optional description of the habit",
+            "isNullable": true
+          },
+          {
+            "name": "frequency",
+            "type": "text",
+            "summary": "Habit frequency: daily or weekly"
+          },
+          {
+            "name": "xp_reward",
+            "type": "integer",
+            "summary": "XP points earned per completion",
+            "defaultValue": 10
+          },
+          {
+            "name": "icon",
+            "type": "text",
+            "summary": "Icon name for the habit",
+            "isNullable": true
+          },
+          {
+            "name": "is_active",
+            "type": "integer",
+            "summary": "Whether the habit is active (1) or inactive (0)",
+            "defaultValue": 1
+          },
+          {
+            "name": "color",
+            "type": "text",
+            "summary": "Color tag for the habit card",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_habits_frequency",
+            "columns": [
+              "frequency"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_habits_is_active",
+            "columns": [
+              "is_active"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      },
+      {
+        "uuid": "model-habit-logs",
+        "name": "habit_logs",
+        "columns": [
+          {
+            "name": "habit_id",
+            "type": "integer",
+            "summary": "Foreign key reference to habits model ID"
+          },
+          {
+            "name": "completed_at",
+            "type": "text",
+            "summary": "ISO 8601 datetime when habit was completed"
+          },
+          {
+            "name": "xp_earned",
+            "type": "integer",
+            "summary": "XP points earned for this completion"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_habit_logs_habit_id",
+            "columns": [
+              "habit_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_habit_logs_completed_at",
+            "columns": [
+              "completed_at"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      },
+      {
+        "uuid": "model-achievements",
+        "name": "achievements",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Achievement name, e.g. First Step, Week Warrior"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Description of how to earn this achievement"
+          },
+          {
+            "name": "icon",
+            "type": "text",
+            "summary": "Icon name for the achievement badge"
+          },
+          {
+            "name": "xp_required",
+            "type": "integer",
+            "summary": "Total XP needed to unlock this achievement"
+          },
+          {
+            "name": "badge_type",
+            "type": "text",
+            "summary": "Badge tier: bronze, silver, gold, or platinum"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_achievements_badge_type",
+            "columns": [
+              "badge_type"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_achievements_xp_required",
+            "columns": [
+              "xp_required"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-user-achievements",
+        "name": "user_achievements",
+        "columns": [
+          {
+            "name": "achievement_id",
+            "type": "integer",
+            "summary": "Foreign key reference to achievements model ID"
+          },
+          {
+            "name": "unlocked_at",
+            "type": "text",
+            "summary": "ISO 8601 datetime when achievement was unlocked"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_user_achievements_achievement_id",
+            "columns": [
+              "achievement_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      }
+    ],
+    "handlers": []
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e1033",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#1e1033",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#ede9fe",
+        "accent-foreground": "#1e1033",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#7c3aed"
+      },
+      "dark": {
+        "background": "#1e1033",
+        "foreground": "#f5f3ff",
+        "primary": "#a78bfa",
+        "primary-foreground": "#1e1033",
+        "secondary": "#2e1065",
+        "secondary-foreground": "#f5f3ff",
+        "muted": "#2e1065",
+        "muted-foreground": "#c4b5fd",
+        "accent": "#2e1065",
+        "accent-foreground": "#f5f3ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#3b0764",
+        "input": "#3b0764",
+        "ring": "#a78bfa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "totalXp": {
+          "$persist": true,
+          "initial": 0
+        },
+        "currentStreak": {
+          "$persist": true,
+          "initial": 0
+        },
+        "level": {
+          "$persist": true,
+          "initial": 1
+        }
+      }
+    },
+    "header": [
+      {
+        "uuid": "header-1",
+        "componentType": "CodeComponentProps",
+        "component": "QuestHeader"
+      }
+    ],
+    "sidebar": [
+      {
+        "uuid": "sidebar-1",
+        "componentType": "CodeComponentProps",
+        "component": "QuestSidebar"
+      }
+    ],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-dashboard",
+        "pageType": "WebPageProps",
+        "title": "Dashboard",
+        "slug": "/",
+        "summary": "Today's quests with checkboxes, XP rewards, stats row, weekly heatmap, and XP progress bar",
+        "content": [
+          {
+            "uuid": "c-dashboard",
+            "componentType": "CodeComponentProps",
+            "component": "QuestDashboard"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-habits",
+        "pageType": "WebPageProps",
+        "title": "My Habits",
+        "slug": "/habits",
+        "summary": "Habit manager with add/edit form, frequency, XP reward, color picker, and habit card list",
+        "content": [
+          {
+            "uuid": "c-habits",
+            "componentType": "CodeComponentProps",
+            "component": "HabitManager"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-achievements",
+        "pageType": "WebPageProps",
+        "title": "Achievements",
+        "slug": "/achievements",
+        "summary": "Achievement badges grid with bronze/silver/gold/platinum tiers, lock overlay, and progress bars",
+        "content": [
+          {
+            "uuid": "c-achievements",
+            "componentType": "CodeComponentProps",
+            "component": "AchievementsPage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with level progress, stats grid, activity timeline, and milestones",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  }
+}

@@ -1,0 +1,32 @@
+# Routes reports that must NOT become public issues. Blank issues are disabled
+# so every report lands in a template or one of the links below — SECURITY.md
+# and CONTRIBUTING.md both promise a private channel for vulnerabilities, and
+# the blank-issue escape hatch was the way around it.
+#
+# The advisory link only works once private vulnerability reporting is enabled
+# (Settings → Code security → Private vulnerability reporting; see RELEASING.md
+# "One-time repo setup"). With it off that URL 404s for the outside reporter it
+# targets, so the email route below is always listed as a working fallback.
+blank_issues_enabled: false
+
+contact_links:
+  - name: Report a security vulnerability (private advisory)
+    url: https://github.com/Exepad/exepad-app-builder/security/advisories/new
+    about: >-
+      Never open a public issue for a security report. Open a private GitHub
+      security advisory here. If this page 404s, use the email route below
+      instead. See SECURITY.md for what is in and out of scope.
+
+  - name: Report a security vulnerability (email)
+    url: mailto:info@exepad.com
+    about: >-
+      The private channel that always works: email info@exepad.com with the
+      affected version/commit, environment, steps or a proof-of-concept, and
+      the impact you observed. Use this if the advisory form above is
+      unavailable.
+
+  - name: Install help & troubleshooting
+    url: https://github.com/Exepad/exepad-app-builder/blob/main/docs/install/README.md
+    about: >-
+      Install methods, HTTPS, updates, backup, and a troubleshooting section —
+      check here before filing a bug.

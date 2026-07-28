@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Enterprise",
+    "color": "#4f46e5",
+    "entity_type": "company",
+    "entity_id": 1
+  },
+  {
+    "name": "Enterprise",
+    "color": "#4f46e5",
+    "entity_type": "company",
+    "entity_id": 2
+  },
+  {
+    "name": "Enterprise",
+    "color": "#4f46e5",
+    "entity_type": "company",
+    "entity_id": 6
+  },
+  {
+    "name": "Startup",
+    "color": "#f59e0b",
+    "entity_type": "company",
+    "entity_id": 7
+  },
+  {
+    "name": "High Value",
+    "color": "#10b981",
+    "entity_type": "deal",
+    "entity_id": 3
+  },
+  {
+    "name": "High Value",
+    "color": "#10b981",
+    "entity_type": "deal",
+    "entity_id": 9
+  },
+  {
+    "name": "VIP",
+    "color": "#ec4899",
+    "entity_type": "contact",
+    "entity_id": 1
+  },
+  {
+    "name": "VIP",
+    "color": "#ec4899",
+    "entity_type": "contact",
+    "entity_id": 6
+  },
+  {
+    "name": "At Risk",
+    "color": "#ef4444",
+    "entity_type": "contact",
+    "entity_id": 11
+  },
+  {
+    "name": "New Lead",
+    "color": "#3b82f6",
+    "entity_type": "contact",
+    "entity_id": 12
+  }
+]

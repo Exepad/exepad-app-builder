@@ -1,0 +1,104 @@
+/* ==========================================================================
+   HabitQuest — Code Focus Theme
+   Gamified habit tracker: XP bars, achievement glow, streak badges for Shadow DOM
+   ========================================================================== */
+
+:host {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.xp-bar {
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.xp-bar-fill {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa, #c4b5fd);
+  animation: xp-shimmer 2s infinite;
+}
+
+@keyframes xp-shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.achievement-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.achievement-card:hover {
+  transform: translateY(-2px);
+}
+
+.achievement-unlocked {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.achievement-locked {
+  opacity: 0.5;
+  filter: grayscale(0.6);
+}
+
+.streak-badge {
+  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+}
+
+.habit-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.habit-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.quest-check {
+  transition: all 0.2s ease;
+}
+
+.quest-check.completed {
+  background: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+}
+
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.nav-item {
+  transition: all 0.15s ease;
+}
+
+.heatmap-cell {
+  transition: opacity 0.2s ease;
+  border-radius: 3px;
+}
+
+@keyframes level-up-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.level-up {
+  animation: level-up-pulse 0.6s ease;
+}
+
+.badge-bronze { color: #92400e; background-color: #fef3c7; }
+.badge-silver { color: #374151; background-color: #f3f4f6; }
+.badge-gold { color: #92400e; background-color: #fef08a; }
+.badge-platinum { color: #581c87; background-color: #ede9fe; }

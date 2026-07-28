@@ -1,0 +1,520 @@
+<section class="hero" id="top">
+<div aria-hidden="true" class="corner-meta">
+<span>00 / Index</span><span class="bar"></span><span>Brooklyn · London</span>
+</div>
+<div aria-hidden="true" class="sig-wrap">
+<canvas id="sigCanvas"></canvas>
+</div>
+<div class="wrap">
+<div class="hero-grid grid12">
+<div class="hero-meta">
+<div class="k">
+<div><span class="label">Studio</span><span class="v">est. 2023</span></div>
+<div><span class="label">Discipline</span><span class="v">Agentic systems</span></div>
+<div><span class="label">Mode</span><span class="v">Build · ship · operate</span></div>
+</div>
+<div aria-hidden="true" class="signature">N 51°30' / W 0°07'</div>
+</div>
+<h1 aria-label="We build the AI systems that other firms only demo." class="hero-h">
+<span class="word"><span style="animation-delay:.05s">We build</span></span>
+<span class="word"><span style="animation-delay:.12s">the AI</span></span>
+<span class="word"><span style="animation-delay:.19s">systems</span></span>
+<br/>
+<span class="word"><span class="em" style="animation-delay:.26s; ">that other</span></span>
+<span class="word"><span class="em" style="animation-delay:.33s">firms</span></span>
+<span class="word"><span class="em" style="animation-delay:.40s">only</span></span>
+<span class="word"><span style="animation-delay:.47s">demo<span class="ac">.</span></span></span>
+</h1>
+<div class="hero-sub">
+<div class="signature">engineered intelligence.</div>
+<div class="label">01 / Hero</div>
+</div>
+<div class="hero-deck">
+<p class="hero-lede">
+          Onix Studio designs and ships agentic systems for companies that have already burned a quarter on a chatbot pilot that went nowhere. <strong>Production deployments. Measured outputs. On-call rotations.</strong> The opposite of the demo economy.
+        </p>
+<div class="hero-cta-row">
+<a class="cta" href="#contact" id="magnetCta">
+<span class="label-cta">Tell us what's broken</span>
+<svg class="arr" fill="none" stroke="currentColor" stroke-width="1.4" viewbox="0 0 14 14"><path d="M2 12 L12 2 M5 2 L12 2 L12 9"></path></svg>
+</a>
+<span class="cta-aux">avg. response · 11 hrs</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="sec" id="work">
+<div class="wrap">
+<div class="sec-head reveal">
+<div>
+<div class="label" style="margin-bottom:14px">02 / Selected work</div>
+<h2 class="sec-title">Things we built that <em>are still running.</em></h2>
+</div>
+<div class="sec-meta">
+<div><b>14</b> systems shipped</div>
+<div><b>9</b> on-call rotations active</div>
+</div>
+</div>
+<div class="work-list">
+<a aria-label="Case 01 — Logistics carrier" class="work reveal" href="#case-01">
+<span class="w-num">01 / 04</span>
+<div class="w-client">
+          North-American freight carrier
+          <span class="vert">Logistics · 12,000 trucks</span>
+</div>
+<div class="w-prob">A claims team buried under 2,400 weekly PDFs. The bot they tried got 38% accuracy and was quietly turned off.</div>
+<div class="w-out">
+<span class="v"><span class="ac">−</span><span class="ticker-num">71%</span></span>
+<span class="l">Time to settle</span>
+</div>
+<span aria-hidden="true" class="w-go">↗</span>
+<div class="w-reveal">
+          Multi-agent intake with adjudication grading every step. We rebuilt their eval harness before we wrote a single agent. 14 weeks from kickoff to production. Currently handling 11k claims/mo at 96.4% straight-through.
+          <div class="stack">
+<span class="chip">Tool-use</span><span class="chip">RAG</span><span class="chip">Eval harness</span><span class="chip">Postgres + pgvector</span><span class="chip">Temporal</span>
+</div>
+</div>
+</a>
+<a aria-label="Case 02 — Series C fintech" class="work reveal" href="#case-02">
+<span class="w-num">02 / 04</span>
+<div class="w-client">
+          Series C consumer fintech
+          <span class="vert">Fintech · 8M users</span>
+</div>
+<div class="w-prob">Tier-1 support drowning in identity verification edge cases. Macros couldn't keep up; agents were copying answers across five tabs.</div>
+<div class="w-out">
+<span class="v"><span class="ticker-num">$4.1M</span></span>
+<span class="l">Annual run-rate saved</span>
+</div>
+<span aria-hidden="true" class="w-go">↗</span>
+<div class="w-reveal">
+          A grounded agent layered onto their existing case-management graph. Hard refusals where regulation requires a human; soft handoffs where confidence drops below threshold. SOC 2-clean from day one.
+          <div class="stack">
+<span class="chip">Policy graph</span><span class="chip">Confidence routing</span><span class="chip">SOC 2</span><span class="chip">OpenTelemetry</span>
+</div>
+</div>
+</a>
+<a aria-label="Case 03 — Pharma research" class="work reveal" href="#case-03">
+<span class="w-num">03 / 04</span>
+<div class="w-client">
+          Top-10 pharma · research division
+          <span class="vert">Life sciences · regulated</span>
+</div>
+<div class="w-prob">A literature-review pipeline that took analysts 6–8 weeks per indication. Internal tools were essentially keyword search with extra steps.</div>
+<div class="w-out">
+<span class="v"><span class="ticker-num">9.1×</span></span>
+<span class="l">Throughput, same headcount</span>
+</div>
+<span aria-hidden="true" class="w-go">↗</span>
+<div class="w-reveal">
+          Agent that reads, cites, and self-grades. Every claim traceable to source paragraph; every refusal logged. Deployed inside their VPC; nothing leaves the perimeter. 19 indications processed in the first quarter.
+          <div class="stack">
+<span class="chip">VPC-only</span><span class="chip">Citation graph</span><span class="chip">Self-grading</span><span class="chip">PDF + DOI parser</span>
+</div>
+</div>
+</a>
+<a aria-label="Case 04 — Industrial OEM" class="work reveal" href="#case-04">
+<span class="w-num">04 / 04</span>
+<div class="w-client">
+          Industrial OEM · field service
+          <span class="vert">Manufacturing · 60 countries</span>
+</div>
+<div class="w-prob">26 years of service tickets in 9 languages. Field techs were rediscovering the same fix three times a month.</div>
+<div class="w-out">
+<span class="v"><span class="ac">+</span><span class="ticker-num">23 pts</span></span>
+<span class="l">First-time fix rate</span>
+</div>
+<span aria-hidden="true" class="w-go">↗</span>
+<div class="w-reveal">
+          Retrieval over a messy ticket corpus that nobody wanted to touch. We did the boring part — schema unification, language normalization, dedup — before any model saw a token. Models came last.
+          <div class="stack">
+<span class="chip">Ingest pipeline</span><span class="chip">9-language norm.</span><span class="chip">Hybrid retrieval</span><span class="chip">Offline eval</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+</section>
+
+<section class="sec" id="capabilities">
+<div class="wrap">
+<div class="sec-head reveal">
+<div>
+<div class="label" style="margin-bottom:14px">03 / Capabilities</div>
+<h2 class="sec-title">Four practices. <em>No "AI consulting."</em></h2>
+</div>
+<div class="sec-meta">
+<div>practice areas, <b>not</b> packages</div>
+<div>scoped per engagement</div>
+</div>
+</div>
+<div class="cap-grid reveal">
+<div class="cap">
+<span class="n">A / 01</span>
+<div>
+<h3>Agentic systems</h3>
+<p>Multi-step agents with real tool surfaces, real refusals, and a memory model that doesn't pretend transcripts are state. Built around the work the human used to do, not around a vendor's framework.</p>
+<ul>
+<li>Planning &amp; routing</li><li>Tool-use design</li><li>Long-horizon memory</li><li>Hand-off protocols</li>
+</ul>
+</div>
+</div>
+<div class="cap">
+<span class="n">A / 02</span>
+<div>
+<h3>Applied ML</h3>
+<p>When a model has to be small, fast, fine-tuned, or yours. Embeddings, classifiers, rerankers, and the unfashionable supervised work that turns a prototype into something a CFO will sign off on.</p>
+<ul>
+<li>Fine-tuning</li><li>Distillation</li><li>Retrieval &amp; reranking</li><li>Synthetic data</li>
+</ul>
+</div>
+</div>
+<div class="cap">
+<span class="n">A / 03</span>
+<div>
+<h3>Evaluation &amp; observability</h3>
+<p>The work most teams skip. We build the eval harness before the agent and keep it green after launch. Traces, regression suites, drift alarms, and a dashboard your VP can read in under a minute.</p>
+<ul>
+<li>Offline eval</li><li>Online traces</li><li>Regression gates</li><li>Drift detection</li>
+</ul>
+</div>
+</div>
+<div class="cap">
+<span class="n">A / 04</span>
+<div>
+<h3>Platform integration</h3>
+<p>Identity, audit, queues, retries, secrets, and the seventeen internal services your security team will rightly ask about. Deploys into your VPC. Plays nicely with the auth you already have.</p>
+<ul>
+<li>VPC deployment</li><li>SSO &amp; audit</li><li>Event &amp; queue plumbing</li><li>SOC 2 readiness</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="sec approach" id="approach">
+<div class="wrap">
+<div class="sec-head reveal">
+<div>
+<div class="label" style="margin-bottom:14px">04 / Approach</div>
+<h2 class="sec-title">Five things we will <em>not stop saying.</em></h2>
+</div>
+<div class="sec-meta">
+<div>signed by all partners</div>
+<div>updated <b>2026.03</b></div>
+</div>
+</div>
+<div class="manifesto reveal">
+<div class="tenet">
+<span class="num-l">01 —</span>
+<h4>We don't ship demos. <em>We ship systems with on-call rotations.</em></h4>
+<p>If nobody is paged when it breaks, it isn't in production. Every engagement ships with a runbook, an SLO, and a name on the rotation — usually one of ours, for at least 90 days.</p>
+</div>
+<div class="tenet">
+<span class="num-l">02 —</span>
+<h4>The eval harness is the product. <em>The model is just the implementation.</em></h4>
+<p>We write the test set before we write the agent. If you can't measure it, we won't build it. If your team can't run the evals without us, we haven't finished.</p>
+</div>
+<div class="tenet">
+<span class="num-l">03 —</span>
+<h4>Most of the work is <em>not</em> the model.</h4>
+<p>It's schema design, retrieval that earns its keep, queue topology, refusal policy, and the fifteen tedious integrations between your CRM and the thing your CEO saw on stage. We do that part on purpose.</p>
+</div>
+<div class="tenet">
+<span class="num-l">04 —</span>
+<h4>If the answer is a chatbot, <em>we'll tell you.</em></h4>
+<p>Sometimes it's a worker, a webhook, an internal tool, or a much smaller model in a much quieter place. We pick the boring solution when the boring solution wins, which is most of the time.</p>
+</div>
+<div class="tenet">
+<span class="num-l">05 —</span>
+<h4>We leave less behind <em>than the people before us.</em></h4>
+<p>Two repos. One pipeline. A test suite your team owns. Documentation a new hire can read on a Tuesday. The opposite of a 60-page Notion site that nobody opens after the kickoff.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="sec" id="team">
+<div class="wrap">
+<div class="sec-head reveal">
+<div>
+<div class="label" style="margin-bottom:14px">05 / Team</div>
+<h2 class="sec-title">Six people. <em>No headshots.</em></h2>
+</div>
+<div class="sec-meta">
+<div>partner-led engagements</div>
+<div>no offshoring · no juniors on calls</div>
+</div>
+</div>
+<div class="team-grid reveal">
+<div class="person">
+<span class="role">Founding partner · ML</span>
+<span class="name">Maya Chen</span>
+<span class="bio">Ran ranking infra at a search company you've heard of. Believes evals are the only honest writing in the field.</span>
+<span class="prev">prev. Stripe · Anthropic (research eng.)</span>
+</div>
+<div class="person">
+<span class="role">Founding partner · Systems</span>
+<span class="name">Jonas Albrecht</span>
+<span class="bio">Built distributed pipelines for a decade before agents were fashionable. Skeptical of frameworks; fond of Postgres.</span>
+<span class="prev">prev. Datadog · Recurly</span>
+</div>
+<div class="person">
+<span class="role">Partner · Strategy</span>
+<span class="name">Adaeze Okafor</span>
+<span class="bio">Translates between the C-suite and the on-call rotation. Has killed more bad pilots than she's launched, on purpose.</span>
+<span class="prev">prev. McKinsey Digital · Mode</span>
+</div>
+<div class="person">
+<span class="role">Principal · Eval &amp; safety</span>
+<span class="name">Henrik Sørensen</span>
+<span class="bio">Wrote internal red-team tooling at two labs. Has strong, tedious opinions about benchmark contamination.</span>
+<span class="prev">prev. DeepMind · Cohere</span>
+</div>
+<div class="person">
+<span class="role">Principal · Applied ML</span>
+<span class="name">Priya Ranganathan</span>
+<span class="bio">Spent five years making small models do impressive work in regulated places. Quiet, until the latency budget comes up.</span>
+<span class="prev">prev. Hugging Face · Pfizer</span>
+</div>
+<div class="person">
+<span class="role">Principal · Platform</span>
+<span class="name">Tomás Reyes</span>
+<span class="bio">Has shipped to a VPC at 02:00 on a Sunday. Handles the seventeen security questionnaires so you don't have to.</span>
+<span class="prev">prev. HashiCorp · Snowflake</span>
+</div>
+</div>
+</div>
+</section>
+
+<section class="sec" id="contact">
+<div class="wrap">
+<div class="sec-head reveal">
+<div>
+<div class="label" style="margin-bottom:14px">06 / Contact</div>
+<h2 class="sec-title">Start a project.</h2>
+</div>
+<div class="sec-meta">
+<div>2 slots · Q3 2026</div>
+<div>responses, not auto-replies</div>
+</div>
+</div>
+<div class="contact-wrap reveal">
+<div class="contact-copy">
+<h2>Tell us <em>what's broken,</em><br/>and what success looks like.</h2>
+<p>We read every brief. If it isn't a fit, we'll point you at someone who will do it well — usually with a name attached. No pipelines, no SDR sequences, no auto-replies.</p>
+<div class="meta">
+<div><span class="k">Direct</span><span class="v">studio@onix.studio</span></div>
+<div><span class="k">PGP</span><span class="v">0xA47C 1F02 88B3 …</span></div>
+<div><span class="k">Studios</span><span class="v">Brooklyn · London</span></div>
+<div><span class="k">Hours</span><span class="v">Mon–Thu · 09:00–19:00 EST</span></div>
+</div>
+</div>
+<form class="brief" id="briefForm" novalidate="">
+<div class="field">
+<label for="f-name">Name</label>
+<input autocomplete="name" id="f-name" name="name" placeholder="Who's writing this?" required="" type="text"/>
+</div>
+<div class="field">
+<label for="f-co">Company</label>
+<input autocomplete="organization" id="f-co" name="company" placeholder="Where you work" required="" type="text"/>
+</div>
+<div class="field">
+<label for="f-email">Email</label>
+<input autocomplete="email" id="f-email" name="email" placeholder="A real one we can reply to" required="" type="email"/>
+</div>
+<div class="field">
+<label for="f-broken">What's broken</label>
+<textarea id="f-broken" name="broken" placeholder="The pilot that didn't ship. The eval that nobody wrote. The agent that hallucinates on Tuesdays. The honest version is fine." required=""></textarea>
+</div>
+<div class="form-foot">
+<span class="note">PGP &amp; NDA on request · we sign first.</span>
+<button class="submit" type="submit">
+<span>Send the brief</span>
+<svg class="arr" fill="none" stroke="currentColor" stroke-width="1.4" viewbox="0 0 14 14"><path d="M2 12 L12 2 M5 2 L12 2 L12 9"></path></svg>
+</button>
+</div>
+</form>
+</div>
+</div>
+</section>
+
+
+
+<script>
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ------- Nav scroll state ------- */
+  const nav = document.getElementById('nav');
+  const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ------- Reveal observer ------- */
+  const io = new IntersectionObserver((ents) => {
+    ents.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ------- Magnetic CTA ------- */
+  const cta = document.getElementById('magnetCta');
+  if(cta && !reduced){
+    const STR = 0.28;
+    cta.addEventListener('mousemove', (e) => {
+      const r = cta.getBoundingClientRect();
+      const x = e.clientX - (r.left + r.width/2);
+      const y = e.clientY - (r.top + r.height/2);
+      cta.style.transform = `translate(${x*STR}px, ${y*STR}px)`;
+    });
+    cta.addEventListener('mouseleave', () => { cta.style.transform = ''; });
+  }
+
+  /* ------- Form ------- */
+  const form = document.getElementById('briefForm');
+  if(form){
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = (data.get('name')||'').toString().trim();
+      const success = document.createElement('div');
+      success.className = 'form-success';
+      success.innerHTML =
+        '<div class="ok">// brief received</div>'+
+        'Thanks'+(name? ', '+name.split(' ')[0] : '')+'. A partner — not an SDR — will read this within 24 hours and reply with either a scoping call or a referral. <br/>If it has been longer, write directly to <b>studio@onix.studio</b>.';
+      form.replaceWith(success);
+    });
+  }
+
+  /* ------- Smooth anchor scroll ------- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if(id.length > 1){
+        const el = document.querySelector(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' }); }
+      }
+    });
+  });
+
+  /* ------- Hero signature canvas: obsidian refraction field ------- */
+  // Generative: layered radial bands + cursor-driven distortion.
+  // Renders in 2D canvas. Graceful: if anything fails, the section is empty (mask hides).
+  (function sig(){
+    const canvas = document.getElementById('sigCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha:true });
+    if(!ctx) return;
+
+    let W=0, H=0, DPR = Math.min(window.devicePixelRatio||1, 2);
+    const mouse = { x: 0.6, y: 0.4, tx: 0.6, ty: 0.4 };
+    let raf=0, t=0, running=true;
+
+    function resize(){
+      const r = canvas.getBoundingClientRect();
+      W = Math.max(1, r.width); H = Math.max(1, r.height);
+      canvas.width = Math.floor(W*DPR); canvas.height = Math.floor(H*DPR);
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.tx = e.clientX / window.innerWidth;
+      mouse.ty = e.clientY / window.innerHeight;
+    }, {passive:true});
+
+    // Pre-baked radial sources
+    const SRC = 6;
+    const sources = Array.from({length: SRC}, (_,i) => ({
+      x: 0.3 + 0.5*Math.random(),
+      y: 0.2 + 0.6*Math.random(),
+      r: 0.18 + 0.22*Math.random(),
+      sp: 0.0006 + Math.random()*0.0010,
+      ph: Math.random()*Math.PI*2,
+    }));
+
+    function frame(){
+      t += 1;
+      mouse.x += (mouse.tx - mouse.x)*0.06;
+      mouse.y += (mouse.ty - mouse.y)*0.06;
+
+      ctx.clearRect(0,0,W,H);
+
+      // Base obsidian wash
+      const g0 = ctx.createLinearGradient(0,0, W, H);
+      g0.addColorStop(0, 'rgba(14,14,18,0.0)');
+      g0.addColorStop(1, 'rgba(14,14,18,0.0)');
+      ctx.fillStyle = g0; ctx.fillRect(0,0,W,H);
+
+      // Concentric refraction rings around mouse
+      const cx = mouse.x*W, cy = mouse.y*H;
+      const rings = 22;
+      for(let i=0; i<rings; i++){
+        const k = i/rings;
+        const rad = (40 + i*36) * (1 + 0.04*Math.sin(t*0.012 + i*0.4));
+        ctx.beginPath();
+        ctx.arc(cx, cy, rad, 0, Math.PI*2);
+        const a = (1-k)*0.10 * (0.4 + 0.6*Math.sin(t*0.01 + i*0.7)*0.5 + 0.5);
+        // Mix between ink-2 grey and accent for inner rings
+        const accent = i < 6 ? `rgba(77,163,255,${a*0.55})` : `rgba(184,184,189,${a*0.18})`;
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = i < 4 ? 1.2 : 0.6;
+        ctx.stroke();
+      }
+
+      // Soft accent core
+      const core = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W,H)*0.45);
+      core.addColorStop(0, 'rgba(77,163,255,0.22)');
+      core.addColorStop(0.25,'rgba(77,163,255,0.06)');
+      core.addColorStop(1, 'rgba(77,163,255,0.00)');
+      ctx.fillStyle = core;
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillRect(0,0,W,H);
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Drifting hairline arcs (the "obsidian" shards)
+      ctx.lineWidth = 0.6;
+      sources.forEach((s, i) => {
+        const px = s.x*W + Math.cos(t*s.sp + s.ph)*30;
+        const py = s.y*H + Math.sin(t*s.sp*0.8 + s.ph)*22;
+        const rr = s.r*Math.min(W,H);
+        for(let j=0;j<5;j++){
+          ctx.beginPath();
+          ctx.arc(px, py, rr + j*8, t*0.0015 + j*0.6, t*0.0015 + j*0.6 + 1.2 + 0.2*Math.sin(t*0.005 + j));
+          ctx.strokeStyle = `rgba(184,184,189,${0.10 - j*0.018})`;
+          ctx.stroke();
+        }
+      });
+
+      // Vertical hairlines (editorial grid feel)
+      ctx.strokeStyle = 'rgba(184,184,189,0.05)';
+      ctx.lineWidth = 1;
+      for(let i=1;i<6;i++){
+        const x = (i/6)*W;
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+      }
+
+      if(running) raf = requestAnimationFrame(frame);
+    }
+
+    if(reduced){
+      // Static frame
+      frame(); cancelAnimationFrame(raf); running=false;
+    } else {
+      raf = requestAnimationFrame(frame);
+    }
+
+    // Pause when offscreen
+    const vis = new IntersectionObserver((ents) => {
+      ents.forEach(e => {
+        if(e.isIntersecting && !running && !reduced){ running=true; raf = requestAnimationFrame(frame); }
+        else if(!e.isIntersecting && running){ running=false; cancelAnimationFrame(raf); }
+      });
+    }, { threshold: 0.01 });
+    vis.observe(canvas);
+  })();
+})();
+</script>

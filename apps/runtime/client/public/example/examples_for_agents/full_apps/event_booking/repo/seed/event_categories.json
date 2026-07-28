@@ -1,0 +1,8 @@
+[
+  { "name": "Music", "slug": "music", "icon": null, "description": "Concerts, festivals, and live music performances" },
+  { "name": "Tech", "slug": "tech", "icon": null, "description": "Technology conferences, hackathons, and meetups" },
+  { "name": "Food & Drink", "slug": "food", "icon": null, "description": "Food festivals, wine tastings, and culinary events" },
+  { "name": "Sports", "slug": "sports", "icon": null, "description": "Sporting events, tournaments, and fitness activities" },
+  { "name": "Arts & Culture", "slug": "arts", "icon": null, "description": "Art exhibitions, theater performances, and cultural events" },
+  { "name": "Business", "slug": "business", "icon": null, "description": "Networking events, seminars, and professional workshops" }
+]

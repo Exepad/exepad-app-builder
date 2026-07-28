@@ -1,0 +1,201 @@
+{
+  "uuid": "company-website",
+  "alias": "company-website",
+  "name": "NovaTech Solutions",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "version": "1.0.0",
+  "summary": "Corporate technology company website with services showcase, team profiles, and contact page",
+  "shortSummary": "Corporate tech company website",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "WebsiteHeader": {
+          "source": "frontend/code/components/WebsiteHeader.tsx",
+          "compiled": "frontend/compiled/components/WebsiteHeader.js",
+          "summary": "Sticky header with NovaTech logo (Zap icon), nav links (Home, About, Services, Contact), Get Started CTA, dark mode toggle, mobile hamburger menu"
+        },
+        "WebsiteFooter": {
+          "source": "frontend/code/components/WebsiteFooter.tsx",
+          "compiled": "frontend/compiled/components/WebsiteFooter.js",
+          "summary": "4-column footer with company info and social icons, Quick Links, Services list, Contact info with newsletter signup, copyright bar"
+        },
+        "HomePage": {
+          "source": "frontend/code/components/HomePage.tsx",
+          "compiled": "frontend/compiled/components/HomePage.js",
+          "summary": "Hero with gradient background and dual CTAs, 3 feature cards (AI, Cybersecurity, Cloud), stats bar (500+ projects, 50+ team, 99.9% uptime, 200+ clients), testimonials section, bottom CTA"
+        },
+        "AboutPage": {
+          "source": "frontend/code/components/AboutPage.tsx",
+          "compiled": "frontend/compiled/components/AboutPage.js",
+          "summary": "Mission statement, 6-member leadership team grid with avatar placeholders, 4 core value cards with icons, company timeline with 4 milestones (2018-2024)"
+        },
+        "ServicesPage": {
+          "source": "frontend/code/components/ServicesPage.tsx",
+          "compiled": "frontend/compiled/components/ServicesPage.js",
+          "summary": "6 service cards (AI/ML, Cloud, Cybersecurity, Custom Software, Data Analytics, DevOps) with icons and feature lists, 3-tier pricing comparison (Starter, Professional, Enterprise)"
+        },
+        "ContactPage": {
+          "source": "frontend/code/components/ContactPage.tsx",
+          "compiled": "frontend/compiled/components/ContactPage.js",
+          "summary": "Contact info cards (email, phone, location), split layout with contact form (name, email, subject, message) and office info with map placeholder, social links, FAQ CTA"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font family, service card hover transitions, grid background pattern for hero sections"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    }
+  },
+  "backend": {
+    "mode": "none"
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "headerScrollBehavior": "fixed",
+    "transitions": {
+      "enabled": true,
+      "type": "fade",
+      "timing": "normal"
+    },
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f8fafc",
+        "muted-foreground": "#64748b",
+        "accent": "#dbeafe",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb",
+        "card": "#ffffff",
+        "card-foreground": "#0f172a",
+        "popover": "#ffffff",
+        "popover-foreground": "#0f172a"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#3b82f6",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e3a5f",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#334155",
+        "input": "#334155",
+        "ring": "#3b82f6",
+        "card": "#0f172a",
+        "card-foreground": "#f8fafc",
+        "popover": "#0f172a",
+        "popover-foreground": "#f8fafc"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {}
+    },
+    "header": [
+      {
+        "uuid": "hdr-1",
+        "componentType": "CodeComponentProps",
+        "component": "WebsiteHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [
+      {
+        "uuid": "ftr-1",
+        "componentType": "CodeComponentProps",
+        "component": "WebsiteFooter"
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Landing page with hero section, feature highlights, stats, testimonials, and call-to-action",
+        "content": [
+          {
+            "uuid": "c-home",
+            "componentType": "CodeComponentProps",
+            "component": "HomePage"
+          }
+        ]
+      },
+      {
+        "uuid": "p-about",
+        "pageType": "WebPageProps",
+        "title": "About",
+        "slug": "/about",
+        "summary": "About page with mission statement, leadership team, core values, and company timeline",
+        "content": [
+          {
+            "uuid": "c-about",
+            "componentType": "CodeComponentProps",
+            "component": "AboutPage"
+          }
+        ]
+      },
+      {
+        "uuid": "p-services",
+        "pageType": "WebPageProps",
+        "title": "Services",
+        "slug": "/services",
+        "summary": "Services page with 6 service cards, feature lists, and 3-tier pricing comparison",
+        "content": [
+          {
+            "uuid": "c-services",
+            "componentType": "CodeComponentProps",
+            "component": "ServicesPage"
+          }
+        ]
+      },
+      {
+        "uuid": "p-contact",
+        "pageType": "WebPageProps",
+        "title": "Contact",
+        "slug": "/contact",
+        "summary": "Contact page with info cards, contact form, office details, and map placeholder",
+        "content": [
+          {
+            "uuid": "c-contact",
+            "componentType": "CodeComponentProps",
+            "component": "ContactPage"
+          }
+        ]
+      }
+    ]
+  }
+}

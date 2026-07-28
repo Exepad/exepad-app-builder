@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-otp-verification",
+  "alias": "codecomponent-otp-verification",
+  "name": "OTP Verification Screen",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "OTP/PIN verification screen CodeComponent with InputOTP (6 digits split into 2 groups of 3 with separator), countdown timer with resend button, animated state transitions using Motion namespace (idle, verifying, success, error), Alert for status feedback, and useAppState/useHandler for state management. No backend required.",
+  "shortSummary": "OTP verification with InputOTP, Motion animations, countdown timer, and status alerts",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "OtpVerification": {
+        "source": "frontend/components/OtpVerification.tsx",
+        "compiled": "frontend/components/OtpVerification.js",
+        "summary": "OTP verification screen with 6-digit InputOTP, countdown resend timer, animated state transitions, and success/error alerts"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#077f9c",
+        "primary-foreground": "#ffffff",
+        "secondary": "#ecfeff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f0fdfa",
+        "muted-foreground": "#64748b",
+        "accent": "#ecfeff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0891b2"
+      },
+      "dark": {
+        "background": "#0a1214",
+        "foreground": "#f8fafc",
+        "primary": "#22d3ee",
+        "primary-foreground": "#0a1214",
+        "secondary": "#112427",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#112427",
+        "muted-foreground": "#94a3b8",
+        "accent": "#112427",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#112427",
+        "input": "#112427",
+        "ring": "#22d3ee"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-main",
+        "title": "OTP Verification",
+        "slug": "/",
+        "summary": "OTP verification page with animated input and status transitions.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-1",
+            "component": "OtpVerification",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "OTP verification with animated state transitions",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

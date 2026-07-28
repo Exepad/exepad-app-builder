@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Golden Hive | Beehive Management Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#835400",
+                        "on-primary-container": "#674100",
+                        "outline-variant": "#d7c3ae",
+                        "secondary": "#1b6d24",
+                        "on-secondary-fixed": "#002204",
+                        "surface-container-high": "#e5e8ee",
+                        "on-tertiary-fixed": "#241a00",
+                        "inverse-primary": "#ffb957",
+                        "tertiary-fixed": "#ffe087",
+                        "on-surface": "#181c20",
+                        "secondary-fixed-dim": "#88d982",
+                        "on-primary-fixed": "#2a1800",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "on-primary-fixed-variant": "#643f00",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f1f4fa",
+                        "on-secondary-fixed-variant": "#005312",
+                        "secondary-container": "#a0f399",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ebc23e",
+                        "surface-dim": "#d7dae0",
+                        "surface-tint": "#835400",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#5a4700",
+                        "primary-fixed": "#ffddb5",
+                        "inverse-surface": "#2d3135",
+                        "on-background": "#181c20",
+                        "tertiary-container": "#dcb530",
+                        "surface-variant": "#dfe3e8",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#dfe3e8",
+                        "tertiary": "#735c00",
+                        "surface": "#f7f9ff",
+                        "surface-container": "#ebeef4",
+                        "on-secondary-container": "#217128",
+                        "outline": "#857462",
+                        "on-surface-variant": "#524434",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#f9a825",
+                        "background": "#f7f9ff",
+                        "surface-bright": "#f7f9ff",
+                        "primary-fixed-dim": "#ffb957",
+                        "secondary-fixed": "#a3f69c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eef1f7"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%23ffddb5' fill-opacity='0.05' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.35 11-6.35V17.9l-11-6.35L3 17.9z'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-100 dark:border-slate-900 z-50">
+<div class="flex flex-col h-full py-8 px-4 gap-2">
+<!-- Header Identity -->
+<div class="px-4 mb-8">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-on-primary" data-icon="hive">hive</span>
+</div>
+<h1 class="font-headline font-black text-amber-700 dark:text-amber-500 text-xl tracking-tight leading-none">The Living Ledger</h1>
+</div>
+<div class="p-3 bg-secondary-container/30 rounded-lg">
+<p class="text-[10px] font-label font-bold text-on-secondary-container/60 uppercase tracking-widest mb-1">CURRENT STATUS</p>
+<p class="font-headline font-bold text-sm text-on-secondary-container">Hive Alpha Status: Thriving</p>
+</div>
+</div>
+<!-- Main Nav Items -->
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-amber-800 dark:text-amber-200 font-bold border-r-4 border-amber-600 dark:border-amber-400 bg-amber-50/50 dark:bg-amber-900/20 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-inter text-sm font-medium tracking-wide">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-inter text-sm font-medium tracking-wide">Hives</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+<span class="font-inter text-sm font-medium tracking-wide">Honey Production</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="bug_report">bug_report</span>
+<span class="font-inter text-sm font-medium tracking-wide">Pest Control</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-sm font-medium tracking-wide">Settings</span>
+</a>
+</nav>
+<!-- CTA -->
+<button class="mt-4 mx-2 bg-primary text-on-primary py-3 px-4 rounded-xl font-headline font-bold text-sm shadow-md hover:shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                Add Inspection
+            </button>
+<!-- Footer Nav -->
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span class="text-xs font-medium">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-slate-500 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+<span class="text-xs font-medium">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-40 bg-slate-50/70 dark:bg-slate-900/70 backdrop-blur-md shadow-sm dark:shadow-none border-b border-slate-200/50 dark:border-slate-800/50">
+<div class="flex justify-between items-center px-6 py-3 w-full">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search apiary logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 rounded-full text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-700 mx-2"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-on-surface leading-none">Silas Marner</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Master Apiarist</p>
+</div>
+<img alt="User profile avatar" class="w-9 h-9 rounded-full object-cover border-2 border-primary-fixed" data-alt="Close up portrait of a male beekeeper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxPNanyr18aPDwfwhOcLylA8ku2D2MY6aTLQnFKuBdEi5KqRrGHBSI_ue7Bu-6qjfH00OqsdtEAK8Rsvqbhzw3C39UF8n-PT8fV0wHHawP4EM454t52FFHZZXuDfsWb74Eo5autBarOA118DSb2rZBpA6HTx6sA0bTtmrbJRVSpK7JG31wtvlwYQxgjpebCVtH0CiwXwws1ZVfrQwQjd49WncMqjhJ6g6mOwec2rNaj4tjq0aqihDrbLkySHKEzrj-CUB-VzhkfHnQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="p-6 lg:p-10 space-y-10 hex-bg">
+<!-- Summary Bento Grid -->
+<section>
+<div class="flex items-end justify-between mb-6">
+<div>
+<h2 class="font-headline font-extrabold text-3xl text-on-surface tracking-tight">Apiary Harvest Ledger</h2>
+<p class="text-on-surface-variant font-body">Real-time vitals for 12 active colonies</p>
+</div>
+<div class="flex gap-2">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                            All Systems Optimal
+                        </span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Hive Health Status -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-container/50 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="health_and_safety">health_and_safety</span>
+</div>
+<span class="text-[10px] font-label font-bold text-secondary uppercase tracking-widest">Live Status</span>
+</div>
+<h3 class="font-headline font-bold text-on-surface-variant text-sm mb-2">Hive Health Status</h3>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-xs font-medium">Hive Alpha</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">Thriving</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs font-medium">Hive Beta</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-error/10 text-error font-bold">Alert</span>
+</div>
+</div>
+</div>
+<!-- Honey Production Progress -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container/50 rounded-lg">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="opacity">opacity</span>
+</div>
+<span class="text-[10px] font-label font-bold text-primary uppercase tracking-widest">Season Yield</span>
+</div>
+<h3 class="font-headline font-bold text-on-surface-variant text-sm mb-1">Honey Production</h3>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="text-2xl font-black text-on-surface tracking-tight">85%</span>
+<span class="text-xs text-on-surface-variant">of target</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-primary-container w-[85%] rounded-full"></div>
+</div>
+</div>
+<!-- Pest Alerts -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-tertiary-container/50 rounded-lg">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="bug_report">bug_report</span>
+</div>
+<span class="text-[10px] font-label font-bold text-tertiary uppercase tracking-widest">Biosecurity</span>
+</div>
+<h3 class="font-headline font-bold text-on-surface-variant text-sm mb-1">Active Pest Alerts</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black text-error">2</span>
+<span class="text-xs text-on-surface-variant font-medium leading-tight">Critical interventions<br/>required</span>
+</div>
+</div>
+<!-- Queen Bee Status -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-container/50 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<span class="text-[10px] font-label font-bold text-secondary uppercase tracking-widest">Regal Vitals</span>
+</div>
+<h3 class="font-headline font-bold text-on-surface-variant text-sm mb-1">Queen Bee Presence</h3>
+<div class="flex items-center gap-2 mt-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-primary-fixed flex items-center justify-center font-bold text-[10px]">A</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-secondary-fixed flex items-center justify-center font-bold text-[10px]">B</div>
+</div>
+<span class="text-sm font-bold text-secondary">Active &amp; Laying</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Insights Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Indicators & Chart -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Indicators Grid -->
+<div>
+<h3 class="font-headline font-bold text-on-surface text-lg mb-6 flex items-center gap-2">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+                            Hive Alpha Health Indicators
+                        </h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/30 transition-all">
+<p class="text-[10px] font-label font-bold text-on-surface-variant uppercase mb-2">Temp</p>
+<p class="text-xl font-black text-on-surface">35.2°C</p>
+<p class="text-[10px] text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="trending_up">trending_up</span>
+                                    Optimal
+                                </p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/30 transition-all">
+<p class="text-[10px] font-label font-bold text-on-surface-variant uppercase mb-2">Humidity</p>
+<p class="text-xl font-black text-on-surface">62%</p>
+<p class="text-[10px] text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="check_circle">check_circle</span>
+                                    Stable
+                                </p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/30 transition-all">
+<p class="text-[10px] font-label font-bold text-on-surface-variant uppercase mb-2">Activity</p>
+<p class="text-xl font-black text-on-surface">High</p>
+<p class="text-[10px] text-tertiary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="bolt">bolt</span>
+                                    Intense Flow
+                                </p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/30 transition-all">
+<p class="text-[10px] font-label font-bold text-on-surface-variant uppercase mb-2">Sound</p>
+<p class="text-xl font-black text-on-surface">Steady</p>
+<p class="text-[10px] text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="volume_up">volume_up</span>
+                                    Harmless
+                                </p>
+</div>
+</div>
+</div>
+<!-- Honey Production Chart (Simulated with SVG for modern aesthetic) -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline font-bold text-on-surface">Honey Production Logs</h3>
+<p class="text-xs text-on-surface-variant">Last 30 days yielding performance</p>
+</div>
+<select class="text-xs font-bold bg-surface-container-low border-none rounded-lg focus:ring-0">
+<option>Volume (kg)</option>
+<option>Target %</option>
+</select>
+</div>
+<div class="h-64 w-full relative">
+<!-- SVG Chart Simulation -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#835400" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#835400" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,80 Q10,75 20,82 T40,65 T60,70 T80,50 T100,55 L100,100 L0,100 Z" fill="url(#chartGradient)"></path>
+<path d="M0,80 Q10,75 20,82 T40,65 T60,70 T80,50 T100,55" fill="none" stroke="#835400" stroke-width="2"></path>
+<!-- Data points -->
+<circle cx="20" cy="82" fill="#ffffff" r="1.5" stroke="#835400" stroke-width="1"></circle>
+<circle cx="40" cy="65" fill="#ffffff" r="1.5" stroke="#835400" stroke-width="1"></circle>
+<circle cx="60" cy="70" fill="#ffffff" r="1.5" stroke="#835400" stroke-width="1"></circle>
+<circle cx="80" cy="50" fill="#ffffff" r="1.5" stroke="#835400" stroke-width="1"></circle>
+</svg>
+<!-- X Axis Labels -->
+<div class="flex justify-between mt-4 text-[10px] font-bold text-on-surface-variant/50 uppercase tracking-widest px-1">
+<span>Day 01</span>
+<span>Day 10</span>
+<span>Day 20</span>
+<span>Today</span>
+</div>
+</div>
+</div>
+<!-- Pest Monitoring Alerts Table -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 overflow-hidden">
+<div class="p-6 border-b border-surface-container-high flex justify-between items-center">
+<h3 class="font-headline font-bold text-on-surface">Pest Monitoring Alerts</h3>
+<button class="text-xs font-bold text-primary hover:underline">View All Records</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-[10px] font-label font-bold text-on-surface-variant uppercase tracking-widest">
+<tr>
+<th class="px-6 py-4">Detection Date</th>
+<th class="px-6 py-4">Hive ID</th>
+<th class="px-6 py-4">Pest Type</th>
+<th class="px-6 py-4">Action Status</th>
+</tr>
+</thead>
+<tbody class="text-sm divide-y divide-surface-container-high">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium">Oct 24, 2023</td>
+<td class="px-6 py-4">Hive Beta</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                                                Varroa Mites
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-error-container text-on-error-container text-[10px] font-bold">URGENT TREATMENT</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-medium">Oct 22, 2023</td>
+<td class="px-6 py-4">Hive Gamma</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                                                Wax Moth
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-tertiary-container/30 text-on-tertiary-container text-[10px] font-bold">MONITORING</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column: Colony Deep Dive -->
+<div class="space-y-6">
+<h3 class="font-headline font-bold text-on-surface text-lg mb-6 flex items-center gap-2">
+<span class="w-1 h-6 bg-secondary rounded-full"></span>
+                        Colony Deep Dive
+                    </h3>
+<!-- Colony Cards -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 p-6 space-y-6">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-fixed rounded-xl flex items-center justify-center font-black text-primary">A</div>
+<div>
+<p class="font-bold text-on-surface leading-none">Hive Alpha</p>
+<p class="text-[10px] text-secondary font-bold uppercase tracking-tighter">Peak Performance</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="more_vert">more_vert</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="female">female</span>
+<span class="text-xs font-medium text-on-surface-variant">Queen Presence</span>
+</div>
+<span class="text-xs font-bold text-on-surface">Queen Active</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="pattern">pattern</span>
+<span class="text-xs font-medium text-on-surface-variant">Brood Pattern</span>
+</div>
+<span class="text-xs font-bold text-on-surface">Solid/Even</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="egg">egg</span>
+<span class="text-xs font-medium text-on-surface-variant">Laying Status</span>
+</div>
+<span class="text-xs font-bold text-on-surface">High Rate</span>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant mb-2">
+<span>POPULATION DENSITY</span>
+<span>92%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full">
+<div class="h-full w-[92%] bg-secondary rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 p-6 space-y-6 opacity-80">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-tertiary-fixed rounded-xl flex items-center justify-center font-black text-tertiary">B</div>
+<div>
+<p class="font-bold text-on-surface leading-none">Hive Beta</p>
+<p class="text-[10px] text-error font-bold uppercase tracking-tighter">Intervention Needed</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="more_vert">more_vert</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<div class="flex items-center justify-between p-3 rounded-xl bg-error-container/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+<span class="text-xs font-medium text-on-surface-variant">Queen Presence</span>
+</div>
+<span class="text-xs font-bold text-error">Unconfirmed</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="pattern">pattern</span>
+<span class="text-xs font-medium text-on-surface-variant">Brood Pattern</span>
+</div>
+<span class="text-xs font-bold text-on-surface">Spotty</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl border-2 border-dashed border-outline-variant text-[10px] font-bold text-on-surface-variant hover:bg-surface-container-low transition-all uppercase tracking-widest">
+                            Schedule Deep Inspection
+                        </button>
+</div>
+<!-- Weather/Environment (Bonus Context) -->
+<div class="bg-gradient-to-br from-secondary to-on-secondary-fixed text-on-secondary p-6 rounded-2xl shadow-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl" data-icon="sunny">sunny</span>
+</div>
+<h4 class="font-headline font-bold text-sm mb-4">Environment Outlook</h4>
+<div class="flex items-center gap-4 mb-4">
+<span class="text-3xl font-black">24°C</span>
+<div class="h-8 w-[1px] bg-white/20"></div>
+<span class="text-xs leading-tight">Clear Skies<br/>Optimal Foraging</span>
+</div>
+<p class="text-[10px] opacity-80 leading-relaxed font-medium">Nectar flow is expected to peak between 10 AM and 2 PM today. Recommendation: Keep Hive Alpha entrance fully open.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Navigation Shell (Suppressed on Web per Rules) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-md border-t border-outline-variant/20 flex justify-around py-4 z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="text-[10px] font-bold">Hives</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+<span class="text-[10px] font-bold">Yield</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-bold">Profile</span>
+</button>
+</nav>
+</body></html>

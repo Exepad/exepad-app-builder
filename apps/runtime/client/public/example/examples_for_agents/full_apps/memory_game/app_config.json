@@ -1,0 +1,341 @@
+{
+  "uuid": "memory-game",
+  "alias": "memory-game",
+  "name": "MindMatch",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Card memory matching game with leaderboard, difficulty levels, and personal statistics",
+  "shortSummary": "Memory card game with leaderboard and stats",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "GameHeader": {
+          "source": "frontend/code/components/GameHeader.tsx",
+          "compiled": "frontend/compiled/components/GameHeader.js",
+          "summary": "Header with MindMatch logo (Brain icon), nav links (Home, Play, Leaderboard, Stats), current score display with trophy icon, amber/orange theme"
+        },
+        "GameHome": {
+          "source": "frontend/code/components/GameHome.tsx",
+          "compiled": "frontend/compiled/components/GameHome.js",
+          "summary": "Hero with difficulty selector (Easy 4x3, Medium 4x4, Hard 6x4), difficulty cards, Start Game button, recent top scores mini-table, how to play section"
+        },
+        "GameBoard": {
+          "source": "frontend/code/components/GameBoard.tsx",
+          "compiled": "frontend/compiled/components/GameBoard.js",
+          "summary": "Main game: card grid with emoji pairs, flip animation, match logic, timer, move counter, matched pairs counter, reset, win state with stats"
+        },
+        "Leaderboard": {
+          "source": "frontend/code/components/Leaderboard.tsx",
+          "compiled": "frontend/compiled/components/Leaderboard.js",
+          "summary": "Leaderboard table with rank, player, difficulty, moves, time, date. Filter by difficulty tabs, top 3 highlighted with gold/silver/bronze badges"
+        },
+        "GameStats": {
+          "source": "frontend/code/components/GameStats.tsx",
+          "compiled": "frontend/compiled/components/GameStats.js",
+          "summary": "Personal stats cards, performance chart placeholder, recent games list, achievement badges (First Win, Speed Demon, Memory Master, Streak King)"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with gaming stats, achievements, and recent activity"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font family, card flip animation with 3D perspective, game card transitions, amber/orange accents"
+        }
+      }
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "game_scores": {
+        "source": "repo/seed/game_scores.json",
+        "format": "json",
+        "model": "game_scores",
+        "source_hash": "sha256:330123c24581ab3e5319de99b8f5a67fa9be528b6f6459638bd4e03eae95ec75"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-game-scores",
+        "name": "game_scores",
+        "columns": [
+          {
+            "name": "player_name",
+            "type": "text",
+            "summary": "Display name of the player"
+          },
+          {
+            "name": "difficulty",
+            "type": "text",
+            "summary": "Game difficulty: easy, medium, or hard"
+          },
+          {
+            "name": "moves",
+            "type": "integer",
+            "summary": "Number of moves taken to complete the game"
+          },
+          {
+            "name": "time_seconds",
+            "type": "integer",
+            "summary": "Time in seconds to complete the game"
+          },
+          {
+            "name": "completed_at",
+            "type": "text",
+            "summary": "ISO 8601 date-time when the game was completed"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_game_scores_difficulty",
+            "columns": [
+              "difficulty"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_game_scores_time",
+            "columns": [
+              "time_seconds"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-player-stats",
+        "name": "player_stats",
+        "columns": [
+          {
+            "name": "games_played",
+            "type": "integer",
+            "summary": "Total number of games played",
+            "defaultValue": 0
+          },
+          {
+            "name": "games_won",
+            "type": "integer",
+            "summary": "Total number of games completed successfully",
+            "defaultValue": 0
+          },
+          {
+            "name": "best_time",
+            "type": "integer",
+            "summary": "Best completion time in seconds across all games",
+            "isNullable": true
+          },
+          {
+            "name": "total_moves",
+            "type": "integer",
+            "summary": "Total moves across all games played",
+            "defaultValue": 0
+          },
+          {
+            "name": "current_streak",
+            "type": "integer",
+            "summary": "Current consecutive wins streak",
+            "defaultValue": 0
+          }
+        ],
+        "indexes": [],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "owner",
+          "update": "owner",
+          "delete": "owner"
+        }
+      }
+    ],
+    "handlers": []
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#fffbeb",
+        "foreground": "#451a03",
+        "primary": "#d97706",
+        "primary-foreground": "#000000",
+        "secondary": "#fef3c7",
+        "secondary-foreground": "#451a03",
+        "muted": "#f5f5f4",
+        "muted-foreground": "#78716c",
+        "accent": "#fde68a",
+        "accent-foreground": "#451a03",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e7e5e4",
+        "input": "#e7e5e4",
+        "ring": "#f59e0b"
+      },
+      "dark": {
+        "background": "#1c1917",
+        "foreground": "#fef3c7",
+        "primary": "#f59e0b",
+        "primary-foreground": "#1c1917",
+        "secondary": "#292524",
+        "secondary-foreground": "#fef3c7",
+        "muted": "#292524",
+        "muted-foreground": "#a8a29e",
+        "accent": "#44403c",
+        "accent-foreground": "#fef3c7",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#44403c",
+        "input": "#44403c",
+        "ring": "#f59e0b"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "difficulty": "medium",
+        "currentScore": 0
+      }
+    },
+    "header": [
+      {
+        "uuid": "header-1",
+        "componentType": "CodeComponentProps",
+        "component": "GameHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Home page with difficulty selector, recent top scores, and how to play guide",
+        "content": [
+          {
+            "uuid": "c-home",
+            "componentType": "CodeComponentProps",
+            "component": "GameHome"
+          }
+        ]
+      },
+      {
+        "uuid": "p-play",
+        "pageType": "WebPageProps",
+        "title": "Play",
+        "slug": "/play",
+        "summary": "Main game board with card grid, timer, move counter, and win state",
+        "content": [
+          {
+            "uuid": "c-gameboard",
+            "componentType": "CodeComponentProps",
+            "component": "GameBoard"
+          }
+        ]
+      },
+      {
+        "uuid": "p-leaderboard",
+        "pageType": "WebPageProps",
+        "title": "Leaderboard",
+        "slug": "/leaderboard",
+        "summary": "Global leaderboard with difficulty filters and top 3 highlighted",
+        "content": [
+          {
+            "uuid": "c-leaderboard",
+            "componentType": "CodeComponentProps",
+            "component": "Leaderboard"
+          }
+        ]
+      },
+      {
+        "uuid": "p-stats",
+        "pageType": "WebPageProps",
+        "title": "Stats",
+        "slug": "/stats",
+        "summary": "Personal statistics, achievements, and recent games",
+        "content": [
+          {
+            "uuid": "c-stats",
+            "componentType": "CodeComponentProps",
+            "component": "GameStats"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with gaming stats and recent activity",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  },
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  }
+}

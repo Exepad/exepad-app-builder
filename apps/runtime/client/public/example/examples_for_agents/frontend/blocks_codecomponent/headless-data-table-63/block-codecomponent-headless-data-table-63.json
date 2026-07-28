@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-headless-data-table",
+  "alias": "codecomponent-headless-data-table",
+  "name": "Headless Data Table",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "TanStack Table CodeComponent using headless table primitives from the tanstack-table extension. Features sortable columns with chevron indicators, global text filter input, pagination controls with page numbers, column visibility toggle dropdown, row selection with checkboxes, and a 30-row embedded product dataset (name, category, price, stock, rating). Uses SDK Table/TableHeader/TableBody/TableRow/TableHead/TableCell UI primitives for rendering. useAppState persists filter text and page index. useTheme for dark mode awareness.",
+  "shortSummary": "TanStack headless table with sorting, filtering, pagination, column visibility, and row selection",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "HeadlessDataTable": {
+        "source": "frontend/components/HeadlessDataTable.tsx",
+        "compiled": "frontend/components/HeadlessDataTable.js",
+        "summary": "Headless data table with sorting, filtering, pagination, column visibility toggle, and row selection"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "boxed",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1a1a2e",
+        "primary": "#3372d8",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0f4ff",
+        "secondary-foreground": "#1a1a2e",
+        "muted": "#e8ecf4",
+        "muted-foreground": "#6b7280",
+        "accent": "#eff6ff",
+        "accent-foreground": "#1a1a2e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#d1d5db",
+        "input": "#d1d5db",
+        "ring": "#3b82f6"
+      },
+      "dark": {
+        "background": "#0f1729",
+        "foreground": "#e2e8f0",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0f1729",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#e2e8f0",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#e2e8f0",
+        "destructive": "#991b1b",
+        "destructive-foreground": "#e2e8f0",
+        "border": "#334155",
+        "input": "#334155",
+        "ring": "#60a5fa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-data-table",
+        "title": "Products",
+        "slug": "/",
+        "summary": "Product data table with sorting, filtering, and pagination.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "headless-data-table-1",
+            "component": "HeadlessDataTable",
+            "extensions": [
+              "tanstack-table"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Product data table with advanced features",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

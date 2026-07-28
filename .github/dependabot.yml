@@ -1,0 +1,75 @@
+version: 2
+
+# Automated dependency hygiene for the OSS launch. Without this the committed
+# lockfile rots between manual refreshes (users build the container from it), and
+# the SHA-pinned GitHub Actions never get security bumps. Dependabot rewrites the
+# `# vN` comment next to each pinned action SHA when it opens an update PR.
+updates:
+  # Cadence is deliberately monthly and heavily grouped. On the ungrouped weekly
+  # default this config opened 20 PRs within a minute of the repository being
+  # created — a wall of bot PRs is the first thing a visitor reads as an
+  # unmaintained project. Security advisories are NOT affected: Dependabot
+  # security updates ignore `schedule` and open immediately.
+
+  # ── JS/TS workspace (pnpm) ──────────────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    groups:
+      # One PR for the whole dev/test toolchain, one for everything else
+      # non-major. Majors still arrive individually — they need real review.
+      js-dev-and-types:
+        patterns:
+          - '@types/*'
+          - eslint*
+          - '@typescript-eslint/*'
+          - vitest
+          - '@vitest/*'
+          - typescript
+        update-types: [minor, patch]
+      js-runtime:
+        patterns:
+          - '*'
+        exclude-patterns:
+          - '@types/*'
+          - eslint*
+          - '@typescript-eslint/*'
+          - vitest
+          - '@vitest/*'
+          - typescript
+        update-types: [minor, patch]
+
+  # ── Python agent ────────────────────────────────────────────────────────────
+  # NOTE: this tracks requirements.txt; the image and CI install
+  # requirements.lock, which Dependabot cannot parse. Kept mainly for the
+  # security advisories — see the consistency gate in packaging-ci.
+  - package-ecosystem: pip
+    directory: /apps/agent
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    groups:
+      python:
+        patterns:
+          - '*'
+        update-types: [minor, patch]
+
+  # ── Container base images ───────────────────────────────────────────────────
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 2
+
+  # ── GitHub Actions (keeps the SHA pins fresh) ───────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 2
+    groups:
+      actions:
+        patterns:
+          - '*'

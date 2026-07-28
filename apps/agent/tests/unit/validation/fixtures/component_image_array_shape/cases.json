@@ -1,0 +1,102 @@
+{
+  "cases": [
+    {
+      "id": "broken_gallery_bare_keywords",
+      "kind": "broken",
+      "tsx_path": "examples/broken_gallery_bare_keywords.tsx",
+      "expected_fix_substrings": [
+        "Wrapped bare top-level keywords in image:",
+        "Rewrote 1 <ExepadImage> consumer(s) to spread {...item.image}"
+      ],
+      "expected_output_contains": [
+        "image: { keywords: \"high-end italian pasta dish top-down atmospheric lighting gourmet\", importance: 5 }",
+        "image: { keywords: \"luxury italian restaurant interior warm lighting marble bar wide shot\", importance: 5 }",
+        "{...item.image}",
+        "width={800}"
+      ],
+      "expected_output_absent": [
+        "keywords={item.keywords}"
+      ]
+    },
+    {
+      "id": "broken_with_filter_chain",
+      "kind": "broken",
+      "tsx_path": "examples/broken_with_filter_chain.tsx",
+      "expected_fix_substrings": [
+        "Wrapped bare top-level keywords in image:",
+        "Rewrote 1 <ExepadImage> consumer(s) to spread {...item.image}"
+      ],
+      "expected_output_contains": [
+        "image: { keywords: \"italian pasta dish gourmet plating top-down\", importance: 5 }",
+        "{...item.image}"
+      ],
+      "expected_output_absent": [
+        "keywords={item.keywords}"
+      ]
+    },
+    {
+      "id": "broken_noncontiguous_foldable_attrs",
+      "kind": "broken",
+      "tsx_path": "examples/broken_noncontiguous_foldable_attrs.tsx",
+      "expected_fix_substrings": [
+        "Wrapped bare top-level keywords in image:",
+        "Rewrote 1 <ExepadImage> consumer(s) to spread {...item.image}"
+      ],
+      "expected_output_contains": [
+        "{...item.image}",
+        "width={500}",
+        "height={300}",
+        "className=\"foo\""
+      ],
+      "expected_output_absent": [
+        "keywords={item.keywords}"
+      ]
+    },
+    {
+      "id": "broken_string_image_field",
+      "kind": "broken",
+      "tsx_path": "examples/broken_string_image_field.tsx",
+      "expected_fix_substrings": [
+        "Wrapped 2 string-shape image field(s) into nested",
+        "Rewrote 1 <ExepadImage> string-shape consumer(s)"
+      ],
+      "expected_output_contains": [
+        "image: { keywords: \"professional headshot male executive\", importance: 5 }",
+        "image: { keywords: \"professional headshot female architect\", importance: 5 }",
+        "{...t.image}"
+      ],
+      "expected_output_absent": [
+        "keywords={t.image}",
+        "image: \"professional headshot male executive\""
+      ]
+    },
+    {
+      "id": "broken_string_logo_field",
+      "kind": "broken",
+      "tsx_path": "examples/broken_string_logo_field.tsx",
+      "expected_fix_substrings": [
+        "Wrapped 3 string-shape image field(s) into nested",
+        "Rewrote 1 <ExepadImage> string-shape consumer(s)"
+      ],
+      "expected_output_contains": [
+        "logo: { keywords: \"amazon web services aws logo blue\", importance: 5 }",
+        "{...provider.logo}"
+      ],
+      "expected_output_absent": [
+        "keywords={provider.logo}"
+      ]
+    },
+    {
+      "id": "correct_nested_image",
+      "kind": "correct",
+      "tsx_path": "examples/correct_nested_image.tsx",
+      "expect_no_fixes": true
+    },
+    {
+      "id": "correct_no_exepad_image",
+      "kind": "correct",
+      "tsx_path": "examples/correct_no_exepad_image.tsx",
+      "expect_no_fixes": true
+    }
+  ]
+}

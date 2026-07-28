@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-notification-hub",
+  "alias": "codecomponent-notification-hub",
+  "name": "Notification Hub with Code Component",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Notification center CodeComponent using Sheet, Drawer, HoverCard, and Tooltip overlays. Bell icon with unread Badge opens a Sheet panel listing notifications; each item shows full details via HoverCard on hover. Drawer variant groups notifications by category. Uses useArrayState for notification list and useAppState for UI toggles.",
+  "shortSummary": "Notification center with Sheet, Drawer, HoverCard overlays and unread badges",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "NotificationHub": {
+        "source": "frontend/components/NotificationHub.tsx",
+        "compiled": "frontend/components/NotificationHub.js",
+        "summary": "Notification center with bell icon badge, Sheet panel, Drawer grouped view, HoverCard details, and Tooltip action buttons"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eff6ff",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#6b7280",
+        "accent": "#eff6ff",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#2563eb"
+      },
+      "dark": {
+        "background": "#0b1120",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa",
+        "primary-foreground": "#0b1120",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#60a5fa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-notifications",
+        "title": "Notification Hub",
+        "slug": "/",
+        "summary": "Notification center with overlay panels and grouped views.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "notification-hub-1",
+            "component": "NotificationHub",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Notification center with Sheet and Drawer overlays",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "uuid": "backend-booking",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "Booking System",
+  "alias": "backend-booking",
+  "summary": "Booking system backend with services catalog and user bookings. Read handler for available time slots and write handler for creating bookings.",
+  "shortSummary": "Booking system backend with services catalog and u",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-services",
+        "name": "services",
+        "columns": [
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Display name of the bookable service"
+          },
+          {
+            "name": "duration",
+            "type": "integer",
+            "summary": "Duration of the service in minutes"
+          },
+          {
+            "name": "price",
+            "type": "real",
+            "summary": "Price of the service in default currency"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Detailed description of the service",
+            "isNullable": true
+          },
+          {
+            "name": "is_active",
+            "type": "integer",
+            "summary": "Whether the service is currently bookable (1 = active, 0 = inactive)",
+            "defaultValue": "1"
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_services_is_active",
+            "columns": [
+              "is_active"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-bookings",
+        "name": "bookings",
+        "columns": [
+          {
+            "name": "service_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the booked service",
+            "references": {
+              "model": "services",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "customer_name",
+            "type": "text",
+            "summary": "Full name of the customer making the booking"
+          },
+          {
+            "name": "customer_email",
+            "type": "text",
+            "summary": "Email address of the customer for confirmations"
+          },
+          {
+            "name": "date",
+            "type": "text",
+            "summary": "Booking date in YYYY-MM-DD format"
+          },
+          {
+            "name": "time_slot",
+            "type": "text",
+            "summary": "Selected time slot in HH:MM format"
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "summary": "Current booking status: pending, confirmed, cancelled, completed",
+            "defaultValue": "pending"
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Optional notes or special requests from the customer",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_bookings_service_id",
+            "columns": [
+              "service_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_bookings_status",
+            "columns": [
+              "status"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_bookings_date",
+            "columns": [
+              "date"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getAvailableSlots",
+        "name": "getAvailableSlots",
+        "method": "getAvailableSlots",
+        "authLevel": "public",
+        "inputs": [
+          {
+            "name": "service_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the service to check availability for"
+          },
+          {
+            "name": "date",
+            "type": "string",
+            "required": true,
+            "summary": "Date to check available slots for in YYYY-MM-DD format"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "slots",
+            "type": "array",
+            "summary": "List of available time slots with start time and availability status"
+          },
+          {
+            "name": "service",
+            "type": "json",
+            "summary": "Service details including name, duration, and price"
+          }
+        ]
+      },
+      {
+        "uuid": "h-createBooking",
+        "name": "createBooking",
+        "method": "createBooking",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "service_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the service being booked"
+          },
+          {
+            "name": "date",
+            "type": "string",
+            "required": true,
+            "summary": "Desired booking date in YYYY-MM-DD format"
+          },
+          {
+            "name": "time_slot",
+            "type": "string",
+            "required": true,
+            "summary": "Desired time slot in HH:MM format"
+          },
+          {
+            "name": "customer_name",
+            "type": "string",
+            "required": true,
+            "summary": "Full name of the customer"
+          },
+          {
+            "name": "customer_email",
+            "type": "string",
+            "required": true,
+            "summary": "Email address for booking confirmation"
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "required": false,
+            "summary": "Optional special requests or notes"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "bookingId",
+            "type": "number",
+            "summary": "ID of the newly created booking"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "summary": "Confirmation status of the booking"
+          },
+          {
+            "name": "confirmationDetails",
+            "type": "json",
+            "summary": "Full booking details including service name, date, time, and customer info"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}
