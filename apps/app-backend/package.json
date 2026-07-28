@@ -33,11 +33,11 @@
     "@exepad/local-adapters": "workspace:*",
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^24.10.1",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/coverage-v8": "^4.1.10",
     "better-sqlite3": "^11.8.1",
     "tsx": "^4.7.0",
     "typescript": "~5.9.3",
-    "vitest": "^4.0.4"
+    "vitest": "^4.1.10"
   },
   "license": "AGPL-3.0-only"
 }

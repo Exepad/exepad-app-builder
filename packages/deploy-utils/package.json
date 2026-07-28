@@ -55,7 +55,7 @@
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^24.10.1",
     "typescript": "~5.9.3",
-    "vitest": "^4.0.4"
+    "vitest": "^4.1.10"
   },
   "license": "AGPL-3.0-only"
 }
