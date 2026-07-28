@@ -13,13 +13,13 @@
 #             provide one — they are themselves VMs on Apple Virtualization, M1
 #             has no nested-virt support in hardware, and Apple only added it on
 #             M3 + macOS 15. So this job runs on the INTEL image, which does.
-#   Windows : HypervisorPresent=True on Windows Server 2025, and WSL2 + Ubuntu
-#             install cleanly with Docker Engine 29.6.2 linux/amd64 inside. The
-#             daemon is exposed over TCP so the *Windows* docker.exe drives it,
-#             which is the shape a Docker Desktop user actually has.
+#   Windows : gets further than expected but does NOT work. Nested virt is
+#             present, WSL2 runs Docker Engine linux/amd64 fine, and the daemon
+#             listens — but the host cannot reach the WSL network, so the job is
+#             opt-in (windows=true) and off by default. Details on the job.
 #
-# The Windows job stays non-blocking: it is exploratory infrastructure, and a
-# runner limitation is not a product defect and must never be reported as one.
+# macOS is the job that earns its keep: it is green, reproducible, and it already
+# caught a real defect (the Compose v2 plugin message on a Homebrew-Docker Mac).
 #
 # Uses the `-lite` tag (no bundled Chromium, ~1.4 GB smaller uncompressed): these
 # runners are slow enough that it is the difference between viable and not.
@@ -32,6 +32,10 @@ on:
         description: 'Image tag to smoke (e.g. 1.0.1 or latest)'
         required: false
         default: 'latest'
+      windows:
+        description: 'Also run the Windows/WSL2 job (known-blocked — see header)'
+        required: false
+        default: 'false'
 
 jobs:
   macos:
@@ -141,7 +145,36 @@ jobs:
             [ -f "$f" ] && { echo "----- $f -----"; tail -40 "$f"; }
           done || true
 
+  # ── Windows: KNOWN-BLOCKED, opt-in only ─────────────────────────────────────
+  # Off by default (pass windows=true to run it) so it does not leave a
+  # permanently red run. Everything up to one hop works on a hosted runner:
+  #
+  #   HypervisorPresent=True (Windows Server 2025), docker CLI 29.1.5 + Compose
+  #   v2.40.3 preinstalled, WSL2 + Ubuntu 24.04 install cleanly, get.docker.com
+  #   brings up Docker Engine 29.6.2 linux/amd64 under systemd, the systemd
+  #   drop-in makes it LISTEN *:2375, and `docker info` over 127.0.0.1 answers
+  #   linux/x86_64 from INSIDE the VM.
+  #
+  # What fails is only Windows -> WSL. Measured across two runs: BOTH
+  # tcp://localhost:2375 and the VM's own address (172.19.x.x, then 172.27.x.x)
+  # are refused, with all three firewall profiles enabled and an explicit inbound
+  # allow rule for 2375/8097 added — so it is not the localhost-forwarding relay
+  # and not (only) the firewall.
+  #
+  # UNTESTED HYPOTHESIS for whoever picks this up: the distro may be terminating
+  # between steps. Each `wsl -d ... -- cmd` is its own invocation, and if WSL
+  # shuts the VM down when that command exits, dockerd dies with it and a later
+  # connection is refused precisely as observed. Cheapest next probe is
+  # `wsl -d Ubuntu-24.04 -- systemctl is-active docker` immediately BEFORE the
+  # reachability check: if that reports inactive, this is the cause and the fix
+  # is to hold the distro open (a long-running background `wsl` process) rather
+  # than anything to do with networking.
+  #
+  # Not a coverage emergency: packaging-ci already does a real msiexec
+  # install/uninstall on a Windows runner plus the CRLF/ASCII gates, and the
+  # container half is the same Linux image proven on Linux and macOS.
   windows:
+    if: inputs.windows == 'true'
     name: Windows — install.ps1 against a real Linux daemon (WSL2)
     runs-on: windows-2025
     timeout-minutes: 60
