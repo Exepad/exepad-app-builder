@@ -53,6 +53,13 @@ current docs or install paths.
   with firewall rules added. Windows installer coverage is unaffected:
   `packaging-ci` still does a real `msiexec` install/uninstall on a Windows
   runner.
+- **The release now smokes the `linux/arm64` image before publishing the GitHub
+  Release.** The arm64 half of the manifest was built and cosign-signed on every
+  release but had never been *started* anywhere — CI is otherwise entirely amd64,
+  so every Apple Silicon and ARM-server user was the first to execute it. The
+  gate boots the image under QEMU, serves a request, and completes first-run
+  setup, and refuses to advertise a release whose manifest contains an
+  architecture that does not run. Skips cleanly on amd64-only private builds.
 - **The image is built on pull requests.** Previously the only workflow that
   built the `Dockerfile` triggered on a tag, so a base-image bump could merge
   unverified and fail mid-release. Dependabot's first batch made that concrete
