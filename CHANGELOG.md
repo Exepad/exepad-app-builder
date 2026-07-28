@@ -14,6 +14,14 @@ current docs or install paths.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-07-28
+
+**A user-facing installer fix, and the platform coverage that found it.** The
+only change installers will notice is the Compose v2 guidance below — but it was
+found by the new real-container smoke on macOS, and the same work closed the
+`linux/arm64` gap: that architecture is published on every release and, until
+now, had never been executed anywhere.
+
 ### Fixed
 
 - **The GitHub Release job is now idempotent.** Re-running the release workflow
@@ -509,6 +517,7 @@ begin existing here.
   `ghcr.io/exepad/exepad-app-builder` (was `ghcr.io/exepad/exepad`), matching
   `install.sh` and the deploy templates.
 
-[Unreleased]: https://github.com/Exepad/exepad-app-builder/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/Exepad/exepad-app-builder/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/Exepad/exepad-app-builder/releases/tag/v1.0.2
 [1.0.1]: https://github.com/Exepad/exepad-app-builder/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Exepad/exepad-app-builder/releases/tag/v1.0.0
