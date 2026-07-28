@@ -64,7 +64,12 @@ jobs:
       - name: Prove we are really running aarch64, not silently falling back
         run: |
           set -euo pipefail
-          ARCH=$(docker run --rm --platform linux/arm64 "$IMG:$VER" uname -m)
+          # --entrypoint is REQUIRED. The image's ENTRYPOINT supervises Node +
+          # the Python agent and ignores its arguments entirely, so a plain
+          # `docker run IMG uname -m` starts the whole studio and never exits —
+          # the step then hangs to the job timeout instead of printing an arch.
+          ARCH=$(timeout 900 docker run --rm --platform linux/arm64 \
+                   --entrypoint uname "$IMG:$VER" -m)
           echo "container reports: $ARCH"
           [ "$ARCH" = "aarch64" ] \
             || { echo "::error::expected aarch64, got $ARCH — emulation not in effect, this job would prove nothing"; exit 1; }
