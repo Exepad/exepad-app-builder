@@ -37,11 +37,22 @@ current docs or install paths.
 
 ### Added
 
-- **`container-smoke` workflow** — real-container coverage on hosted macOS
-  (Colima on the Intel image) and Windows (Docker Engine inside WSL2, driven by
-  the Windows `docker` CLI), so the pull-start-serve half of the product is no
-  longer proven on Linux alone. This is what surfaced the Compose-plugin message
-  above.
+- **`container-smoke` workflow** — real-container coverage on hosted **macOS**
+  (Colima on `macos-15-intel`): the release's own `install.sh` pulls the image,
+  starts the studio, serves 200 and surfaces the setup token, so the
+  pull-start-serve half of the product is no longer proven on Linux alone. This
+  is what surfaced the Compose-plugin message above. Note `macos-15-intel` is
+  the last x86_64 macOS image — GitHub retires Intel macOS after August 2027,
+  and the arm64 runners cannot host a Linux VM because M1 has no
+  nested-virtualisation support.
+
+  A **Windows** job exists but is opt-in and does not currently pass. Nested
+  virtualisation *is* available on Windows Server 2025 runners, WSL2 runs Docker
+  Engine `linux/amd64` under systemd, and the daemon listens — but the host
+  cannot reach the WSL network on either `localhost` or the VM's own address,
+  with firewall rules added. Windows installer coverage is unaffected:
+  `packaging-ci` still does a real `msiexec` install/uninstall on a Windows
+  runner.
 - **The image is built on pull requests.** Previously the only workflow that
   built the `Dockerfile` triggered on a tag, so a base-image bump could merge
   unverified and fail mid-release. Dependabot's first batch made that concrete
