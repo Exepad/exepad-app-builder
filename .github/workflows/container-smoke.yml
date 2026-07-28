@@ -1,0 +1,131 @@
+# Real-container smoke on macOS and Windows, on hosted runners.
+#
+# packaging-ci already proves the INSTALLERS parse and execute on both platforms
+# (macOS under bash 3.2, Windows through a real msiexec install/uninstall). What
+# neither runner has is a Docker that can run our linux/amd64 image, so the half
+# that actually matters — pull the image, start the studio, answer 200, surface
+# the setup token — has only ever been proven on Linux.
+#
+#   macOS   : Colima (Lima + Apple Virtualization) gives the runner a real Linux
+#             Docker daemon. This works today and is the job to keep.
+#   Windows : Docker Desktop's WSL2 backend needs NESTED VIRTUALISATION, which
+#             hosted GitHub runners historically do not expose. That job is a
+#             capability PROBE — it measures the runner and reports, and is
+#             deliberately non-blocking, because a runner limitation is not a
+#             product defect and must never be reported as one.
+#
+# Uses the `-lite` tag (no bundled Chromium, ~1.4 GB smaller uncompressed): these
+# runners are slow enough that it is the difference between viable and not.
+name: container-smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Image tag to smoke (e.g. 1.0.1 or latest)'
+        required: false
+        default: 'latest'
+
+jobs:
+  macos:
+    name: macOS — real container via Colima
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - name: Runner capability
+        run: |
+          uname -m
+          sw_vers
+          command -v docker || echo "(no docker CLI preinstalled — expected)"
+          command -v colima || echo "(no colima preinstalled — expected)"
+
+      - name: Install + start Colima
+        run: |
+          set -euo pipefail
+          brew install colima docker
+          # vz = Apple Virtualization (fast, arm64 runners); fall back to QEMU.
+          colima start --cpu 3 --memory 6 --disk 20 --vm-type=vz --vz-rosetta \
+            || colima start --cpu 3 --memory 6 --disk 20
+          docker version
+          docker run --rm hello-world
+
+      - name: Install the studio exactly as a macOS user would
+        env:
+          VER: ${{ inputs.version || 'latest' }}
+        run: |
+          set -euo pipefail
+          # The RELEASE's installer from the public front door — the artifact a
+          # real user actually downloads, not this checkout's copy.
+          curl -fsSL https://get.exepad.com -o rel-install.sh
+          # --no-node: force the embedded bootstrap. That is the path every
+          # one-click bundle and every Node-less machine takes, and the one that
+          # had no real-container coverage at all.
+          bash rel-install.sh --yes --no-node \
+            --version "${VER}-lite" \
+            --dir "$PWD/inst" --port 8097 2>&1 | tee install.log
+
+      - name: Studio answers, and the setup token was surfaced
+        run: |
+          set -euo pipefail
+          code=""
+          for _ in $(seq 1 90); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://localhost:8097/ || true)
+            [ "$code" = "200" ] && break
+            sleep 5
+          done
+          [ "$code" = "200" ] || { echo "::error::studio never answered on macOS (last: ${code:-none})"; exit 1; }
+          echo "studio 200 on macOS"
+          grep -q 'Setup token:' install.log \
+            || { echo "::error::installer did not surface the first-run setup token on macOS"; exit 1; }
+          echo "setup token surfaced on macOS"
+          # The compose the bootstrap wrote must pin the tag it was asked for.
+          grep -q "exepad-app-builder:${VERSION}-lite" inst/docker-compose.yml \
+            || { echo "::error::compose is not pinned to the requested tag"; cat inst/docker-compose.yml; exit 1; }
+          echo "compose pinned correctly"
+        env:
+          VERSION: ${{ inputs.version || 'latest' }}
+
+      - name: Diagnostics on failure
+        if: failure()
+        run: |
+          docker ps -a || true
+          docker logs exepad 2>&1 | tail -60 || true
+          cat install.log || true
+          colima status || true
+
+  windows-probe:
+    name: Windows — nested-virtualisation probe (non-blocking)
+    runs-on: windows-latest
+    timeout-minutes: 30
+    # A hosted-runner limitation is not a product defect. This job reports what
+    # the runner can do so the decision to rent a VM is made on evidence.
+    continue-on-error: true
+    steps:
+      - name: What can this runner actually do?
+        shell: pwsh
+        run: |
+          $hv = (Get-CimInstance Win32_ComputerSystem).HypervisorPresent
+          Write-Host "HypervisorPresent : $hv"
+          Write-Host "OS                : $((Get-CimInstance Win32_OperatingSystem).Caption)"
+          $docker = Get-Command docker -ErrorAction SilentlyContinue
+          if ($docker) {
+            Write-Host "docker CLI        : $($docker.Source)"
+            Write-Host "--- docker version ---"
+            docker version 2>&1 | Out-String | Write-Host
+            Write-Host "--- daemon OS/Arch (Windows containers cannot run our linux image) ---"
+            docker info --format '{{.OSType}}/{{.Architecture}}' 2>&1 | Out-String | Write-Host
+          } else {
+            Write-Host "docker CLI        : none"
+          }
+          Write-Host "--- WSL ---"
+          wsl --status 2>&1 | Out-String | Write-Host
+          wsl --list --verbose 2>&1 | Out-String | Write-Host
+
+      - name: Can a Linux container run here at all?
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          # If the daemon is in Windows-container mode this fails immediately,
+          # which is the answer we are looking for.
+          docker run --rm hello-world 2>&1 | Out-String | Write-Host
+          Write-Host "exit: $LASTEXITCODE"
