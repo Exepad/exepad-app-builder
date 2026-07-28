@@ -49,7 +49,21 @@ $ReleaseChannel = 'dev'
 
 function Say([string]$msg)  { Write-Host "[exepad] $msg" }
 function Warn2([string]$msg) { Write-Host "[exepad] ! $msg" -ForegroundColor Yellow }
-function Die([string]$msg)  { Write-Host "[exepad] error: $msg" -ForegroundColor Red; exit 1 }
+# NEVER `exit` from this script.
+#
+# The documented Windows front door is `irm https://get.exepad.com/install.ps1 |
+# iex`, and Invoke-Expression runs the body in the CALLER'S session -- so `exit`
+# terminates the user's entire PowerShell window, taking the error message with
+# it. The reported symptom was exactly that: "it closed the powershell and
+# nothing happens". Nothing was wrong with the install logic; the diagnosis was
+# destroyed before it could be read.
+#
+# Wrapping in `& { }` or in a function does NOT contain it -- both were measured
+# and both still kill the host. Only never calling `exit` does. So failures
+# `throw`, the bottom of the script catches and reports, and the single `exit`
+# lives there guarded by $PSCommandPath, which is the script path when run as a
+# .ps1 (the one-click bundles and the MSI) and EMPTY under iex.
+function Die([string]$msg)  { throw $msg }
 function WouldRun([string]$what) { Write-Host "  -> would run: $what" }
 
 function Test-Semver([string]$v) { return $v -match '^\d+\.\d+\.\d+([-+].*)?$' }
@@ -139,9 +153,19 @@ function Invoke-NpxDelegation {
   if ($AdminPassword) { $cliArgs += @('--admin-password', $AdminPassword) }
   if ($Force)         { $cliArgs += '--force' }
   if ($DryRun)        { $cliArgs += '--dry-run' }
-  if ($DryRun) { WouldRun "npx -y $pkg exepad $($cliArgs -join ' ')" ; exit 0 }
+  # Records the outcome on the script scope rather than exiting: see the note on
+  # Die(). A boolean return would be unreliable here because any stray pipeline
+  # output from the delegated call would be collected alongside it.
+  if ($DryRun) {
+    WouldRun "npx -y $pkg exepad $($cliArgs -join ' ')"
+    $script:ExepadDelegated = $true
+    $script:ExepadExitCode  = 0
+    return $true
+  }
   npx -y $pkg @cliArgs
-  exit $LASTEXITCODE
+  $script:ExepadDelegated = $true
+  $script:ExepadExitCode  = $LASTEXITCODE
+  return $true
 }
 
 # ---- 3. Embedded bootstrap (Node-less fallback; mirrors install.sh) ------------
@@ -164,7 +188,7 @@ function Assert-NoDowngrade {
         Warn2 "Refusing downgrade $deployed -> $Version."
         Say   '  Migrations run forward only; an older image on newer /data can break.'
         Say   '  Back up first, then re-run with -Force.'
-        exit 1
+        throw "refusing downgrade $deployed -> $Version"
       }
     }
   } elseif ($deployed) {
@@ -336,6 +360,27 @@ function Show-SetupToken {
 }
 
 # ---- main -----------------------------------------------------------------------
-Assert-Docker
-Invoke-NpxDelegation | Out-Null   # exits the script if it delegates
-Install-Embedded
+# Single exit point, guarded. Everything above reports failure with `throw`.
+$script:ExepadDelegated = $false
+$script:ExepadExitCode  = 0
+try {
+  Assert-Docker
+  Invoke-NpxDelegation | Out-Null
+  if (-not $script:ExepadDelegated) { Install-Embedded }
+} catch {
+  Write-Host "[exepad] error: $($_.Exception.Message)" -ForegroundColor Red
+  $script:ExepadExitCode = 1
+}
+
+if ($PSCommandPath) {
+  # Real .ps1 invocation (one-click bundle, MSI, -File): exit is correct and the
+  # caller needs the status code.
+  exit $script:ExepadExitCode
+} else {
+  # Under `irm | iex` there is no script to exit -- only the user's shell, which
+  # must survive so they can read what went wrong.
+  $global:LASTEXITCODE = $script:ExepadExitCode
+  if ($script:ExepadExitCode -ne 0) {
+    Write-Host "[exepad] install did not complete (exit $script:ExepadExitCode)." -ForegroundColor Red
+  }
+}
