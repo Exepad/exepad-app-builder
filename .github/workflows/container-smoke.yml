@@ -29,33 +29,38 @@ on:
 jobs:
   macos:
     name: macOS — real container via Colima
-    runs-on: macos-latest
+    # INTEL, deliberately, and not macos-latest.
+    #
+    # Measured on 2026-07-28: Colima cannot start on GitHub's arm64 macOS runners.
+    # The `vz` driver dies during hostagent startup, and the reason is hardware,
+    # not configuration — GitHub's macOS runners are themselves VMs on Apple
+    # Virtualization, M1 has no nested-virtualisation support at all, and Apple
+    # only added it on M3 + macOS 15. No flag fixes that; the runner has to change.
+    # (Chasing this cost two runs: first --vz-rosetta failing at "Setting up
+    # Rosetta share", then vz failing for the real underlying reason.)
+    #
+    # Intel runners have the hypervisor, which is why the community
+    # setup-docker-macos actions support Intel images and refuse arm64. If GitHub
+    # retires this image, the fallback is a rented Apple-silicon host, or waiting
+    # for M3-class runners.
+    runs-on: macos-13
     timeout-minutes: 60
     steps:
       - name: Runner capability
         run: |
           uname -m
           sw_vers
+          sysctl -n machdep.cpu.brand_string || true
           command -v docker || echo "(no docker CLI preinstalled — expected)"
           command -v colima || echo "(no colima preinstalled — expected)"
 
       - name: Install + start Colima
         run: |
           set -euo pipefail
-          brew install colima docker
-          # vz = Apple Virtualization, the native path on the arm64 runners.
-          #
-          # Explicitly NOT --vz-rosetta: Rosetta 2 is not preinstalled on GitHub's
-          # arm64 macOS images, so requesting the Rosetta share kills the VM at
-          # "Setting up Rosetta share". We do not need it — the studio image is
-          # multi-arch, so the runner pulls linux/arm64 natively.
-          if ! colima start --cpu 3 --memory 6 --disk 20 --vm-type=vz; then
-            # A failed start leaves a half-created instance behind, and a plain
-            # retry silently REUSES it ("Using the existing instance") and fails
-            # the same way. Delete before falling back to QEMU.
-            colima delete -f || true
-            colima start --cpu 3 --memory 6 --disk 20 --vm-type=qemu
-          fi
+          # qemu is NOT implied by the colima formula, and its absence surfaces
+          # only at start time as "cannot use vmType: 'qemu' … qemu-img not found".
+          brew install colima docker qemu
+          colima start --cpu 3 --memory 6 --disk 20
           docker version
           docker run --rm hello-world
 
@@ -102,6 +107,12 @@ jobs:
           docker logs exepad 2>&1 | tail -60 || true
           cat install.log || true
           colima status || true
+          # The Lima hostagent's real error never reaches colima's own output —
+          # it reports an empty `Errors:[]` and points here. Not capturing this
+          # is what made the first arm64 failure look like a config problem.
+          for f in ~/.colima/_lima/colima/ha.stderr.log ~/.colima/_lima/colima/serial*.log; do
+            [ -f "$f" ] && { echo "----- $f -----"; tail -40 "$f"; }
+          done || true
 
   windows:
     name: Windows — install.ps1 against a real Linux daemon (WSL2)
@@ -143,9 +154,23 @@ jobs:
           # Engine in WSL + the Windows docker.exe pointed at it over TCP. That
           # keeps install.ps1 running as a Windows script driving a Windows
           # `docker`, which is the shape a Docker Desktop user has -- rather than
-          # testing a Linux script inside WSL, which proves nothing new.
+          # testing a Linux script inside WSL, which would prove nothing new.
           wsl -d Ubuntu-24.04 -u root -- bash -lc "curl -fsSL https://get.docker.com | sh" 2>&1 | Out-String | Write-Host
-          wsl -d Ubuntu-24.04 -u root -- bash -lc "nohup dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock >/tmp/dockerd.log 2>&1 & sleep 12; docker -H tcp://127.0.0.1:2375 info --format '{{.OSType}}/{{.Architecture}}'" 2>&1 | Out-String | Write-Host
+
+          # get.docker.com already starts dockerd under systemd (WSL2 supports
+          # systemd, and the installer reports "Using systemd to manage Docker
+          # service"). So do NOT launch a second dockerd -- it loses the race for
+          # the unix socket and dies, which is exactly why the first attempt saw
+          # "Cannot connect to the Docker daemon at tcp://127.0.0.1:2375" while
+          # the engine was in fact running perfectly on the unix socket.
+          #
+          # Override the unit to ALSO listen on TCP. `ExecStart=` on its own line
+          # is required: systemd appends to ExecStart otherwise, and a unit with
+          # two ExecStart lines fails to load.
+          # Kept to ONE line and passed as a single argument: PowerShell mangles
+          # embedded newlines when handing a string to a native executable.
+          $tcp = 'mkdir -p /etc/systemd/system/docker.service.d && printf "[Service]\nExecStart=\nExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375\n" > /etc/systemd/system/docker.service.d/tcp.conf && systemctl daemon-reload && systemctl restart docker && sleep 8 && systemctl is-active docker && docker -H tcp://127.0.0.1:2375 info --format "{{.OSType}}/{{.Architecture}}"'
+          wsl -d Ubuntu-24.04 -u root -- bash -lc $tcp 2>&1 | Out-String | Write-Host
           exit 0
 
       - name: Install the studio with the RELEASE install.ps1
