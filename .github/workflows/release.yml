@@ -65,6 +65,11 @@ jobs:
   # ── 1. Multi-arch studio image → GHCR ───────────────────────────────────────
   image:
     needs: version
+    # Exposed so the post-build smoke can skip cleanly on an amd64-only
+    # (private/fork) build instead of failing on an arm64 tag that was never
+    # produced.
+    outputs:
+      platforms: ${{ steps.tags.outputs.platforms }}
     runs-on: ubuntu-latest
     # arm64 builds under QEMU emulation — slow by design (packaging-plan A.3).
     timeout-minutes: 300
@@ -326,6 +331,84 @@ jobs:
           publish
           echo "published via NPM_TOKEN."
 
+  # ── 2b. Does the arm64 half of the manifest actually BOOT? ───────────────────
+  # A multi-arch manifest proves a build emitted arm64 layers, not that they run.
+  # Until this job existed, every Apple Silicon and ARM-server user was the first
+  # person to execute that image. It runs BEFORE the GitHub Release so a broken
+  # architecture is never advertised — the same principle as the npm job refusing
+  # to publish a launcher whose image does not exist.
+  #
+  # Underscore in the job id on purpose: GitHub expressions parse
+  # `needs.smoke-arm64.result` as a subtraction, so a hyphen here would need
+  # index syntax at every reference.
+  smoke_arm64:
+    needs: [version, image]
+    # Skips cleanly on an amd64-only private/fork build.
+    if: ${{ contains(needs.image.outputs.platforms, 'arm64') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      # NOT `IMG: ${{ env.IMAGE_REPO }}` — the `env` context is not available in
+      # a job-level env block (only github/needs/strategy/matrix/vars/inputs), so
+      # that resolves to empty and yields ":1.0.2" as the image ref. The
+      # workflow-level IMAGE_REPO is already exported into every step's shell, so
+      # the steps below just use $IMAGE_REPO directly.
+      VER: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+        with:
+          platforms: arm64
+
+      - name: Really aarch64, not a silent amd64 fallback
+        run: |
+          set -euo pipefail
+          # --entrypoint is REQUIRED: the image's ENTRYPOINT supervises Node +
+          # the agent and IGNORES its arguments, so a plain `docker run IMG uname
+          # -m` boots the whole studio and never exits.
+          ARCH=$(timeout 900 docker run --rm --platform linux/arm64 \
+                   --entrypoint uname "${IMAGE_REPO}:${VER}" -m)
+          [ "$ARCH" = "aarch64" ] \
+            || { echo "::error::expected aarch64, got $ARCH — emulation not in effect; this check would prove nothing"; exit 1; }
+          echo "running genuinely on aarch64"
+
+      - name: Boot, serve, and complete first-run setup on arm64
+        run: |
+          set -euo pipefail
+          docker run -d --name exepad-arm64 --platform linux/arm64 \
+            -p 8097:8080 -e EXEPAD_HTTPS_DISABLE=1 -v exepad-arm64-data:/data \
+            "${IMAGE_REPO}:${VER}"
+          code=""
+          for _ in $(seq 1 120); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://localhost:8097/auth/status || true)
+            [ "$code" = "200" ] && break
+            # Under QEMU a crashloop and a slow boot look identical for minutes.
+            if [ "$(docker inspect -f '{{.State.Running}}' exepad-arm64)" != "true" ]; then
+              echo "::error::arm64 container EXITED during start-up"; docker logs exepad-arm64 2>&1 | tail -60; exit 1
+            fi
+            sleep 5
+          done
+          [ "$code" = "200" ] \
+            || { echo "::error::arm64 studio never answered (last: ${code:-none})"; docker logs exepad-arm64 2>&1 | tail -60; exit 1; }
+
+          SRC=$(curl -s -o /dev/null -w '%{redirect_url}' --max-time 15 http://localhost:8097/source || true)
+          case "$SRC" in *exepad-app-builder*) : ;; *) echo "::error::/source did not redirect to the repo on arm64 (got: ${SRC:-none})"; exit 1;; esac
+
+          TOK=$(docker logs exepad-arm64 2>&1 | sed -n '/FIRST-RUN SETUP TOKEN/,$p' | grep -Eo '[0-9a-f]{64}' | head -1 || true)
+          [ -n "$TOK" ] || { echo "::error::no first-run setup token minted on arm64"; docker logs exepad-arm64 2>&1 | tail -40; exit 1; }
+          # Accepting the token exercises the auth + SQLite paths, not just that a
+          # string was printed.
+          OUT=$(curl -s --max-time 60 -X POST http://localhost:8097/auth/setup \
+            -H 'Content-Type: application/json' \
+            -d "{\"email\":\"smoke@exepad.local\",\"password\":\"Sup3rSecret!pw\",\"setupToken\":\"$TOK\"}" || true)
+          case "$OUT" in *'"success":true'*) : ;; *) echo "::error::/auth/setup failed on arm64: $OUT"; exit 1;; esac
+          echo "arm64: boots, serves 200, /source redirects, setup token accepted"
+
+      - name: Teardown
+        if: always()
+        run: |
+          docker rm -f exepad-arm64 >/dev/null 2>&1 || true
+          docker volume rm exepad-arm64-data >/dev/null 2>&1 || true
+
   # ── 3. GitHub Release with the version-pinned install.sh ────────────────────
   # Runs on BOTH release modes: when npm is skipped (private release) the
   # release still publishes — on a private repo it is only visible to the team.
@@ -339,8 +422,13 @@ jobs:
   # public — which is exactly what v1.0.0 did. The npm section of the release
   # notes is emitted only when npm actually published; see below.
   release:
-    needs: [version, image, npm]
-    if: ${{ !cancelled() && needs.image.result == 'success' }}
+    needs: [version, image, npm, smoke_arm64]
+    # Gated on the image AND on arm64 actually booting — never advertise a
+    # release whose published manifest contains an architecture that does not
+    # run. 'skipped' is accepted because amd64-only private builds have no arm64
+    # to smoke. Still NOT gated on npm: see the comment above.
+    if: ${{ !cancelled() && needs.image.result == 'success'
+            && (needs.smoke_arm64.result == 'success' || needs.smoke_arm64.result == 'skipped') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
