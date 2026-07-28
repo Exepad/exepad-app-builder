@@ -145,9 +145,16 @@ jobs:
     name: Windows — install.ps1 against a real Linux daemon (WSL2)
     runs-on: windows-2025
     timeout-minutes: 60
-    # Non-blocking: this is exploratory infrastructure, and a hosted-runner
-    # limitation is not a product defect. It must never fail a release.
-    continue-on-error: true
+    # NO job-level continue-on-error. It was here to keep a runner limitation
+    # from reading as a product defect, but combined with per-step
+    # continue-on-error and a Verdict step that always exited 0, the job reported
+    # a green tick while printing "studio answered 200 : False". A check that
+    # cannot fail is worse than no check — it manufactures false confidence.
+    #
+    # This workflow is workflow_dispatch-only and nothing depends on it, so an
+    # honest failure costs nothing and blocks nothing. The individual steps keep
+    # continue-on-error so the Verdict is always reached and can explain WHERE it
+    # broke; the Verdict itself now exits non-zero when the answer is no.
     steps:
       # Measured on 2026-07-28: HypervisorPresent=True on Windows Server 2025,
       # docker CLI 29.1.5 preinstalled (windows/amd64 client). Nested
@@ -229,6 +236,23 @@ jobs:
           # not pick this listener up on the Server 2025 runner. Addressing the VM
           # directly is the documented way round it, so try localhost first (it is
           # what a developer machine usually offers) and fall back to the WSL IP.
+          # Measured: BOTH localhost and the VM's own IP (172.19.x.x) were
+          # refused, so this is not the localhost relay alone — the host cannot
+          # reach the WSL NAT network at all. On Windows Server the default
+          # firewall profile blocks it, so open the vEthernet (WSL) adapter
+          # first. Best-effort: if the rule cannot be added we still try, and the
+          # Verdict reports the outcome either way.
+          try {
+            New-NetFirewallRule -DisplayName 'WSL-docker-tcp' -Direction Inbound `
+              -Action Allow -Protocol TCP -LocalPort 2375,8097 -ErrorAction Stop | Out-Null
+            Write-Host "added inbound firewall rule for 2375/8097"
+          } catch { Write-Host "could not add firewall rule: $_" }
+          try {
+            Get-NetFirewallProfile | ForEach-Object {
+              Write-Host "firewall profile $($_.Name): enabled=$($_.Enabled)"
+            }
+          } catch { }
+
           $endpoints = @('tcp://localhost:2375')
           $ip = (wsl -d Ubuntu-24.04 -- hostname -I 2>$null | Out-String).Trim().Split(' ')[0]
           if ($ip) { $endpoints += "tcp://${ip}:2375"; Write-Host "WSL VM IP: $ip" }
@@ -301,5 +325,8 @@ jobs:
           Write-Host "daemon reachable    : ${{ steps.reach.outputs.reachable }}"
           Write-Host "wsl-docker step     : ${{ steps.wsld.outcome }}"
           Write-Host "install step        : ${{ steps.install.outcome }}"
-          Write-Host ""
-          Write-Host "This job is exploratory; it reports and never fails the run."
+          if (-not $ok) {
+            Write-Host "::error::Windows container smoke did NOT pass — the studio never answered 200."
+            exit 1
+          }
+          Write-Host "Windows container smoke PASSED."
