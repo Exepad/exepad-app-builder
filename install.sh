@@ -120,11 +120,14 @@ maybe_ask_for_account() {
   # No terminal to type into (piped, CI, a service unit): never block.
   { : > /dev/tty; } 2>/dev/null || return 0
 
-  local email password attempt
+  local email password
   say ""
   say "Create your operator account now, so nobody else can claim this studio."
   say "  Press Enter at the email prompt to skip and create it in the browser."
-  for attempt in 1 2 3; do
+  # `_`, not a named variable: the loop only BOUNDS the retries, nothing reads
+  # the counter. A named one trips shellcheck's SC2034 at warning level, which
+  # packaging-ci treats as fatal.
+  for _ in 1 2 3; do
     printf '%s' "[exepad]   Email: " > /dev/tty
     read -r email < /dev/tty || return 0
     [ -z "$email" ] && return 0
@@ -152,7 +155,7 @@ maybe_ask_for_account() {
 
 # Poll until the studio reports setup is closed, i.e. the seed actually landed.
 wait_setup_complete() {
-  local port="$1" deadline try
+  local port="$1" try
   try=0
   while [ "$try" -lt 45 ]; do
     try=$((try + 1))
