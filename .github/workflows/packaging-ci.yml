@@ -560,6 +560,14 @@ jobs:
             exit 1
           }
           Write-Host "install.ps1 executes under 5.1"
+          # Explicit, and load-bearing. install.ps1 exits NON-ZERO here by design
+          # -- the Windows runner has a docker CLI but no running engine, so it
+          # correctly reports "engine not reachable". GitHub's `powershell` shell
+          # appends `exit $LASTEXITCODE`, so that tolerated failure would become
+          # the step's status and fail this check for the one reason it already
+          # decided to ignore. The `-match` above is what still catches a real
+          # 5.1 incompatibility.
+          exit 0
 
       # The parse + -DryRun checks above are necessary and were not sufficient:
       # -DryRun writes no .env and returns early from Show-SetupToken, so it
