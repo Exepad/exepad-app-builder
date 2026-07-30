@@ -1,0 +1,42 @@
+:host {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.metric-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sparkline {
+  height: 40px;
+}
+
+.cohort-cell {
+  min-width: 60px;
+  text-align: center;
+  transition: background 0.15s ease;
+}
+
+.cohort-high {
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.cohort-medium {
+  background: rgba(234, 179, 8, 0.2);
+}
+
+.cohort-low {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.data-table th {
+  cursor: pointer;
+  user-select: none;
+}
+
+.data-table th:hover {
+  background: hsl(var(--accent));
+}

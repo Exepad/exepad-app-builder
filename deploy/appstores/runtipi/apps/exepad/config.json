@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.runtipi.io/app-info.json",
+  "id": "exepad",
+  "name": "Exepad",
+  "available": true,
+  "port": 8080,
+  "exposable": true,
+  "dynamic_config": true,
+  "version": "latest",
+  "tipi_version": 1,
+  "categories": ["development", "ai"],
+  "short_desc": "Self-hosted AI app builder — prompt to deployed full-stack app",
+  "description": "Exepad turns a prompt into a real, deployed web app. A multi-agent AI builder plans the app, writes the React UI, models the data, and wires it together — compiled, deployed, and served inside one container. Bring your own LLM key (Gemini, Anthropic, OpenAI, OpenRouter, or a local model via Ollama). Needs >= 2 GB RAM; single instance only (SQLite). All state lives in the app data directory.",
+  "author": "Exepad",
+  "source": "https://github.com/Exepad/exepad-app-builder",
+  "website": "https://exepad.com",
+  "supported_architectures": ["amd64", "arm64"],
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "LLM API key (required to build apps; can also be set later in /settings)",
+      "required": false,
+      "env_variable": "EXEPAD_LLM_API_KEY"
+    },
+    {
+      "type": "text",
+      "label": "LLM provider (gemini | anthropic | openai | openrouter | custom)",
+      "required": false,
+      "placeholder": "gemini",
+      "env_variable": "EXEPAD_LLM_PROVIDER"
+    }
+  ]
+}

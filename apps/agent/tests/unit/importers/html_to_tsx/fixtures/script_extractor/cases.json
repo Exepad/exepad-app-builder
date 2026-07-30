@@ -1,0 +1,48 @@
+{
+  "cases": [
+    {
+      "id": "normal_script",
+      "input_path": "examples/normal_script.html",
+      "expected_scripts_contains": [
+        "document.getElementById('cta')",
+        "addEventListener('click'"
+      ],
+      "expected_tsx_absent": ["<script>"]
+    },
+    {
+      "id": "analytics_gtag_dropped",
+      "input_path": "examples/analytics_gtag.html",
+      "expected_scripts_absent": ["gtag", "dataLayer"],
+      "expected_tsx_absent": ["<script>"],
+      "expected_warnings_contains": ["analytics"]
+    },
+    {
+      "id": "analytics_fbq_dropped",
+      "input_path": "examples/analytics_fbq.html",
+      "expected_scripts_absent": ["fbq"],
+      "expected_warnings_contains": ["analytics"]
+    },
+    {
+      "id": "analytics_plausible_external_src",
+      "input_path": "examples/analytics_plausible.html",
+      "expected_warnings_contains": ["dropped external script"]
+    },
+    {
+      "id": "analytics_mixed_split",
+      "input_path": "examples/analytics_mixed.html",
+      "expected_scripts_contains": ["document.getElementById('foo')"],
+      "expected_scripts_absent": ["gtag"]
+    },
+    {
+      "id": "script_module_low_confidence",
+      "input_path": "examples/script_module_low_confidence.html",
+      "expected_confidence": "low"
+    },
+    {
+      "id": "script_with_external_src",
+      "input_path": "examples/script_with_external_src.html",
+      "expected_warnings_contains": ["dropped external script src='https://cdn.example.com/lib.js'"],
+      "expected_tsx_absent": ["<script"]
+    }
+  ]
+}

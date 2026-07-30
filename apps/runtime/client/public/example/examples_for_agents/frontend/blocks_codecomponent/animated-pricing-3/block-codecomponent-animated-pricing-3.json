@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-animated-pricing",
+  "alias": "codecomponent-animated-pricing",
+  "name": "Animated Pricing Cards",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "summary": "Pricing page using a CodeComponent with framer-motion animations (Motion namespace), SDK UI primitives (Card, Button, Badge, Switch), and useTheme for theme-aware styling. Demonstrates animated card entrance, toggle between monthly/yearly billing, and Motion.div usage. No backend required.",
+  "shortSummary": "Animated pricing cards with Motion namespace and useTheme",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "PricingSection": {
+        "source": "frontend/components/PricingSection.tsx",
+        "compiled": "frontend/components/PricingSection.js",
+        "summary": "Animated pricing cards with monthly/yearly toggle, Motion.div entrance animations, and theme-aware colors"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#111827",
+        "primary": "#047857",
+        "primary-foreground": "#f0fdf4",
+        "secondary": "#f0fdf4",
+        "secondary-foreground": "#111827",
+        "muted": "#f9fafb",
+        "muted-foreground": "#6b7280",
+        "accent": "#f0fdf4",
+        "accent-foreground": "#111827",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e5e7eb",
+        "input": "#e5e7eb",
+        "ring": "#059669"
+      },
+      "dark": {
+        "background": "#0a0f0d",
+        "foreground": "#f8fafc",
+        "primary": "#34d399",
+        "primary-foreground": "#0a0f0d",
+        "secondary": "#112019",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#112019",
+        "muted-foreground": "#94a3b8",
+        "accent": "#112019",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#112019",
+        "input": "#112019",
+        "ring": "#34d399"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-pricing",
+        "title": "Pricing",
+        "slug": "/",
+        "summary": "Pricing page with animated plan cards.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "pricing-section-1",
+            "component": "PricingSection",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Pricing page with animated plan cards",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

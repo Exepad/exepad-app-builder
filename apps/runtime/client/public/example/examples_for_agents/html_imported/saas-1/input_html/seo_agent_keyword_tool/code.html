@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KINETIC | Keyword Research</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-dim": "#f271b5",
+              "on-tertiary-fixed-variant": "#73004b",
+              "error-dim": "#d73357",
+              "tertiary-fixed": "#ff8bc5",
+              "primary-fixed-dim": "#b971ff",
+              "tertiary-container": "#f673b7",
+              "on-primary": "#47007c",
+              "surface-dim": "#0e0e0e",
+              "on-secondary-fixed": "#003a43",
+              "surface-variant": "#262626",
+              "on-tertiary-container": "#4a002f",
+              "secondary-container": "#006877",
+              "on-tertiary": "#5f003e",
+              "on-primary-container": "#360061",
+              "on-error-container": "#ffb2b9",
+              "surface-tint": "#cc97ff",
+              "background": "#0e0e0e",
+              "primary-fixed": "#c284ff",
+              "surface-container-high": "#201f1f",
+              "on-secondary-fixed-variant": "#005966",
+              "tertiary": "#ff86c3",
+              "primary": "#cc97ff",
+              "surface-bright": "#2c2c2c",
+              "inverse-on-surface": "#565554",
+              "surface-container": "#1a1919",
+              "surface": "#0e0e0e",
+              "primary-dim": "#9c48ea",
+              "on-tertiary-fixed": "#360021",
+              "outline": "#777575",
+              "surface-container-low": "#131313",
+              "error-container": "#a70138",
+              "on-secondary": "#004b56",
+              "on-error": "#490013",
+              "secondary-fixed": "#48e4ff",
+              "on-surface": "#ffffff",
+              "outline-variant": "#484847",
+              "on-primary-fixed": "#000000",
+              "secondary-fixed-dim": "#29d6f1",
+              "inverse-primary": "#842cd3",
+              "inverse-surface": "#fcf8f8",
+              "on-primary-fixed-variant": "#430076",
+              "on-background": "#ffffff",
+              "tertiary-fixed-dim": "#f976ba",
+              "primary-container": "#c284ff",
+              "surface-container-highest": "#262626",
+              "surface-container-lowest": "#000000",
+              "secondary-dim": "#1ad0eb",
+              "error": "#ff6e84",
+              "on-surface-variant": "#adaaaa",
+              "on-secondary-container": "#eafbff",
+              "secondary": "#3adffa"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(26, 25, 25, 0.9);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(204, 151, 255, 0.15);
+            border-left: 1px solid rgba(204, 151, 255, 0.05);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(204, 151, 255, 0.15);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0e0e0e; }
+        ::-webkit-scrollbar-thumb { background: #2c2c2c; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#131313] flex flex-col p-6 space-y-8 z-40">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-primary to-primary-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-fixed text-sm">bolt</span>
+</div>
+<span class="font-headline font-bold text-[#cc97ff] tracking-tight">KINETIC</span>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-4 px-2">Main Menu</p>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-white transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-['Inter'] text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-[#1a1919] text-[#cc97ff] rounded-lg shadow-[0_0_15px_rgba(204,151,255,0.1)] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">key</span>
+<span class="font-['Inter'] text-sm font-medium">Keywords</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-white transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">link</span>
+<span class="font-['Inter'] text-sm font-medium">Backlinks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-white transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-['Inter'] text-sm font-medium">Competitors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-white transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-['Inter'] text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto pt-6 border-t border-white/5 space-y-4">
+<button class="w-full py-2.5 bg-gradient-to-r from-primary to-primary-dim text-on-primary-fixed font-bold text-xs rounded-md shadow-lg shadow-primary/10 active:scale-95 transition-transform uppercase tracking-wider">
+                New Audit
+            </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-1 text-on-surface-variant hover:text-white transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+<span class="text-xs">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1 text-on-surface-variant hover:text-white transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[18px]">description</span>
+<span class="text-xs">Documentation</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen relative">
+<!-- Background Radial Glow -->
+<div class="fixed top-0 right-0 w-[800px] h-[800px] bg-primary-dim/5 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2"></div>
+<!-- Top Navigation Bar (Search & Filter) -->
+<header class="h-24 sticky top-0 z-30 px-10 flex items-center justify-between bg-background/80 backdrop-blur-xl border-b border-white/5">
+<div class="flex items-center flex-1 max-w-4xl gap-6">
+<!-- Search Input Container -->
+<div class="relative group flex-1">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-secondary transition-colors">search</span>
+<input class="w-full h-12 bg-surface-container-highest border-none rounded-xl pl-12 pr-4 text-sm focus:ring-1 focus:ring-secondary transition-all placeholder:text-on-surface-variant/50" placeholder="Search Keyword" type="text"/>
+</div>
+<!-- Filters Cluster -->
+<div class="flex items-center gap-3">
+<div class="relative group">
+<select class="appearance-none h-12 bg-surface-container-low border-none rounded-xl px-4 pr-10 text-xs font-medium text-on-surface-variant cursor-pointer hover:bg-surface-container transition-colors">
+<option>United States</option>
+<option>United Kingdom</option>
+<option>Germany</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-sm">expand_more</span>
+</div>
+<div class="relative group">
+<select class="appearance-none h-12 bg-surface-container-low border-none rounded-xl px-4 pr-10 text-xs font-medium text-on-surface-variant cursor-pointer hover:bg-surface-container transition-colors">
+<option>Volume: All</option>
+<option>10k+</option>
+<option>1k - 10k</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-sm">expand_more</span>
+</div>
+<button class="h-12 w-12 flex items-center justify-center bg-surface-container-low rounded-xl text-on-surface-variant hover:text-white hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-4 ml-8">
+<div class="text-right">
+<p class="text-xs font-bold">Project Alpha</p>
+<p class="text-[10px] text-on-surface-variant">Command Center</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container border border-white/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User avatar for profile section" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAel8QBgO5SD9dER7Vvp8mBihTcorBTejPTYAgYRmFyJRgOYvysX8sIA3Ie7yZT1dgPjcM3IbXqv7b7-I_Sp763O8ir_wdH_qWhnvcn4Me__KnU4QpUHcoszxpFrIXTX6YrMtBALdhbnIU8CWF0zO42ZJEG5BlBTrFg8dFFm6xttsHVjG6KVcN_oC8gmi9Xajr86yS0qyo5pKZOI_8ZmofWGarScLa1wIF1fQt4Ncrrpok8TF5rKluoZkDBd3l6TgMowqUGtEN0Y5do"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-10 space-y-10">
+<!-- Hero Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-card p-6 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl">trending_up</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">Primary Keyword Rank</p>
+<h2 class="text-4xl font-headline font-extrabold text-white tracking-tighter">#4</h2>
+<div class="mt-4 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary text-[10px] font-bold">+2 Today</span>
+<span class="text-[10px] text-on-surface-variant italic">vs last week</span>
+</div>
+</div>
+<div class="glass-card p-6 rounded-xl relative overflow-hidden">
+<p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">Total Monthly Volume</p>
+<h2 class="text-4xl font-headline font-extrabold text-white tracking-tighter">842.5K</h2>
+<div class="mt-4 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">Stable</span>
+<span class="text-[10px] text-on-surface-variant italic">Aggregated data</span>
+</div>
+</div>
+<div class="glass-card p-6 rounded-xl relative overflow-hidden">
+<p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">Avg. CPC Opportunity</p>
+<h2 class="text-4xl font-headline font-extrabold text-white tracking-tighter">$12.40</h2>
+<div class="mt-4 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary text-[10px] font-bold">High ROI</span>
+<span class="text-[10px] text-on-surface-variant italic">Targeted leads</span>
+</div>
+</div>
+</div>
+<!-- Main Data Section -->
+<section class="space-y-6">
+<div class="flex items-end justify-between">
+<div>
+<h3 class="text-2xl font-headline font-bold text-white tracking-tight">Keyword Analytics</h3>
+<p class="text-sm text-on-surface-variant mt-1">Deep analysis of the top 25 high-intent keywords for your project.</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 text-xs font-bold text-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">download</span> Export CSV
+                    </button>
+</div>
+<!-- Table Container -->
+<div class="glass-card rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant border-b border-white/5">Keyword</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant border-b border-white/5 text-right">Volume</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant border-b border-white/5 text-right">CPC (USD)</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant border-b border-white/5">Difficulty</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant border-b border-white/5 text-center">Trend</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Row 1 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<span class="font-medium text-white group-hover:text-primary transition-colors">enterprise seo solutions</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-headline font-bold">42,500</td>
+<td class="px-8 py-6 text-right font-medium">$24.15</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[82%] bg-gradient-to-r from-error/50 to-error shadow-[0_0_10px_rgba(255,110,132,0.3)]"></div>
+</div>
+<span class="text-xs font-bold text-error min-w-[28px]">82</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex justify-center">
+<div class="w-12 h-6 flex items-end gap-1">
+<div class="w-1 bg-secondary/20 h-2 rounded-t-sm"></div>
+<div class="w-1 bg-secondary/40 h-3 rounded-t-sm"></div>
+<div class="w-1 bg-secondary/60 h-4 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-6 rounded-t-sm"></div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<span class="font-medium text-white group-hover:text-primary transition-colors">best keyword explorer 2024</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-headline font-bold">12,800</td>
+<td class="px-8 py-6 text-right font-medium">$8.40</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[45%] bg-gradient-to-r from-secondary/50 to-secondary shadow-[0_0_10px_rgba(58,223,250,0.3)]"></div>
+</div>
+<span class="text-xs font-bold text-secondary min-w-[28px]">45</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex justify-center">
+<div class="w-12 h-6 flex items-end gap-1">
+<div class="w-1 bg-secondary h-4 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-5 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-4 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-6 rounded-t-sm"></div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<span class="font-medium text-white group-hover:text-primary transition-colors">ai powered backlinks</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-headline font-bold">5,400</td>
+<td class="px-8 py-6 text-right font-medium">$15.90</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[22%] bg-gradient-to-r from-primary/50 to-primary shadow-[0_0_10px_rgba(204,151,255,0.3)]"></div>
+</div>
+<span class="text-xs font-bold text-primary min-w-[28px]">22</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex justify-center">
+<div class="w-12 h-6 flex items-end gap-1">
+<div class="w-1 bg-secondary/10 h-1 rounded-t-sm"></div>
+<div class="w-1 bg-secondary/30 h-3 rounded-t-sm"></div>
+<div class="w-1 bg-secondary/50 h-5 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-6 rounded-t-sm"></div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<span class="font-medium text-white group-hover:text-primary transition-colors">seo audit checklist</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-headline font-bold">110,000</td>
+<td class="px-8 py-6 text-right font-medium">$1.20</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[64%] bg-gradient-to-r from-secondary/50 to-secondary shadow-[0_0_10px_rgba(58,223,250,0.3)]"></div>
+</div>
+<span class="text-xs font-bold text-secondary min-w-[28px]">64</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex justify-center">
+<div class="w-12 h-6 flex items-end gap-1">
+<div class="w-1 bg-secondary h-6 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-4 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-3 rounded-t-sm"></div>
+<div class="w-1 bg-secondary h-2 rounded-t-sm"></div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination / Footer of Table -->
+<div class="px-8 py-4 flex items-center justify-between bg-surface-container-low/30 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+<p>Showing 1-10 of 254 Keywords</p>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-1 hover:text-white transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span> Previous
+                            </button>
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 flex items-center justify-center bg-primary text-on-primary-fixed rounded">1</span>
+<span class="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded cursor-pointer transition-colors">2</span>
+<span class="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded cursor-pointer transition-colors">3</span>
+</div>
+<button class="flex items-center gap-1 hover:text-white transition-colors">
+                                Next <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Sticky Floating AI Assistant Trigger -->
+<button class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-secondary-fixed shadow-[0_0_30px_rgba(58,223,250,0.3)] flex items-center justify-center text-on-secondary-fixed z-50 hover:scale-110 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</button>
+<!-- Global Footer -->
+<footer class="w-full py-12 px-10 bg-background border-t border-white/5 mt-10">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-1">
+<span class="text-lg font-black text-white font-headline tracking-tighter">KINETIC</span>
+<p class="mt-4 font-['Inter'] text-xs text-[#adaaaa] leading-relaxed">
+                        Precision SEO intelligence powered by Liquid Data. Real-time insights for the modern digital alchemist.
+                    </p>
+</div>
+<div class="flex flex-col space-y-3">
+<p class="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Platform</p>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Keyword Research</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Competitor Analysis</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Rank Tracking</a>
+</div>
+<div class="flex flex-col space-y-3">
+<p class="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Resources</p>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">SEO Guide</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">API Documentation</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Case Studies</a>
+</div>
+<div class="flex flex-col space-y-3">
+<p class="text-[10px] font-bold uppercase tracking-widest text-white mb-2">Legal</p>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Terms of Service</a>
+<a class="font-['Inter'] text-xs text-[#adaaaa] hover:text-[#3adffa] transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-['Inter'] text-xs text-[#adaaaa]">© 2024 KINETIC SEO. Powered by Liquid Data.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-[#adaaaa] hover:text-white cursor-pointer transition-colors text-sm">terminal</span>
+<span class="material-symbols-outlined text-[#adaaaa] hover:text-white cursor-pointer transition-colors text-sm">public</span>
+<span class="material-symbols-outlined text-[#adaaaa] hover:text-white cursor-pointer transition-colors text-sm">rss_feed</span>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

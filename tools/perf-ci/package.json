@@ -1,0 +1,20 @@
+{
+  "name": "@exepad/perf-ci",
+  "private": true,
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "description": "Lighthouse + deterministic JS-byte performance gate. Dev/CI ONLY — never bundled into the self-hosted container.",
+  "type": "module",
+  "scripts": {
+    "perf:ci": "node runner.mjs",
+    "perf:bytes": "node runner.mjs --bytes-only",
+    "perf:selftest": "node runner.mjs --selftest"
+  },
+  "devDependencies": {
+    "chrome-launcher": "1.1.2",
+    "lighthouse": "12.8.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

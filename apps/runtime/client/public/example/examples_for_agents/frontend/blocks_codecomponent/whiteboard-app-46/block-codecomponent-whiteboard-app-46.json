@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-whiteboard-app",
+  "alias": "codecomponent-whiteboard-app",
+  "name": "Excalidraw Whiteboard",
+  "appType": "WebAppProps",
+  "appSecondaryType": "custom",
+  "summary": "Full-featured whiteboard CodeComponent powered by Excalidraw. Features the Excalidraw.Excalidraw component for freeform drawing, theme sync passing useTheme() resolved mode to Excalidraw theme prop, custom top bar with Save and Share buttons, Alert banner for unsaved changes tracking onChange events, useAppState for persisting drawing elements and appState, useCurrentUser for displaying collaboration identity with a Badge, toast on save and share actions, full-width layout at 600px fixed height, and demo initial data with shapes and text. Uses Excalidraw extension for whiteboard rendering.",
+  "shortSummary": "Excalidraw whiteboard with theme sync, save/share, unsaved changes alert, and user identity",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "WhiteboardApp": {
+        "source": "frontend/components/WhiteboardApp.tsx",
+        "compiled": "frontend/components/WhiteboardApp.js",
+        "summary": "Excalidraw whiteboard with theme sync, save/share buttons, unsaved changes alert, user identity badge, and persistent state"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0a0e2e",
+        "primary": "#4f46e5",
+        "primary-foreground": "#ffffff",
+        "secondary": "#eef2ff",
+        "secondary-foreground": "#0a0e2e",
+        "muted": "#eef2ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#e0e7ff",
+        "accent-foreground": "#0a0e2e",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#c7d2fe",
+        "input": "#c7d2fe",
+        "ring": "#4f46e5"
+      },
+      "dark": {
+        "background": "#0f0a20",
+        "foreground": "#eef2ff",
+        "primary": "#818cf8",
+        "primary-foreground": "#0f0a20",
+        "secondary": "#1e1b4b",
+        "secondary-foreground": "#eef2ff",
+        "muted": "#1e1b4b",
+        "muted-foreground": "#a5b4fc",
+        "accent": "#1e1b4b",
+        "accent-foreground": "#eef2ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#eef2ff",
+        "border": "#312e81",
+        "input": "#312e81",
+        "ring": "#6366f1"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-whiteboard",
+        "title": "Whiteboard",
+        "slug": "/",
+        "summary": "Full-featured Excalidraw whiteboard with save, share, and theme sync.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "whiteboard-app-1",
+            "component": "WhiteboardApp",
+            "extensions": [
+              "excalidraw"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Excalidraw whiteboard with save and share",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

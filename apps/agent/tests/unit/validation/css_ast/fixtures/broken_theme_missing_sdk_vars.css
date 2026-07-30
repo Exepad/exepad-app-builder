@@ -1,0 +1,14 @@
+/*
+ * :root is present but most SDK variables are missing.
+ * Flags expected:
+ *   style.required.sdk_variables
+ */
+
+@import "tailwindcss";
+
+@layer exepad-app {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+  }
+}

@@ -1,0 +1,661 @@
+# Quality gate for the packaging surface: the npm launcher, install.sh, the
+# deploy templates, and the release workflow itself. Runs on PRs/pushes touching
+# that surface; needs no secrets.
+name: packaging-ci
+
+on:
+  # Manual runs (any branch): lets packaging changes be proven on the real
+  # Windows runner before a release tag is cut.
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'packages/exepad-cli/**'
+      - 'install.sh'
+      - 'install.ps1'
+      - 'packaging/**'
+      - 'INSTALL.md'
+      - 'apps/agent/requirements.txt'
+      - 'apps/agent/requirements.lock'
+      - 'deploy/**'
+      - 'render.yaml'
+      - '.github/workflows/release.yml'
+      - '.github/workflows/packaging-ci.yml'
+      # The image itself. Until 1.0.1 the ONLY workflow that built the Dockerfile
+      # was release.yml, which triggers on a tag — so a Dependabot base-image bump
+      # (the first batch proposed node 22→26 and python 3.12→3.14, both MAJOR)
+      # could merge with zero verification, and the breakage would first appear
+      # mid-release, on a 30-minute multi-arch build.
+      - 'Dockerfile'
+      - '.dockerignore'
+      - 'docker/**'
+  push:
+    branches: [main]
+    paths:
+      - 'packages/exepad-cli/**'
+      - 'install.sh'
+      - 'install.ps1'
+      - 'packaging/**'
+      - 'INSTALL.md'
+      - 'apps/agent/requirements.txt'
+      - 'apps/agent/requirements.lock'
+      - 'deploy/**'
+      - 'render.yaml'
+      - '.github/workflows/release.yml'
+      - '.github/workflows/packaging-ci.yml'
+      - 'Dockerfile'
+      - '.dockerignore'
+      - 'docker/**'
+
+permissions:
+  contents: read
+
+jobs:
+  # ── npm launcher: typecheck → test → build → smoke → pack ───────────────────
+  cli:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/exepad-cli
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Install (standalone — the launcher has no workspace deps)
+        run: pnpm install --ignore-workspace
+
+      - run: pnpm run typecheck
+      - run: pnpm run test
+      - run: pnpm run build
+
+      - name: Smoke-test the built launcher
+        run: |
+          set -euo pipefail
+          node dist/cli.js --version
+          node dist/cli.js --help >/dev/null
+
+      - name: npm pack (thin-launcher size gate)
+        run: |
+          set -euo pipefail
+          SIZE=$(npm pack --dry-run --json | node -p 'JSON.parse(require("fs").readFileSync(0,"utf8"))[0].size')
+          echo "tarball size: ${SIZE}B"
+          [ "$SIZE" -lt 262144 ] || { echo "::error::npm tarball is ${SIZE}B (>256KB) — launcher must stay thin"; exit 1; }
+
+  # ── the image actually builds ────────────────────────────────────────────────
+  # Until 1.0.1 nothing built the Dockerfile outside release.yml, which triggers
+  # on a TAG. A base-image bump could therefore merge unverified and fail during
+  # a release, on a 30-minute multi-arch build, after the tag was already public.
+  # Dependabot made that concrete on its first run: node 22→26 and python
+  # 3.12→3.14, both major, both with no checks at all.
+  #
+  # amd64 only and push:false — this is a "does it still build" gate, not a
+  # release. The arm64 leg runs under QEMU and costs ~20 extra minutes for a
+  # signal this job already gives.
+  image-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      # packaging-ci fires on a broad path set, so gate the expensive part on
+      # the image having actually changed rather than adding ~10 minutes to
+      # every installer-only PR.
+      - name: Did anything image-related change?
+        id: changed
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "build=true" >> "$GITHUB_OUTPUT"      # manual run: always build
+            echo "manual dispatch — building"
+            exit 0
+          fi
+          BASE="${{ github.event.pull_request.base.sha }}"
+          if [ -z "$BASE" ]; then BASE="${{ github.event.before }}"; fi
+          # A force-push (how the OSS snapshot lands) leaves `before` pointing at
+          # an orphaned commit, so fall back to just this commit's own file list.
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            git show --name-only --format= HEAD > files.txt
+          else
+            git diff --name-only "$BASE" HEAD > files.txt
+          fi
+          if grep -qE '^(Dockerfile|\.dockerignore|docker/)' files.txt; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+            echo "image-related changes:"; grep -E '^(Dockerfile|\.dockerignore|docker/)' files.txt
+          else
+            echo "build=false" >> "$GITHUB_OUTPUT"
+            echo "no image-related changes — skipping the build"
+          fi
+
+      - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v3.13.0
+        if: steps.changed.outputs.build == 'true'
+
+      - name: Build (amd64, no push)
+        if: steps.changed.outputs.build == 'true'
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        with:
+          context: .
+          platforms: linux/amd64
+          push: false
+          load: false
+          build-args: |
+            EXEPAD_VERSION=ci
+            EXEPAD_COMMIT=${{ github.sha }}
+            EXEPAD_SOURCE_URL=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ── install.sh: syntax + shellcheck · install.ps1: pwsh parse ────────────────
+  installer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: bash -n install.sh
+      - run: shellcheck -S warning install.sh
+      - run: bash -n 'packaging/one-click/macos/Install Exepad.command'
+      - run: shellcheck -S warning 'packaging/one-click/macos/Install Exepad.command'
+      - run: bash -n packaging/one-click/build-bundles.sh
+      - run: shellcheck -S warning packaging/one-click/build-bundles.sh
+
+      # cmd.exe parses CRLF; a git/editor re-normalization or a stray non-ASCII
+      # char (cmd's OEM codepage mangles it) would break the double-click path.
+      - name: Windows one-click wrapper stays CRLF + ASCII
+        run: |
+          set -euo pipefail
+          for f in 'packaging/one-click/windows/Install Exepad.bat' packaging/one-click/windows/README.txt; do
+            file "$f" | grep -q 'CRLF' || { echo "::error::$f lost its CRLF line endings"; exit 1; }
+            if LC_ALL=C grep -qP '[^\x00-\x7F]' "$f"; then
+              echo "::error::$f contains non-ASCII bytes (cmd.exe codepage hazard)"; exit 1
+            fi
+          done
+          # install.ps1 ships in the same zip and is BOM-less: Windows
+          # PowerShell 5.1 then reads it as ANSI, so any non-ASCII byte gets
+          # mojibake'd (or worse, lands inside a string). Keep it pure ASCII.
+          if LC_ALL=C grep -qP '[^\x00-\x7F]' install.ps1; then
+            echo "::error::install.ps1 must stay pure ASCII (PS 5.1 reads BOM-less files as ANSI)"; exit 1
+          fi
+          echo "windows wrapper files OK"
+
+      # The npx delegation is an OPTIMISATION — the embedded bootstrap produces
+      # the same compose/.env/marker and the same container. An unreachable npm
+      # must therefore fall THROUGH, not abort: before 1.0.1 a failed delegation
+      # called `exit`, so an npm outage (or a release whose npm job failed after
+      # the image had published) broke `curl … | bash` for everyone who happened
+      # to have Node installed. Both directions are asserted, because "always
+      # fall back" would silently disable delegation altogether.
+      - name: npx delegation falls back to the embedded bootstrap
+        run: |
+          set -euo pipefail
+          mkdir -p stub
+          # `docker logs` matters here too: the installer reads the first-run
+          # setup token back out of them. EXEPAD_STUB_LOGS switches between a
+          # container that has printed its banner and one that has not yet.
+          cat > stub/docker <<'EOF'
+          #!/usr/bin/env bash
+          case "$1" in
+            --version) echo "Docker version 27.0.1, build ci"; exit 0;;
+            logs)
+              if [ "${EXEPAD_STUB_LOGS:-banner}" = "banner" ]; then
+                echo "[exepad] ============================================================" >&2
+                echo "[exepad]  FIRST-RUN SETUP TOKEN (enter it on the setup screen to" >&2
+                echo "[exepad]  create your operator account):" >&2
+                echo "[exepad]      00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff" >&2
+                echo "[exepad] ============================================================" >&2
+              fi
+              exit 0;;
+            info|compose) exit 0;;
+            *) exit 0;;
+          esac
+          EOF
+          cat > stub/node <<'EOF'
+          #!/usr/bin/env bash
+          [ "$1" = "-v" ] && { echo v20.11.0; exit 0; }
+          [ "$1" = "-p" ] && { echo 20; exit 0; }
+          exit 0
+          EOF
+          chmod +x stub/docker stub/node
+          # A pinned, public-channel copy — delegation is off on the dev channel.
+          sed -e 's/^EXEPAD_RELEASE_CHANNEL=.*/EXEPAD_RELEASE_CHANNEL="public"/' \
+              -e 's/^EXEPAD_DEFAULT_VERSION=.*/EXEPAD_DEFAULT_VERSION="9.9.9"/' \
+              install.sh > stub/install-public.sh
+
+          # 1. launcher unavailable (npm 404 / offline) → bootstrap completes it
+          printf '#!/usr/bin/env bash\necho "npm error 404 Not Found" >&2\nexit 1\n' > stub/npx
+          chmod +x stub/npx
+          PATH="$PWD/stub:$PATH" bash stub/install-public.sh --yes --dir "$PWD/fb1" --port 8099 > fb1.log 2>&1 \
+            || { echo "::error::install.sh aborted when the npm launcher was unavailable"; cat fb1.log; exit 1; }
+          grep -q 'built-in installer' fb1.log \
+            || { echo "::error::fell back without telling the user why"; cat fb1.log; exit 1; }
+          [ -f fb1/docker-compose.yml ] && [ -f fb1/.env ] && [ -f fb1/.exepad-version ] \
+            || { echo "::error::fallback did not run the embedded bootstrap"; ls -la fb1 || true; exit 1; }
+          grep -q 'image: ghcr.io/exepad/exepad-app-builder:9.9.9' fb1/docker-compose.yml \
+            || { echo "::error::fallback compose is not pinned to the requested version"; exit 1; }
+
+          # 2. launcher available → still delegates, and does NOT also bootstrap
+          cat > stub/npx <<'EOF'
+          #!/usr/bin/env bash
+          for a in "$@"; do [ "$a" = "--version" ] && { echo 9.9.9; exit 0; }; done
+          echo "DELEGATED $*"
+          EOF
+          chmod +x stub/npx
+          PATH="$PWD/stub:$PATH" bash stub/install-public.sh --yes --dir "$PWD/fb2" --port 8099 > fb2.log 2>&1
+          grep -q 'DELEGATED' fb2.log \
+            || { echo "::error::stopped delegating to the npm launcher when it WAS available"; cat fb2.log; exit 1; }
+          if [ -e fb2/docker-compose.yml ]; then
+            echo "::error::delegated AND ran the bootstrap — the install would run twice"; exit 1
+          fi
+
+          # 3. unpinned (--version latest) must still take the fallback rather
+          #    than die on the `is_semver` guard that selects the pkgspec.
+          printf '#!/usr/bin/env bash\nexit 1\n' > stub/npx
+          chmod +x stub/npx
+          PATH="$PWD/stub:$PATH" bash stub/install-public.sh --yes --version latest --dir "$PWD/fb3" --port 8099 > fb3.log 2>&1 \
+            || { echo "::error::unpinned install aborted instead of falling back"; cat fb3.log; exit 1; }
+          [ -f fb3/docker-compose.yml ] || { echo "::error::unpinned fallback wrote nothing"; exit 1; }
+          echo "npx delegation fallback OK (all three directions)"
+
+          # The setup screen demands a token the container only ever prints to
+          # its logs, and every install path starts it detached. Node-less
+          # installs (most servers, ALL one-click bundles, the MSI) have no
+          # launcher to surface it, so install.sh reads it back itself.
+          grep -q '00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff' fb1.log \
+            || { echo "::error::install.sh did not surface the first-run setup token"; cat fb1.log; exit 1; }
+
+          # ...and it must survive a container that has NOT printed the banner
+          # yet. install.sh runs under `set -euo pipefail`, so the grep that
+          # finds nothing exits 1, pipefail promotes it, and an unguarded
+          # assignment aborts the whole install — on a cold start, which is
+          # exactly when a first-run token is needed.
+          EXEPAD_STUB_LOGS=silent PATH="$PWD/stub:$PATH" \
+            bash stub/install-public.sh --yes --dir "$PWD/fb4" --port 8099 > fb4.log 2>&1 \
+            || { echo "::error::install aborted when the container had not logged the token yet"; cat fb4.log; exit 1; }
+          [ -f fb4/docker-compose.yml ] || { echo "::error::silent-logs install wrote nothing"; exit 1; }
+          echo "setup-token surfacing OK (present and absent)"
+
+      # Rehearse the EXACT bundle assembly the release job runs, then check the
+      # invariants a broken bundle would violate on a user's machine.
+      - name: Build + verify one-click bundles
+        run: |
+          set -euo pipefail
+          bash packaging/one-click/build-bundles.sh dist/installers
+          cd dist/installers
+          for a in Exepad-Installer-Windows.zip Exepad-Installer-macOS.zip Exepad-Installer-Linux.tar.gz; do
+            [ -f "$a" ] && [ -f "$a.sha256" ] || { echo "::error::missing $a(.sha256)"; exit 1; }
+            sha256sum -c "$a.sha256"
+          done
+          unzip -l Exepad-Installer-Windows.zip | grep -q 'install.ps1'
+          unzip -l Exepad-Installer-Windows.zip | grep -q 'Install Exepad.bat'
+          unzip -l Exepad-Installer-macOS.zip   | grep -q 'install.sh'
+          # The .command must carry its exec bit through the zip (Archive
+          # Utility restores it from the central directory attributes).
+          zipinfo Exepad-Installer-macOS.zip 'Install Exepad.command' | grep -q '^-rwx' \
+            || { echo "::error::Install Exepad.command lost its exec bit in the zip"; exit 1; }
+          tar -tzf Exepad-Installer-Linux.tar.gz | grep -q 'install.sh'
+          echo "one-click bundles OK"
+      # pwsh is preinstalled on GitHub ubuntu runners; a parse (not execution)
+      # catches syntax errors in the Windows front door without a Windows runner.
+      # `irm ... | iex` runs the body in the CALLER'S session, so any `exit`
+      # terminates the user's PowerShell WINDOW -- taking the error message with
+      # it. Reported from a real Windows box as "it closed the powershell and
+      # nothing happens". Wrapping in `& { }` or a function does not contain it;
+      # only never calling `exit` does.
+      - name: install.ps1 must not kill the caller's shell under `irm | iex`
+        shell: pwsh
+        run: |
+          $src = Get-Content install.ps1 -Raw
+
+          # 1. Static: exactly one `exit`, sitting under the $PSCommandPath guard
+          #    (i.e. only when genuinely running as a .ps1 file).
+          $exits = [regex]::Matches($src, '(?m)^\s*exit\s')
+          if ($exits.Count -ne 1) {
+            Write-Host "::error::install.ps1 has $($exits.Count) top-level 'exit' statements; expected exactly 1"
+            exit 1
+          }
+          if ($src -notmatch '(?s)if \(\$PSCommandPath\)\s*\{[^}]*exit ') {
+            Write-Host "::error::the surviving 'exit' is not guarded by `$PSCommandPath"
+            exit 1
+          }
+          Write-Host "static: one exit, guarded"
+
+          # 2. Behavioural, in a CHILD pwsh -Command process. Two reasons it
+          #    cannot run inline: Actions invokes pwsh steps as
+          #    `pwsh -command ". '{0}'"`, which DOT-SOURCES a file and therefore
+          #    leaves $PSCommandPath non-empty -- the guard would correctly fire
+          #    `exit` and kill this step before any assertion could run. And a
+          #    child process is what makes the assertion meaningful: if the
+          #    script kills its host, the marker simply never appears.
+          #
+          #    Docker is stubbed to report "engine down" because ubuntu runners
+          #    DO have a working Docker, so an unstubbed run takes the success
+          #    path and then blocks on the interactive LLM-key prompt.
+          $tmp  = [System.IO.Path]::GetTempPath()
+          $stub = Join-Path $tmp 'exepad-stub'
+          New-Item -ItemType Directory -Force -Path $stub | Out-Null
+          Set-Content -Path (Join-Path $stub 'docker') -Value "#!/bin/bash`nexit 1`n" -NoNewline
+          & chmod +x (Join-Path $stub 'docker')
+
+          $probe = @"
+          `$env:PATH = '$stub' + [IO.Path]::PathSeparator + `$env:PATH
+          `$env:USERPROFILE = '$tmp/exepad-iex-home'
+          New-Item -ItemType Directory -Force -Path `$env:USERPROFILE | Out-Null
+          Invoke-Expression (Get-Content '$PWD/install.ps1' -Raw)
+          Write-Host "SHELL-SURVIVED:`$LASTEXITCODE"
+          "@
+          $out = (& pwsh -NoProfile -Command $probe 2>&1 | Out-String)
+          Write-Host $out
+          if ($out -notmatch 'SHELL-SURVIVED:') {
+            Write-Host "::error::install.ps1 terminated its host under iex — the marker after it never ran"
+            exit 1
+          }
+          if ($out -notmatch 'SHELL-SURVIVED:1') {
+            Write-Host "::error::expected exit status 1 from an engine-down run"
+            exit 1
+          }
+          Write-Host "install.ps1 is iex-safe (fails without killing the shell)"
+
+      - name: Parse install.ps1
+        shell: pwsh
+        run: |
+          $errs = $null
+          [System.Management.Automation.Language.Parser]::ParseFile("$PWD/install.ps1", [ref]$null, [ref]$errs) | Out-Null
+          if ($errs.Count -gt 0) {
+            $errs | ForEach-Object { Write-Host "::error::install.ps1: $($_.Message) (line $($_.Extent.StartLineNumber))" }
+            exit 1
+          }
+          Write-Host "install.ps1 parses clean"
+
+  # ── macOS front door: EXECUTE the installer under the SYSTEM bash ───────────
+  # The `installer` job above parses install.sh with the ubuntu runner's bash 5.
+  # macOS ships bash **3.2.57** as /bin/bash (the last GPLv2 release), and
+  # `curl … | bash` on a Mac runs THAT one. A bash-4-ism — ${x,,}, `declare -A`,
+  # mapfile, `&>>`, negative array indices — parses clean on ubuntu and dies on
+  # every Mac, which is exactly the class of bug no amount of `bash -n` upstream
+  # can catch. So this job runs the real script under the real interpreter.
+  #
+  # GitHub's macOS runners have no usable Docker, so the container install itself
+  # is NOT covered here — that stays a manual check on a real Mac. What is
+  # covered: the script logic, the bundle as Archive Utility actually restores
+  # it, and the Gatekeeper story the README tells.
+  installer-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # If Apple ever ships a newer /bin/bash, this job silently stops proving
+      # what it claims to prove. Fail loudly instead so the guarantee is re-read.
+      - name: /bin/bash is still the 3.2 line we must stay compatible with
+        run: |
+          set -euo pipefail
+          /bin/bash --version | head -1
+          /bin/bash -c 'case "$BASH_VERSION" in 3.2*) exit 0;; esac
+            echo "::error::/bin/bash is $BASH_VERSION, not 3.2 — this job no longer proves macOS bash compat"; exit 1'
+
+      - name: Parse + run the front door under bash 3.2
+        run: |
+          set -euo pipefail
+          /bin/bash -n install.sh
+          /bin/bash -n 'packaging/one-click/macos/Install Exepad.command'
+          /bin/bash -n packaging/one-click/build-bundles.sh
+          /bin/bash install.sh --help > /dev/null
+          echo "bash 3.2 parses and runs install.sh"
+
+      # The runner has no Docker, which makes this the genuine experience of a Mac
+      # user who hasn't installed one — the single most likely first-run state.
+      #
+      # macOS deliberately does NOT behave like Linux here. There is no unattended
+      # Docker install to offer a Mac, so `darwin_docker_instruct` names Docker
+      # Desktop/OrbStack and then "dies with instructions (returns only on
+      # --dry-run)" (install.sh:176-180). So the contract has two halves, and both
+      # are worth pinning because each is a different promise to the user.
+      - name: No Docker + --dry-run — names Docker Desktop, still finishes the plan
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          out="$(/bin/bash install.sh --dry-run --yes --dir "$RUNNER_TEMP/nodocker" 2>&1)"
+          printf '%s\n' "$out"
+          printf '%s\n' "$out" | grep -qi 'docker desktop' \
+            || { echo "::error::the no-Docker path stopped naming Docker Desktop"; exit 1; }
+          # Without this line the plan below it reads as though it would work.
+          printf '%s\n' "$out" | grep -qi 'skipping the remaining preflight' \
+            || { echo "::error::the dry-run no longer flags that preflight was skipped"; exit 1; }
+          [ ! -e "$RUNNER_TEMP/nodocker" ] \
+            || { echo "::error::--dry-run created $RUNNER_TEMP/nodocker"; exit 1; }
+
+      - name: No Docker + a REAL run — refuses, and leaves nothing behind
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          set +e
+          out="$(/bin/bash install.sh --yes --dir "$RUNNER_TEMP/realrun" 2>&1)"; rc=$?
+          set -e
+          printf '%s\n' "$out"
+          [ "$rc" -ne 0 ] \
+            || { echo "::error::a real install exited 0 with no Docker present"; exit 1; }
+          printf '%s\n' "$out" | grep -qi docker \
+            || { echo "::error::the refusal never mentions Docker"; exit 1; }
+          # A half-written install dir is worse than none: the next run would find
+          # it and take the upgrade path against a machine that never installed.
+          [ ! -e "$RUNNER_TEMP/realrun" ] \
+            || { echo "::error::the refused run left $RUNNER_TEMP/realrun behind"; exit 1; }
+
+      # Past the Docker gate the whole script body runs — compose/.env rendering,
+      # arch check (macos-latest is arm64), the summary. A stub `docker` is the
+      # only way to reach it on a runner that has none.
+      - name: Full dry-run under bash 3.2, with docker stubbed
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/stub"
+          # `--version` must answer in the exact shape install.sh's docker_major()
+          # greps for ("Docker version <major>.") — a stub that omits it reads as
+          # engine 0 and trips the >= 20 version gate before the body ever runs.
+          printf '#!/bin/sh\ncase "$1 $2" in "compose version") echo "Docker Compose version v2.30.0"; exit 0;; esac\ncase "$1" in --version) echo "Docker version 27.0.0, build stub"; exit 0;; info) echo "Server Version: stub"; exit 0;; esac\nexit 0\n' \
+            > "$RUNNER_TEMP/stub/docker"
+          chmod +x "$RUNNER_TEMP/stub/docker"
+          PATH="$RUNNER_TEMP/stub:$PATH" /bin/bash install.sh \
+            --dry-run --yes --version 9.9.9 --llm-key sk-ci --dir "$RUNNER_TEMP/inst"
+          # --dry-run promises to change nothing. Prove it rather than trust it.
+          [ ! -e "$RUNNER_TEMP/inst" ] \
+            || { echo "::error::--dry-run created $RUNNER_TEMP/inst"; exit 1; }
+          echo "dry-run reached the end and wrote nothing"
+
+      # build-bundles.sh has a shasum fallback for macOS/BSD that has never run
+      # in CI (the release job builds bundles on ubuntu). This executes it.
+      - name: Bundle assembly on macOS, then extract the way a user does
+        run: |
+          set -euo pipefail
+          /bin/bash packaging/one-click/build-bundles.sh dist/installers
+          cd dist/installers
+          shasum -a 256 -c Exepad-Installer-macOS.zip.sha256
+          # `ditto -x -k` IS Archive Utility's engine. The ubuntu job checks the
+          # exec bit the zip's central directory *claims*; this checks the bit on
+          # the file that actually lands in ~/Downloads. A `.command` without it
+          # does nothing when double-clicked — the whole one-click path, dead.
+          mkdir -p extracted
+          ditto -x -k Exepad-Installer-macOS.zip extracted
+          [ -x 'extracted/Install Exepad.command' ] \
+            || { echo "::error::'Install Exepad.command' lost its exec bit through ditto"; exit 1; }
+          [ -x extracted/install.sh ] \
+            || { echo "::error::install.sh lost its exec bit through ditto"; exit 1; }
+          echo "exec bits survived a real Archive Utility extraction"
+
+      # The bundle is unsigned and un-notarized by design, so the first launch IS
+      # blocked — that is expected, and the README's job is to walk the user
+      # through it. Assert the attribute a download really carries round-trips,
+      # and that both documented remedies are still in the text users get.
+      - name: Gatekeeper remedy still matches what README.txt promises
+        run: |
+          set -euo pipefail
+          cd dist/installers/extracted
+          xattr -w com.apple.quarantine '0081;00000000;Safari;' 'Install Exepad.command'
+          xattr -p com.apple.quarantine 'Install Exepad.command' > /dev/null
+          grep -q 'Open Anyway' README.txt \
+            || { echo "::error::README.txt lost the macOS 15 'Open Anyway' remedy"; exit 1; }
+          grep -qi 'right-click' README.txt \
+            || { echo "::error::README.txt lost the macOS 13/14 right-click remedy"; exit 1; }
+          echo "quarantine attribute round-trips; both remedies documented"
+
+  # ── Windows MSI: build with WiX + REAL install/uninstall smoke ──────────────
+  # WiX pinned to 5.0.2: v6+ requires accepting the Open Source Maintenance Fee
+  # EULA; 5.x is the last plain-OSS line. Runs on windows-latest because WiX
+  # only supports building on Windows and msiexec is the actual test.
+  msi:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Windows PowerShell 5.1 is `powershell.exe` -- still the default shell on
+      # Windows, and NOT the pwsh 7 every other check in this repo uses. That is
+      # the exact shape of the macOS bash-3.2 trap this project already guards
+      # against: a construct that is fine in 7 (ternary, ??, ::new(), -Parallel)
+      # parses clean in CI and then fails on a real user's machine. install.ps1
+      # is currently 5.1-clean; this keeps it that way.
+      - name: install.ps1 is valid under Windows PowerShell 5.1
+        shell: powershell
+        run: |
+          Write-Host "PSVersion: $($PSVersionTable.PSVersion)"
+          if ($PSVersionTable.PSVersion.Major -ne 5) {
+            Write-Host "::error::expected Windows PowerShell 5.1, got $($PSVersionTable.PSVersion) - this check is not testing what it claims"
+            exit 1
+          }
+          $errs = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path .\install.ps1).Path, [ref]$null, [ref]$errs) | Out-Null
+          if ($errs) {
+            Write-Host "::error::install.ps1 does not parse under Windows PowerShell 5.1"
+            $errs | ForEach-Object { Write-Host "  $_" }
+            exit 1
+          }
+          Write-Host "parses under 5.1"
+
+          # Runtime pass too: a parameter or cmdlet that only exists in 7 parses
+          # fine and fails when executed. -DryRun changes nothing on disk.
+          $out = (& .\install.ps1 -DryRun -Yes -NoNode -Port 8097 2>&1 | Out-String)
+          Write-Host $out
+          # A stopped/absent Docker on the runner is an acceptable outcome; a
+          # PowerShell-level failure is not.
+          if ($out -match 'not recognized as|CommandNotFoundException|ParameterBindingException|Unexpected token') {
+            Write-Host "::error::install.ps1 hit a PowerShell 5.1 incompatibility at runtime"
+            exit 1
+          }
+          Write-Host "install.ps1 executes under 5.1"
+
+      # The parse + -DryRun checks above are necessary and were not sufficient:
+      # -DryRun writes no .env and returns early from Show-SetupToken, so it
+      # exercises neither of the two paths that actually broke Windows installs
+      # (the .env merge folding the LLM key into a comment, and every native
+      # stderr capture throwing under EAP=Stop so the setup token was never
+      # printed). These tests drive those functions directly - no Docker, no
+      # network - and must run under 5.1 for the same reason as the block above.
+      - name: install.ps1 behaviour under Windows PowerShell 5.1
+        shell: powershell
+        run: |
+          .\packaging\one-click\windows\install-ps1.tests.ps1
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "::error::install.ps1 behavioural tests failed under Windows PowerShell 5.1"
+            exit 1
+          }
+
+      - name: Assemble MSI payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/msipayload
+          cp install.ps1 'packaging/one-click/windows/Install Exepad.bat' \
+             'packaging/msi/Exepad Studio.url' dist/msipayload/
+
+      - name: Install WiX 5.0.2
+        run: dotnet tool install --global wix --version 5.0.2
+
+      - name: Build MSI
+        shell: bash
+        run: |
+          set -euo pipefail
+          wix build packaging/msi/exepad.wxs \
+            -d ExepadVersion=0.0.1 -d PayloadDir=dist/msipayload \
+            -o dist/Exepad-Installer-Windows.msi
+          ls -l dist/Exepad-Installer-Windows.msi
+
+      - name: Install/uninstall smoke (per-user, silent)
+        shell: pwsh
+        run: ./packaging/msi/smoke.ps1 -MsiPath dist/Exepad-Installer-Windows.msi
+
+  # ── Agent deps: the pruned-lock invariant ────────────────────────────────────
+  # requirements.txt deliberately drops google-adk's [extensions] extra (~340 MB
+  # of transitives the agent never imports). That rests on "google-adk does not
+  # lazy-import the pruned packages for the code paths we use" — an invariant a
+  # future google-adk/litellm bump could silently break. This job pins it: install
+  # the EXACT lock and import the agent's full module tree, so a regression fails
+  # CI instead of the first production build.
+  agent-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: apps/agent/requirements.lock
+      - name: Install the pinned lock
+        run: pip install --no-deps -r apps/agent/requirements.lock
+      - name: Import smoke (agent module tree on pruned deps)
+        env:
+          PYTHONPATH: ${{ github.workspace }}/packages/schemas/scripts/py
+        working-directory: apps/agent
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          # The full FastAPI app import pulls in the orchestrator, ADK, litellm,
+          # tree-sitter, validation pipeline — everything that could lazy-import
+          # a pruned package at import time.
+          import agent_api  # noqa: F401
+          from google.adk.models.lite_llm import LiteLlm  # noqa: F401
+          for gone in ("pandas", "numpy", "kubernetes", "llama_index"):
+              try:
+                  __import__(gone)
+              except ImportError:
+                  continue
+              raise SystemExit(f"{gone} is installed — the [extensions] prune regressed")
+          print("agent imports clean on the pruned lock")
+          PY
+      - name: pip check (dependency closure consistency)
+        run: pip check
+
+  # ── Deploy templates parse ───────────────────────────────────────────────────
+  templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: deploy/docker-compose.yml
+        env:
+          EXEPAD_LLM_API_KEY: ci-parse-check
+        run: docker compose -f deploy/docker-compose.yml config -q
+
+      - name: render.yaml
+        run: python3 -c 'import yaml; yaml.safe_load(open("render.yaml"))'
+
+      - name: deploy/railway.json
+        run: jq empty deploy/railway.json
+
+  # ── Lockstep: ONE image repo across every front door ────────────────────────
+  lockstep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Assert a single ghcr.io image repo
+        run: |
+          set -euo pipefail
+          CANON="ghcr.io/exepad/exepad-app-builder"
+          FILES="packages/exepad-cli/src/config.ts install.sh install.ps1 INSTALL.md render.yaml deploy/docker-compose.yml .github/workflows/release.yml deploy/appstores/portainer/templates.json deploy/appstores/casaos/Apps/exepad/docker-compose.yml deploy/appstores/umbrel/exepad-studio/docker-compose.yml deploy/appstores/runtipi/apps/exepad/docker-compose.json deploy/dokploy/docker-compose.yml"
+          FOUND=$(grep -hoE 'ghcr\.io/[a-z0-9._/-]+' $FILES | sed 's/[:@].*$//' | sort -u)
+          echo "image repos found:"; echo "$FOUND"
+          [ "$FOUND" = "$CANON" ] || { echo "::error::image repo drift — every front door must use $CANON"; exit 1; }
+          # each front door must actually reference the image
+          for f in $FILES; do
+            grep -q "$CANON" "$f" || { echo "::error::$f does not reference $CANON"; exit 1; }
+          done

@@ -1,0 +1,209 @@
+[
+  {
+    "name": "Bruschetta Trio",
+    "description": "Three toasted crostini topped with tomato-basil, mushroom truffle, and roasted pepper spreads",
+    "price": 12.99,
+    "category": "appetizers",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Crispy Calamari",
+    "description": "Lightly breaded calamari rings served with marinara and garlic aioli",
+    "price": 14.50,
+    "category": "appetizers",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Spicy Tuna Tartare",
+    "description": "Diced fresh tuna with sriracha mayo, avocado, and crispy wontons",
+    "price": 16.99,
+    "category": "appetizers",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": "medium"
+  },
+  {
+    "name": "Grilled Ribeye Steak",
+    "description": "12oz prime ribeye with roasted garlic butter, seasonal vegetables, and truffle mashed potatoes",
+    "price": 38.99,
+    "category": "mains",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Herb-Crusted Chicken",
+    "description": "Pan-roasted chicken breast with rosemary crust, lemon pan sauce, and grilled asparagus",
+    "price": 24.99,
+    "category": "mains",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Spicy Korean BBQ Short Ribs",
+    "description": "Slow-braised short ribs in gochujang glaze with pickled daikon and steamed rice",
+    "price": 32.00,
+    "category": "mains",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": "hot"
+  },
+  {
+    "name": "Wild Mushroom Risotto",
+    "description": "Creamy arborio rice with porcini, shiitake, and oyster mushrooms finished with parmesan",
+    "price": 22.50,
+    "category": "mains",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Spaghetti Carbonara",
+    "description": "Classic Roman-style with guanciale, pecorino, egg yolk, and black pepper",
+    "price": 19.99,
+    "category": "pasta",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Penne Arrabbiata",
+    "description": "Penne in spicy tomato sauce with garlic, red chili flakes, and fresh basil",
+    "price": 17.50,
+    "category": "pasta",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": "medium"
+  },
+  {
+    "name": "Truffle Tagliatelle",
+    "description": "Fresh egg tagliatelle with black truffle cream sauce and shaved parmesan",
+    "price": 26.99,
+    "category": "pasta",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Lobster Linguine",
+    "description": "Half Maine lobster over linguine in white wine, cherry tomatoes, and chili oil",
+    "price": 34.99,
+    "category": "pasta",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": "mild"
+  },
+  {
+    "name": "Pan-Seared Salmon",
+    "description": "Atlantic salmon with crispy skin, lemon beurre blanc, and roasted fennel",
+    "price": 28.99,
+    "category": "seafood",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Grilled Shrimp Skewers",
+    "description": "Jumbo shrimp marinated in garlic herb butter, served with saffron rice and chimichurri",
+    "price": 26.50,
+    "category": "seafood",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": "mild"
+  },
+  {
+    "name": "Spicy Seafood Stew",
+    "description": "Mussels, clams, shrimp, and fish in a spicy tomato-saffron broth with crusty bread",
+    "price": 30.00,
+    "category": "seafood",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": "extra_hot"
+  },
+  {
+    "name": "Tiramisu",
+    "description": "Classic Italian dessert with espresso-soaked ladyfingers, mascarpone, and cocoa",
+    "price": 11.99,
+    "category": "desserts",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Chocolate Lava Cake",
+    "description": "Warm dark chocolate cake with molten center, served with vanilla bean ice cream",
+    "price": 13.50,
+    "category": "desserts",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Crème Brûlée",
+    "description": "Vanilla custard with caramelized sugar crust and fresh berries",
+    "price": 10.99,
+    "category": "desserts",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Classic Mojito",
+    "description": "Fresh mint, lime, white rum, soda water, and a touch of cane sugar",
+    "price": 13.00,
+    "category": "drinks",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Aperol Spritz",
+    "description": "Aperol, prosecco, and soda water with an orange slice",
+    "price": 14.00,
+    "category": "drinks",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Fresh Lemonade",
+    "description": "House-squeezed lemonade with mint and honey",
+    "price": 5.99,
+    "category": "drinks",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Truffle Fries",
+    "description": "Crispy shoestring fries tossed with truffle oil, parmesan, and fresh herbs",
+    "price": 9.99,
+    "category": "sides",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Grilled Vegetables",
+    "description": "Seasonal vegetables grilled with olive oil, balsamic glaze, and sea salt",
+    "price": 8.50,
+    "category": "sides",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  },
+  {
+    "name": "Garlic Bread",
+    "description": "Toasted sourdough with roasted garlic butter and melted mozzarella",
+    "price": 7.99,
+    "category": "sides",
+    "image_url": null,
+    "is_available": 1,
+    "spice_level": null
+  }
+]

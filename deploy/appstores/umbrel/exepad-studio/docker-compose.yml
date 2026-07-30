@@ -1,0 +1,26 @@
+# Umbrel app compose. umbrelOS injects the app_proxy sidecar (auth wall +
+# routing); APP_HOST must match this app's main container hostname, which
+# umbrelOS derives as <app-id>_<service>_1.
+# Data lives under ${APP_DATA_DIR} (a bind mount on umbrelOS's local ext4 —
+# fine for SQLite; it is a LOCAL filesystem, not NFS).
+services:
+  app_proxy:
+    environment:
+      APP_HOST: exepad-studio_server_1
+      APP_PORT: 8080
+      # The studio has its own operator login (first-run setup token in the
+      # app logs, or seed via env below).
+      PROXY_AUTH_ADD: "false"
+
+  server:
+    image: ghcr.io/exepad/exepad-app-builder:latest
+    restart: on-failure
+    stop_grace_period: 30s
+    environment:
+      # umbrelOS fronts the app with its own proxy — serve plain HTTP inside.
+      EXEPAD_HTTPS_DISABLE: "1"
+      # Set your LLM key here or later in the in-app /settings page.
+      EXEPAD_LLM_API_KEY: ""
+      EXEPAD_LLM_PROVIDER: "gemini"
+    volumes:
+      - ${APP_DATA_DIR}/data:/data

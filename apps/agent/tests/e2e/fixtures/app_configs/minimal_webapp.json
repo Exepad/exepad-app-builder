@@ -1,0 +1,74 @@
+{
+  "appType": "WebAppProps",
+  "version": "1.0.0",
+  "uuid": "app-minimal-001",
+  "appSecondaryType": "website",
+  "name": "Minimal Test App",
+  "alias": "minimal-test-app",
+  "summary": "A minimal test application for E2E testing",
+  "shortSummary": "Minimal test app",
+  "lastUpdatedEpoch": 1730764800,
+  "frontend": {
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#1d4ed8",
+        "primary-foreground": "#ffffff",
+        "secondary": "#475569",
+        "secondary-foreground": "#ffffff",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#dc2626",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#1d4ed8"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#3b82f6",
+        "primary-foreground": "#0f172a",
+        "secondary": "#64748b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#3b82f6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "layout": "boxed",
+    "menuPosition": "HeaderMenuTop",
+    "sidebar": [],
+    "header": [],
+    "pages": [
+      {
+        "uuid": "page-home-001",
+        "slug": "/",
+        "title": "Home",
+        "pageType": "WebPageProps",
+        "content": [],
+        "summary": "Home page of the test application",
+        "shortSummary": "Home page",
+        "lastUpdatedEpoch": 1730764800
+      }
+    ],
+    "footer": []
+  }
+}

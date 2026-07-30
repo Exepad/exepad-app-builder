@@ -1,0 +1,31 @@
+# Anything executed by a POSIX shell MUST check out LF, on every platform.
+#
+# Git for Windows defaults to core.autocrlf=true, so without this a Windows
+# clone gets CRLF working-tree copies of these files — and `docker build` (the
+# documented build-from-source path) then bakes a CRLF entrypoint into the
+# image. The container dies the instant it starts, with:
+#
+#     env: 'bash\r': No such file or directory
+#
+# which names neither the file nor the cause. Linux/macOS clones and CI never
+# reproduce it, so it is invisible until a Windows user tries to build.
+# Measured on a real Windows 10 box: `docker build` succeeded and the container
+# exited 127 immediately.
+#
+# `text eol=lf` is deliberate over `-text`: these files are still text (diffs,
+# merges), they simply must never gain CRLF in the working tree.
+*.sh text eol=lf
+*.command text eol=lf
+docker/entrypoint.sh text eol=lf
+docker/caddy-sites.sh text eol=lf
+# Read inside the Linux container by Caddy.
+Caddyfile* text eol=lf
+docker/Caddyfile text eol=lf
+
+# One-click Windows wrapper files ship inside a ZIP and are parsed by
+# cmd.exe/Notepad: they MUST stay CRLF byte-for-byte. Mark them -text so git
+# never re-normalizes them on any platform. Listed AFTER the rules above so it
+# wins for anything under this path (last matching rule takes precedence).
+packaging/one-click/windows/** -text
+# .url is a Windows INI file inside the MSI payload: keep CRLF byte-for-byte.
+packaging/msi/*.url -text

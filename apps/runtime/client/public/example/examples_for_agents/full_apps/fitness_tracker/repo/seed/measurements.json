@@ -1,0 +1,82 @@
+[
+  {
+    "date": "2026-02-25",
+    "weight": 185.5,
+    "body_fat_pct": 18.2,
+    "chest": 42.0,
+    "waist": 34.5,
+    "hips": 40.0
+  },
+  {
+    "date": "2026-03-01",
+    "weight": 184.8,
+    "body_fat_pct": 18.0,
+    "chest": 42.0,
+    "waist": 34.0,
+    "hips": 40.0
+  },
+  {
+    "date": "2026-03-04",
+    "weight": 184.2,
+    "body_fat_pct": 17.8,
+    "chest": 42.5,
+    "waist": 33.8,
+    "hips": 39.5
+  },
+  {
+    "date": "2026-03-08",
+    "weight": 183.5,
+    "body_fat_pct": 17.5,
+    "chest": 42.5,
+    "waist": 33.5,
+    "hips": 39.5
+  },
+  {
+    "date": "2026-03-11",
+    "weight": 183.0,
+    "body_fat_pct": 17.3,
+    "chest": 42.5,
+    "waist": 33.5,
+    "hips": 39.5
+  },
+  {
+    "date": "2026-03-15",
+    "weight": 182.4,
+    "body_fat_pct": 17.0,
+    "chest": 43.0,
+    "waist": 33.0,
+    "hips": 39.0
+  },
+  {
+    "date": "2026-03-18",
+    "weight": 182.0,
+    "body_fat_pct": 16.8,
+    "chest": 43.0,
+    "waist": 33.0,
+    "hips": 39.0
+  },
+  {
+    "date": "2026-03-22",
+    "weight": 181.5,
+    "body_fat_pct": 16.5,
+    "chest": 43.0,
+    "waist": 32.5,
+    "hips": 39.0
+  },
+  {
+    "date": "2026-03-25",
+    "weight": 181.2,
+    "body_fat_pct": 16.3,
+    "chest": 43.5,
+    "waist": 32.5,
+    "hips": 38.5
+  },
+  {
+    "date": "2026-03-27",
+    "weight": 181.0,
+    "body_fat_pct": 16.2,
+    "chest": 43.5,
+    "waist": 32.0,
+    "hips": 38.5
+  }
+]

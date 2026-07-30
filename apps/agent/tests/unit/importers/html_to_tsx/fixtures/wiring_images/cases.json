@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "id": "img_with_alt",
+      "input_path": "examples/img_with_alt.html",
+      "expected_tsx_contains": [
+        "<ExepadImage",
+        "keywords=\"modern office workspace\"",
+        "importance={5}",
+        "width={800}",
+        "height={450}",
+        "/>",
+        "import { React, LightDOMContainer, ExepadImage }"
+      ],
+      "expected_tsx_absent": ["<img"]
+    },
+    {
+      "id": "img_data_asset_relpath_emits_canonical_asset_img",
+      "input_path": "examples/img_data_asset_relpath.html",
+      "expected_tsx_contains": [
+        "<ExepadImage",
+        "src=\"__ASSET_IMG:assets/imports/abc.webp__\"",
+        "vendor=\"design_import\"",
+        "keywords=\"hero shot\""
+      ],
+      "expected_tsx_absent": [
+        "data-asset-relpath="
+      ]
+    },
+    {
+      "id": "img_data_alt_precedence",
+      "input_path": "examples/img_data_alt_precedence.html",
+      "expected_tsx_contains": [
+        "<ExepadImage",
+        "keywords=\"Portrait of a friendly middle-aged farmer in a straw hat\"",
+        "width={200}",
+        "height={200}"
+      ],
+      "expected_tsx_absent": [
+        "keywords=\"Farmer John\""
+      ]
+    },
+    {
+      "id": "img_no_alt_warning",
+      "input_path": "examples/img_no_alt_warning.html",
+      "expected_tsx_contains": [
+        "keywords=\"placeholder image\""
+      ],
+      "expected_warnings_contains": ["no alt text"]
+    },
+    {
+      "id": "picture_collapse",
+      "input_path": "examples/picture_collapse.html",
+      "expected_tsx_contains": [
+        "<ExepadImage",
+        "keywords=\"fallback image\""
+      ],
+      "expected_tsx_absent": [
+        "<picture",
+        "<source",
+        "srcset"
+      ],
+      "expected_warnings_contains": ["picture> collapsed"]
+    },
+    {
+      "id": "img_width_height_numeric",
+      "input_path": "examples/img_width_height_attrs.html",
+      "expected_tsx_contains": [
+        "width={320}",
+        "height={240}"
+      ]
+    },
+    {
+      "id": "img_width_non_numeric",
+      "input_path": "examples/img_width_non_numeric.html",
+      "expected_tsx_contains": ["width=\"100%\""]
+    },
+    {
+      "id": "img_with_class_preserved",
+      "input_path": "examples/img_with_class_preserved.html",
+      "expected_tsx_contains": [
+        "<ExepadImage",
+        "className=\"rounded shadow\""
+      ]
+    }
+  ]
+}

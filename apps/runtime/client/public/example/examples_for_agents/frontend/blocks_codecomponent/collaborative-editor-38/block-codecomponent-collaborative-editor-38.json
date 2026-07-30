@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-collaborative-editor",
+  "alias": "codecomponent-collaborative-editor",
+  "name": "Collaborative Code Editor",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Collaborative code editor CodeComponent powered by CodeMirror with basicSetup. Features a language mode Select for JavaScript, Python, HTML, and CSS with live syntax highlighting. Save button triggers useHandler('saveSnippet') with toast confirmation. Author info from useCurrentUser displayed in the status bar. Real-time cursor position (line/column) and character count shown in the footer. Kbd component shows the Ctrl+S save shortcut. useAppState persists editor content and selected language. Uses CodeMirror.EditorView, CodeMirror.basicSetup, Select, Card, Button, Badge, Kbd, and Icons from the SDK.",
+  "shortSummary": "CodeMirror editor with language selection, save handler, cursor position tracking, and keyboard shortcut",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "CollaborativeEditor": {
+        "source": "frontend/components/CollaborativeEditor.tsx",
+        "compiled": "frontend/components/CollaborativeEditor.js",
+        "summary": "CodeMirror-based code editor with language mode switching, save handler, author display, cursor tracking, and keyboard shortcut indicator"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#022c22",
+        "primary": "#04855d",
+        "primary-foreground": "#ffffff",
+        "secondary": "#ecfdf5",
+        "secondary-foreground": "#022c22",
+        "muted": "#f0fdf4",
+        "muted-foreground": "#6b7280",
+        "accent": "#d1fae5",
+        "accent-foreground": "#022c22",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#a7f3d0",
+        "input": "#a7f3d0",
+        "ring": "#059669"
+      },
+      "dark": {
+        "background": "#022c22",
+        "foreground": "#ecfdf5",
+        "primary": "#34d399",
+        "primary-foreground": "#022c22",
+        "secondary": "#064e3b",
+        "secondary-foreground": "#ecfdf5",
+        "muted": "#064e3b",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#064e3b",
+        "accent-foreground": "#ecfdf5",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#ecfdf5",
+        "border": "#065f46",
+        "input": "#065f46",
+        "ring": "#10b981"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-editor",
+        "title": "Editor",
+        "slug": "/",
+        "summary": "Collaborative code editor with CodeMirror, language selection, and save functionality.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "collaborative-editor-1",
+            "component": "CollaborativeEditor",
+            "classes": "w-full",
+            "extensions": [
+              "codemirror"
+            ]
+          }
+        ],
+        "shortSummary": "CodeMirror collaborative editor with language modes and save",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,30 @@
+# Dockerfile.caddy-dns — Caddy compiled with the curated caddy-dns provider
+# plugins, for self-serve custom-domain HTTPS issued over ACME **DNS-01**.
+#
+# DNS-01 proves domain control via a DNS TXT record the provider plugin creates,
+# so it needs NO inbound :80/:443 for ISSUANCE (works behind NAT, or when :80 is
+# blocked) and it is the ONLY ACME challenge that can issue a *wildcard* cert.
+#
+# Built automatically by:
+#   docker compose -f docker-compose.yml -f docker-compose.ondemand-dns.yml up --build
+# The first build runs xcaddy (compiles Caddy from source) — a few minutes, once.
+#
+# One image bundles every SINGLE-API-TOKEN provider; pick yours at runtime with
+# EXEPAD_DNS_PROVIDER in ./caddy.env. The provider list MUST stay in sync with the
+# CLI's DNS_PROVIDER_MODULES (packages/exepad-cli/src/config.ts) — a unit test
+# (compose.test.ts) enforces that. Multi-credential providers (route53, azure,
+# google clouddns, namecheap…) need a hand-edited Caddyfile — use BYOC, or add the
+# `--with github.com/caddy-dns/<provider>` line here plus the matching directive.
+FROM caddy:2-builder AS build
+RUN xcaddy build \
+	--with github.com/caddy-dns/cloudflare \
+	--with github.com/caddy-dns/digitalocean \
+	--with github.com/caddy-dns/gandi \
+	--with github.com/caddy-dns/hetzner \
+	--with github.com/caddy-dns/linode \
+	--with github.com/caddy-dns/vultr \
+	--with github.com/caddy-dns/duckdns \
+	--with github.com/caddy-dns/desec
+
+FROM caddy:2-alpine
+COPY --from=build /usr/bin/caddy /usr/bin/caddy

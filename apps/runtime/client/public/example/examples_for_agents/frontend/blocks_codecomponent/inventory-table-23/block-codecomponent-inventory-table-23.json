@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-inventory-table",
+  "alias": "codecomponent-inventory-table",
+  "name": "Inventory Data Table with Sorting and Bulk Actions",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Feature-rich inventory data table CodeComponent using Table with TableFooter totals, TableCaption, sortable columns via lodash _.orderBy, row selection with Checkbox, bulk actions DropdownMenu, search filter Input with _.filter fuzzy matching, summary row using _.sumBy, and Badge for stock status. 15 inventory items with full CRUD-style interactions. No backend required.",
+  "shortSummary": "Sortable inventory table with row selection, bulk actions, search, and summary totals",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "InventoryTable": {
+        "source": "frontend/components/InventoryTable.tsx",
+        "compiled": "frontend/components/InventoryTable.js",
+        "summary": "Feature-rich inventory data table with sortable columns, row selection, bulk actions, search filter, summary footer totals, and stock status badges"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#0b8379",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0fdfa",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f0fdfa",
+        "muted-foreground": "#64748b",
+        "accent": "#f0fdfa",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0d9488"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#2dd4bf",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#2dd4bf"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-inventory",
+        "title": "Inventory",
+        "slug": "/",
+        "summary": "Inventory management page with sortable data table, search, and bulk actions.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "inventory-table-1",
+            "component": "InventoryTable",
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Inventory data table with sorting, search, and bulk actions",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

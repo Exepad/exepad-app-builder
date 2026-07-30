@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "1",
+    "content": "Hero mockup v2 approved by stakeholders. Moving to final polish.",
+    "author": "Alice Chen",
+    "created_at": "2026-02-28T10:30:00Z"
+  },
+  {
+    "task_id": "2",
+    "content": "Mobile nav works well on iOS. Testing Android now.",
+    "author": "Eva Novak",
+    "created_at": "2026-03-04T14:15:00Z"
+  },
+  {
+    "task_id": "3",
+    "content": "Preview deploys are live. Working on production deploy step next.",
+    "author": "David Kim",
+    "created_at": "2026-03-18T09:00:00Z"
+  },
+  {
+    "task_id": "3",
+    "content": "Found an issue with caching in the deploy pipeline. Investigating.",
+    "author": "David Kim",
+    "created_at": "2026-03-19T16:45:00Z"
+  },
+  {
+    "task_id": "4",
+    "content": "First draft is ready for review. Added team photos placeholder.",
+    "author": "Alice Chen",
+    "created_at": "2026-03-22T11:20:00Z"
+  },
+  {
+    "task_id": "6",
+    "content": "IndexedDB layer is working. Background sync needs conflict resolution logic.",
+    "author": "Bob Martinez",
+    "created_at": "2026-03-25T13:00:00Z"
+  },
+  {
+    "task_id": "8",
+    "content": "Onboarding flow looks great! Minor spacing issue on step 3.",
+    "author": "Carol Singh",
+    "created_at": "2026-03-14T10:10:00Z"
+  },
+  {
+    "task_id": "8",
+    "content": "Spacing fixed. Ready for QA sign-off.",
+    "author": "David Kim",
+    "created_at": "2026-03-14T15:30:00Z"
+  },
+  {
+    "task_id": "10",
+    "content": "Reproduced the bug. The refresh token endpoint returns 401 when the access token is already expired.",
+    "author": "Frank Osei",
+    "created_at": "2026-03-21T08:45:00Z"
+  },
+  {
+    "task_id": "11",
+    "content": "Started drafting the OpenAPI spec. Will share for review by end of week.",
+    "author": "Alice Chen",
+    "created_at": "2026-03-27T09:30:00Z"
+  }
+]

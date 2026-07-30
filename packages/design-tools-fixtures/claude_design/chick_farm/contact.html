@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact &amp; FAQ · HappyDoods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    margin-top: 48px;
+  }
+  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .contact-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 32px;
+  }
+  .contact-card h3 {
+    font-style: italic;
+    font-size: 28px;
+    margin-bottom: 16px;
+    font-variation-settings: "opsz" 72, "SOFT" 80;
+  }
+  .contact-row {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--barn);
+    letter-spacing: 0.1em;
+  }
+  .contact-row .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .contact-row .value {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 48, "SOFT" 80;
+  }
+  .contact-row .note { color: var(--ink-soft); font-size: 13px; margin-top: 4px; }
+
+  /* Form */
+  .form { display: grid; gap: 18px; }
+  .form-row { display: grid; gap: 6px; }
+  .form-row label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .form-row input, .form-row textarea, .form-row select {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--ink);
+    transition: border-color .15s;
+  }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+    outline: none;
+    border-color: var(--barn);
+  }
+  .form-row textarea { min-height: 120px; resize: vertical; }
+  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 600px) { .form-grid-2 { grid-template-columns: 1fr; } }
+
+  .form-status {
+    display: none;
+    padding: 14px 16px;
+    background: var(--moss);
+    color: var(--paper);
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  .form-status.show { display: block; }
+
+  /* FAQ accordion */
+  .faq-section {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-top: 96px;
+  }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 64px;
+  }
+  @media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .faq-list { display: grid; gap: 0; }
+  .faq {
+    border-top: 1px solid var(--line);
+    padding: 20px 0;
+    cursor: pointer;
+  }
+  .faq:last-child { border-bottom: 1px solid var(--line); }
+  .faq-q {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .faq-q .q {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink);
+    font-variation-settings: "opsz" 48, "SOFT" 80;
+  }
+  .faq-q .toggle {
+    width: 32px; height: 32px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background .15s, transform .25s;
+    color: var(--barn);
+    font-size: 18px;
+    background: var(--cream);
+  }
+  .faq.open .faq-q .toggle { transform: rotate(45deg); background: var(--barn); color: var(--paper); border-color: var(--barn); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, margin-top .25s;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+  .faq.open .faq-a {
+    max-height: 400px;
+    margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <ellipse cx="22" cy="24" rx="13" ry="10" fill="#A8472A"/>
+        <circle cx="11" cy="17" r="6" fill="#A8472A"/>
+        <path d="M7 12 L9 7 L11 11 L13 7 L14 12 Z" fill="#A8472A"/>
+        <circle cx="9.5" cy="16.5" r="1" fill="#F5EFE2"/>
+        <path d="M5 18 L7.5 17.5 L7 19 Z" fill="#E8B850"/>
+        <path d="M16 33 L18 36 M22 33 L24 36" stroke="#A8472A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Happy<span class="brand-em">Doods</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="story.html">Our Story</a></li>
+      <li><a href="flock.html">The Flock</a></li>
+      <li><a href="practices.html">Practices</a></li>
+      <li><a href="visit.html">Visit</a></li>
+      <li><a href="stockists.html">Stockists</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="visit.html">Plan a Visit →</a>
+  </div>
+</nav>
+
+<header class="pagehead">
+  <div class="wrap">
+    <div class="eyebrow">Contact · We answer everything</div>
+    <h1>Drop us a line. We read every one.</h1>
+    <p class="lede">Email is best — Marta and Joel both check it. Phone works in a pinch but only if we're not in the coop, which we usually are. Most questions are answered below before you have to send anything.</p>
+  </div>
+</header>
+
+<section style="padding-top: 64px;">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-card">
+          <h3>The basics.</h3>
+          <div class="contact-row">
+            <div class="num">01</div>
+            <div>
+              <div class="label">Email</div>
+              <div class="value">hello@happydoods.farm</div>
+              <div class="note">We answer within 1–2 days. Faster on Saturdays.</div>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="num">02</div>
+            <div>
+              <div class="label">Phone</div>
+              <div class="value">(802) 555-0148</div>
+              <div class="note">Joel's cell. Voicemail is fine.</div>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="num">03</div>
+            <div>
+              <div class="label">Address</div>
+              <div class="value">438 Willow Creek Rd<br>Putney, VT 05346</div>
+              <div class="note">First left after the covered bridge. Hand-painted sign.</div>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="num">04</div>
+            <div>
+              <div class="label">Wholesale</div>
+              <div class="value">marta@happydoods.farm</div>
+              <div class="note">Restaurants, co-ops, regular orders.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; padding: 24px; background: var(--cream-deep); border: 1px solid var(--line); border-radius: 6px;">
+          <div class="hand" style="font-size: 26px; color: var(--barn); margin-bottom: 6px;">a real human reads these —</div>
+          <p style="font-size:14px; color:var(--ink-soft);">No autoresponders, no bots, no support tickets. Either Marta or Joel will write back, depending on what you ask.</p>
+        </div>
+      </div>
+
+      <form class="contact-card" id="contact-form" onsubmit="event.preventDefault(); document.getElementById('form-status').classList.add('show'); this.reset();">
+        <h3>Send a note.</h3>
+        <div class="form">
+          <div class="form-grid-2">
+            <div class="form-row">
+              <label for="name">Your name</label>
+              <input id="name" type="text" placeholder="e.g. Sarah Mendez" required>
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="you@example.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="topic">What's this about?</label>
+            <select id="topic">
+              <option>Just saying hi</option>
+              <option>Visiting the farm</option>
+              <option>Booking a private tour</option>
+              <option>Wholesale / restaurant inquiry</option>
+              <option>A question about practices</option>
+              <option>Press / interview</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="message">Your message</label>
+            <textarea id="message" placeholder="Take your time. We do." required></textarea>
+          </div>
+          <div id="form-status" class="form-status">
+            ✓ Got it — we'll write back in a day or two. Thanks for reaching out.
+          </div>
+          <div style="display:flex; justify-content: space-between; align-items:center; flex-wrap: wrap; gap:12px;">
+            <span class="muted tiny">No newsletter, no signup. We just answer your email.</span>
+            <button type="submit" class="btn btn-primary">Send →</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section" style="padding: 96px 0;">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="eyebrow" style="margin-bottom:16px;">FAQ</div>
+        <h2 style="font-style:italic; font-size: 48px; max-width:14ch;">Things people ask, ranked by frequency.</h2>
+        <p class="muted" style="margin-top:16px; max-width:30ch; font-size:15px;">If your question isn't here, the email is up there ↑.</p>
+      </div>
+
+      <div class="faq-list" id="faqs">
+        <div class="faq open">
+          <div class="faq-q"><span class="q">Are you certified organic?</span><span class="toggle">+</span></div>
+          <div class="faq-a">No, but functionally yes. Certification costs $1,500/year and a lot of paperwork, and it doesn't change how we farm. Our feed is certified organic from the mill in Brattleboro. Our pasture has been chemical-free since we bought it. We've decided to put that money into hens instead.</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">Do you ship eggs?</span><span class="toggle">+</span></div>
+          <div class="faq-a">No. We tried it for one summer in 2022 and the breakage rate was about 8%, which felt awful — both for the eggs and for what we were charging people. We deliver wholesale within 25 miles. Beyond that, find us at a stockist.</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">Why are the eggs different sizes?</span><span class="toggle">+</span></div>
+          <div class="faq-a">Because real hens lay different-sized eggs. Pullets (first-year layers) lay smaller. Older hens lay bigger. Heritage breeds vary more than commercial hybrids. We hand-grade so you'll get a reasonable mix in any carton, but a uniform dozen is a sign that machines, not chickens, are involved somewhere.</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">Do I need to refrigerate?</span><span class="toggle">+</span></div>
+          <div class="faq-a">Not strictly, for the first 2–3 weeks. We don't wash our eggs, so the natural cuticle is intact and they're shelf-stable on the counter for a while — that's how the rest of the world stores them. After 3 weeks, fridge them. They'll keep another 8 weeks easily.</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">Can my kid hold a chicken?</span><span class="toggle">+</span></div>
+          <div class="faq-a">Yes, with our help, on Saturdays. Brunhilde is the designated holding hen — calm, heavy, completely unbothered. We have hand-wash stations near the coops. (And we're sticklers about washing afterward — chickens are great, salmonella is not.)</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">What does "pasture-raised" actually mean?</span><span class="toggle">+</span></div>
+          <div class="faq-a">In the U.S., the term is unregulated, which is a problem. Marketers use it to mean anything from "108 sq ft per bird" to "a small door to a concrete patio." For us it means: every hen, every daylight hour, on real grass, on rotating paddocks. About 760 sq ft per bird, which is a lot.</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">Are eggs really worth $8?</span><span class="toggle">+</span></div>
+          <div class="faq-a">A grocery dozen is $4–6. Ours is $8. The difference is feed (organic, soy-free is roughly 2.5x conventional), labor (we hand-collect twice daily), land (paddock rotation needs space), and the fact that our hens lay 220/year, not 320. We're not getting rich. The math works because Marta loves it.</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">Can I bring my dog?</span><span class="toggle">+</span></div>
+          <div class="faq-a">No, sorry. Even the friendliest dogs make hens nervous, and a nervous hen lays fewer eggs for a day or two. We have a shaded spot with water in the parking area for dogs to wait in cooler months. In summer please leave them home.</div>
+        </div>
+        <div class="faq">
+          <div class="faq-q"><span class="q">Do you sell live chickens or chicks?</span><span class="toggle">+</span></div>
+          <div class="faq-a">Not regularly. Once or twice a year we have surplus pullets to rehome — usually announced by email to people who've asked. Email Marta if you want to be on that list.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner" style="padding:96px 0;">
+  <div class="wrap-narrow" style="text-align:center;">
+    <div class="hand" style="font-size:32px; margin-bottom: 16px;">we mean it ↓</div>
+    <h2>Saturday, 9–2. The kettle's on.</h2>
+    <p>438 Willow Creek Rd, Putney, VT. First left after the covered bridge.</p>
+    <div class="row" style="justify-content:center; margin-top:24px;">
+      <a href="visit.html" class="btn btn-primary">See the farm map</a>
+      <a href="story.html" class="btn btn-outline">Read our story</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-tag">Eggs from hens<br>who know their names.</div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; opacity:0.6; text-transform:uppercase;">438 Willow Creek Rd · Putney, VT 05346</div>
+      </div>
+      <div><h4>Visit</h4><ul><li><a href="visit.html">Open Saturdays</a></li><li><a href="visit.html">Farm tours</a></li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="shop.html">Eggs</a></li><li><a href="shop.html">Pantry</a></li><li><a href="stockists.html">Stockists</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="story.html">Our story</a></li><li><a href="practices.html">Practices</a></li><li><a href="flock.html">Meet the flock</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-meta">
+      <div>© 2026 HappyDoods Farm · A small operation, on purpose.</div>
+      <div>Hand-built in Vermont. Mostly held together with good intentions.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll(".faq").forEach(f => {
+    f.addEventListener("click", () => f.classList.toggle("open"));
+  });
+</script>
+
+
+
+<script>
+(function() {
+  const PH = {"pasture_wide":"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=80","hens_grass":"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80","hen_closeup":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=1000&q=80","eggs_brown":"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=1200&q=80","eggs_basket":"https://images.unsplash.com/photo-1569127959161-2b1297b2d9a8?auto=format&fit=crop&w=1200&q=80","eggs_pastel":"https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?auto=format&fit=crop&w=1200&q=80","eggs_flat":"https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1200&q=80","eggs_carton":"https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&w=1200&q=80","eggs_blue":"https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=1200&q=80","barn":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80","farmer":"https://images.unsplash.com/photo-1592982499091-5b71f7be930e?auto=format&fit=crop&w=1100&q=80","couple":"https://images.unsplash.com/photo-1578307556311-d97c5c1e22e1?auto=format&fit=crop&w=1100&q=80","pasta":"https://images.unsplash.com/photo-1551892589-865f69869476?auto=format&fit=crop&w=1100&q=80","pickled":"https://images.unsplash.com/photo-1599909533730-89d0e3aef91d?auto=format&fit=crop&w=1100&q=80","butter":"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=1100&q=80","market":"https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1100&q=80","compost":"https://images.unsplash.com/photo-1416664806563-bb6be3be8074?auto=format&fit=crop&w=1100&q=80","old_coop":"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1100&q=80","kid_chicken":"https://images.unsplash.com/photo-1559588981-6c5ec47bf4a3?auto=format&fit=crop&w=1100&q=80","hen_feet":"https://images.unsplash.com/photo-1608755728617-4cb3a6b87c91?auto=format&fit=crop&w=1100&q=80","truck":"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1100&q=80","aerial":"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80","plymouth":"https://images.unsplash.com/photo-1612170153139-6f881ff067e0?auto=format&fit=crop&w=900&q=80","buff":"https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=80","welsummer":"https://images.unsplash.com/photo-1573593928259-37bf012015b1?auto=format&fit=crop&w=900&q=80","marans":"https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=900&q=80","ameraucana":"https://images.unsplash.com/photo-1583845112203-29329902332e?auto=format&fit=crop&w=900&q=80","easter":"https://images.unsplash.com/photo-1556909114-44e3e9399a2b?auto=format&fit=crop&w=900&q=80"};
+  const MAP = [
+    ["Marta + Joel", "couple"],
+    ["Marta · collecting", "farmer"],
+    ["Marta · golden", "farmer"],
+    ["Original coop", "old_coop"],
+    ["Wren w/ goslings", "kid_chicken"],
+    ["Joel · fixing fence", "farmer"],
+    ["hen feet on grass", "hen_feet"],
+    ["loaded for market", "truck"],
+    ["truck", "truck"],
+    ["Brown dozen", "eggs_brown"],
+    ["Brown eggs", "eggs_brown"],
+    ["brown eggs", "eggs_brown"],
+    ["Pastel mix", "eggs_pastel"],
+    ["pastel", "eggs_pastel"],
+    ["Half-flat", "eggs_carton"],
+    ["Half flat", "eggs_carton"],
+    ["18ct", "eggs_carton"],
+    ["Two dozens", "eggs_basket"],
+    ["Tiny eggs", "eggs_flat"],
+    ["pickled eggs", "pickled"],
+    ["Pickled", "pickled"],
+    ["Pasta noodles", "pasta"],
+    ["pasta", "pasta"],
+    ["golden ghee", "butter"],
+    ["butter", "butter"],
+    ["gift bundle", "market"],
+    ["wooden box", "market"],
+    ["Compost bucket", "compost"],
+    ["compost", "compost"],
+    ["Aerial", "aerial"],
+    ["aerial", "aerial"],
+    ["paddocks marked", "aerial"],
+    ["Plymouth Rock", "plymouth"],
+    ["Buff Orpington", "buff"],
+    ["Welsummer", "welsummer"],
+    ["Marans", "marans"],
+    ["Ameraucana", "ameraucana"],
+    ["Easter Egger", "easter"],
+  ];
+  document.querySelectorAll(".ph").forEach(ph => {
+    const labelEl = ph.querySelector(".ph-label");
+    if (!labelEl) return;
+    const txt = (labelEl.textContent || "").toLowerCase();
+    let url = null;
+    for (const [needle, key] of MAP) {
+      if (txt.includes(needle.toLowerCase()) && PH[key]) { url = PH[key]; break; }
+    }
+    if (!url) return;
+    // Preload — only commit on success
+    const img = new Image();
+    img.onload = () => {
+      ph.style.backgroundImage = "url('" + url + "')";
+      ph.classList.add("has-photo");
+    };
+    img.onerror = () => { /* leave placeholder visible */ };
+    img.src = url;
+  });
+})();
+</script>
+
+</body>
+</html>

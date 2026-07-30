@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Alice Chen",
+    "email": "alice.chen@taskforge.io",
+    "role": "pm",
+    "avatar_url": null,
+    "department": "Product"
+  },
+  {
+    "name": "Bob Martinez",
+    "email": "bob.martinez@taskforge.io",
+    "role": "developer",
+    "avatar_url": null,
+    "department": "Engineering"
+  },
+  {
+    "name": "Carol Singh",
+    "email": "carol.singh@taskforge.io",
+    "role": "designer",
+    "avatar_url": null,
+    "department": "Design"
+  },
+  {
+    "name": "David Kim",
+    "email": "david.kim@taskforge.io",
+    "role": "developer",
+    "avatar_url": null,
+    "department": "Engineering"
+  },
+  {
+    "name": "Eva Novak",
+    "email": "eva.novak@taskforge.io",
+    "role": "qa",
+    "avatar_url": null,
+    "department": "Quality Assurance"
+  },
+  {
+    "name": "Frank Osei",
+    "email": "frank.osei@taskforge.io",
+    "role": "developer",
+    "avatar_url": null,
+    "department": "Engineering"
+  }
+]

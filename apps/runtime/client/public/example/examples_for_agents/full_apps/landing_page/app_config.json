@@ -1,0 +1,184 @@
+{
+  "uuid": "landing-page",
+  "alias": "landing-page",
+  "name": "LaunchPad AI",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "version": "1.0.0",
+  "summary": "SaaS product landing page for an AI writing assistant with hero, features, pricing, testimonials, and FAQ sections",
+  "shortSummary": "AI writing tool landing page",
+  "lastUpdatedEpoch": 1742515200,
+  "repo": {
+    "frontend": {
+      "components": {
+        "LandingHeader": {
+          "source": "frontend/code/components/LandingHeader.tsx",
+          "compiled": "frontend/compiled/components/LandingHeader.js",
+          "summary": "Sticky transparent header with LaunchPad AI logo (Sparkles icon), nav scroll-anchor links (Features, Pricing, Testimonials, FAQ), Start Free Trial CTA button, purple accent"
+        },
+        "LandingFooter": {
+          "source": "frontend/code/components/LandingFooter.tsx",
+          "compiled": "frontend/compiled/components/LandingFooter.js",
+          "summary": "Minimal 3-column footer with Product links, Company links, Legal links, social icons, and copyright"
+        },
+        "HeroSection": {
+          "source": "frontend/code/components/HeroSection.tsx",
+          "compiled": "frontend/compiled/components/HeroSection.js",
+          "summary": "Large gradient hero with badge, headline, email input CTA, stats counters, and floating UI mockup placeholder"
+        },
+        "FeaturesSection": {
+          "source": "frontend/code/components/FeaturesSection.tsx",
+          "compiled": "frontend/compiled/components/FeaturesSection.js",
+          "summary": "6 feature cards in 3x2 grid with icons, titles, descriptions, and learn more links"
+        },
+        "PricingSection": {
+          "source": "frontend/code/components/PricingSection.tsx",
+          "compiled": "frontend/compiled/components/PricingSection.js",
+          "summary": "3 pricing tiers (Free, Pro, Enterprise) with annual/monthly toggle, feature lists, and CTA buttons"
+        },
+        "TestimonialsSection": {
+          "source": "frontend/code/components/TestimonialsSection.tsx",
+          "compiled": "frontend/compiled/components/TestimonialsSection.js",
+          "summary": "3 testimonial cards with quotes, author names, roles, companies, and star ratings"
+        },
+        "FaqSection": {
+          "source": "frontend/code/components/FaqSection.tsx",
+          "compiled": "frontend/compiled/components/FaqSection.js",
+          "summary": "Accordion-style FAQ with 6 expandable items and a contact CTA at the bottom"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font family, smooth scroll, gradient backgrounds, card hover transitions, purple accent styling"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    }
+  },
+  "backend": {
+    "mode": "none"
+  },
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "HeaderMenuTop",
+    "headerScrollBehavior": "fixed",
+    "transitions": {
+      "enabled": true,
+      "type": "fade",
+      "timing": "normal"
+    },
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#18181b",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#18181b",
+        "muted": "#fafafa",
+        "muted-foreground": "#71717a",
+        "accent": "#ede9fe",
+        "accent-foreground": "#18181b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e4e4e7",
+        "input": "#e4e4e7",
+        "ring": "#7c3aed",
+        "card": "#ffffff",
+        "card-foreground": "#18181b",
+        "popover": "#ffffff",
+        "popover-foreground": "#18181b"
+      },
+      "dark": {
+        "background": "#18181b",
+        "foreground": "#fafafa",
+        "primary": "#a78bfa",
+        "primary-foreground": "#18181b",
+        "secondary": "#27272a",
+        "secondary-foreground": "#fafafa",
+        "muted": "#27272a",
+        "muted-foreground": "#a1a1aa",
+        "accent": "#3f3f46",
+        "accent-foreground": "#fafafa",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#3f3f46",
+        "input": "#3f3f46",
+        "ring": "#a78bfa",
+        "card": "#18181b",
+        "card-foreground": "#fafafa",
+        "popover": "#18181b",
+        "popover-foreground": "#fafafa"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {}
+    },
+    "header": [
+      {
+        "uuid": "hdr-1",
+        "componentType": "CodeComponentProps",
+        "component": "LandingHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [
+      {
+        "uuid": "ftr-1",
+        "componentType": "CodeComponentProps",
+        "component": "LandingFooter"
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Landing page with hero, features, pricing, testimonials, FAQ",
+        "content": [
+          {
+            "uuid": "c-hero",
+            "componentType": "CodeComponentProps",
+            "component": "HeroSection"
+          },
+          {
+            "uuid": "c-features",
+            "componentType": "CodeComponentProps",
+            "component": "FeaturesSection"
+          },
+          {
+            "uuid": "c-pricing",
+            "componentType": "CodeComponentProps",
+            "component": "PricingSection"
+          },
+          {
+            "uuid": "c-testimonials",
+            "componentType": "CodeComponentProps",
+            "component": "TestimonialsSection"
+          },
+          {
+            "uuid": "c-faq",
+            "componentType": "CodeComponentProps",
+            "component": "FaqSection"
+          }
+        ]
+      }
+    ]
+  }
+}

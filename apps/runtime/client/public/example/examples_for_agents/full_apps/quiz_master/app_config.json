@@ -1,0 +1,451 @@
+{
+  "uuid": "quiz-master",
+  "alias": "quiz-master",
+  "name": "QuizMaster",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "summary": "Interactive quiz app with categories, scoring, timed questions, leaderboard, and detailed results review",
+  "shortSummary": "Quiz app with categories, scoring, and leaderboard",
+  "lastUpdatedEpoch": 1742515200,
+  "security": {
+    "authProviders": [
+      {
+        "provider": "email"
+      }
+    ],
+    "sessionDuration": 604800,
+    "allowSignup": true,
+    "defaultAccess": "public"
+  },
+  "repo": {
+    "frontend": {
+      "components": {
+        "QuizHeader": {
+          "source": "frontend/code/components/QuizHeader.tsx",
+          "compiled": "frontend/compiled/components/QuizHeader.js",
+          "summary": "Top header with QuizMaster logo (HelpCircle icon), nav links (Home, Browse, Leaderboard), current quiz score badge, teal/cyan accent"
+        },
+        "QuizHome": {
+          "source": "frontend/code/components/QuizHome.tsx",
+          "compiled": "frontend/compiled/components/QuizHome.js",
+          "summary": "Home page with hero, featured quiz card, 6 category grid with icons, recent scores list, quick stats bar"
+        },
+        "QuizPlayer": {
+          "source": "frontend/code/components/QuizPlayer.tsx",
+          "compiled": "frontend/compiled/components/QuizPlayer.js",
+          "summary": "Main quiz experience with timed questions, progress bar, 4 answer options with correct/wrong highlighting, auto-advance, score tracking"
+        },
+        "QuizResults": {
+          "source": "frontend/code/components/QuizResults.tsx",
+          "compiled": "frontend/compiled/components/QuizResults.js",
+          "summary": "Results page with score display, letter grade, time taken, question review with explanations, play again and browse buttons"
+        },
+        "QuizBrowser": {
+          "source": "frontend/code/components/QuizBrowser.tsx",
+          "compiled": "frontend/compiled/components/QuizBrowser.js",
+          "summary": "Quiz browser with grid cards, category filter tabs, difficulty badges, search, start quiz buttons"
+        },
+        "QuizLeaderboard": {
+          "source": "frontend/code/components/QuizLeaderboard.tsx",
+          "compiled": "frontend/compiled/components/QuizLeaderboard.js",
+          "summary": "Leaderboard table with rank, player, quiz, score, time, date, top 3 medals, category filter, personal best section"
+        },
+        "LoginForm": {
+          "source": "frontend/code/components/LoginForm.tsx",
+          "compiled": "frontend/compiled/components/LoginForm.js",
+          "summary": "Login/signup form with email/password, test credential buttons, and returnUrl redirect"
+        },
+        "ProfilePage": {
+          "source": "frontend/code/components/ProfilePage.tsx",
+          "compiled": "frontend/compiled/components/ProfilePage.js",
+          "summary": "User profile page with quiz performance, rankings, and recent activity"
+        },
+        "SettingsPage": {
+          "source": "frontend/code/components/SettingsPage.tsx",
+          "compiled": "frontend/compiled/components/SettingsPage.js",
+          "summary": "Settings page with account info, notification preferences, and sign out"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "frontend/code/styles/theme.css",
+          "compiled": "frontend/compiled/styles/theme.css",
+          "summary": "Inter font, quiz option hover/correct/wrong transitions, progress bar animation"
+        }
+      },
+      "fonts": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      ]
+    },
+    "backend": {
+      "handlers": {}
+    },
+    "seed": {
+      "quizzes": {
+        "source": "repo/seed/quizzes.json",
+        "format": "json",
+        "model": "quizzes",
+        "source_hash": "sha256:6c6ed411df5c6514d37981a8eb0ec73b1aec28d837280290062047d6c51c345a"
+      },
+      "questions": {
+        "source": "repo/seed/questions.json",
+        "format": "json",
+        "model": "questions",
+        "source_hash": "sha256:5cf0416f583a24f50d81ceefd5c35d196bba4d9c378d64255ba384424dd5c235"
+      }
+    }
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-quizzes",
+        "name": "quizzes",
+        "columns": [
+          {
+            "name": "title",
+            "type": "text",
+            "summary": "Quiz title"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "summary": "Quiz description"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Quiz category: science, history, geography, technology, entertainment, sports"
+          },
+          {
+            "name": "difficulty",
+            "type": "text",
+            "summary": "Difficulty level: easy, medium, hard"
+          },
+          {
+            "name": "time_limit",
+            "type": "integer",
+            "summary": "Time limit per question in seconds"
+          },
+          {
+            "name": "question_count",
+            "type": "integer",
+            "summary": "Total number of questions in the quiz"
+          },
+          {
+            "name": "is_published",
+            "type": "integer",
+            "summary": "Whether quiz is published (1=yes, 0=no)",
+            "defaultValue": 1
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_quizzes_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_quizzes_difficulty",
+            "columns": [
+              "difficulty"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-questions",
+        "name": "questions",
+        "columns": [
+          {
+            "name": "quiz_id",
+            "type": "integer",
+            "summary": "FK to quizzes",
+            "references": {
+              "model": "quizzes",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "question_text",
+            "type": "text",
+            "summary": "The question text"
+          },
+          {
+            "name": "options",
+            "type": "text",
+            "summary": "JSON array of 4 answer options"
+          },
+          {
+            "name": "correct_answer",
+            "type": "integer",
+            "summary": "0-based index of the correct answer"
+          },
+          {
+            "name": "explanation",
+            "type": "text",
+            "summary": "Explanation of the correct answer",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_questions_quiz",
+            "columns": [
+              "quiz_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "admin",
+          "read": "public",
+          "update": "admin",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-quiz-attempts",
+        "name": "quiz_attempts",
+        "columns": [
+          {
+            "name": "quiz_id",
+            "type": "integer",
+            "summary": "FK to quizzes",
+            "references": {
+              "model": "quizzes",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "score",
+            "type": "integer",
+            "summary": "Number of correct answers"
+          },
+          {
+            "name": "total_questions",
+            "type": "integer",
+            "summary": "Total questions in the attempt"
+          },
+          {
+            "name": "time_taken",
+            "type": "integer",
+            "summary": "Time taken in seconds"
+          },
+          {
+            "name": "completed_at",
+            "type": "text",
+            "summary": "ISO 8601 completion timestamp"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_attempts_quiz",
+            "columns": [
+              "quiz_id"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "user",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": []
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#134e4a",
+        "primary": "#0e7490",
+        "primary-foreground": "#ffffff",
+        "secondary": "#ecfeff",
+        "secondary-foreground": "#134e4a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#cffafe",
+        "accent-foreground": "#134e4a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#0891b2",
+        "card": "#ffffff",
+        "card-foreground": "#134e4a",
+        "popover": "#ffffff",
+        "popover-foreground": "#134e4a"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#ecfeff",
+        "primary": "#22d3ee",
+        "primary-foreground": "#0f172a",
+        "secondary": "#164e63",
+        "secondary-foreground": "#ecfeff",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#164e63",
+        "accent-foreground": "#22d3ee",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#155e75",
+        "input": "#155e75",
+        "ring": "#22d3ee",
+        "card": "#0f172a",
+        "card-foreground": "#ecfeff",
+        "popover": "#0f172a",
+        "popover-foreground": "#ecfeff"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "logic": {
+      "state": {
+        "activeQuizId": null,
+        "currentQuestion": 0,
+        "quizScore": 0
+      }
+    },
+    "header": [
+      {
+        "uuid": "hdr-quiz",
+        "componentType": "CodeComponentProps",
+        "component": "QuizHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [],
+    "pages": [
+      {
+        "uuid": "p-home",
+        "pageType": "WebPageProps",
+        "title": "Home",
+        "slug": "/",
+        "summary": "Landing page with hero, featured quiz, category grid, recent scores, quick stats",
+        "content": [
+          {
+            "uuid": "c-home",
+            "componentType": "CodeComponentProps",
+            "component": "QuizHome"
+          }
+        ]
+      },
+      {
+        "uuid": "p-play",
+        "pageType": "WebPageProps",
+        "title": "Play Quiz",
+        "slug": "/play/:id",
+        "summary": "Main quiz player with timed questions, answer selection, progress tracking",
+        "content": [
+          {
+            "uuid": "c-play",
+            "componentType": "CodeComponentProps",
+            "component": "QuizPlayer"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-results",
+        "pageType": "WebPageProps",
+        "title": "Results",
+        "slug": "/results",
+        "summary": "Quiz results with score, grade, time, question review with explanations",
+        "content": [
+          {
+            "uuid": "c-results",
+            "componentType": "CodeComponentProps",
+            "component": "QuizResults"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-browse",
+        "pageType": "WebPageProps",
+        "title": "Browse",
+        "slug": "/browse",
+        "summary": "Quiz browser with category filters, difficulty badges, search, quiz cards grid",
+        "content": [
+          {
+            "uuid": "c-browse",
+            "componentType": "CodeComponentProps",
+            "component": "QuizBrowser"
+          }
+        ]
+      },
+      {
+        "uuid": "p-leaderboard",
+        "pageType": "WebPageProps",
+        "title": "Leaderboard",
+        "slug": "/leaderboard",
+        "summary": "Leaderboard table with rankings, medals, category filter, personal bests",
+        "content": [
+          {
+            "uuid": "c-leaderboard",
+            "componentType": "CodeComponentProps",
+            "component": "QuizLeaderboard"
+          }
+        ]
+      },
+      {
+        "uuid": "p-profile",
+        "pageType": "WebPageProps",
+        "title": "Profile",
+        "slug": "/profile",
+        "summary": "User profile with quiz performance and rankings",
+        "content": [
+          {
+            "uuid": "c-profile",
+            "componentType": "CodeComponentProps",
+            "component": "ProfilePage"
+          }
+        ],
+        "access": "authenticated"
+      },
+      {
+        "uuid": "p-settings",
+        "pageType": "WebPageProps",
+        "title": "Settings",
+        "slug": "/settings",
+        "summary": "Account settings and preferences",
+        "content": [
+          {
+            "uuid": "c-settings",
+            "componentType": "CodeComponentProps",
+            "component": "SettingsPage"
+          }
+        ],
+        "access": "authenticated"
+      }
+    ]
+  }
+}

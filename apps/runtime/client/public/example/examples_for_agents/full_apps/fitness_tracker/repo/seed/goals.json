@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Lose 10 lbs",
+    "target_value": 175,
+    "current_value": 181,
+    "unit": "lbs",
+    "category": "weight",
+    "deadline": "2026-06-01",
+    "status": "active"
+  },
+  {
+    "title": "Bench Press 225 lbs",
+    "target_value": 225,
+    "current_value": 195,
+    "unit": "lbs",
+    "category": "strength",
+    "deadline": "2026-05-15",
+    "status": "active"
+  },
+  {
+    "title": "Run 5K under 25 min",
+    "target_value": 25,
+    "current_value": 27.5,
+    "unit": "min",
+    "category": "cardio",
+    "deadline": "2026-04-30",
+    "status": "active"
+  },
+  {
+    "title": "Hit 150g protein daily",
+    "target_value": 150,
+    "current_value": 130,
+    "unit": "g",
+    "category": "nutrition",
+    "deadline": "2026-04-15",
+    "status": "active"
+  },
+  {
+    "title": "Complete 30 workouts this month",
+    "target_value": 30,
+    "current_value": 30,
+    "unit": "workouts",
+    "category": "cardio",
+    "deadline": "2026-02-28",
+    "status": "completed"
+  },
+  {
+    "title": "Deadlift 315 lbs",
+    "target_value": 315,
+    "current_value": 275,
+    "unit": "lbs",
+    "category": "strength",
+    "deadline": "2026-07-01",
+    "status": "active"
+  }
+]

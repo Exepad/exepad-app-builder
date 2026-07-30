@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-force-graph-explorer",
+  "alias": "codecomponent-force-graph-explorer",
+  "name": "Force Graph Explorer",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "D3 force-directed network graph CodeComponent with extension library. Features an SVG canvas with D3.forceSimulation, forceManyBody, forceCenter, and forceLink for physics-based layout. Nodes rendered as circles with labels, links as lines with variable stroke width. Draggable nodes using D3.drag, zoom/pan with D3.zoom. Click a node to select it and view details in a side panel Card. Nodes colored by group using D3.scaleOrdinal with theme-aware colors from useTheme. Demo data: 15 nodes (people) with 20 links (connections) across 3 groups. Uses useAppState for selected node tracking.",
+  "shortSummary": "D3 force-directed network graph with draggable nodes, zoom/pan, and node detail panel",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "ForceGraphExplorer": {
+        "source": "frontend/components/ForceGraphExplorer.tsx",
+        "compiled": "frontend/components/ForceGraphExplorer.js",
+        "summary": "D3 force-directed graph with draggable nodes, zoom/pan, group coloring, and selection detail panel"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#6163ec",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f8fafc",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#6366f1"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#818cf8",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#334155",
+        "input": "#334155",
+        "ring": "#818cf8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-force-graph",
+        "title": "Network Graph",
+        "slug": "/",
+        "summary": "D3 force-directed network graph with interactive node selection and detail panel.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "comp-force-graph-1",
+            "component": "ForceGraphExplorer",
+            "extensions": [
+              "d3"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "D3 force-directed network graph with node selection",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

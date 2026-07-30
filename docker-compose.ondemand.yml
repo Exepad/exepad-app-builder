@@ -1,0 +1,92 @@
+# docker-compose.ondemand.yml — HTTP-01/TLS-ALPN-01-ONLY public HTTPS (Let's
+# Encrypt) for self-serve custom domains, via Caddy on-demand TLS.
+#
+# The DEFAULT `docker compose up` already does on-demand HTTPS (the image runs
+# Caddy in-process — see docker/Caddyfile — covering localhost/LAN via the
+# internal CA and the public sslip host / verified domains via Let's Encrypt).
+# Use THIS file only for a SEPARATE Caddy sidecar (e.g. to put TLS on a different
+# host than the app); it sets EXEPAD_HTTPS_DISABLE=1 so the in-image Caddy stands
+# down.
+# Passing explicit -f files disables the auto-merged override, so:
+#
+#   EXEPAD_ACME_EMAIL=ops@acme.com EXEPAD_PUBLIC_IP=203.0.113.10 \
+#     docker compose -f docker-compose.yml -f docker-compose.ondemand.yml up --build
+#
+# Then point each custom domain's DNS A/AAAA (or CNAME) at this host, open
+# inbound 80 + 443, and add + verify the domain in
+# Studio -> Settings -> Custom domains. Caddy issues the certificate on the
+# first HTTPS request to a verified host — no restart.
+services:
+  exepad:
+    # The base runs exepad with host networking, so it shares the host's namespace
+    # and the sidecar Caddy (also host-networked, below) reaches the runtime on
+    # 127.0.0.1:8080. There is nothing to publish here — host networking has no
+    # port mappings at all, and the sidecar owns the public ports.
+    environment:
+      # This sidecar Caddy terminates TLS, so turn OFF the runtime's OWN in-image
+      # Caddy (it would otherwise run redundantly inside the container).
+      EXEPAD_HTTPS_DISABLE: "1"
+      # Keep :8080 on loopback anyway. HTTPS is disabled here only because the
+      # SIDECAR fronts TLS — and it proxies to 127.0.0.1:8080, so loopback is
+      # exactly right. Without this the runtime would bind 0.0.0.0:8080 on the
+      # host's own interfaces, serving the studio in cleartext beside the TLS front.
+      EXEPAD_HTTP_BIND: "127.0.0.1"
+      # A SEPARATE proxy (the sidecar) owns the public port here — mark the runtime
+      # proxy-fronted (NOT managed): it issues Secure cookies off X-Forwarded-Proto,
+      # and Settings -> Server & network shows the port read-only (the sidecar's
+      # Caddyfile owns it, not the UI).
+      EXEPAD_TLS_FRONTED: "1"
+      # All public ingress is HTTPS via the sidecar Caddy -> always issue Secure
+      # session/preview cookies (belt-and-suspenders with X-Forwarded-Proto).
+      EXEPAD_COOKIE_SECURE: "1"
+      # Contact address for the Let's Encrypt account (required for ACME).
+      EXEPAD_ACME_EMAIL: ${EXEPAD_ACME_EMAIL:-}
+      # The public A-record IP (or CNAME host) of this box. Shown to operators in
+      # the Custom Domains panel as the DNS target to point their domain at.
+      EXEPAD_PUBLIC_IP: ${EXEPAD_PUBLIC_IP:-}
+      EXEPAD_PUBLIC_HOST: ${EXEPAD_PUBLIC_HOST:-}
+      # Optional shared key for the on-demand-TLS ask endpoint (matched against
+      # ?key=). The endpoint lives on the runtime's plain :8080, which host
+      # networking puts on the box's interfaces — so set a key to keep anyone but
+      # the sidecar from querying it.
+      EXEPAD_ONDEMAND_TLS_ASK_KEY: ${EXEPAD_ONDEMAND_TLS_ASK_KEY:-}
+      # NOTE: EXEPAD_ALLOWED_ORIGINS is intentionally NOT hardcoded here — a
+      # verified custom domain is allowed for credentialed /api calls dynamically
+      # (the active registered_domains set), with no env edit or restart.
+    # Bound container logs (Docker's default driver never rotates on its own).
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    # Host networking: bind the host's 80/443 directly (no NAT mapping) and reach the
+    # runtime on 127.0.0.1:8080 — the base runs exepad host-networked, so service-name
+    # DNS ("exepad") isn't available; the Caddyfile upstream is 127.0.0.1:8080.
+    network_mode: host
+    depends_on:
+      - exepad
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      # Caddy itself reads these from its env to fill the Caddyfile placeholders.
+      EXEPAD_ACME_EMAIL: ${EXEPAD_ACME_EMAIL:-}
+      EXEPAD_ONDEMAND_TLS_ASK_KEY: ${EXEPAD_ONDEMAND_TLS_ASK_KEY:-}
+    volumes:
+      - ./Caddyfile.ondemand:/etc/caddy/Caddyfile:ro
+      # Persist the ACME account key + issued/renewed certs across restarts.
+      # WITHOUT this, every restart re-issues certs and can quickly exhaust
+      # Let's Encrypt's per-registered-domain rate limit.
+      - caddy-data:/data
+      - caddy-config:/config
+
+# Merges with the base top-level volumes; exepad-data is preserved.
+volumes:
+  caddy-data:
+  caddy-config:

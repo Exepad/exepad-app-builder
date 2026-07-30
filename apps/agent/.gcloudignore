@@ -1,0 +1,19 @@
+# .gcloudignore — controls what gcloud builds submit uploads.
+# NOTE: _vendor/ is intentionally NOT listed here so it gets uploaded.
+
+.venv/
+venv_back/
+*.db
+logs/
+config_generated/
+.adk/
+__pycache__/
+*.pyc
+.git
+.gitignore
+
+# Secrets - never commit
+.env
+.env.local
+deployment/secrets.yaml
+deployment/DB

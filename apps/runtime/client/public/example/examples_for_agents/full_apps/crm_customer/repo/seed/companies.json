@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Acme Corp",
+    "industry": "Technology",
+    "website": "https://acmecorp.com",
+    "size": "201-1000",
+    "revenue": 45000000
+  },
+  {
+    "name": "Globex Industries",
+    "industry": "Manufacturing",
+    "website": "https://globex.com",
+    "size": "1000+",
+    "revenue": 120000000
+  },
+  {
+    "name": "Initech Solutions",
+    "industry": "Software",
+    "website": "https://initech.io",
+    "size": "51-200",
+    "revenue": 12000000
+  },
+  {
+    "name": "Umbrella Health",
+    "industry": "Healthcare",
+    "website": "https://umbrellahealth.com",
+    "size": "201-1000",
+    "revenue": 78000000
+  },
+  {
+    "name": "Stark Ventures",
+    "industry": "Finance",
+    "website": "https://starkventures.com",
+    "size": "11-50",
+    "revenue": 8500000
+  },
+  {
+    "name": "Wayne Logistics",
+    "industry": "Logistics",
+    "website": "https://waynelogistics.com",
+    "size": "1000+",
+    "revenue": 200000000
+  },
+  {
+    "name": "Pied Piper Media",
+    "industry": "Media",
+    "website": "https://piedpiper.media",
+    "size": "1-10",
+    "revenue": 1200000
+  },
+  {
+    "name": "Hooli Analytics",
+    "industry": "Data Analytics",
+    "website": "https://hooli.ai",
+    "size": "51-200",
+    "revenue": 25000000
+  }
+]

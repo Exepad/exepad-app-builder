@@ -1,0 +1,44 @@
+/* ==========================================================================
+   The Living Ledger — Code Focus Theme
+   Dashboard: icon font, hex pattern, typography for Shadow DOM
+   ========================================================================== */
+
+/* Fonts — @font-face loaded at page level via repo.frontend.fonts */
+
+/* Material Symbols class */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Hexagonal background pattern */
+.hex-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%23ffddb5' fill-opacity='0.05' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.35 11-6.35V17.9l-11-6.35L3 17.9z'/%3E%3C/svg%3E");
+}
+
+/* Shadow DOM base */
+:host {
+  font-family: 'Inter', sans-serif;
+  background-color: #f7f9ff;
+  color: #181c20;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, .font-headline {
+  font-family: 'Manrope', sans-serif;
+}

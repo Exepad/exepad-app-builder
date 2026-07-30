@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Exepad Windows installer (MSI, WiX v5).
+
+  Deliberately THIN: Exepad itself runs as a Docker container, so this MSI only
+  installs the launcher pair (install.ps1 + "Install Exepad.bat" — the same
+  files the one-click zip ships) per-user, adds Start Menu shortcuts and an
+  Add/Remove Programs entry, and auto-opens the setup console after an
+  interactive install. All Docker orchestration happens in the launcher, never
+  in MSI custom actions (network work inside the MSI transaction is fragile
+  and breaks rollback semantics).
+
+  Per-user scope: no UAC elevation, installs under %LocalAppData%\Programs\Exepad.
+  Uninstall removes ONLY the launcher + shortcuts — the Exepad container and the
+  exepad-data volume are never touched (that's the operator's data).
+
+  Build (CI does this on windows-latest; WiX v5 also cross-builds on Linux):
+    wix build packaging/msi/exepad.wxs \
+      -d ExepadVersion=X.Y.Z -d PayloadDir=<dir with pinned install.ps1 + bat> \
+      -o Exepad-Installer-Windows.msi
+
+  UpgradeCode is PERMANENT — never change it, or upgrades become side-by-side
+  installs.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Exepad Studio"
+           Manufacturer="Exepad"
+           Version="$(var.ExepadVersion)"
+           UpgradeCode="fe2c2ab1-5f28-40f7-8003-e8ea44dc1ec2"
+           Scope="perUser"
+           InstallerVersion="500"
+           Compressed="yes">
+
+    <SummaryInformation Description="Exepad Studio - self-hosted AI app builder (launcher)" />
+
+    <!-- AllowSameVersionUpgrades: re-running the same MSI repairs/refreshes. -->
+    <MajorUpgrade AllowSameVersionUpgrades="yes"
+                  DowngradeErrorMessage="A newer Exepad launcher is already installed. Uninstall it first (your Exepad data is never touched by install or uninstall)." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Property Id="ARPHELPLINK" Value="https://github.com/Exepad/exepad-app-builder" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/Exepad/exepad-app-builder" />
+    <Property Id="ARPNOMODIFY" Value="1" />
+
+    <StandardDirectory Id="LocalAppDataFolder">
+      <Directory Id="ProgramsDir" Name="Programs">
+        <Directory Id="INSTALLFOLDER" Name="Exepad" />
+      </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ExepadMenuDir" Name="Exepad" />
+    </StandardDirectory>
+
+    <!-- Per-user components: HKCU registry values are the keypaths (MSI rule:
+         per-user files can't be keypaths for shared detection). -->
+    <ComponentGroup Id="Launcher" Directory="INSTALLFOLDER">
+      <!-- Explicit GUIDs (permanent, like the UpgradeCode): auto-GUIDs are not
+           allowed for components mixing a registry keypath with files. -->
+      <Component Id="InstallPs1" Guid="4c45291b-b288-45ea-b8af-f86dc12224e0">
+        <RegistryValue Root="HKCU" Key="Software\Exepad\Launcher" Name="ps1"
+                       Type="integer" Value="1" KeyPath="yes" />
+        <File Id="InstallPs1File" Name="install.ps1" Source="$(var.PayloadDir)/install.ps1" />
+      </Component>
+
+      <Component Id="SetupBat" Guid="4e648336-1e51-48a4-8d1a-19323e85da1f">
+        <RegistryValue Root="HKCU" Key="Software\Exepad\Launcher" Name="bat"
+                       Type="integer" Value="1" KeyPath="yes" />
+        <File Id="SetupBatFile" Name="Install Exepad.bat" Source="$(var.PayloadDir)/Install Exepad.bat" />
+        <Shortcut Id="SetupShortcut"
+                  Directory="ExepadMenuDir"
+                  Name="Install or Update Exepad Studio"
+                  Description="Set up or update the self-hosted Exepad studio (checks Docker, pulls the image, starts it)"
+                  Target="[INSTALLFOLDER]Install Exepad.bat"
+                  WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFolder Id="RemoveInstallFolder" Directory="INSTALLFOLDER" On="uninstall" />
+      </Component>
+
+      <!-- A plain .url file in the Start Menu folder = "open the studio" entry. -->
+      <Component Id="StudioUrl" Directory="ExepadMenuDir" Guid="3efae8de-5182-4fac-92b3-a9ec0bbcb3d4">
+        <RegistryValue Root="HKCU" Key="Software\Exepad\Launcher" Name="url"
+                       Type="integer" Value="1" KeyPath="yes" />
+        <File Id="StudioUrlFile" Name="Exepad Studio.url" Source="$(var.PayloadDir)/Exepad Studio.url" />
+        <RemoveFolder Id="RemoveMenuDir" Directory="ExepadMenuDir" On="uninstall" />
+      </Component>
+    </ComponentGroup>
+
+    <Feature Id="Main" Level="1">
+      <ComponentGroupRef Id="Launcher" />
+    </Feature>
+
+    <!-- After an INTERACTIVE first install/upgrade, open the setup console so
+         "double-click the MSI" is the whole flow. UILevel >= 4 skips this for
+         silent/GPO installs (msiexec /qn); asyncNoWait lets msiexec finish
+         while the console runs. -->
+    <CustomAction Id="LaunchSetup"
+                  Directory="INSTALLFOLDER"
+                  ExeCommand="cmd.exe /c start &quot;Exepad Installer&quot; &quot;[INSTALLFOLDER]Install Exepad.bat&quot;"
+                  Return="asyncNoWait" />
+    <InstallExecuteSequence>
+      <Custom Action="LaunchSetup" After="InstallFinalize"
+              Condition="NOT Installed AND UILevel &gt;= 4" />
+    </InstallExecuteSequence>
+  </Package>
+</Wix>

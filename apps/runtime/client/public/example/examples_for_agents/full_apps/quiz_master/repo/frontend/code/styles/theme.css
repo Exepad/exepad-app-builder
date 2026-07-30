@@ -1,0 +1,6 @@
+:host { font-family: 'Inter', system-ui, sans-serif; }
+.quiz-option { transition: all 0.2s ease; }
+.quiz-option:hover { transform: scale(1.02); }
+.quiz-option.correct { background: hsl(142 76% 36%); color: white; }
+.quiz-option.wrong { background: hsl(0 84% 60%); color: white; }
+.quiz-progress { transition: width 0.3s ease; }

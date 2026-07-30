@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Contact Form",
+    "description": "General purpose contact form for inquiries, support, and partnerships",
+    "fields": "[{\"name\":\"name\",\"type\":\"text\",\"label\":\"Full Name\",\"required\":true},{\"name\":\"email\",\"type\":\"email\",\"label\":\"Email\",\"required\":true},{\"name\":\"phone\",\"type\":\"tel\",\"label\":\"Phone\",\"required\":false},{\"name\":\"subject\",\"type\":\"select\",\"label\":\"Subject\",\"options\":[\"General\",\"Support\",\"Sales\",\"Partnership\"],\"required\":true},{\"name\":\"message\",\"type\":\"textarea\",\"label\":\"Message\",\"required\":true},{\"name\":\"priority\",\"type\":\"select\",\"label\":\"Priority\",\"options\":[\"Low\",\"Normal\",\"High\"],\"required\":true}]",
+    "is_active": 1,
+    "category": "contact"
+  },
+  {
+    "name": "Registration Form",
+    "description": "Event registration form for conferences, workshops, and meetups",
+    "fields": "[{\"name\":\"firstName\",\"type\":\"text\",\"label\":\"First Name\",\"required\":true},{\"name\":\"lastName\",\"type\":\"text\",\"label\":\"Last Name\",\"required\":true},{\"name\":\"email\",\"type\":\"email\",\"label\":\"Email\",\"required\":true},{\"name\":\"company\",\"type\":\"text\",\"label\":\"Company\",\"required\":true},{\"name\":\"jobTitle\",\"type\":\"text\",\"label\":\"Job Title\",\"required\":true},{\"name\":\"dietary\",\"type\":\"select\",\"label\":\"Dietary Preferences\",\"options\":[\"None\",\"Vegetarian\",\"Vegan\",\"Gluten-Free\",\"Halal\",\"Kosher\"],\"required\":false},{\"name\":\"tshirtSize\",\"type\":\"select\",\"label\":\"T-shirt Size\",\"options\":[\"XS\",\"S\",\"M\",\"L\",\"XL\",\"XXL\"],\"required\":false},{\"name\":\"sessions\",\"type\":\"multiselect\",\"label\":\"Session Preferences\",\"options\":[\"Workshop A\",\"Workshop B\",\"Keynote\",\"Panel Discussion\",\"Networking Lunch\"],\"required\":false}]",
+    "is_active": 1,
+    "category": "registration"
+  },
+  {
+    "name": "Feedback Form",
+    "description": "Customer feedback form with star rating and open-ended questions",
+    "fields": "[{\"name\":\"rating\",\"type\":\"rating\",\"label\":\"Overall Rating\",\"min\":1,\"max\":5,\"required\":true},{\"name\":\"category\",\"type\":\"select\",\"label\":\"Category\",\"options\":[\"Product\",\"Support\",\"Feature\",\"Pricing\",\"Other\"],\"required\":true},{\"name\":\"liked\",\"type\":\"textarea\",\"label\":\"What did you like?\",\"required\":false},{\"name\":\"improve\",\"type\":\"textarea\",\"label\":\"What can we improve?\",\"required\":false},{\"name\":\"recommend\",\"type\":\"boolean\",\"label\":\"Would you recommend us?\",\"required\":true}]",
+    "is_active": 1,
+    "category": "feedback"
+  }
+]

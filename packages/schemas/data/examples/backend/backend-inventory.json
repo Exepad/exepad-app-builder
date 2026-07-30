@@ -1,0 +1,285 @@
+{
+  "uuid": "backend-inventory",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "name": "Inventory Management",
+  "alias": "backend-inventory",
+  "summary": "Inventory management backend with products and stock movements models. Read handler for low stock items alert and write handler for recording stock movements.",
+  "shortSummary": "Inventory management backend with products and st",
+  "lastUpdatedEpoch": 1730000000,
+  "security": {
+    "authProviders": [{ "provider": "email" }],
+    "sessionDuration": 604800,
+    "allowSignup": true
+  },
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "uuid": "model-products",
+        "name": "products",
+        "columns": [
+          {
+            "name": "sku",
+            "type": "text",
+            "summary": "Stock Keeping Unit - unique product identifier code"
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "summary": "Display name of the product"
+          },
+          {
+            "name": "category",
+            "type": "text",
+            "summary": "Product category for grouping and filtering"
+          },
+          {
+            "name": "quantity",
+            "type": "integer",
+            "summary": "Current quantity in stock"
+          },
+          {
+            "name": "reorder_level",
+            "type": "integer",
+            "summary": "Minimum stock threshold that triggers a reorder alert"
+          },
+          {
+            "name": "warehouse",
+            "type": "text",
+            "summary": "Warehouse location where the product is stored"
+          },
+          {
+            "name": "supplier",
+            "type": "text",
+            "summary": "Name of the primary supplier for this product",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_products_sku",
+            "columns": [
+              "sku"
+            ],
+            "unique": true
+          },
+          {
+            "name": "idx_products_category",
+            "columns": [
+              "category"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_products_warehouse",
+            "columns": [
+              "warehouse"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "authenticated",
+          "delete": "admin"
+        }
+      },
+      {
+        "uuid": "model-stock_movements",
+        "name": "stock_movements",
+        "columns": [
+          {
+            "name": "product_id",
+            "type": "integer",
+            "summary": "Foreign key referencing the product being moved",
+            "references": {
+              "model": "products",
+              "column": "id",
+              "onDelete": "cascade"
+            }
+          },
+          {
+            "name": "type",
+            "type": "text",
+            "summary": "Type of stock movement: inbound, outbound, adjustment, return",
+            "defaultValue": "inbound"
+          },
+          {
+            "name": "quantity",
+            "type": "integer",
+            "summary": "Number of units moved (positive for inbound, negative for outbound)"
+          },
+          {
+            "name": "reference",
+            "type": "text",
+            "summary": "Reference number linking to purchase order, sales order, or adjustment reason",
+            "isNullable": true
+          },
+          {
+            "name": "notes",
+            "type": "text",
+            "summary": "Optional notes about the stock movement",
+            "isNullable": true
+          },
+          {
+            "name": "created_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was created",
+            "isNullable": true
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "summary": "ISO 8601 timestamp when the record was last updated",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_stock_movements_product_id",
+            "columns": [
+              "product_id"
+            ],
+            "unique": false
+          },
+          {
+            "name": "idx_stock_movements_type",
+            "columns": [
+              "type"
+            ],
+            "unique": false
+          }
+        ],
+        "ownerScope": "shared",
+        "crudPolicy": {
+          "create": "authenticated",
+          "read": "authenticated",
+          "update": "admin",
+          "delete": "admin"
+        }
+      }
+    ],
+    "handlers": [
+      {
+        "uuid": "h-getLowStockItems",
+        "name": "getLowStockItems",
+        "method": "getLowStockItems",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "warehouse",
+            "type": "string",
+            "required": false,
+            "summary": "Optionally filter by warehouse location"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "required": false,
+            "summary": "Optionally filter by product category"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "items",
+            "type": "array",
+            "summary": "List of products where quantity is at or below the reorder level"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "summary": "Total number of low-stock items"
+          }
+        ]
+      },
+      {
+        "uuid": "h-recordStockMovement",
+        "name": "recordStockMovement",
+        "method": "recordStockMovement",
+        "authLevel": "authenticated",
+        "inputs": [
+          {
+            "name": "product_id",
+            "type": "number",
+            "required": true,
+            "summary": "ID of the product being moved"
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "required": true,
+            "summary": "Movement type: inbound, outbound, adjustment, return"
+          },
+          {
+            "name": "quantity",
+            "type": "number",
+            "required": true,
+            "summary": "Number of units to move"
+          },
+          {
+            "name": "reference",
+            "type": "string",
+            "required": false,
+            "summary": "Reference number for the movement (e.g., PO number)"
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "required": false,
+            "summary": "Optional notes about the movement"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "movementId",
+            "type": "number",
+            "summary": "ID of the newly created stock movement record"
+          },
+          {
+            "name": "newQuantity",
+            "type": "number",
+            "summary": "Updated stock quantity of the product after the movement"
+          },
+          {
+            "name": "isLowStock",
+            "type": "boolean",
+            "summary": "Whether the product is now at or below its reorder level"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "SidebarMenuLeft",
+    "theme": {},
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

@@ -1,0 +1,456 @@
+# Real-container smoke on macOS and Windows, on hosted runners.
+#
+# packaging-ci already proves the INSTALLERS parse and execute on both platforms
+# (macOS under bash 3.2, Windows through a real msiexec install/uninstall). What
+# neither runner has is a Docker that can run our linux/amd64 image, so the half
+# that actually matters — pull the image, start the studio, answer 200, surface
+# the setup token — has only ever been proven on Linux.
+#
+# Both routes were MEASURED on 2026-07-28 rather than assumed, and the common
+# assumption ("hosted runners can't do this") turned out to be half wrong:
+#
+#   macOS   : Colima needs a hypervisor, and GitHub's arm64 runners cannot
+#             provide one — they are themselves VMs on Apple Virtualization, M1
+#             has no nested-virt support in hardware, and Apple only added it on
+#             M3 + macOS 15. So this job runs on the INTEL image, which does.
+#   Windows : gets further than expected but does NOT work. Nested virt is
+#             present, WSL2 runs Docker Engine linux/amd64 fine, and the daemon
+#             listens — but the host cannot reach the WSL network, so the job is
+#             opt-in (windows=true) and off by default. Details on the job.
+#
+# macOS is the job that earns its keep: it is green, reproducible, and it already
+# caught a real defect (the Compose v2 plugin message on a Homebrew-Docker Mac).
+#
+# Uses the `-lite` tag (no bundled Chromium, ~1.4 GB smaller uncompressed): these
+# runners are slow enough that it is the difference between viable and not.
+name: container-smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Image tag to smoke (e.g. 1.0.1 or latest)'
+        required: false
+        default: 'latest'
+      windows:
+        description: 'Also run the Windows/WSL2 job (known-blocked — see header)'
+        required: false
+        default: 'false'
+
+jobs:
+  # ── linux/arm64 under QEMU ───────────────────────────────────────────────────
+  # The arm64 half of the manifest is built and cosign-signed on every release
+  # but had never been STARTED anywhere: this project's CI is all amd64, and a
+  # multi-arch manifest proves only that a build produced an arm64 layer set, not
+  # that it boots. Every Apple Silicon and ARM-server user was relying on that.
+  #
+  # Emulation is not native coverage — it will not catch timing, performance or
+  # arch-specific native-module faults — but it does catch the big one: an image
+  # that does not start at all. Free, on an ubuntu runner, in minutes.
+  arm64:
+    name: linux/arm64 — does the image actually boot?
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      IMG: ghcr.io/exepad/exepad-app-builder
+      VER: ${{ inputs.version || 'latest' }}
+    steps:
+      - uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
+        with:
+          platforms: arm64
+
+      # Load-bearing: without it, a missing/ignored --platform silently runs the
+      # amd64 image and the whole job passes while proving nothing about arm64.
+      - name: Prove we are really running aarch64, not silently falling back
+        run: |
+          set -euo pipefail
+          # --entrypoint is REQUIRED. The image's ENTRYPOINT supervises Node +
+          # the Python agent and ignores its arguments entirely, so a plain
+          # `docker run IMG uname -m` starts the whole studio and never exits —
+          # the step then hangs to the job timeout instead of printing an arch.
+          ARCH=$(timeout 900 docker run --rm --platform linux/arm64 \
+                   --entrypoint uname "$IMG:$VER" -m)
+          echo "container reports: $ARCH"
+          [ "$ARCH" = "aarch64" ] \
+            || { echo "::error::expected aarch64, got $ARCH — emulation not in effect, this job would prove nothing"; exit 1; }
+
+      - name: Boot the studio on arm64 and serve a request
+        run: |
+          set -euo pipefail
+          docker run -d --name exepad-arm64 --platform linux/arm64 \
+            -p 8097:8080 -e EXEPAD_HTTPS_DISABLE=1 -v exepad-arm64-data:/data \
+            "$IMG:$VER"
+          # QEMU is slow: the studio is Node + a Python agent, and start-up that
+          # takes ~10s natively can take minutes emulated. Be patient, but fail
+          # loudly rather than hanging to the job timeout.
+          code=""
+          for _ in $(seq 1 120); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://localhost:8097/auth/status || true)
+            [ "$code" = "200" ] && break
+            if [ "$(docker inspect -f '{{.State.Running}}' exepad-arm64)" != "true" ]; then
+              echo "::error::the arm64 container EXITED during start-up"; docker logs exepad-arm64 2>&1 | tail -60; exit 1
+            fi
+            sleep 5
+          done
+          [ "$code" = "200" ] \
+            || { echo "::error::arm64 studio never answered (last: ${code:-none})"; docker logs exepad-arm64 2>&1 | tail -60; exit 1; }
+          echo "arm64 studio answered 200 on /auth/status"
+
+      - name: The things a first-run user depends on
+        run: |
+          set -euo pipefail
+          # AGPL s13 source offer must work on this arch too.
+          SRC=$(curl -s -o /dev/null -w '%{redirect_url}' --max-time 15 http://localhost:8097/source || true)
+          case "$SRC" in *exepad-app-builder*) echo "GET /source -> $SRC";; *) echo "::error::/source did not redirect to the repo (got: ${SRC:-none})"; exit 1;; esac
+
+          # The setup token is minted by the entrypoint; if that path is broken on
+          # arm64 nobody can complete first-run setup on an ARM box.
+          docker logs exepad-arm64 2>&1 | sed -n '/FIRST-RUN SETUP TOKEN/,$p' | grep -Eoq '[0-9a-f]{64}' \
+            || { echo "::error::no first-run setup token in the arm64 container's logs"; docker logs exepad-arm64 2>&1 | tail -40; exit 1; }
+          echo "first-run setup token minted on arm64"
+
+          # And that the token is actually ACCEPTED — proves the auth/SQLite path
+          # works emulated, not just that a string was printed.
+          TOK=$(docker logs exepad-arm64 2>&1 | sed -n '/FIRST-RUN SETUP TOKEN/,$p' | grep -Eo '[0-9a-f]{64}' | head -1)
+          OUT=$(curl -s --max-time 60 -X POST http://localhost:8097/auth/setup \
+            -H 'Content-Type: application/json' \
+            -d "{\"email\":\"demo@exepad.local\",\"password\":\"Sup3rSecret!pw\",\"setupToken\":\"$TOK\"}" || true)
+          case "$OUT" in *'"success":true'*) echo "operator account created on arm64";; *) echo "::error::/auth/setup failed on arm64: $OUT"; exit 1;; esac
+
+      - name: Diagnostics on failure
+        if: failure()
+        run: |
+          docker ps -a || true
+          docker logs exepad-arm64 2>&1 | tail -80 || true
+
+      - name: Teardown
+        if: always()
+        run: |
+          docker rm -f exepad-arm64 >/dev/null 2>&1 || true
+          docker volume rm exepad-arm64-data >/dev/null 2>&1 || true
+
+  macos:
+    name: macOS — real container via Colima
+    # INTEL, deliberately, and not macos-latest.
+    #
+    # Measured on 2026-07-28: Colima cannot start on GitHub's arm64 macOS runners.
+    # The `vz` driver dies during hostagent startup, and the reason is hardware,
+    # not configuration — GitHub's macOS runners are themselves VMs on Apple
+    # Virtualization, M1 has no nested-virtualisation support at all, and Apple
+    # only added it on M3 + macOS 15. No flag fixes that; the runner has to change.
+    # (Chasing this cost two runs: first --vz-rosetta failing at "Setting up
+    # Rosetta share", then vz failing for the real underlying reason.)
+    #
+    # Intel runners have the hypervisor, which is why the community
+    # setup-docker-macos actions support Intel images and refuse arm64.
+    #
+    # NOT macos-13: that image was RETIRED on 2025-12-04, and the label no longer
+    # resolves — a job requesting it queues forever with no runner and no error,
+    # which is exactly what happened here before this was tracked down.
+    # `macos-15-intel` is its replacement.
+    #
+    # EXPIRY, deliberately recorded: GitHub drops x86_64 macOS entirely after
+    # August 2027. When that lands, this job has to move to arm64 runners, which
+    # means it needs M3-class hardware (nested virt) to exist on GitHub's fleet —
+    # or the coverage moves to a rented Apple-silicon host.
+    runs-on: macos-15-intel
+    timeout-minutes: 60
+    steps:
+      - name: Runner capability
+        run: |
+          uname -m
+          sw_vers
+          sysctl -n machdep.cpu.brand_string || true
+          command -v docker || echo "(no docker CLI preinstalled — expected)"
+          command -v colima || echo "(no colima preinstalled — expected)"
+
+      - name: Install + start Colima
+        run: |
+          set -euo pipefail
+          # qemu is NOT implied by the colima formula, and its absence surfaces
+          # only at start time as "cannot use vmType: 'qemu' … qemu-img not found".
+          #
+          # docker-compose is a SEPARATE formula from docker, and Homebrew does
+          # not register it as a CLI plugin — so `docker compose` (the subcommand
+          # install.sh requires) is missing even though `docker-compose` exists.
+          # install.sh caught this correctly and refused with "Docker Compose v2
+          # plugin is required (got legacy/none)", which is the right behaviour
+          # and exactly what a Mac user installing Docker via Homebrew would hit.
+          brew install colima docker docker-compose qemu
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn "$(brew --prefix)/opt/docker-compose/bin/docker-compose" \
+                  ~/.docker/cli-plugins/docker-compose
+
+          colima start --cpu 3 --memory 6 --disk 20
+          docker version
+          docker compose version   # must be v2 — install.sh hard-requires it
+          docker run --rm hello-world
+
+      - name: Install the studio exactly as a macOS user would
+        env:
+          VER: ${{ inputs.version || 'latest' }}
+        run: |
+          set -euo pipefail
+          # The RELEASE's installer from the public front door — the artifact a
+          # real user actually downloads, not this checkout's copy.
+          curl -fsSL https://get.exepad.com -o rel-install.sh
+          # --no-node: force the embedded bootstrap. That is the path every
+          # one-click bundle and every Node-less machine takes, and the one that
+          # had no real-container coverage at all.
+          bash rel-install.sh --yes --no-node \
+            --version "${VER}-lite" \
+            --dir "$PWD/inst" --port 8097 2>&1 | tee install.log
+
+      - name: Studio answers, and the setup token was surfaced
+        run: |
+          set -euo pipefail
+          code=""
+          for _ in $(seq 1 90); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://localhost:8097/ || true)
+            [ "$code" = "200" ] && break
+            sleep 5
+          done
+          [ "$code" = "200" ] || { echo "::error::studio never answered on macOS (last: ${code:-none})"; exit 1; }
+          echo "studio 200 on macOS"
+          grep -q 'Setup token:' install.log \
+            || { echo "::error::installer did not surface the first-run setup token on macOS"; exit 1; }
+          echo "setup token surfaced on macOS"
+          # The compose the bootstrap wrote must pin the tag it was asked for.
+          grep -q "exepad-app-builder:${VERSION}-lite" inst/docker-compose.yml \
+            || { echo "::error::compose is not pinned to the requested tag"; cat inst/docker-compose.yml; exit 1; }
+          echo "compose pinned correctly"
+        env:
+          VERSION: ${{ inputs.version || 'latest' }}
+
+      - name: Diagnostics on failure
+        if: failure()
+        run: |
+          docker ps -a || true
+          docker logs exepad 2>&1 | tail -60 || true
+          cat install.log || true
+          colima status || true
+          # The Lima hostagent's real error never reaches colima's own output —
+          # it reports an empty `Errors:[]` and points here. Not capturing this
+          # is what made the first arm64 failure look like a config problem.
+          for f in ~/.colima/_lima/colima/ha.stderr.log ~/.colima/_lima/colima/serial*.log; do
+            [ -f "$f" ] && { echo "----- $f -----"; tail -40 "$f"; }
+          done || true
+
+  # ── Windows: KNOWN-BLOCKED, opt-in only ─────────────────────────────────────
+  # Off by default (pass windows=true to run it) so it does not leave a
+  # permanently red run. Everything up to one hop works on a hosted runner:
+  #
+  #   HypervisorPresent=True (Windows Server 2025), docker CLI 29.1.5 + Compose
+  #   v2.40.3 preinstalled, WSL2 + Ubuntu 24.04 install cleanly, get.docker.com
+  #   brings up Docker Engine 29.6.2 linux/amd64 under systemd, the systemd
+  #   drop-in makes it LISTEN *:2375, and `docker info` over 127.0.0.1 answers
+  #   linux/x86_64 from INSIDE the VM.
+  #
+  # What fails is only Windows -> WSL. Measured across two runs: BOTH
+  # tcp://localhost:2375 and the VM's own address (172.19.x.x, then 172.27.x.x)
+  # are refused, with all three firewall profiles enabled and an explicit inbound
+  # allow rule for 2375/8097 added — so it is not the localhost-forwarding relay
+  # and not (only) the firewall.
+  #
+  # UNTESTED HYPOTHESIS for whoever picks this up: the distro may be terminating
+  # between steps. Each `wsl -d ... -- cmd` is its own invocation, and if WSL
+  # shuts the VM down when that command exits, dockerd dies with it and a later
+  # connection is refused precisely as observed. Cheapest next probe is
+  # `wsl -d Ubuntu-24.04 -- systemctl is-active docker` immediately BEFORE the
+  # reachability check: if that reports inactive, this is the cause and the fix
+  # is to hold the distro open (a long-running background `wsl` process) rather
+  # than anything to do with networking.
+  #
+  # Not a coverage emergency: packaging-ci already does a real msiexec
+  # install/uninstall on a Windows runner plus the CRLF/ASCII gates, and the
+  # container half is the same Linux image proven on Linux and macOS.
+  windows:
+    if: inputs.windows == 'true'
+    name: Windows — install.ps1 against a real Linux daemon (WSL2)
+    runs-on: windows-2025
+    timeout-minutes: 60
+    # NO job-level continue-on-error. It was here to keep a runner limitation
+    # from reading as a product defect, but combined with per-step
+    # continue-on-error and a Verdict step that always exited 0, the job reported
+    # a green tick while printing "studio answered 200 : False". A check that
+    # cannot fail is worse than no check — it manufactures false confidence.
+    #
+    # This workflow is workflow_dispatch-only and nothing depends on it, so an
+    # honest failure costs nothing and blocks nothing. The individual steps keep
+    # continue-on-error so the Verdict is always reached and can explain WHERE it
+    # broke; the Verdict itself now exits non-zero when the answer is no.
+    steps:
+      # Measured on 2026-07-28: HypervisorPresent=True on Windows Server 2025,
+      # docker CLI 29.1.5 preinstalled (windows/amd64 client). Nested
+      # virtualisation is what WSL2 needs, so the Linux-daemon route is open.
+      - name: Runner capability
+        shell: pwsh
+        run: |
+          Write-Host "HypervisorPresent : $((Get-CimInstance Win32_ComputerSystem).HypervisorPresent)"
+          Write-Host "OS                : $((Get-CimInstance Win32_OperatingSystem).Caption)"
+          Write-Host "--- docker client ---"
+          docker version --format '{{.Client.Version}}' 2>&1 | Out-String | Write-Host
+          Write-Host "--- compose plugin (install.ps1 needs `docker compose`) ---"
+          docker compose version 2>&1 | Out-String | Write-Host
+          # Probe only: a non-zero exit here is information, not failure.
+          exit 0
+
+      - name: Install WSL2 + Ubuntu
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          wsl --set-default-version 2 2>&1 | Out-String | Write-Host
+          wsl --install --no-launch -d Ubuntu-24.04 2>&1 | Out-String | Write-Host
+          wsl --list --verbose 2>&1 | Out-String | Write-Host
+          exit 0
+
+      - name: Docker Engine inside WSL, listening on TCP
+        id: wsld
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          # Engine in WSL + the Windows docker.exe pointed at it over TCP. That
+          # keeps install.ps1 running as a Windows script driving a Windows
+          # `docker`, which is the shape a Docker Desktop user has -- rather than
+          # testing a Linux script inside WSL, which would prove nothing new.
+          wsl -d Ubuntu-24.04 -u root -- bash -lc "curl -fsSL https://get.docker.com | sh" 2>&1 | Out-String | Write-Host
+
+          # get.docker.com already starts dockerd under systemd (WSL2 supports
+          # systemd, and the installer reports "Using systemd to manage Docker
+          # service"). So do NOT launch a second dockerd -- it loses the race for
+          # the unix socket and dies, which is exactly why the first attempt saw
+          # "Cannot connect to the Docker daemon at tcp://127.0.0.1:2375" while
+          # the engine was in fact running perfectly on the unix socket.
+          #
+          # Override the unit to ALSO listen on TCP. `ExecStart=` on its own line
+          # is required: systemd appends to ExecStart otherwise, and a unit with
+          # two ExecStart lines fails to load.
+          # Base64 the script rather than passing it as a command string. Both a
+          # multi-line here-string AND a single line packed with && , quotes and
+          # {{...}} were silently mangled between PowerShell and wsl.exe: the
+          # step produced NO output at all, which reads exactly like a step that
+          # did nothing. Base64 is a single argument of [A-Za-z0-9+/=] with no
+          # character either layer can reinterpret.
+          $script = @'
+          set -x
+          mkdir -p /etc/systemd/system/docker.service.d
+          printf '[Service]\nExecStart=\nExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375\n' > /etc/systemd/system/docker.service.d/tcp.conf
+          cat /etc/systemd/system/docker.service.d/tcp.conf
+          systemctl daemon-reload
+          systemctl restart docker
+          sleep 8
+          systemctl is-active docker || journalctl -u docker --no-pager -n 30
+          ss -ltn | grep 2375 || echo 'NOT LISTENING on 2375'
+          docker -H tcp://127.0.0.1:2375 info --format '{{.OSType}}/{{.Architecture}}'
+          '@ -replace "`r`n", "`n"
+          $b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($script))
+          wsl -d Ubuntu-24.04 -u root -- bash -c "echo $b64 | base64 -d | bash" 2>&1 | Out-String | Write-Host
+          exit 0
+
+      - name: Can Windows reach the WSL daemon?
+        id: reach
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          # Inside WSL the daemon is provably healthy (systemctl active,
+          # ss shows LISTEN *:2375, docker info returns linux/x86_64). The only
+          # question is the host->VM hop.
+          #
+          # localhost:2375 is REFUSED here: WSL2's localhost-forwarding relay does
+          # not pick this listener up on the Server 2025 runner. Addressing the VM
+          # directly is the documented way round it, so try localhost first (it is
+          # what a developer machine usually offers) and fall back to the WSL IP.
+          # Measured: BOTH localhost and the VM's own IP (172.19.x.x) were
+          # refused, so this is not the localhost relay alone — the host cannot
+          # reach the WSL NAT network at all. On Windows Server the default
+          # firewall profile blocks it, so open the vEthernet (WSL) adapter
+          # first. Best-effort: if the rule cannot be added we still try, and the
+          # Verdict reports the outcome either way.
+          try {
+            New-NetFirewallRule -DisplayName 'WSL-docker-tcp' -Direction Inbound `
+              -Action Allow -Protocol TCP -LocalPort 2375,8097 -ErrorAction Stop | Out-Null
+            Write-Host "added inbound firewall rule for 2375/8097"
+          } catch { Write-Host "could not add firewall rule: $_" }
+          try {
+            Get-NetFirewallProfile | ForEach-Object {
+              Write-Host "firewall profile $($_.Name): enabled=$($_.Enabled)"
+            }
+          } catch { }
+
+          $endpoints = @('tcp://localhost:2375')
+          $ip = (wsl -d Ubuntu-24.04 -- hostname -I 2>$null | Out-String).Trim().Split(' ')[0]
+          if ($ip) { $endpoints += "tcp://${ip}:2375"; Write-Host "WSL VM IP: $ip" }
+
+          $good = $null
+          foreach ($e in $endpoints) {
+            for ($i = 0; $i -lt 6; $i++) {
+              $env:DOCKER_HOST = $e
+              $r = docker info --format '{{.OSType}}/{{.Architecture}}' 2>&1 | Out-String
+              if ($r -match 'linux') { $good = $e; Write-Host "reachable via $e -> $($r.Trim())"; break }
+              Start-Sleep -Seconds 5
+            }
+            if ($good) { break }
+            Write-Host "not reachable via $e"
+          }
+          if ($good) {
+            # Hand the working endpoint to the install step.
+            "DOCKER_HOST=$good" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+            "reachable=true"    | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+            "wslip=$ip"         | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          } else {
+            "reachable=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          }
+          exit 0
+
+      - name: Install the studio with the RELEASE install.ps1
+        id: install
+        shell: pwsh
+        continue-on-error: true
+        env:
+          VER: ${{ inputs.version || 'latest' }}
+        run: |
+          # DOCKER_HOST comes from the reachability step via GITHUB_ENV — it is
+          # whichever endpoint actually answered, so this step does not re-guess.
+          Write-Host "DOCKER_HOST = $env:DOCKER_HOST"
+          docker info --format '{{.OSType}}/{{.Architecture}}' 2>&1 | Out-String | Write-Host
+          Invoke-WebRequest -UseBasicParsing https://get.exepad.com/install.ps1 -OutFile rel-install.ps1
+          # -NoNode forces the embedded bootstrap: the path the MSI and the
+          # one-click .bat take, and the one with no real-container coverage.
+          & .\rel-install.ps1 -Yes -NoNode -Version "$env:VER-lite" -Dir "$PWD\inst" -Port 8097 2>&1 | Tee-Object install.log | Write-Host
+          exit 0
+
+      - name: Verdict
+        shell: pwsh
+        run: |
+          $ok = $false
+          # The container's published port lives on the WSL VM's interface, so
+          # check the same host the daemon answered on — not localhost, which is
+          # exactly the hop that does not forward here.
+          $hosts = @('localhost')
+          $ip = '${{ steps.reach.outputs.wslip }}'
+          if ($ip) { $hosts += $ip }
+          if (Test-Path install.log) {
+            $log = Get-Content install.log -Raw
+            foreach ($h in $hosts) {
+              for ($i = 0; $i -lt 30; $i++) {
+                try {
+                  $r = Invoke-WebRequest -UseBasicParsing "http://${h}:8097/" -TimeoutSec 5
+                  if ($r.StatusCode -eq 200) { $ok = $true; Write-Host "studio answered 200 on $h"; break }
+                } catch { }
+                Start-Sleep -Seconds 5
+              }
+              if ($ok) { break }
+            }
+            Write-Host "studio answered 200 : $ok"
+            Write-Host "setup token shown   : $($log -match 'Setup token:')"
+          } else {
+            Write-Host "install.ps1 never produced a log — see the steps above for where it stopped"
+          }
+          Write-Host "daemon reachable    : ${{ steps.reach.outputs.reachable }}"
+          Write-Host "wsl-docker step     : ${{ steps.wsld.outcome }}"
+          Write-Host "install step        : ${{ steps.install.outcome }}"
+          if (-not $ok) {
+            Write-Host "::error::Windows container smoke did NOT pass — the studio never answered 200."
+            exit 1
+          }
+          Write-Host "Windows container smoke PASSED."

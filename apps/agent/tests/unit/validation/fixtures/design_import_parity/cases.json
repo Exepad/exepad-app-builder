@@ -1,0 +1,99 @@
+{
+  "cases": [
+    {
+      "id": "allow_hooks_at_top",
+      "kind": "allow",
+      "before_path": "examples/allow_hooks_at_top.before.tsx",
+      "after_path": "examples/allow_hooks_at_top.after.tsx"
+    },
+    {
+      "id": "allow_onclick_added",
+      "kind": "allow",
+      "before_path": "examples/allow_onclick_added.before.tsx",
+      "after_path": "examples/allow_onclick_added.after.tsx"
+    },
+    {
+      "id": "allow_onsubmit_added",
+      "kind": "allow",
+      "before_path": "examples/allow_onsubmit_added.before.tsx",
+      "after_path": "examples/allow_onsubmit_added.after.tsx"
+    },
+    {
+      "id": "allow_classname_extended",
+      "kind": "allow",
+      "before_path": "examples/allow_classname_extended.before.tsx",
+      "after_path": "examples/allow_classname_extended.after.tsx"
+    },
+    {
+      "id": "allow_usemodel_substitution",
+      "kind": "allow",
+      "before_path": "examples/allow_usemodel_substitution.before.tsx",
+      "after_path": "examples/allow_usemodel_substitution.after.tsx",
+      "backend_surface": {"models": [{"name": "users", "fields": ["name", "email"]}]}
+    },
+    {
+      "id": "allow_charts_substitution",
+      "kind": "allow",
+      "before_path": "examples/allow_charts_substitution.before.tsx",
+      "after_path": "examples/allow_charts_substitution.after.tsx",
+      "backend_surface": {"handlers": [{"name": "monthly_revenue"}]}
+    },
+    {
+      "id": "allow_jsx_comment_added",
+      "kind": "allow",
+      "before_path": "examples/allow_jsx_comment_added.before.tsx",
+      "after_path": "examples/allow_jsx_comment_added.after.tsx"
+    },
+    {
+      "id": "block_text_drift",
+      "kind": "block",
+      "before_path": "examples/block_text_drift.before.tsx",
+      "after_path": "examples/block_text_drift.after.tsx",
+      "expected_codes": ["text_drift"]
+    },
+    {
+      "id": "block_added_section",
+      "kind": "block",
+      "before_path": "examples/block_added_section.before.tsx",
+      "after_path": "examples/block_added_section.after.tsx",
+      "expected_codes": ["structural_tag_drift"]
+    },
+    {
+      "id": "block_invented_usemodel",
+      "kind": "block",
+      "before_path": "examples/block_invented_usemodel.before.tsx",
+      "after_path": "examples/block_invented_usemodel.after.tsx",
+      "backend_surface": {"models": [{"name": "users"}]},
+      "expected_codes": ["invented_backend"]
+    },
+    {
+      "id": "block_invented_usehandler",
+      "kind": "block",
+      "before_path": "examples/block_invented_usehandler.before.tsx",
+      "after_path": "examples/block_invented_usehandler.after.tsx",
+      "backend_surface": {"handlers": [{"name": "monthly_revenue"}]},
+      "expected_codes": ["invented_backend"]
+    },
+    {
+      "id": "block_removed_href",
+      "kind": "block",
+      "before_path": "examples/block_removed_href.before.tsx",
+      "after_path": "examples/block_removed_href.after.tsx",
+      "expected_codes": ["removed_href"]
+    },
+    {
+      "id": "block_dropped_section",
+      "kind": "block",
+      "before_path": "examples/block_dropped_section.before.tsx",
+      "after_path": "examples/block_dropped_section.after.tsx",
+      "expected_codes": ["structural_tag_drift"]
+    },
+    {
+      "id": "block_multiple_violations",
+      "kind": "block",
+      "before_path": "examples/block_multiple_violations.before.tsx",
+      "after_path": "examples/block_multiple_violations.after.tsx",
+      "expected_codes": ["text_drift", "removed_href", "structural_tag_drift"]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-enterprise-data-grid",
+  "alias": "codecomponent-enterprise-data-grid",
+  "name": "Enterprise Data Grid",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Enterprise data grid CodeComponent using AG Grid extension library. AgGrid.AgGridReact component with column definitions for Name, Email, Department, Salary, Start Date, and Status. Features column sorting, filtering, and pagination (50 rows, 10 per page). Cell editing (double-click to edit) triggers useHandler('updateEmployee') on change with toast confirmation. Toolbar includes column visibility DropdownMenu, export Button, and filter toggle. Row count Badge in header. Theme sync uses ag-theme-alpine (light) / ag-theme-alpine-dark (dark) from useTheme. Uses useModel pattern for employee data (demo: 50 employee records).",
+  "shortSummary": "AG Grid data table with sorting, filtering, pagination, inline editing, column visibility, and CSV export",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "EnterpriseDataGrid": {
+        "source": "frontend/components/EnterpriseDataGrid.tsx",
+        "compiled": "frontend/components/EnterpriseDataGrid.js",
+        "summary": "AG Grid employee directory with sorting, filtering, pagination, inline cell editing, column visibility dropdown, CSV export, and theme sync"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#334155",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f8fafc",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#334155"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#94a3b8",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#334155",
+        "input": "#334155",
+        "ring": "#94a3b8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-data-grid",
+        "title": "Employee Directory",
+        "slug": "/",
+        "summary": "Enterprise data grid with employee directory, sorting, filtering, and inline editing.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "enterprise-data-grid-1",
+            "component": "EnterpriseDataGrid",
+            "extensions": [
+              "ag-grid"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "AG Grid employee directory with inline editing and export",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

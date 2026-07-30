@@ -1,0 +1,47 @@
+{
+  "version": "3",
+  "templates": [
+    {
+      "type": 1,
+      "title": "Exepad",
+      "name": "exepad",
+      "description": "Open-source, self-hosted AI app builder. Prompt an AI agent and get a real, deployed full-stack web app — compiled, deployed, and served inside one container. Bring your own LLM key (Gemini, Anthropic, OpenAI, OpenRouter, or local via Ollama). Requires >= 2 GB RAM and a persistent /data volume (SQLite — single instance only).",
+      "categories": ["development", "tools"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/exepad/exepad-app-builder/main/.github/assets/exepad-logo-light.svg",
+      "image": "ghcr.io/exepad/exepad-app-builder:latest",
+      "ports": ["8080:8080/tcp"],
+      "volumes": [
+        {
+          "container": "/data"
+        }
+      ],
+      "env": [
+        {
+          "name": "EXEPAD_LLM_API_KEY",
+          "label": "LLM API key (required to build apps; can also be set later in /settings)",
+          "default": ""
+        },
+        {
+          "name": "EXEPAD_LLM_PROVIDER",
+          "label": "LLM provider",
+          "default": "gemini",
+          "select": [
+            { "text": "Gemini (default)", "value": "gemini", "default": true },
+            { "text": "Anthropic", "value": "anthropic" },
+            { "text": "OpenAI", "value": "openai" },
+            { "text": "OpenRouter", "value": "openrouter" },
+            { "text": "Custom / Ollama", "value": "custom" }
+          ]
+        },
+        {
+          "name": "EXEPAD_HTTPS_DISABLE",
+          "label": "Disable in-image HTTPS (set 1 when fronting your own reverse proxy)",
+          "default": "1"
+        }
+      ],
+      "restart_policy": "unless-stopped",
+      "note": "All state lives in the /data volume — back it up. SQLite is single-writer: run exactly ONE instance, never on NFS/SMB. Docs: https://github.com/Exepad/exepad-app-builder"
+    }
+  ]
+}

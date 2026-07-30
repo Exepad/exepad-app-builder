@@ -1,0 +1,9 @@
+<div>x</div>
+<script>
+(function() {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced) {
+    document.body.classList.add('animated');
+  }
+})();
+</script>

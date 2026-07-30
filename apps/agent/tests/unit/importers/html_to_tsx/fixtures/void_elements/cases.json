@@ -1,0 +1,37 @@
+{
+  "cases": [
+    {
+      "id": "br_self_close",
+      "input_path": "examples/br_self_close.html",
+      "expected_tsx_contains": ["line one<br />line two<br />line three"],
+      "expected_tsx_absent": ["</br>"]
+    },
+    {
+      "id": "hr_self_close",
+      "input_path": "examples/hr_self_close.html",
+      "expected_tsx_contains": ["<hr />"],
+      "expected_tsx_absent": ["</hr>"]
+    },
+    {
+      "id": "input_self_close",
+      "input_path": "examples/input_self_close.html",
+      "expected_tsx_contains": ["<input type=\"text\" name=\"name\" />"],
+      "expected_tsx_absent": ["</input>"]
+    },
+    {
+      "id": "canvas_paired",
+      "input_path": "examples/canvas_paired.html",
+      "expected_tsx_contains": ["<canvas id=\"sigCanvas\"></canvas>"],
+      "expected_tsx_absent": ["<canvas id=\"sigCanvas\" />"]
+    },
+    {
+      "id": "iframe_paired",
+      "input_path": "examples/iframe_paired.html",
+      "expected_tsx_contains": [
+        "<iframe src=\"https://example.com\">",
+        "<p>fallback content</p>",
+        "</iframe>"
+      ]
+    }
+  ]
+}

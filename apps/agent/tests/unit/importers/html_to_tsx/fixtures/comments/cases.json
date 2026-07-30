@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "comment_preserve",
+      "input_path": "examples/comment_preserve.html",
+      "expected_tsx_contains": ["{/* hello world */}"]
+    },
+    {
+      "id": "comment_with_dashes",
+      "input_path": "examples/comment_with_dashes.html",
+      "expected_tsx_contains": ["{/* a -- b -- c */}"]
+    },
+    {
+      "id": "multiline_comment",
+      "input_path": "examples/multiline_comment.html",
+      "expected_tsx_contains": ["{/*", "Line one", "Line two", "Line three", "*/}"]
+    },
+    {
+      "id": "conditional_comment_dropped",
+      "input_path": "examples/conditional_comment.html",
+      "expected_tsx_absent": ["{/*", "[if IE]", "IE only"]
+    }
+  ]
+}

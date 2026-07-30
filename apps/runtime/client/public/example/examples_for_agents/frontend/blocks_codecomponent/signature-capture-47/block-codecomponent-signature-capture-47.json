@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-signature-capture",
+  "alias": "codecomponent-signature-capture",
+  "name": "Signature Capture Pad",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Signature capture CodeComponent powered by SignaturePad extension. Features a SignaturePad canvas for freehand drawing, RadioGroup for pen color selection (black, blue, red), Slider for stroke width adjustment, Clear and Undo buttons for editing, Capture button to save signature as data URL, preview of captured signature below with img tag, Dialog for confirmation before submission, useHandler('submitSignature') for backend submission with toast notifications, useAppState for persisting captured signature data URL, and useTheme for canvas background color. Uses Signature extension for canvas input.",
+  "shortSummary": "Signature pad with pen color/width options, capture preview, confirmation dialog, and submit handler",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "SignatureCapture": {
+        "source": "frontend/components/SignatureCapture.tsx",
+        "compiled": "frontend/components/SignatureCapture.js",
+        "summary": "Signature capture pad with color/width options, clear/undo, capture preview, confirmation dialog, and submit handler"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "boxed",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#475569",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f8fafc",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#475569"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#94a3b8",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#334155",
+        "input": "#334155",
+        "ring": "#64748b"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-signature",
+        "title": "Signature",
+        "slug": "/",
+        "summary": "Signature capture pad with pen options, preview, and submit functionality.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "signature-capture-1",
+            "component": "SignatureCapture",
+            "extensions": [
+              "signature"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Signature capture with options and preview",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

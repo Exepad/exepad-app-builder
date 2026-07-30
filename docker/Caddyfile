@@ -1,0 +1,113 @@
+# docker/Caddyfile — baked INTO the single exepad image.
+#
+# The container runs Caddy in-process (started by the entrypoint) as the TLS
+# terminator in front of the Node runtime on 127.0.0.1:8080 — so the ONE image
+# serves HTTPS out of the box with zero extra packages, no sidecar, nothing for
+# the operator to install or configure. Caddy picks the cert per Host:
+#   - this box's own public hostname (its <dashed-ip>.sslip.io) + any verified
+#     custom domain  → a browser-TRUSTED Let's Encrypt cert (ACME), on demand;
+#   - localhost / a LAN or private IP literal  → Caddy's internal CA (encrypted,
+#     one-time browser warning — no public CA can sign those).
+#
+# Issuance is gated by the runtime's /internal/tls/authorize endpoint (on_demand
+# `ask`): Caddy only obtains a cert for a Host the runtime authorizes — this box's
+# own loopback/LAN/public addresses + sslip host + verified domains — so a
+# stranger's bogus SNI can never drive public-CA issuance (the rate-limit guard).
+{
+	on_demand_tls {
+		ask http://127.0.0.1:8080/internal/tls/authorize?key={$EXEPAD_ONDEMAND_TLS_ASK_KEY}
+	}
+	# No `email`: the Let's Encrypt contact is OPTIONAL and Caddy issues fine with
+	# an anonymous account. An empty {$EXEPAD_ACME_EMAIL} would emit a bare `email`
+	# token and FAIL config parsing when unset (the default), so we omit it.
+
+	# Persist Caddy's data (ACME certs + the internal CA that signs localhost/LAN)
+	# on the mounted /data volume, NOT the container's ephemeral ~/.local/share.
+	# This keeps the internal CA root STABLE across `docker compose up --build` /
+	# container recreates, so an operator who trusted it once stays trusted — and
+	# the entrypoint can export that root from a known path for one-step host trust.
+	storage file_system {
+		root {$EXEPAD_CADDY_DATA:/data/caddy}
+	}
+}
+
+# A bare public IP can NEVER get a browser-trusted cert (no public CA signs IPs),
+# so funnel IP visitors to this box's browser-trusted <dashed-ip>.sslip.io host.
+# The entrypoint detects the public IP and exports EXEPAD_PUBLIC_IP + the derived
+# EXEPAD_SSLIP_HOST; the `:0.0.0.0`/`:localhost` defaults make this an inert no-op
+# when no public IP is known (nothing has Host: 0.0.0.0). Over plain HTTP this
+# fully avoids the warning; a directly-typed https://<ip> still warns ONCE (the
+# browser checks the cert before any redirect) then bounces to the trusted host.
+# The sslip host is the box's OWN identity → the STUDIO front (studio port).
+# The matcher is EXEPAD_SSLIP_REDIRECT_IP (the entrypoint sets it to the real public IP
+# when "direct IP access" is OFF, or to a non-matching sentinel when ON so bare-IP
+# visitors are served directly instead of bounced here).
+(ip_to_sslip) {
+	@bare_ip host {$EXEPAD_SSLIP_REDIRECT_IP:0.0.0.0}
+	redir @bare_ip https://{$EXEPAD_SSLIP_HOST:localhost}:{$EXEPAD_STUDIO_PORT:443}{uri} permanent
+}
+
+# The reverse-proxy body shared by every HTTPS listener block, independent of how the
+# cert is obtained. Caddy PRESERVES the inbound Host and sets X-Forwarded-For/Proto/Host
+# — the runtime reads X-Forwarded-Proto for Secure cookies and the preserved Host for
+# host->app routing; do not strip these or rewrite Host. We add ONE header:
+# X-Exepad-Front-Port carries the accepting listener port ({http.request.local.port}) so
+# the runtime can bounce a host that landed on the wrong front to its canonical port
+# (studio host → studio port, app host → apps port); a single unified listener no-ops it.
+(https_body) {
+	reverse_proxy 127.0.0.1:8080 {
+		header_up X-Exepad-Front-Port {http.request.local.port}
+	}
+
+	# Do NOT add `encode`: the app already gzips via hono compress() + sets
+	# Content-Encoding/Vary; Caddy must pass the pre-encoded body through.
+}
+
+# The on-demand catch-all front, imported by each generated `:PORT` listener block (one
+# when the studio + apps share a port, two when they differ — see docker/entrypoint.sh /
+# caddy-sites.sh which write $EXEPAD_CADDY_SITES). on_demand obtains the cert per Host;
+# the issuer chain tries public ACME first (browser-trusted, for the box's public DNS
+# names) and falls back to Caddy's internal CA (localhost / IP literals, which public ACME
+# can't sign). The generated file ALSO adds `<ip>:<port>` blocks that serve an acme.sh-
+# issued trusted cert for the bare IP when "direct IP access" is on — those use https_body
+# directly (a file-based tls cert, no on_demand, no sslip bounce).
+(https_front) {
+	tls {
+		on_demand
+		issuer acme
+		issuer internal
+	}
+	import ip_to_sslip
+	import https_body
+}
+
+# Plain HTTP -> HTTPS. Caddy answers its OWN ACME HTTP-01 challenges on :80 first. No HSTS
+# by design (a self-signed/internal cert + HSTS would brick later plain-HTTP / cert-loss
+# access, and HSTS is ignored on bare IPs).
+:80 {
+	# Serve acme.sh's HTTP-01 challenge tokens for the bare-IP certificate from the webroot
+	# it writes to (Caddy owns :80, so acme.sh can't bind it standalone). This MUST be a
+	# `handle` (mutually exclusive with the redirect handle below) so it wins over the
+	# catch-all redirect — Caddy orders directives by type, not source order, so a bare
+	# `redir` would otherwise fire first and bounce LE's challenge to an HTTPS port (which LE
+	# rejects: it only follows redirects to :80/:443). Caddy still answers its OWN challenges
+	# via a higher-priority internal solver (it falls through to this webroot only for the
+	# tokens it isn't solving, i.e. acme.sh's), so the two ACME clients coexist.
+	handle /.well-known/acme-challenge/* {
+		root * {$EXEPAD_ACME_WEBROOT:/data/acme/webroot}
+		file_server
+	}
+	# Everything else: HTTP -> HTTPS. :80 itself stays fixed. Redirect to the APPS/public
+	# HTTPS port (443 by default); :80 can't tell a studio host from an app host, so send
+	# everything to the apps port and let the runtime bounce a studio host on to its port.
+	handle {
+		import ip_to_sslip
+		redir https://{host}:{$EXEPAD_APPS_PORT:443}{uri} permanent
+	}
+}
+
+# The HTTPS listener block(s), generated at boot by docker/entrypoint.sh into
+# $EXEPAD_CADDY_SITES (the writable data volume, since /etc/caddy is read-only for
+# the non-root runtime user). One `:PORT { import https_front }` block when the
+# studio + apps share a port, two when they differ.
+import {$EXEPAD_CADDY_SITES:/data/caddy-sites.caddy}

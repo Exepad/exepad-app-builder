@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-lottie-animation-showcase",
+  "alias": "codecomponent-lottie-animation-showcase",
+  "name": "Lottie Animation Showcase",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Lottie animation showcase CodeComponent using lottie-react extension library. Lottie.default component for animation playback. Grid of 6 animation Cards with thumbnails using simple embedded animation JSON data. Click a card to show large preview Card with selected animation. Playback controls include Slider for speed (0.5x - 3x), Switch for loop toggle, and ButtonGroup for direction (forward/reverse). Select for animation preset (Loading, Success, Error, Empty State, Confetti, Rocket). Each preset has embedded Lottie JSON with basic shapes animation. Uses useAppState for selected animation and playback settings, useTheme for card styling.",
+  "shortSummary": "Lottie animation gallery with preview player, speed/loop/direction controls, and 6 animation presets",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "LottieShowcase": {
+        "source": "frontend/components/LottieShowcase.tsx",
+        "compiled": "frontend/components/LottieShowcase.js",
+        "summary": "Lottie animation gallery with 6 preset animations, large preview player, speed/loop/direction controls, and theme-aware styling"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e1033",
+        "primary": "#c026d3",
+        "primary-foreground": "#ffffff",
+        "secondary": "#fdf4ff",
+        "secondary-foreground": "#1e1033",
+        "muted": "#fdf4ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#fae8ff",
+        "accent-foreground": "#1e1033",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#f0abfc",
+        "input": "#f0abfc",
+        "ring": "#c026d3"
+      },
+      "dark": {
+        "background": "#1e1033",
+        "foreground": "#fdf4ff",
+        "primary": "#e879f9",
+        "primary-foreground": "#1e1033",
+        "secondary": "#4a044e",
+        "secondary-foreground": "#fdf4ff",
+        "muted": "#4a044e",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#4a044e",
+        "accent-foreground": "#fdf4ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#fdf4ff",
+        "border": "#86198f",
+        "input": "#86198f",
+        "ring": "#e879f9"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-lottie-showcase",
+        "title": "Animations",
+        "slug": "/",
+        "summary": "Lottie animation showcase with gallery grid, preview player, and playback controls.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "lottie-showcase-1",
+            "component": "LottieShowcase",
+            "extensions": [
+              "lottie"
+            ],
+            "classes": "w-full"
+          }
+        ],
+        "shortSummary": "Lottie animation gallery with preview and playback controls",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

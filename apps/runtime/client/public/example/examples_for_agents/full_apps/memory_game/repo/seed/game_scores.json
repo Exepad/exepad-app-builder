@@ -1,0 +1,72 @@
+[
+  {
+    "player_name": "MemoryMaster",
+    "difficulty": "hard",
+    "moves": 28,
+    "time_seconds": 85,
+    "completed_at": "2026-03-27T14:30:00Z"
+  },
+  {
+    "player_name": "QuickFlip",
+    "difficulty": "medium",
+    "moves": 18,
+    "time_seconds": 42,
+    "completed_at": "2026-03-27T10:15:00Z"
+  },
+  {
+    "player_name": "CardShark",
+    "difficulty": "easy",
+    "moves": 10,
+    "time_seconds": 22,
+    "completed_at": "2026-03-26T18:45:00Z"
+  },
+  {
+    "player_name": "BrainStorm",
+    "difficulty": "hard",
+    "moves": 32,
+    "time_seconds": 110,
+    "completed_at": "2026-03-26T15:00:00Z"
+  },
+  {
+    "player_name": "PairFinder",
+    "difficulty": "medium",
+    "moves": 22,
+    "time_seconds": 55,
+    "completed_at": "2026-03-26T09:30:00Z"
+  },
+  {
+    "player_name": "MemoryMaster",
+    "difficulty": "medium",
+    "moves": 16,
+    "time_seconds": 38,
+    "completed_at": "2026-03-25T20:00:00Z"
+  },
+  {
+    "player_name": "FlipKing",
+    "difficulty": "easy",
+    "moves": 8,
+    "time_seconds": 18,
+    "completed_at": "2026-03-25T16:20:00Z"
+  },
+  {
+    "player_name": "NeuralNet",
+    "difficulty": "hard",
+    "moves": 30,
+    "time_seconds": 95,
+    "completed_at": "2026-03-25T11:00:00Z"
+  },
+  {
+    "player_name": "QuickFlip",
+    "difficulty": "easy",
+    "moves": 12,
+    "time_seconds": 28,
+    "completed_at": "2026-03-24T19:45:00Z"
+  },
+  {
+    "player_name": "CardShark",
+    "difficulty": "medium",
+    "moves": 20,
+    "time_seconds": 48,
+    "completed_at": "2026-03-24T14:10:00Z"
+  }
+]

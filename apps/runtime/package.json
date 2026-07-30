@@ -1,0 +1,43 @@
+{
+  "name": "@exepad/runtime",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:worker\"",
+    "dev:client": "pnpm --filter @exepad/runtime-client dev",
+    "dev:worker": "pnpm --filter @exepad/runtime-worker dev",
+    "build:client": "pnpm --filter @exepad/runtime-client build",
+    "build:worker": "pnpm --filter @exepad/runtime-worker build",
+    "test": "vitest run",
+    "test:publish": "vitest run tests/unit/server/publish-*.test.ts",
+    "generate:catalog": "node scripts/generate-full-schema-catalog.js",
+    "check": "pnpm --filter @exepad/runtime-client check && pnpm --filter @exepad/runtime-worker check",
+    "compile:examples": "tsx scripts/compile-full-apps.ts",
+    "compile:examples:watch": "nodemon --watch client/public/example/examples_for_agents/full_apps --ext tsx -e tsx --exec 'tsx scripts/compile-full-apps.ts'",
+    "clean": "rm -rf client/dist worker/dist .wrangler"
+  },
+  "devDependencies": {
+    "@exepad/deploy-utils": "workspace:*",
+    "@exepad/local-adapters": "workspace:*",
+    "@exepad/app-backend": "workspace:*",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^24.10.1",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.5.2",
+    "better-sqlite3": "^11.8.1",
+    "concurrently": "^9.1.2",
+    "fflate": "^0.8.2",
+    "hono": "^4.7.10",
+    "happy-dom": "^20.8.9",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router": "^7.6.1",
+    "vitest": "^4.0.18",
+    "zustand": "^5.0.8"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "uuid": "cc-example-sidebar-app",
+  "alias": "codecomponent-sidebar-app",
+  "name": "Sidebar Application Layout",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Full sidebar application layout demonstrating the complete Sidebar component system including SidebarProvider, SidebarHeader with app logo and collapse toggle, SidebarInput for search, multiple SidebarGroups with navigation items, collapsible project list with SidebarMenuSub, resource links, SidebarMenuBadge for notification counts, SidebarMenuAction for quick actions, SidebarFooter with user avatar, SidebarRail for resize, and SidebarInset for main content area. Uses useSidebar hook for programmatic control, useNavigation for page switching, and useCurrentUser for user info.",
+  "shortSummary": "Complete sidebar app layout with navigation groups, collapsible projects, badges, and user footer",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "SidebarApp": {
+        "source": "frontend/components/SidebarApp.tsx",
+        "compiled": "frontend/components/SidebarApp.js",
+        "summary": "Full sidebar application with navigation groups, collapsible projects, search, badges, user footer, and main content inset"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#334155",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f1f5f9",
+        "secondary-foreground": "#0f172a",
+        "muted": "#f1f5f9",
+        "muted-foreground": "#64748b",
+        "accent": "#f1f5f9",
+        "accent-foreground": "#0f172a",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#e2e8f0",
+        "input": "#e2e8f0",
+        "ring": "#334155"
+      },
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#94a3b8",
+        "primary-foreground": "#0f172a",
+        "secondary": "#1e293b",
+        "secondary-foreground": "#f8fafc",
+        "muted": "#1e293b",
+        "muted-foreground": "#94a3b8",
+        "accent": "#1e293b",
+        "accent-foreground": "#f8fafc",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f8fafc",
+        "border": "#1e293b",
+        "input": "#1e293b",
+        "ring": "#94a3b8"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-sidebar-main",
+        "title": "Workspace",
+        "slug": "/",
+        "summary": "Main workspace page with sidebar navigation and content area.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "sidebar-app-1",
+            "component": "SidebarApp",
+            "classes": "w-full min-h-[600px]"
+          }
+        ],
+        "shortSummary": "Workspace with full sidebar navigation layout",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

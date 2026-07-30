@@ -1,0 +1,187 @@
+{
+  "uuid": "test-codefocus-app",
+  "alias": "test-codefocus-app",
+  "name": "TaskFlow Pro",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "version": "1.0.0",
+  "lastUpdatedEpoch": 1730764800,
+
+  "frontend": {
+    "layout": "full-width",
+    "menuPosition": "HeaderMenuTop",
+    "headerScrollBehavior": "sticky",
+    "designSystem": {
+      "primary_color": "#0F766E",
+      "secondary_color": "#D97706",
+      "surface_color": "#FFFBEB",
+      "error_color": "#DC2626",
+      "design_style": "Modern Minimal"
+    },
+    "theme": {
+      "defaultTheme": "light"
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "header": [
+      {
+        "uuid": "header-uuid-001",
+        "componentType": "CodeComponentProps",
+        "component": "AppHeader"
+      }
+    ],
+    "sidebar": [],
+    "footer": [
+      {
+        "uuid": "footer-uuid-001",
+        "componentType": "CodeComponentProps",
+        "component": "AppFooter"
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-home-001",
+        "pageType": "WebPageProps",
+        "slug": "/",
+        "title": "Dashboard",
+        "summary": "Main dashboard showing task overview",
+        "content": [
+          {
+            "uuid": "content-home-001",
+            "componentType": "CodeComponentProps",
+            "component": "DashboardContent"
+          }
+        ]
+      },
+      {
+        "uuid": "page-tasks-001",
+        "pageType": "WebPageProps",
+        "slug": "/tasks",
+        "title": "Tasks",
+        "summary": "Task list with CRUD operations",
+        "content": [
+          {
+            "uuid": "content-tasks-001",
+            "componentType": "CodeComponentProps",
+            "component": "TaskListContent"
+          }
+        ]
+      }
+    ],
+    "logic": {
+      "state": {
+        "selectedTaskId": ""
+      }
+    }
+  },
+
+  "backend": {
+    "mode": "dynamic",
+    "models": [
+      {
+        "name": "tasks",
+        "fields": [
+          { "name": "id", "type": "text" },
+          { "name": "title", "type": "text", "required": true },
+          { "name": "description", "type": "text" },
+          { "name": "status", "type": "text", "defaultValue": "pending" },
+          { "name": "createdAt", "type": "text" },
+          { "name": "owner_id", "type": "text" }
+        ]
+      }
+    ],
+    "handlers": [
+      {
+        "name": "getTasks",
+        "method": "GET",
+        "auth": "authenticated",
+        "handlerType": "read",
+        "summary": "Fetch all tasks for the current user",
+        "inputs": [],
+        "outputs": [
+          { "name": "tasks", "type": "array" },
+          { "name": "total", "type": "number" }
+        ]
+      },
+      {
+        "name": "createTask",
+        "method": "POST",
+        "auth": "authenticated",
+        "handlerType": "write",
+        "summary": "Create a new task",
+        "inputs": [
+          { "name": "title", "type": "text", "required": true },
+          { "name": "description", "type": "text" }
+        ],
+        "outputs": [
+          { "name": "task", "type": "object" }
+        ]
+      }
+    ]
+  },
+
+  "repo": {
+    "frontend": {
+      "components": {
+        "AppHeader": {
+          "type": "code_component",
+          "source": "code/frontend/components/AppHeader_a1b2c3d4e5f6_v1.tsx",
+          "compiled": "compiled/frontend/components/AppHeader_a1b2c3d4e5f6_v1.js",
+          "summary": "Top navigation header with app name and nav links to Dashboard and Tasks"
+        },
+        "DashboardContent": {
+          "type": "code_component",
+          "source": "code/frontend/components/DashboardContent_b2c3d4e5f6a1_v1.tsx",
+          "compiled": "compiled/frontend/components/DashboardContent_b2c3d4e5f6a1_v1.js",
+          "summary": "Dashboard showing task stats and recent tasks"
+        },
+        "TaskListContent": {
+          "type": "code_component",
+          "source": "code/frontend/components/TaskListContent_c3d4e5f6a1b2_v1.tsx",
+          "compiled": "compiled/frontend/components/TaskListContent_c3d4e5f6a1b2_v1.js",
+          "summary": "Task list with create, edit, and delete functionality"
+        },
+        "AppFooter": {
+          "type": "code_component",
+          "source": "code/frontend/components/AppFooter_d4e5f6a1b2c3_v1.tsx",
+          "compiled": "compiled/frontend/components/AppFooter_d4e5f6a1b2c3_v1.js",
+          "summary": "Footer with copyright notice"
+        }
+      },
+      "styles": {
+        "theme": {
+          "source": "code/frontend/styles/theme.css",
+          "compiled": "compiled/frontend/styles/theme.css",
+          "summary": "Tailwind v4 theme"
+        },
+        "compiled": {
+          "source": "code/frontend/styles/theme.css",
+          "compiled": "compiled/frontend/styles/compiled.css",
+          "summary": "Compiled Tailwind CSS"
+        }
+      },
+      "fonts": []
+    },
+    "backend": {
+      "handlers": {
+        "getTasks": {
+          "source": "code/backend/handlers/getTasks_e5f6a1b2c3d4_v1.tsx",
+          "compiled": "compiled/backend/handlers/getTasks_e5f6a1b2c3d4_v1.js",
+          "summary": "Fetch all tasks"
+        },
+        "createTask": {
+          "source": "code/backend/handlers/createTask_f6a1b2c3d4e5_v1.tsx",
+          "compiled": "compiled/backend/handlers/createTask_f6a1b2c3d4e5_v1.js",
+          "summary": "Create a new task"
+        }
+      }
+    },
+    "seed": {}
+  }
+}

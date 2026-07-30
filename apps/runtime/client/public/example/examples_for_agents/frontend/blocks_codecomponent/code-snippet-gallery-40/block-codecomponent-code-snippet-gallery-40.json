@@ -1,0 +1,94 @@
+{
+  "uuid": "cc-example-code-snippet-gallery",
+  "alias": "codecomponent-code-snippet-gallery",
+  "name": "Code Snippet Gallery",
+  "appType": "WebAppProps",
+  "appSecondaryType": "dataapp",
+  "summary": "Code snippet gallery CodeComponent with Prism syntax highlighting. Grid of Cards each showing a Prism-highlighted code snippet with line numbers. Search Input to filter by title, language, or tags. Badge for language tag (JavaScript, Python, TypeScript, Go, Rust). DropdownMenu per card with Copy Code, Share, and Download options. Pagination at bottom for navigating 12 demo snippets. useAppState for search filter and selected language. useTheme for Prism dark/light mode. Uses Prism.default, Card, Input, Badge, Button, DropdownMenu, Pagination, and Icons from the SDK.",
+  "shortSummary": "Prism-highlighted code snippet gallery with search, language filter, dropdown actions, and pagination",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "SnippetGallery": {
+        "source": "frontend/components/SnippetGallery.tsx",
+        "compiled": "frontend/components/SnippetGallery.js",
+        "summary": "Code snippet gallery with Prism syntax highlighting, search, language filter, card dropdown actions, and pagination"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1e1b4b",
+        "primary": "#7c3aed",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f5f3ff",
+        "secondary-foreground": "#1e1b4b",
+        "muted": "#f5f3ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#ede9fe",
+        "accent-foreground": "#1e1b4b",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#ddd6fe",
+        "input": "#ddd6fe",
+        "ring": "#7c3aed"
+      },
+      "dark": {
+        "background": "#1e1b4b",
+        "foreground": "#f5f3ff",
+        "primary": "#a78bfa",
+        "primary-foreground": "#1e1b4b",
+        "secondary": "#312e81",
+        "secondary-foreground": "#f5f3ff",
+        "muted": "#312e81",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#312e81",
+        "accent-foreground": "#f5f3ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f5f3ff",
+        "border": "#3730a3",
+        "input": "#3730a3",
+        "ring": "#8b5cf6"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-gallery",
+        "title": "Snippet Gallery",
+        "slug": "/",
+        "summary": "Browseable code snippet gallery with syntax highlighting, search, and language filtering.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "snippet-gallery-1",
+            "component": "SnippetGallery",
+            "classes": "w-full",
+            "extensions": [
+              "prism"
+            ]
+          }
+        ],
+        "shortSummary": "Prism code snippet gallery with search and pagination",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}

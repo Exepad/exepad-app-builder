@@ -1,0 +1,17 @@
+# Dokploy blueprint metadata for Exepad.
+# Validate against https://github.com/Dokploy/templates CONTRIBUTING before the
+# PR — the blueprint format (variables/domains/env) evolves.
+[variables]
+main_domain = "${domain}"
+
+[config]
+
+[[config.domains]]
+serviceName = "exepad"
+port = 8080
+host = "${main_domain}"
+
+[config.env]
+EXEPAD_LLM_API_KEY = ""
+EXEPAD_LLM_PROVIDER = "gemini"
+EXEPAD_ALLOWED_ORIGINS = "https://${main_domain}"

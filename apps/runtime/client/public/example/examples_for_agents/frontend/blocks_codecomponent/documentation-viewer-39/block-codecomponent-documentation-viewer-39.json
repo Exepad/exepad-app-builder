@@ -1,0 +1,95 @@
+{
+  "uuid": "cc-example-documentation-viewer",
+  "alias": "codecomponent-documentation-viewer",
+  "name": "Documentation Viewer",
+  "appType": "WebAppProps",
+  "appSecondaryType": "website",
+  "summary": "Documentation viewer CodeComponent combining react-markdown and syntax highlighting. Renders markdown documentation pages with code blocks highlighted via Highlight.default. Sidebar with Accordion-based document tree (Getting Started, API Reference, Guides). Breadcrumb navigation for current path. Copy-to-clipboard Button on code blocks with toast confirmation. useTheme for dark/light code block styling. Three demo markdown documents with TypeScript and JavaScript code examples. Uses Markdown.default, Highlight.default, Accordion, Breadcrumb, Card, Button, ScrollArea, and Icons from the SDK.",
+  "shortSummary": "Markdown documentation viewer with syntax-highlighted code blocks, sidebar tree, and breadcrumb navigation",
+  "lastUpdatedEpoch": 1741737600,
+  "version": "1.0.0",
+  "repo": {
+    "components": {
+      "DocumentationViewer": {
+        "source": "frontend/components/DocumentationViewer.tsx",
+        "compiled": "frontend/components/DocumentationViewer.js",
+        "summary": "Markdown documentation viewer with syntax highlighting, sidebar navigation, breadcrumbs, and copy-to-clipboard code blocks"
+      }
+    },
+    "methods": {}
+  },
+  "frontend": {
+    "layout": "wide",
+    "menuPosition": "HeaderMenuTop",
+    "theme": {
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#082f49",
+        "primary": "#017ab9",
+        "primary-foreground": "#ffffff",
+        "secondary": "#f0f9ff",
+        "secondary-foreground": "#082f49",
+        "muted": "#f0f9ff",
+        "muted-foreground": "#6b7280",
+        "accent": "#e0f2fe",
+        "accent-foreground": "#082f49",
+        "destructive": "#ef4444",
+        "destructive-foreground": "#ffffff",
+        "border": "#bae6fd",
+        "input": "#bae6fd",
+        "ring": "#0284c7"
+      },
+      "dark": {
+        "background": "#082f49",
+        "foreground": "#f0f9ff",
+        "primary": "#38bdf8",
+        "primary-foreground": "#082f49",
+        "secondary": "#0c4a6e",
+        "secondary-foreground": "#f0f9ff",
+        "muted": "#0c4a6e",
+        "muted-foreground": "#a3a3a3",
+        "accent": "#0c4a6e",
+        "accent-foreground": "#f0f9ff",
+        "destructive": "#7f1d1d",
+        "destructive-foreground": "#f0f9ff",
+        "border": "#075985",
+        "input": "#075985",
+        "ring": "#0ea5e9"
+      }
+    },
+    "languages": [
+      {
+        "code": "en",
+        "nameEnglish": "English",
+        "nameNative": "English",
+        "isDefault": true
+      }
+    ],
+    "pages": [
+      {
+        "uuid": "page-docs",
+        "title": "Documentation",
+        "slug": "/",
+        "summary": "Documentation viewer with markdown rendering, syntax highlighting, and sidebar navigation.",
+        "content": [
+          {
+            "componentType": "CodeComponentProps",
+            "uuid": "documentation-viewer-1",
+            "component": "DocumentationViewer",
+            "classes": "w-full",
+            "extensions": [
+              "highlight",
+              "markdown"
+            ]
+          }
+        ],
+        "shortSummary": "Markdown documentation viewer with syntax highlighting",
+        "lastUpdatedEpoch": 1741737600,
+        "pageType": "WebPageProps"
+      }
+    ],
+    "header": [],
+    "sidebar": [],
+    "footer": []
+  }
+}
