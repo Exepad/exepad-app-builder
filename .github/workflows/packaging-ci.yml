@@ -259,23 +259,40 @@ jobs:
           [ -f fb3/docker-compose.yml ] || { echo "::error::unpinned fallback wrote nothing"; exit 1; }
           echo "npx delegation fallback OK (all three directions)"
 
-          # The setup screen demands a token the container only ever prints to
-          # its logs, and every install path starts it detached. Node-less
-          # installs (most servers, ALL one-click bundles, the MSI) have no
-          # launcher to surface it, so install.sh reads it back itself.
-          grep -q '00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff' fb1.log \
-            || { echo "::error::install.sh did not surface the first-run setup token"; cat fb1.log; exit 1; }
+          # Setup-token surfacing. The contract CHANGED in 1.1.0: installers now
+          # default EXEPAD_ALLOW_OPEN_SETUP=1 when they cannot seed an operator
+          # account, so no token is minted and printing one would be a lie. The
+          # token path still exists for an operator who sets
+          # EXEPAD_ALLOW_OPEN_SETUP=0 to put the guard back, and THAT is what
+          # gets asserted here.
+          #
+          # fb1 above ran with open setup defaulted on, so it must NOT print one.
+          if grep -q 'Setup token:' fb1.log; then
+            echo "::error::printed a setup token although open setup is the default — no token is minted in that mode"
+            cat fb1.log; exit 1
+          fi
 
-          # ...and it must survive a container that has NOT printed the banner
-          # yet. install.sh runs under `set -euo pipefail`, so the grep that
-          # finds nothing exits 1, pipefail promotes it, and an unguarded
-          # assignment aborts the whole install — on a cold start, which is
-          # exactly when a first-run token is needed.
+          # Opt the guard back on the way an operator would, and the token must
+          # reappear.
+          mkdir -p "$PWD/fb5"
+          printf 'EXEPAD_ALLOW_OPEN_SETUP=0\n' > "$PWD/fb5/.env"
+          PATH="$PWD/stub:$PATH" bash stub/install-public.sh --yes --dir "$PWD/fb5" --port 8099 > fb5.log 2>&1 \
+            || { echo "::error::install failed with the token guard re-enabled"; cat fb5.log; exit 1; }
+          grep -q '00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff' fb5.log \
+            || { echo "::error::EXEPAD_ALLOW_OPEN_SETUP=0 did not restore the first-run setup token"; cat fb5.log; exit 1; }
+
+          # REGRESSION GUARD, independent of the above: install.sh runs under
+          # `set -euo pipefail`, so a grep that finds nothing exits 1, pipefail
+          # promotes it, and an unguarded assignment aborts the whole install --
+          # on a cold start, which is exactly when the token is needed. Same
+          # opted-in config, but with the container not yet having logged.
+          mkdir -p "$PWD/fb4"
+          printf 'EXEPAD_ALLOW_OPEN_SETUP=0\n' > "$PWD/fb4/.env"
           EXEPAD_STUB_LOGS=silent PATH="$PWD/stub:$PATH" \
             bash stub/install-public.sh --yes --dir "$PWD/fb4" --port 8099 > fb4.log 2>&1 \
             || { echo "::error::install aborted when the container had not logged the token yet"; cat fb4.log; exit 1; }
           [ -f fb4/docker-compose.yml ] || { echo "::error::silent-logs install wrote nothing"; exit 1; }
-          echo "setup-token surfacing OK (present and absent)"
+          echo "setup-token surfacing OK (silent by default, restored on opt-in, cold start safe)"
 
       # Rehearse the EXACT bundle assembly the release job runs, then check the
       # invariants a broken bundle would violate on a user's machine.
