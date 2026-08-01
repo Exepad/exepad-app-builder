@@ -24,7 +24,7 @@
     "@exepad/app-backend": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
-    "@types/node": "^24.10.1",
+    "@types/node": "^26.1.2",
     "@vitest/coverage-v8": "^4.0.18",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.5",
