@@ -19,7 +19,7 @@
 # =============================================================================
 # Stage 1 — build the Node side (SPA + bundled server)
 # =============================================================================
-FROM node:22-bookworm-slim AS builder
+FROM node:25-bookworm-slim AS builder
 WORKDIR /repo
 # Install pnpm directly rather than via `corepack enable`. Corepack was REMOVED
 # in Node 25, so this is what a future Node bump needs anyway, and it works
