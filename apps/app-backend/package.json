@@ -23,9 +23,9 @@
   },
   "dependencies": {
     "@exepad/types": "workspace:*",
-    "esbuild": "^0.27.2",
+    "esbuild": "^0.28.2",
     "undici": "^7.16.0",
-    "zod": "^4.4.3"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250109.0",
@@ -35,7 +35,7 @@
     "@types/node": "^24.10.1",
     "@vitest/coverage-v8": "^4.0.18",
     "better-sqlite3": "^11.8.1",
-    "tsx": "^4.7.0",
+    "tsx": "^4.23.15",
     "typescript": "~5.9.3",
     "vitest": "^4.0.4"
   },
